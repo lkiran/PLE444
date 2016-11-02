@@ -1,0 +1,153 @@
+    <ol class="breadcrumb">
+		<li><a href="#/">Dashboard</a></li>
+		<li>UI Components</li>
+		<li class="active">Tabs &amp; Accordions</li>
+	</ol>
+
+<div class="container-fluid" ng-controller="TabsAndAccordionsDemoController">
+
+	<div class="row">
+		<div class="col-md-12">
+
+		<tabset panel-tabs="true" heading="Inline Tabs" panel-class="panel-transparent">
+			<tab>
+				<tab-heading>
+					<i class="ti ti-desktop"></i>
+				</tab-heading>
+				<div class="row">
+					<div class="col-md-6">
+						<tabset tab-theme="default" tab-position="top">
+							<tab heading="Home">
+								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic esse quisquam fugiat. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p>
+							</tab>
+							<tab>
+								<tab-heading class="dropdown">
+									Another tab
+								</tab-heading>
+									<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p>
+							</tab>
+								<li class="tab-controls dropdown" dropdown>
+								<a class="dropdown-toggle" dropdown-toggle>Dropdown <span class="caret"></span></a>
+								<ul class="dropdown-menu pull-left">
+									<li><a href="#">Something</a></li>
+									<li><a href="#">Something Else</a></li>
+									<li class="divider"></li>
+									<li><a href="#">And one more thing</a></li>
+								</ul>
+							</li>
+						</tabset>
+						<tabset tab-theme="default" tab-position="left">
+							<tab heading="Home">
+								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic esse quisquam fugiat. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p>
+							</tab>
+							<tab>
+								<tab-heading class="dropdown">
+									Another tab
+								</tab-heading>
+									<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p>
+							</tab>
+						</tabset>
+					</div>
+					<div class="col-md-6">
+						<tabset tab-theme="default" tab-position="right">
+							<tab heading="Home">
+								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic esse quisquam fugiat. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p>
+							</tab>
+							<tab>
+								<tab-heading class="dropdown">
+									Another tab
+								</tab-heading>
+									<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p>
+							</tab>
+						</tabset>
+						<tabset tab-theme="default" tab-position="bottom">
+							<tab heading="Home">
+								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic esse quisquam fugiat. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p>
+							</tab>
+							<tab>
+								<tab-heading class="dropdown">
+									Another tab
+								</tab-heading>
+									<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p>
+							</tab>
+						</tabset>
+					</div>
+				</div>
+			</tab>
+
+
+
+			<tab>
+				<tab-heading>
+					<i class="ti ti-settings"></i>
+				</tab-heading>
+				<p>Inline tabs are just like Angular UI tabs but with some important enhancements.</p>
+<pre class="prettyprint linenums">
+&lt;tabset tab-theme=&quot;orange&quot; tab-position=&quot;left&quot;&gt;
+	&lt;tab heading=&quot;Home&quot;&gt;
+Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic esse quisquam fugiat. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.&lt;br&gt;&lt;br&gt;Lorem ipsum dolor sit amet consectetur adipisicing elit.
+	&lt;/tab&gt;
+	&lt;tab heading=&quot;Other&quot;&gt;
+Lorem ipsum dolor sit amet consectetur adipisicing elit.&lt;br&gt;&lt;br&gt;Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic esse quisquam fugiat. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.
+	&lt;/tab&gt;
+&lt;/tabset&gt;
+</pre>
+	<p>This will produce:</p>
+			<tabset tab-theme="orange" tab-position="left">
+				<tab heading="Home">
+			Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic esse quisquam fugiat. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.<br><br>Lorem ipsum dolor sit amet consectetur adipisicing elit.
+				</tab>
+				<tab heading="Other">
+			Lorem ipsum dolor sit amet consectetur adipisicing elit.<br><br>Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic esse quisquam fugiat. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.
+				</tab>
+			</tabset>
+
+					<p>Tab positions can be changed by altering the value of the <code>tab-position</code> attribute. They can be one of <code>top</code>, <code>right</code>, <code>bottom</code> or <code>left</code>.</p>
+					<p>Tab themes can be one of <code>success</code>, <code>alart</code>, <code>magenta</code> and many more!</p>
+				</tab>
+			</tabset>
+
+		</div>
+	</div>
+
+
+	<div class="row">
+		<div class="col-md-12">
+			<accordion close-others="oneAtATime" class="panel-default">
+			    <accordion-group heading="Static Header, initially expanded" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+			      This content is straight in the template.
+			    </accordion-group>
+			    <accordion-group heading="{{group.title}}" ng-repeat="group in groups">
+			      {{group.content}}
+			    </accordion-group>
+			    <accordion-group heading="Dynamic Body Content">
+			    	<p>The body of the accordion group grows to fit the contents</p>
+			    	<button class="btn btn-danger btn-sm" ng-click="addItem()">Add Item</button>
+			    	<br>
+			        <div ng-repeat="item in items">{{item}}</div>
+			    </accordion-group>
+			    <accordion-group heading="Last Panel" is-open="status.open" is-disabled="status.open">
+			      This content is straight in the template.
+			    </accordion-group>
+			</accordion>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="checkbox">
+				<!-- <label>
+					<input icheck type="checkbox" ng-model="oneAtATime">Open only one at a time
+				</label> -->
+				<label><input type="checkbox" ng-model="oneAtATime"> Open only one at a time</label>
+			</div>
+		</div>
+		<div class="col-sm-3">
+			<button class="btn btn-primary btn-sm btn-block" ng-click="status.open = !status.open">Toggle last panel</button>
+		</div>
+		<div class="col-sm-3">
+			<button class="btn btn-primary btn-sm btn-block" ng-click="status.isFirstDisabled = ! status.isFirstDisabled">Enable / Disable first panel</button>
+		</div>
+	</div>
+
+</div> <!-- container-fluid -->

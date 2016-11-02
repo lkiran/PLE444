@@ -1,0 +1,78 @@
+{% layout 'layout' %}
+{% block title %}Sparklines{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Charts</a></li>
+<li class="active"><a href="charts-sparklines.html">Sparklines</a></li>
+{% endblock %}
+
+{% block styles %}{% endblock %}
+
+{% block scripts %}
+{{ "plugins/sparklines/jquery.sparklines.min.js" | asset_url | script_tag }}        <!-- Sparkline -->
+{{ "demo/demo-inlinecharts.js" | asset_url | script_tag }}
+{% endblock %}
+
+{% block content %}
+
+<div class="alert alert-info">
+    <h3>Sparklines</h3>
+    <p>Sparklines are very small, inline charts that can be drawn using data supplied either inline in the HTML, or via javascript. They can, however, be customized to fit even bigger divs.</p>
+</div>
+
+<div data-widget-group="group1">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default" data-widget='{"draggable": "false"}'>
+                <div class="panel-heading">
+                    <h2>Inline</h2>
+                    <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+                </div>
+                <div class="panel-body">
+                    <p>Inline line charts <span class="linecharts" values="5,4,7,6,9,5,8,2,6,4,6,7"></span> can be placed anywhere <span class="linecharts" values="6,3,8,1,3,2,4,5,6,3,2"></span></p>
+
+                    <p>Bar charts <span class="barcharts" values="5,6,3,9,2,7,5"></span> with negetives <span class="barcharts" values="5,6,-3,9,-2,7,-5"></span> and stacked <span class="barcharts" values="1:3, 5:3, 2:7,9:1,5:6"></span></p>
+
+                    <p>Composite inline <span id="compositeline" values="5,4,7,6,9,5,8,2,6,4,6,7"></span></p>
+
+                    <p>Composite bar <span id="compositebar" values="5,4,7,6,9,5,8,2,6,4,6,7"></span></p>
+
+                    <p>Discrete <span id="discrete1" values="4,6,7,7,4,3,2,1,4,4 "></span> and with threshhold <span id="discrete2" values="4,6,7,7,4,3,2,1,4,4"></span></p>
+                    <p>Pie charts <span id="pie"></span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default" data-widget='{"draggable": "false"}'>
+              <div class="panel-heading">
+                <h2>Stacked</h2>
+                <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+              </div>
+              <div class="panel-body"><div id="bigstacked" style="margin:0 auto; width: 400px"></canvas></div></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default" data-widget='{"draggable": "false"}'>
+              <div class="panel-heading">
+                <h2>Pie Chart</h2>
+                <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+              </div>
+              <div class="panel-body"><div id="bigpie" style="margin:0 auto; width: 200px"></div></div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default" data-widget='{"draggable": "false"}'>
+                <div class="panel-heading">
+                    <h2>Line Charts</h2>
+                    <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+                </div>
+                <div class="panel-body"><div id="bigline"></div></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,65 @@
+{% include header %}
+    <!-- The following CSS are included as plugins and can be removed if unused-->
+    {% block styles %}{% endblock %}
+    </head>
+
+    <body class="horizontal-nav animated-content">
+        {% include analytics %}
+        <div id="wrapper">
+            {% include topnav-horizontal %}
+
+            <nav class="navbar navbar-inverse" role="navigation" id="headernav">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#horizontal-navbar">
+                        <i class="ti ti-menu"></i>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse large-icons-nav" id="horizontal-navbar">
+                    <ul class="nav navbar-nav smart-menu">
+                        <li class="active"><a href="index.html"><i class="ti ti-home"></i> <span>Dashboard</span></a></li>
+                        <li><a href="index.html"><i class="ti ti-layout-grid3"></i> <span>Layout</span></a></li>
+                        <li><a href="index.html"><i class="ti ti-user"></i> <span>Members</span></a></li>
+                        <li><a href="index.html"><i class="ti ti-pencil"></i> <span>Components</span></a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle"><i class="ti ti-settings"></i> <span>Settings <i class="fa fa-angle-down"></i></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#">Menu Item 1</a></li>
+                                <li><a href="#">Menu Item 2</a></li>
+                                <li><a href="#">Menu Item 3</a></li>
+                                <li><a href="#">Menu Item 4</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <div class="static-content-wrapper">
+                <div class="static-content">
+                    <div class="page-content">
+                        <ol class="breadcrumb">
+                            {% block breadcrumb %}<li><a href="index.html">Home</a></li>{% endblock %}
+                        </ol>
+                        <div class="container-fluid">
+                            {% block content %}{% endblock %}
+                        </div> <!-- .container-fluid -->
+                    </div> <!-- #page-content -->
+                </div>
+            </div>
+
+        </div>
+        {% include footer %}
+
+
+
+    {% include demo-switcher %}
+
+    {% include scripts %}
+    {{ "plugins/smartmenus/jquery.smartmenus.js" | asset_url | script_tag }}
+    {{ "plugins/smartmenus/addons/bootstrap/jquery.smartmenus.bootstrap.js" | asset_url | script_tag }}
+    
+    <!-- Load page level scripts-->
+    {% block scripts %}{% endblock %}
+    <!-- End loading page level scripts-->
+
+    </body>
+</html>

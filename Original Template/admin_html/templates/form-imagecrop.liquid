@@ -1,0 +1,93 @@
+{% layout 'layout' %}
+{% block title %}Image Cropping{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Advanced Forms</a></li>
+<li class="active"><a href="form-imagecrop.html">Image Cropping</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/jcrop/css/jquery.Jcrop.min.css" | asset_url | stylesheet_tag }}
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/jcrop/js/jquery.Jcrop.min.js" | asset_url | script_tag }}  	<!-- Image cropping Plugin -->
+{{ "demo/demo-imagecrop.js" | asset_url | script_tag }}  				<!-- Demo -->
+{% endblock %}
+
+{% block content %}
+<div class="alert alert-info">
+	<h3>Jcrop <small>Image cropping</small></h3>
+	<p>Jcrop is the quick and easy way to add image cropping functionality to your web application. It combines the ease-of-use of a typical jQuery plugin with a powerful cross-platform DHTML cropping engine that is faithful to familiar desktop graphics applications.</p>
+</div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h2>jCrop</h2>
+				<div class="options">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#crop-default-tab" data-toggle="tab">Default</a></li>
+						<li><a href="#crop-handler-tab" data-toggle="tab">Event Handler</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="tab-content">
+					<div class="tab-pane active" id="crop-default-tab">
+						<h3 class="mt0">Default behavior of Jcrop.</h3>
+						<p class="mb20">This is the most basic example of Jcrop implementation. Since no event handlers are attached, it's not very exciting, but displays the out of box functionality.</p>
+						<img src="{{'demo/stockphoto/blog_05.jpg' | asset_url | img_loc }}" alt="Fountain" class="img-responsive" id="crop-default">
+					</div>
+					<div class="tab-pane active" id="crop-handler-tab">
+						<h3 class="mt0">Event Handler</h3>
+						<p class="mb20">This example ties several form values together with a simple event handler. The form values are updated as the selection is changed, thanks to Jcrop's onChange event handler.</p>
+						<img src="{{'demo/stockphoto/blog_08.jpg' | asset_url | img_loc }}" alt="Corrosion Hazard" class="img-responsive" id="crop-handler">
+						<hr>
+						<form class="form-horizontal row-border" role="form">
+							<h3>Cropped Image Details</h3>
+							<div class="form-group">
+								<label for="X1" class="col-sm-3 control-label">X1</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control" name="X1" id="x1">
+								</div>
+								
+								<label for="Y1" class="col-sm-3 control-label">Y1</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control" name="Y1" id="y1">
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<label for="X2" class="col-sm-3 control-label">X2</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control" name="X2" id="x2">
+								</div>
+						
+								<label for="Y2" class="col-sm-3 control-label">Y2</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control" name="Y2" id="y2">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label for="W" class="col-sm-3 control-label">W</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control" name="W" id="w">
+								</div>
+						
+								<label for="H" class="col-sm-3 control-label">H</label>
+								<div class="col-sm-3">
+									<input type="text" class="form-control" name="H" id="h">
+								</div>
+							</div>
+						</form>	
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+{% endblock %}

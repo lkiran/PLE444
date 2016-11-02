@@ -1,0 +1,73 @@
+{% layout 'layout' %}
+{% block title %}Summernote{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Advanced Forms</a></li>
+<li class="active"><a href="form-summernote.html">Summernote</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/summernote/dist/summernote.css" | asset_url | stylesheet_tag }} <!-- Summernote -->
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/summernote/dist/summernote.js" | asset_url | script_tag }}  	<!-- Summernote -->
+
+<script>
+	$(document).ready(function() {
+		$('.summernote').summernote({
+			height: 200
+		});
+
+		$('.airmode').summernote({
+		  airMode: true
+		});
+	});
+</script>
+{% endblock %}
+
+{% block content %}
+<div data-widget-group="group1">
+	<div class="row">
+	    <div class="col-xs-12">
+	    	<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+		        <div class="panel-heading">
+		            <h2>Default Editor</h2>
+		            <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+		        </div>
+		        <div class="panel-body collapse in">
+
+		            <div class="col-12">
+		                <div class="summernote">
+			                <h4>Default Editor</h4>
+			                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem, nobis laboriosam repellat ipsum deserunt voluptate eos praesentium atque eligendi libero. Nam, id, eligendi natus facilis ullam pariatur numquam amet illum repudiandae ex porro labore in perferendis vero nobis iure ratione? Repudiandae, vel, quo, dolores velit vero debitis sed non odio culpa quasi excepturi tempore saepe atque quod repellendus aliquam eum neque dolorem beatae veniam quis id deserunt dignissimos voluptatum incidunt necessitatibus inventore reprehenderit consequatur esse perferendis ipsum earum pariatur et eaque sequi a harum sit similique itaque dicta expedita unde. Animi, quo, facilis laudantium quas commodi aut harum reprehenderit explicabo.</p>
+		                </div>
+		            </div>
+
+		        </div>
+		    </div>
+	    </div>
+
+	    <div class="col-xs-12">
+		    <div class="panel panel-default" data-widget='{"draggable": "false"}'>
+		        <div class="panel-heading">
+		            <h2>Inline Editor</h2>
+		            <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+		        </div>
+		        <div class="panel-body collapse in">
+		            <div class="row">
+		                <div class="col-md-12">
+		                    <div class="airmode">
+		                    	<h4>Inline Editor</h4>
+		                    	<p>Make an editor out of anything! Just click anywhere and start editing! <strong>Double-click for toolbar</strong></p>
+		                    	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem, nobis laboriosam repellat ipsum deserunt voluptate eos praesentium atque eligendi libero. Nam, id, eligendi natus facilis ullam pariatur numquam amet illum repudiandae ex porro labore in perferendis vero nobis iure ratione? Repudiandae, vel, quo, dolores velit vero debitis sed non odio culpa quasi excepturi tempore saepe atque quod repellendus aliquam eum neque dolorem beatae veniam quis id deserunt dignissimos voluptatum incidunt necessitatibus inventore reprehenderit consequatur esse perferendis ipsum earum pariatur et eaque sequi a harum sit similique itaque dicta expedita unde. Animi, quo, facilis laudantium quas commodi aut harum reprehenderit explicabo.</p>
+		                    </div>
+		                </div>
+		            </div>
+		        </div>
+		    </div>
+	    </div>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,131 @@
+{% layout 'layout' %}
+{% block title %}Inline Editor{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Advanced Forms</a></li>
+<li class="active"><a href="form-xeditable.html">Inline Editor</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/form-xeditable/bootstrap3-editable/css/bootstrap-editable.css" | asset_url | stylesheet_tag }}
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/form-daterangepicker/moment.min.js" | asset_url | script_tag }}  								<!-- Momen.js for parsing time -->
+{{ "plugins/form-xeditable/bootstrap3-editable/js/bootstrap-editable.js" | asset_url | script_tag }}  		<!-- XEditable Plugin -->
+
+{{ "demo/demo-xeditable.js" | asset_url | script_tag }}  													
+{% endblock %}
+
+{% block content %}
+<div class="alert-info alert">
+	<h3>X-Editable <small>Inline Editor</small></h3>
+	<p>Editable elements can be made in Avenxo using X-Editable. It includes both popup and inline modes. </p>
+</div>
+<div data-widget-group="group1">
+	<div class="row">
+		<div class="col-xs-12">
+		
+			<div class="panel panel-green" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2>X-Editable</h2>
+					<div class="options">   
+						<ul class="nav nav-tabs">
+							<li class="active"><a href="#inline" data-toggle="tab">Inline</a></li>
+							<li><a href="#popovers" data-toggle="tab">Popover</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="tab-content">
+		
+						<!-- the only difference between the inline and popover styles are the modes set in th demo js -->
+		
+						<div class="tab-pane active" id="inline">
+							<form action="" class="form-horizontal row-border">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Simple Text Field</label>
+									<div class="col-sm-8">
+										<a href="#" id="inline-username" data-type="text" data-pk="1" data-title="Enter username">superuser</a>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Empty text field, required</label>
+									<div class="col-sm-8">
+										<a href="#" id="inline-firstname" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="Enter your firstname"></a>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Select, local array, custom display</label>
+									<div class="col-sm-8">
+										<a href="#" id="inline-sex" data-type="select" data-pk="1" data-value="" data-title="Select sex"></a>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Select, error while loading</label>
+									<div class="col-sm-8">
+										<a href="#" id="inline-status" data-type="select" data-pk="1" data-value="0" data-source="/status" data-title="Select status">Active</a>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Combodate</label>
+									<div class="col-sm-8">
+										<a href="#" id="inline-dob" data-type="combodate" data-value="1984-05-15" data-format="YYYY-MM-DD" data-viewformat="DD/MM/YYYY" data-template="D / MMM / YYYY" data-pk="1"  data-title="Select Date of birth"></a>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Textarea, buttons below. Submit by <i>ctrl+enter</i></label>
+									<div class="col-sm-8">
+										<a href="#" id="inline-comments" data-type="textarea" data-pk="1" data-placeholder="Your comments here..." data-title="Enter comments">awesome user!</a>
+									</div>
+								</div>
+							</form>
+						</div>
+						<div class="tab-pane" id="popovers">
+							<form action="" class="form-horizontal row-border">
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Simple Text Field</label>
+									<div class="col-sm-8">
+										<a href="#" id="username" data-type="text" data-pk="1" data-title="Enter username">superuser</a>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Empty text field, required</label>
+									<div class="col-sm-8">
+										<a href="#" id="firstname" data-type="text" data-pk="1" data-placement="right" data-placeholder="Required" data-title="Enter your firstname"></a>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Select, local array, custom display</label>
+									<div class="col-sm-8">
+										<a href="#" id="sex" data-type="select" data-pk="1" data-value="" data-title="Select sex"></a>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Select, error while loading</label>
+									<div class="col-sm-8">
+										<a href="#" id="status" data-type="select" data-pk="1" data-value="0" data-source="/status" data-title="Select status">Active</a>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Combodate</label>
+									<div class="col-sm-8">
+										<a href="#" id="dob" data-type="combodate" data-value="1984-05-15" data-format="YYYY-MM-DD" data-viewformat="DD/MM/YYYY" data-template="D / MMM / YYYY" data-pk="1"  data-title="Select Date of birth"></a>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-2 control-label">Textarea, buttons below. Submit by <i>ctrl+enter</i></label>
+									<div class="col-sm-8">
+										<a href="#" id="comments" data-type="textarea" data-pk="1" data-placeholder="Your comments here..." data-title="Enter comments">awesome user!</a>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

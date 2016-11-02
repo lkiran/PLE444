@@ -1,0 +1,138 @@
+{% layout 'layout' %}
+{% block title %}Google Maps{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Maps</a></li>
+<li class="active"><a href="maps-google.html">Google Maps</a></li>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block scripts %}
+<script src="http://maps.google.com/maps/api/js?sensor=true"></script>
+{{ "plugins/gmaps/gmaps.js" | asset_url | script_tag }}
+{{ "demo/demo-gmaps.js" | asset_url | script_tag }}
+{% endblock %}
+
+{% block content %}
+
+<div class="alert alert-info">
+	<h3>Google Maps API</h3>
+	<p>gmaps.js allows you to use the potential of Google Maps in a simple way. No more extensive documentation or large amount of code</p>
+</div>
+
+<div data-widget-group="group1">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-transparent">
+                <div class="panel-heading">
+                    <h2>Geolocation</h2>
+                    
+                </div>
+                <div class="panel-body">
+                    <div id="basic-map" style="height: 300px"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-transparent">
+                <div class="panel-heading">
+                    <h2>Routes</h2>
+                    
+                </div>
+                <div class="panel-body">
+                    <div id="advance-route" style="height: 300px">
+
+                    </div>
+                    <a href="#" id="start_travel" class="btn btn-primary" style="margin: 15px 0">Start</a>
+                    <ul id="instructions">
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panel-transparent">
+                <div class="panel-heading">
+                    <h2>Street View Panoramas</h2>
+                    
+                </div>
+                <div class="panel-body">
+                    <div id="panorama" style="height: 300px"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-transparent">
+                <div class="panel-heading">
+                    <h2>Fusion Tables layers</h2>
+                    
+                </div>
+                <div class="panel-body">
+                    <div id="fusion" style="height: 250px"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="panel panel-transparent">
+                <div class="panel-heading">
+                    <h2>Geocoding</h2>
+                    
+                </div>
+                <div class="panel-body">
+                    <div id="geocoding" style="height: 204px;"></div>
+                    <form method="post" id="geocoding_form" class="form-inline" style="margin-top:10px">
+                        <div class="form-group">
+                            <label for="address" class="sr-only control-label">Address:</label>
+                            <div class="input-group">
+                                <input type="text" id="address" name="address" class="form-control" placeholder="Address..." />
+                                <span class="input-group-btn">
+                                    <input type="submit" class="btn btn-primary" value="Search" />
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-transparent">
+                <div class="panel-heading">
+                    <h2>Poly Lines</h2>
+                    
+                </div>
+                <div class="panel-body">
+                    <div id="polylines" style="height: 250px"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="panel panel-transparent">
+                <div class="panel-heading">
+                    <h2>Polygons</h2>
+                    
+                </div>
+                <div class="panel-body">
+                    <div id="polygons" style="height: 250px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,82 @@
+    <ol class="breadcrumb">
+		<li><a href="#/">Dashboard</a></li>
+		<li>Advanced Tables</li>
+		<li class="active">Editable Tables</li>
+	</ol>
+
+
+<div class="container-fluid" ng-controller="TablesEditableController">
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-transparent">
+				<div class="panel-heading">
+					<h2>Editable Rows</h2>
+				</div>
+				<div class="panel-body">
+					<div class="panel">
+						<div class="panel-body no-padding">
+							<table class="table">
+								<tr style="font-weight: bold">
+									<td style="width:35%">Name</td>
+									<td style="width:20%">Status</td>
+									<td style="width:20%">Group</td>
+									<td style="width:25%">Edit</td>
+								</tr>
+								<tr ng-repeat="user in users">
+								  <td>
+									<!-- editable username (text with validation) -->
+									<span editable-text="user.name" e-name="name" e-form="rowform" e-required>
+									  {{ user.name || 'empty' }}
+									</span>
+								  </td>
+								  <td>
+									<!-- editable status (select-local) -->
+									<span editable-select="user.status" e-name="status" e-form="rowform" e-ng-options="s.value as s.text for s in statuses">
+									  {{ showStatus(user) }}
+									</span>
+								  </td>
+								  <td>
+									<!-- editable group (select-remote) -->
+									<span editable-select="user.group" e-name="group" e-form="rowform" e-ng-options="g.id as g.text for g in groups">
+									  {{ showGroup(user) }}
+									</span>
+								  </td>
+								  <td style="white-space: nowrap">
+									<!-- form -->
+									<form editable-form name="rowform" onbeforesave="saveUser($data, user.id)" ng-show="rowform.$visible" class="form-buttons form-inline" shown="inserted == user">
+									  <button type="submit" ng-disabled="rowform.$waiting" class="btn btn-sm btn-primary">
+										Save
+									  </button>
+									  <button type="button" ng-disabled="rowform.$waiting" ng-click="rowform.$cancel()" class="btn btn-sm btn-default">
+										Cancel
+									  </button>
+									</form>
+									<div class="buttons" ng-show="!rowform.$visible">
+									  <button class="btn btn-sm btn-primary" ng-click="rowform.$show()">Edit</button>
+									  <button class="btn btn-sm btn-danger" ng-click="removeUser($index)">Delete</button>
+									</div>  
+								  </td>
+								</tr>
+							  </table>
+						</div>
+					</div>
+					<button class="btn btn-default" ng-click="addUser()">Add row</button>
+				</div>
+			</div>
+			<div class="panel panel-transparent">
+				<div class="panel-heading">
+					<h2>Inline Editing</h2>
+				</div>
+				<div class="panel-body">
+					<alert type="info mb-xl">Click on any field to edit the data! You can save the data through async callbacks via the controller.</alert>
+					<div class="panel">
+						<div class="panel-body no-padding">
+							<div style="height: 200px;" ng-grid="gridOptions">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>    <!-- container-fluid -->

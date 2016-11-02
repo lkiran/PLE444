@@ -1,0 +1,487 @@
+{% layout 'layout' %}
+{% block title %}Tabs &amp; Accordions{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">UI Components</a></li>
+<li class="active"><a href="ui-tabs.html">Tabs &amp; Accordions</a></li>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-white">
+			<div class="panel-heading">
+				<h2>Inline Tabs</h2>
+				<!-- <div class="options">
+					<ul class="nav nav-tabs">
+		              <li class="active"><a href="#domtabs" data-toggle="tab"><i class="fa fa-desktop"></i></a></li>
+		              <li><a href="#codetabs" data-toggle="tab"><i class="fa fa-code"></i></a></li>
+		            </ul>
+				</div> -->
+			</div>
+			<div class="panel-body">
+				<div class="tab-content">
+					<div class="tab-pane active" id="domtabs">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="tab-container tab-default">
+									<ul class="nav nav-tabs">
+										<li class="active"><a href="#home1" data-toggle="tab">Home</a></li>
+										<li><a href="#profile1" data-toggle="tab">Profile</a></li>
+										<li class="dropdown">
+											<a class="dropdown-toggle" data-toggle="dropdown" href="#">Dropdown<span class="caret"></span></a>
+											<ul class="dropdown-menu">
+												<li><a href="#">Something</a></li>
+												<li><a href="#">Something Else</a></li>
+												<li class="divider"></li>
+												<li><a href="#">And one more thing</a></li>
+											</ul>
+										</li>
+									</ul>
+									<div class="tab-content">
+										<div class="tab-pane active" id="home1"><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p> </div>
+              							<div class="tab-pane" id="profile1"><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic esse quisquam fugiat. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p></div>
+				  					</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="tab-container tab-bottom tab-default">
+									<div class="tab-content">
+										<div class="tab-pane active" id="home4"><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p> </div>
+									    <div class="tab-pane" id="profile4"><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic esse quisquam fugiat. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p></div>
+									</div>
+									<ul class="nav nav-tabs">
+										<li class="active"><a href="#home4" data-toggle="tab">Home</a></li>
+										<li><a href="#profile4" data-toggle="tab">Profile</a></li>
+									</ul>
+								</div>
+							</div>
+							
+						</div>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="tab-container tab-left tab-default">
+									<ul class="nav nav-tabs">
+										<li class="active"><a href="#home2" data-toggle="tab">Home</a></li>
+										<li><a href="#profile2" data-toggle="tab">Profile</a></li>
+									</ul>
+									<div class="tab-content">
+										<div class="tab-pane active" id="home2"><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p> </div>
+									    <div class="tab-pane" id="profile2"><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic esse quisquam fugiat. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p></div>
+									</div>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="tab-container tab-right tab-default">
+									<ul class="nav nav-tabs">
+										<li class="active"><a href="#home3" data-toggle="tab">Home</a></li>
+										<li><a href="#profile3" data-toggle="tab">Profile</a></li>
+									</ul>
+									<div class="tab-content">
+										<div class="tab-pane active" id="home3"><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p> </div>
+									    <div class="tab-pane" id="profile3"><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic esse quisquam fugiat. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p></div>
+									</div>
+								</div>
+							</div>
+							
+						</div>
+					</div>
+					<div class="tab-pane" id="codetabs">
+						<p>The following markup could be used to make a default inline tabs with tab at the top:</p>
+<pre class="prettyprint linenums">
+&lt;div class=&quot;tab-container&quot;&gt;
+  &lt;ul class=&quot;nav nav-tabs&quot;&gt;
+    &lt;li class=&quot;active&quot;&gt;&lt;a href=&quot;#home1&quot; data-toggle=&quot;tab&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;#profile1&quot; data-toggle=&quot;tab&quot;&gt;Profile&lt;/a&gt;&lt;/li&gt;
+  &lt;/ul&gt;
+  &lt;div class=&quot;tab-content&quot;&gt;
+    &lt;div class=&quot;tab-pane active&quot; id=&quot;home1&quot;&gt;Content 1&lt;/div&gt;
+    &lt;div class=&quot;tab-pane&quot; id=&quot;profile1&quot;&gt;Content 2&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</pre>
+						<p>Tab positions can be changed by adding <code>tab-left</code>, <code>tab-right</code> and <code>tab-bottom</code> classes to the <code>tab-container</code>.</p>
+						<p>Further color can be added by using brands in the form of <code>tab-success</code>, <code>tab-alart</code>, <code>tab-magenta</code> and many more!</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<!-- Accordion -->
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel-group panel-default" id="accordionA">
+			<div class="panel panel-default">
+				<a data-toggle="collapse" data-parent="#accordionA" href="#collapseOne"><div class="panel-heading"><h2>Accordion Panel Group #1</h2></div></a>
+				<div id="collapseOne" class="collapse in">
+					<div class="panel-body">
+						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<a data-toggle="collapse" data-parent="#accordionA" href="#collapseTwo"><div class="panel-heading"><h2>Accordion Panel Group #2</h2></div></a>
+				<div id="collapseTwo" class="collapse">
+					<div class="panel-body">
+						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+					</div>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<a data-toggle="collapse" data-parent="#accordionA" href="#collapseThree"><div class="panel-heading"><h2>Accordion Panel Group #3</h2></div></a>
+				<div id="collapseThree" class="collapse">
+					<div class="panel-body">
+						Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!-- /Accordion -->
+
+
+<div class="row">
+	<div class="col-sm-4">
+		<div class="panel">
+			<div class="panel-heading">
+				<h2>Tabs in Panels</h2>
+				<div class="options">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#tab-1-1" data-toggle="tab">Tab 1</a></li>
+						<li><a href="#tab-1-2" data-toggle="tab">Tab 2</a></li>
+						<li><a href="#tab-1-3" data-toggle="tab">Tab 3</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="tab-content">
+					<div class="tab-pane active" id="tab-1-1">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+					<div class="tab-pane" id="tab-1-2">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+					<div class="tab-pane" id="tab-1-3">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-4">
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h2>Tabs in Panels</h2>
+				<div class="options">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#tab-2-1" data-toggle="tab">Tab 1</a></li>
+						<li><a href="#tab-2-2" data-toggle="tab">Tab 2</a></li>
+						<li><a href="#tab-2-3" data-toggle="tab">Tab 3</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="tab-content">
+					<div class="tab-pane active" id="tab-2-1">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+					<div class="tab-pane" id="tab-2-2">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+					<div class="tab-pane" id="tab-2-3">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-4">
+		<div class="panel panel-success">
+			<div class="panel-heading">
+				<h2>Tabs in Panels</h2>
+				<div class="options">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#tab-3-1" data-toggle="tab">Tab 1</a></li>
+						<li><a href="#tab-3-2" data-toggle="tab">Tab 2</a></li>
+						<li><a href="#tab-3-3" data-toggle="tab">Tab 3</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="tab-content">
+					<div class="tab-pane active" id="tab-3-1">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+					<div class="tab-pane" id="tab-3-2">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+					<div class="tab-pane" id="tab-3-3">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-4">
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h2>Tabs in Panels</h2>
+				<div class="options">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#tab-4-1" data-toggle="tab">Tab 1</a></li>
+						<li><a href="#tab-4-2" data-toggle="tab">Tab 2</a></li>
+						<li><a href="#tab-4-3" data-toggle="tab">Tab 3</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="tab-content">
+					<div class="tab-pane active" id="tab-4-1">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+					<div class="tab-pane" id="tab-4-2">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+					<div class="tab-pane" id="tab-4-3">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-4">
+		<div class="panel panel-warning">
+			<div class="panel-heading">
+				<h2>Tabs in Panels</h2>
+				<div class="options">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#tab-5-1" data-toggle="tab">Tab 1</a></li>
+						<li><a href="#tab-5-2" data-toggle="tab">Tab 2</a></li>
+						<li><a href="#tab-5-3" data-toggle="tab">Tab 3</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="tab-content">
+					<div class="tab-pane active" id="tab-5-1">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+					<div class="tab-pane" id="tab-5-2">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+					<div class="tab-pane" id="tab-5-3">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-4">
+		<div class="panel panel-danger">
+			<div class="panel-heading">
+				<h2>Tabs in Panels</h2>
+				<div class="options">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#tab-6-1" data-toggle="tab">Tab 1</a></li>
+						<li><a href="#tab-6-2" data-toggle="tab">Tab 2</a></li>
+						<li><a href="#tab-6-3" data-toggle="tab">Tab 3</a></li>
+					</ul>
+				</div>
+			</div>
+			<div class="panel-body">
+				<div class="tab-content">
+					<div class="tab-pane active" id="tab-6-1">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+					<div class="tab-pane" id="tab-6-2">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+					<div class="tab-pane" id="tab-6-3">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="row">
+	<div class="col-sm-4">
+		<div class="panel panel-brown">
+			<div class="panel-heading">
+				<h2>
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#tab-7-1" data-toggle="tab">Tab 1</a></li>
+						<li><a href="#tab-7-2" data-toggle="tab">Tab 2</a></li>
+						<li><a href="#tab-7-3" data-toggle="tab">Tab 3</a></li>
+					</ul>
+				</h2>
+			</div>
+			<div class="panel-body">
+				<div class="tab-content">
+					<div class="tab-pane active" id="tab-7-1">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+					<div class="tab-pane" id="tab-7-2">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+					<div class="tab-pane" id="tab-7-3">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-4">
+		<div class="panel panel-indigo">
+			<div class="panel-heading">
+				<h2>
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#tab-8-1" data-toggle="tab">Tab 1</a></li>
+						<li><a href="#tab-8-2" data-toggle="tab">Tab 2</a></li>
+						<li><a href="#tab-8-3" data-toggle="tab">Tab 3</a></li>
+					</ul>
+				</h2>
+			</div>
+			<div class="panel-body">
+				<div class="tab-content">
+					<div class="tab-pane active" id="tab-8-1">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+					<div class="tab-pane" id="tab-8-2">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+					<div class="tab-pane" id="tab-8-3">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-4">
+		<div class="panel panel-orange">
+			<div class="panel-heading">
+				<h2>
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#tab-9-1" data-toggle="tab">Tab 1</a></li>
+						<li><a href="#tab-9-2" data-toggle="tab">Tab 2</a></li>
+						<li><a href="#tab-9-3" data-toggle="tab">Tab 3</a></li>
+					</ul>
+				</h2>
+			</div>
+			<div class="panel-body">
+				<div class="tab-content">
+					<div class="tab-pane active" id="tab-9-1">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+					<div class="tab-pane" id="tab-9-2">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+					<div class="tab-pane" id="tab-9-3">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-sm-4">
+		<div class="panel panel-lime">
+			<div class="panel-heading">
+				<h2>
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#tab-10-1" data-toggle="tab">Tab 1</a></li>
+						<li><a href="#tab-10-2" data-toggle="tab">Tab 2</a></li>
+						<li><a href="#tab-10-3" data-toggle="tab">Tab 3</a></li>
+					</ul>
+				</h2>
+			</div>
+			<div class="panel-body">
+				<div class="tab-content">
+					<div class="tab-pane active" id="tab-10-1">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+					<div class="tab-pane" id="tab-10-2">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+					<div class="tab-pane" id="tab-10-3">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-4">
+		<div class="panel panel-midnightblue">
+			<div class="panel-heading">
+				<h2>
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#tab-11-1" data-toggle="tab">Tab 1</a></li>
+						<li><a href="#tab-11-2" data-toggle="tab">Tab 2</a></li>
+						<li><a href="#tab-11-3" data-toggle="tab">Tab 3</a></li>
+					</ul>
+				</h2>
+			</div>
+			<div class="panel-body">
+				<div class="tab-content">
+					<div class="tab-pane active" id="tab-11-1">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+					<div class="tab-pane" id="tab-11-2">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+					<div class="tab-pane" id="tab-11-3">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-sm-4">
+		<div class="panel panel-purple">
+			<div class="panel-heading">
+				<h2>
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#tab-12-1" data-toggle="tab">Tab 1</a></li>
+						<li><a href="#tab-12-2" data-toggle="tab">Tab 2</a></li>
+						<li><a href="#tab-12-3" data-toggle="tab">Tab 3</a></li>
+					</ul>
+				</h2>
+			</div>
+			<div class="panel-body">
+				<div class="tab-content">
+					<div class="tab-pane active" id="tab-12-1">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+					<div class="tab-pane" id="tab-12-2">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+					<div class="tab-pane" id="tab-12-3">
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia, blanditiis adipisci eveniet ad sed voluptatum natus voluptatibus vitae deleniti? Iure porro recusandae molestiae molestias similique unde totam non omnis veritatis.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

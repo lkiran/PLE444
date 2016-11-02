@@ -1,0 +1,55 @@
+{% layout 'layout' %}
+{% block title %}Breadcrumbs{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">UI Components</a></li>
+<li class="active"><a href="ui-breadcrumbs.html">Breadcrumbs</a></li>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+                <div class="col-xs-12">
+                    <div class="panel panel-default">
+                      <div class="panel-heading">
+                        <h2>Breadcrumbs</h2>
+                      </div>
+                      <div class="panel-body">
+                        <p>Indicate the current page's location within a navigational hierarchy. Just add <code>.breadcrumb</code> to any ordered or un-ordered list</p>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="domwell">
+                                <div class="demo-example">
+                                    <ol class="breadcrumb">
+                                      <li class="active"><a href="#">Home</a></li>
+                                    </ol>
+                                    <ol class="breadcrumb">
+                                      <li><a href="#">Home</a></li>
+                                      <li class="active">Library</li>
+                                    </ol>
+                                    <ol class="breadcrumb">
+                                      <li><a href="#">Home</a></li>
+                                      <li><a href="#">Library</a></li>
+                                      <li class="active">Data</li>
+                                    </ol>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="codewell">
+<pre class="prettyprint linenums">
+&lt;ol class=&quot;breadcrumb&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Home&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Library&lt;/a&gt;&lt;/li&gt;
+  &lt;li class=&quot;active&quot;&gt;Data&lt;/li&gt;
+&lt;/ol&gt;</pre>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+{% endblock %}

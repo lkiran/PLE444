@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" class="full-page-image">
+<head>
+    <meta charset="utf-8">
+    <title>Avenxo is Coming!</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="author" content="KaijuThemes">
+
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600' rel='stylesheet' type='text/css'>
+    {{ "fonts/font-awesome/css/font-awesome.min.css" | asset_url | stylesheet_tag }}        <!-- Font Awesome -->
+    {{ "fonts/themify-icons/themify-icons.css" | asset_url | stylesheet_tag }}               <!-- Themify Icons -->
+    
+    {{ "css/styles.css" | asset_url | stylesheet_tag }}
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries. Placeholdr.js enables the placeholder attribute -->
+    <!--[if lt IE 9]>
+        {{ "css/ie8.css" | asset_url | stylesheet_tag }}
+        <script type="text/javascript" src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- The following CSS are included as plugins and can be removed if unused-->
+    {% block styles %}{% endblock %}
+    </head>
+
+    <body class="coming-soon">
+        {% include analytics %}
+        {% block content %}{% endblock %}
+
+    
+    
+    {% include scripts %}
+    <!-- Load page level scripts-->
+    {% block scripts %}{% endblock %}
+    <!-- End loading page level scripts-->
+
+    </body>
+</html>

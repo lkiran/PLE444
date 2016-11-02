@@ -1,0 +1,101 @@
+{% layout 'layout' %}
+{% block title %}Alerts{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">UI Components</a></li>
+<li class="active"><a href="ui-alerts.html">Alerts</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/pines-notify/jquery.pnotify.default.css" | asset_url | stylesheet_tag }}
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/pines-notify/jquery.pnotify.min.js" | asset_url | script_tag }}
+{{ "demo/demo-alerts.js" | asset_url | script_tag }}
+{% endblock %}
+
+{% block content %}
+<div data-widget-group="group1">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2>Alerts</h2>
+					<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+				</div>
+				<div class="panel-body">
+					<h4>Alerts</h4>
+					<p class="mb20">Provide contextual feedback messages for typical user actions with the handful of available and flexible alert messages</p>
+					<div class="alert alert-dismissable alert-success">
+						<i class="ti ti-check"></i>&nbsp; <strong>Well done!</strong> You successfully read this important alert message.
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					</div>
+					<div class="alert alert-dismissable alert-info">
+						<i class="ti ti-info-alt"></i>&nbsp; <strong>Heads up!</strong> This alert needs your attention, but it's not super important.
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					</div>
+					<div class="alert alert-dismissable alert-warning">
+						<i class="ti ti-alert"></i>&nbsp; <strong>Warning!</strong> Best check yo self, you're not looking too good.
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					</div>
+					<div class="alert alert-dismissable alert-danger">
+						<i class="ti ti-close"></i>&nbsp; <strong>Oh snap!</strong> Change a few things up and try submitting again.
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12">
+			<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2>Alert Blocks</h2>
+					<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+				</div>
+				<div class="panel-body">
+					<h4>Alert Messages</h4>
+					<p>Alerts can contain more than a line of messege. They can be extended with to focus on a particular messege.</p>
+
+					<div class="alert alert-dismissable alert-success">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						<h4>Well done!</h4> 
+
+						<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p>
+						<br>
+						<p><a class="btn btn-success" href="#">Okay</a></p>
+					</div>
+
+					<div class="alert alert-dismissable alert-info">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						<h4>Heads up!</h4> 
+
+						<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p>
+						<br>
+						<p><a class="btn btn-info" href="#">Alright</a></p>
+					</div>
+
+					<div class="alert alert-dismissable alert-warning">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						<h4>Warning!</h4> 
+
+						<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p>
+						<br>
+						<p><a class="btn btn-warning" href="#">Do Something</a></p>
+					</div>
+
+					<div class="alert alert-dismissable alert-danger">
+						<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+						<h4>Oh Snap!</h4> 
+
+						<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p>
+						<br>
+						<p><a class="btn btn-danger" href="#">What to do?</a></p>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

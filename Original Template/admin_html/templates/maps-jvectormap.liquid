@@ -1,0 +1,152 @@
+{% layout 'layout' %}
+{% block title %}Vector Maps{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Maps</a></li>
+<li class="active"><a href="maps-vector.html">Vector Maps</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/jvectormap/jquery-jvectormap-2.0.2.css" | asset_url | stylesheet_tag }}
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/jvectormap/jquery-jvectormap-2.0.2.min.js" | asset_url | script_tag }}       <!-- jVectorMap -->
+
+<!-- Maps -->
+{{ "plugins/jvectormap/jquery-jvectormap-world-mill-en.js" | asset_url | script_tag }}
+{{ "plugins/jvectormap/jquery-jvectormap-cn-mill-en.js" | asset_url | script_tag }}
+{{ "plugins/jvectormap/jquery-jvectormap-dk-mill-en.js" | asset_url | script_tag }}
+{{ "plugins/jvectormap/jquery-jvectormap-europe-mill-en.js" | asset_url | script_tag }}
+{{ "plugins/jvectormap/jquery-jvectormap-in-mill-en.js" | asset_url | script_tag }}
+{{ "plugins/jvectormap/jquery-jvectormap-nl-mill-en.js" | asset_url | script_tag }}
+{{ "plugins/jvectormap/jquery-jvectormap-se-mill-en.js" | asset_url | script_tag }}
+{{ "plugins/jvectormap/jquery-jvectormap-us-aea-en.js" | asset_url | script_tag }}
+{{ "plugins/jvectormap/jquery-jvectormap-us-ny-newyork-mill-en.js" | asset_url | script_tag }}
+<!-- /Maps -->
+
+{{ "demo/demo-jvectormap.js" | asset_url | script_tag }}
+{% endblock %}
+
+{% block content %}
+
+<div class="alert alert-info">
+	<h3>jQuery Vector Maps</h3>
+	<p>JQVMap is a jQuery plugin that renders Vector Maps.  It uses resizable Scalable Vector Graphics (SVG) for modern browsers like Firefox, Safari, Chrome, Opera and Internet Explorer 9.</p>
+	<br>
+	<p><i class="ti ti-location-pin"></i> Download vector maps available for free <a href="http://jvectormap.com/maps/world/europe/">here</a></p>
+</div>
+
+<div data-widget-group="group1">
+	<div class="row">
+		<div class="col-md-12">
+			<div class = "panel panel-transparent">
+				<div class="panel-heading">
+					<h2>World Map</h2>
+				</div>
+				<div class="panel-body">
+					<div id="worldmap" style="height: 400px;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6">
+			<div class="panel panel-transparent">
+				<div class="panel-heading">
+					<h2>USA</h2>
+				</div>
+				<div class="panel-body">
+					<div id="usa" style="height: 350px;"></div>
+					</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="panel panel-transparent">
+				<div class="panel-heading">
+					<h2>China</h2>
+				</div>
+				<div class="panel-body">
+					<div id="china" style="height: 350px;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6">
+			<div class="panel panel-transparent">
+				<div class="panel-heading">
+					<h2>Europe</h2>
+				</div>
+				<div class="panel-body">
+					<div id="europe" style="height: 350px;"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="panel panel-transparent">
+				<div class="panel-heading">
+					<h2>India</h2>
+					
+				</div>
+				<div class="panel-body">
+					<div id="india" style="height: 350px;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6">
+			<div class="panel panel-transparent">
+				<div class="panel-heading">
+					<h2>Denmark</h2>
+				</div>
+				<div class="panel-body">
+					<div id="denmark" style="height: 350px;"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="panel panel-transparent">
+				<div class="panel-heading">
+					<h2>Netherlands</h2>
+				</div>
+				<div class="panel-body">
+					<div id="netherlands" style="height: 350px;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="row">
+		<div class="col-md-6">
+			<div class="panel panel-transparent">
+				<div class="panel-heading">
+					<h2>Sweden</h2>
+				</div>
+				<div class="panel-body">
+					<div id="sweden" style="height: 350px;"></div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="panel panel-transparent">
+				<div class="panel-heading">
+					<h2>New York</h2>
+				</div>
+				<div class="panel-body">
+					<div id="usa-ny" style="height: 350px;"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

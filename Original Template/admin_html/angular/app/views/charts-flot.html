@@ -1,0 +1,66 @@
+    <ol class="breadcrumb">
+        <li><a href="#/">Dashboard</a></li>
+        <li>Charts</li>
+        <li class="active">Flot</li>
+    </ol>
+
+<div class="container-fluid" ng-controller="FlotChartsController">
+
+    <div class="row">
+        <div class="col-md-12">
+            <panel heading="Interacting with data point">
+                <div flot-chart style="width: 100%; height:350px" 
+                    data-flot-data="sinusoidalData"
+                    data-flot-options="sinusoidalOptions"
+                    data-plot-hover="onHover(event, position, item)"
+                    data-plot-click="onClick(event, position, item)"></div>
+            </panel>
+            <panel heading="Multiple Graph Types In One">
+                <div flot-chart style="width: 100%; height:350px" 
+                    data-flot-data="multigraphData"
+                    data-flot-options="multigraphOptions"
+                ></div>
+            </panel>
+            <panel heading="Live Dynamic">
+                <div flot-chart style="width: 100%; height:350px" 
+                    data-flot-data="realtimeData"
+                    data-flot-options="realtimeOptions"
+                ></div>
+            </panel>
+            <panel heading="Stacked">
+                <div flot-chart style="width: 100%; height:350px" 
+                    data-flot-data="stackedData"
+                    data-flot-options="stackedOptions"
+                ></div>
+
+                <p class="stackControls pull-left">
+                    <button class="btn btn-primary" ng-click="setOption('Stack')" ng-show="!stackedIsTrue">With stacking</button>
+                    <button class="btn btn-primary" ng-click="setOption('Unstack')" ng-show="stackedIsTrue">Without stacking</button>
+                </p>
+                
+                <p class="graphControls pull-right">
+                    <button class="btn btn-midnightblue-alt" ng-click="setOption('Bars')">Bars</button>
+                    <button class="btn btn-midnightblue-alt" ng-click="setOption('Lines')">Lines</button>
+                    <button class="btn btn-midnightblue-alt" ng-click="setOption('Steps')">Lines with steps</button>
+                </p>
+            </panel>
+        </div>
+        <div class="col-md-6">
+            <panel heading="Pie">
+                <div flot-chart style="width: 100%; height:350px" 
+                    data-flot-data="pieData"
+                    data-flot-options="pieOptions"
+                ></div>
+            </panel>
+        </div>
+        <div class="col-md-6">
+            <panel heading="Donut">
+                <div flot-chart style="width: 100%; height:350px" 
+                    data-flot-data="pieData"
+                    data-flot-options="donutOptions"
+                ></div>
+            </panel>
+        </div>
+
+    </div>
+</div> <!-- container-fluid -->

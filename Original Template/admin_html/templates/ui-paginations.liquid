@@ -1,0 +1,206 @@
+{% layout 'layout' %}
+{% block title %}Pagers &amp; Paginations{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">UI Components</a></li>
+<li class="active"><a href="ui-paginations.html">Pagers &amp; Paginations</a></li>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-12">
+
+		<div class="panel panel-transparent">
+			<div class="panel-heading">
+				<h2>Pagination</h2>
+				<!-- <div class="options">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#dompaginate" data-toggle="tab"><i class="fa fa-desktop"></i></a></li>
+						<li><a href="#codepaginate" data-toggle="tab"><i class="fa fa-code"></i></a></li>
+					</ul>
+				</div> -->
+			</div>
+			<div class="panel-body">
+				<p>Provide pagination links for your site or app with the multi-page pagination component</p>
+				<h4>Default Pagination</h4>
+				<p>Simple, scable pagination by adding the <code>.pagination</code> class. You can also add <code>.disable</code> for unselectable links or <code>.active</code> to indicate current page</p>
+				<div class="tab-content">
+					<div class="tab-pane active" id="dompaginate">
+						<ul class="pagination">
+							<li class="disabled"><a href="#"><i class="fa fa-angle-left"></i></a></li>
+							<li class="active"><a href="#">1</a></li>
+							<li><a href="#">2</a></li>
+							<li><a href="#">3</a></li>
+							<li><a href="#">4</a></li>
+							<li><a href="#">5</a></li>
+							<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+						</ul>
+					</div>
+					<div class="tab-pane" id="codepaginate">
+						<pre class="prettyprint linenums">
+&lt;ul class=&quot;pagination&quot;&gt;
+  &lt;li class=&quot;disabled&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;i class=&quot;fa fa-angle-left&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+  &lt;li class=&quot;active&quot;&gt;&lt;a href=&quot;#&quot;&gt;1&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#&quot;&gt;2&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#&quot;&gt;3&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#&quot;&gt;4&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#&quot;&gt;5&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#&quot;&gt;&lt;i class=&quot;fa fa-angle-right&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+						</pre>
+					</div>
+				</div>
+
+
+				<h4>Sizing</h4>
+				<p>Add smaller or larger pagination with the <code>.pagination-lg</code> or <code>.pagination-sm</code> class</p>
+				<div>
+					<p>Large <code>pagination-lg</code></p>
+					<ul class="pagination pagination-lg">
+						<li class="disabled"><a href="#"><i class="fa fa-angle-left"></i></a></li>
+						<li class="active"><a href="#">1</a></li>
+						<li><a href="#">2</a></li>
+						<li><a href="#">3</a></li>
+						<li><a href="#">4</a></li>
+						<li><a href="#">5</a></li>
+						<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+					</ul>
+				</div>
+				<div>
+					<p>Regular <code>pagination</code></p>
+					<ul class="pagination">
+						<li class="disabled"><a href="#"><i class="fa fa-angle-left"></i></a></li>
+						<li class="active"><a href="#">1</a></li>
+						<li><a href="#">2</a></li>
+						<li><a href="#">3</a></li>
+						<li><a href="#">4</a></li>
+						<li><a href="#">5</a></li>
+						<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+					</ul>
+				</div>
+				<div>
+					<p>Small <code>pagination-sm</code></p>
+					<ul class="pagination pagination-sm">
+						<li class="disabled"><a href="#"><i class="fa fa-angle-left"></i></a></li>
+						<li class="active"><a href="#">1</a></li>
+						<li><a href="#">2</a></li>
+						<li><a href="#">3</a></li>
+						<li><a href="#">4</a></li>
+						<li><a href="#">5</a></li>
+						<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+					</ul>
+				</div>
+
+
+				<h4>Positioning</h4>
+				<p>Paginations can be placed anywhere with any alignments by wrapping the pagination with <code>div</code> and giving it a <code>text-left</code>, <code>text-center</code> or <code>text-right</code> class</p>
+				<div class="row">
+					<div class="col-md-4">
+						<div class="text-left">
+							<h4>Pagination Left</h4>
+							<p><code>text-left</code></p>
+
+							<ul class="pagination pagination-sm">
+								<li class="disabled"><a href="#"><i class="fa fa-angle-left"></i></a></li>
+								<li class="active"><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="text-center">
+							<h4>Pagination Center</h4>
+							<p><code>text-center</code></p>
+
+							<ul class="pagination pagination-sm">
+								<li class="disabled"><a href="#"><i class="fa fa-angle-left"></i></a></li>
+								<li><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li class="active"><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+							</ul>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="text-right">
+							<h4>Pagination Right</h4>
+							<p><code>text-right</code></p>
+
+							<ul class="pagination pagination-sm">
+								<li class="disabled"><a href="#"><i class="fa fa-angle-left"></i></a></li>
+								<li><a href="#">1</a></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li class="active"><a href="#">5</a></li>
+								<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-transparent">
+			<div class="panel-heading">
+				<h2>Pager</h2>
+				<!-- <div class="options">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#dompager" data-toggle="tab"><i class="fa fa-desktop"></i></a></li>
+						<li><a href="#codepager" data-toggle="tab"><i class="fa fa-code"></i></a></li>
+					</ul>
+				</div> -->
+			</div>
+			<div class="panel-body">			
+				<h4>Default Pager</h4>
+				<p>Quick previous and next links for simple pagination implementations with light markup and styles</p>
+				<div class="tab-content">
+					<div class="tab-pane active" id="dompager">
+						<p>Just add the class <code>.pager</code> to a <code>ul</code></p>
+						<ul class="pager">
+							<li><a href="#"><i class="fa fa-angle-left"></i> Previous</a></li>
+							<li><a href="#">Next <i class="fa fa-angle-right"></i></a></li>
+						</ul>
+					</div>
+					<div class="tab-pane" id="codepager">
+						<pre class="prettyprint linenums">
+&lt;ul class=&quot;pager&quot;&gt;
+  &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Previous&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Next&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+						</pre>
+					</div>
+				</div>
+
+				<br>
+				<h4>Aligned Links</h4>
+				<p>Alternatively, you can align each link to the sides by adding the <code>.previous</code> and <code>.next</code> classes to the li</p>
+				<ul class="pager">
+					<li class="previous"><a href="#"><i class="fa fa-angle-left"></i> Older</a></li>
+					<li class="next"><a href="#">Newer <i class="fa fa-angle-right"></i></a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

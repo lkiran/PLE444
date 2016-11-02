@@ -1,0 +1,72 @@
+{% layout 'layout' %}
+{% block title %}Pulsating Elements{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Custom Components</a></li>
+<li class="active"><a href="custom-pulsate.html">Pulsating Elements</a></li>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/pulsate/jQuery.pulsate.min.js" | asset_url | script_tag }} 		<!-- Pulsate -->
+
+<script>
+$(function () {
+	$("#pulsate1").pulsate({glow:false});
+	$("#pulsate2").pulsate({color:"#09f"});
+	$("#pulsate3").pulsate({reach:100});
+	$("#pulsate4").pulsate({speed:2500});
+	$("#pulsate5").pulsate({pause:1000});
+	$("#pulsate6").pulsate({onHover:true});
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div data-widget-group="group1">
+	<div class="row">
+		<div class="col-md-12">
+
+			<div class="alert alert-info">
+				<h3>jQuery Pulsate</h3>
+				<p>jQuery.pulsate.js adds a pulsating effect to elements. Useful for drawing the users attention.</p>
+			</div>
+
+
+			<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+			  <div class="panel-heading">
+			  	<h2>Pulsate</h2>
+			  	<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+			  </div>
+			  <div class="panel-body">
+					<div class="row mb-md">
+						<div class="col-md-4 col-xs-6">
+							<button class="btn btn-orange btn-block" id="pulsate1">.pulsate({glow:false});</button>
+						</div>
+						<div class="col-md-4 col-xs-6">
+							<button class="btn btn-midnightblue btn-block" id="pulsate2">.pulsate({color:"#09f"});</button>
+						</div>
+						<div class="col-md-4 col-xs-6">
+							<button class="btn btn-green btn-block" id="pulsate3">.pulsate({reach:100});</button>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4 col-xs-6">
+							<button class="btn btn-magenta btn-block" id="pulsate4">.pulsate({speed:2500});</button>
+						</div>
+						<div class="col-md-4 col-xs-6">
+							<button class="btn btn-brown btn-block" id="pulsate5">.pulsate({pause:1000});</button>
+						</div>
+						<div class="col-md-4 col-xs-6">
+							<button class="btn btn-inverse btn-block" id="pulsate6">.pulsate({onHover:true});</button>
+						</div>
+					</div>
+			  </div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

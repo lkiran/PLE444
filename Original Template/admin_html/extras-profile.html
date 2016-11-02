@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Avenxo Admin Theme - shared on GFXFree.Net</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="description" content="Avenxo Admin Theme">
+    <meta name="author" content="KaijuThemes">
+
+    <link type='text/css' href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600' rel='stylesheet'>
+
+    <link type="text/css" href="assets/fonts/font-awesome/css/font-awesome.min.css" rel="stylesheet">        <!-- Font Awesome -->
+    <link type="text/css" href="assets/fonts/themify-icons/themify-icons.css" rel="stylesheet">              <!-- Themify Icons -->
+    <link type="text/css" href="assets/css/styles.css" rel="stylesheet">                                     <!-- Core CSS with all styles -->
+
+    <link type="text/css" href="assets/plugins/codeprettifier/prettify.css" rel="stylesheet">                <!-- Code Prettifier -->
+    <link type="text/css" href="assets/plugins/iCheck/skins/minimal/blue.css" rel="stylesheet">              <!-- iCheck -->
+
+    <!--[if lt IE 10]>
+        <script type="text/javascript" src="assets/js/media.match.min.js"></script>
+        <script type="text/javascript" src="assets/js/respond.min.js"></script>
+        <script type="text/javascript" src="assets/js/placeholder.min.js"></script>
+    <![endif]-->
+    <!-- The following CSS are included as plugins and can be removed if unused-->
+    
+<link type="text/css" href="assets/plugins/form-fseditor/fseditor.css" rel="stylesheet">                      		<!-- FullScreen Editor -->
+
+    </head>
+
+    <body class="animated-content">
+        
+        <header id="topnav" class="navbar navbar-default navbar-fixed-top" role="banner">
+
+	<div class="logo-area">
+		<span id="trigger-sidebar" class="toolbar-trigger toolbar-icon-bg">
+			<a data-toggle="tooltips" data-placement="right" title="Toggle Sidebar">
+				<span class="icon-bg">
+					<i class="ti ti-menu"></i>
+				</span>
+			</a>
+		</span>
+		
+		<a class="navbar-brand" href="index.html">Avenxo</a>
+
+		<div class="toolbar-icon-bg hidden-xs" id="toolbar-search">
+            <div class="input-group">
+            	<span class="input-group-btn"><button class="btn" type="button"><i class="ti ti-search"></i></button></span>
+				<input type="text" class="form-control" placeholder="Search...">
+				<span class="input-group-btn"><button class="btn" type="button"><i class="ti ti-close"></i></button></span>
+			</div>
+        </div>
+
+	</div><!-- logo-area -->
+
+	<ul class="nav navbar-nav toolbar pull-right">
+
+		<li class="toolbar-icon-bg visible-xs-block" id="trigger-toolbar-search">
+			<a href="#"><span class="icon-bg"><i class="ti ti-search"></i></span></a>
+		</li>
+        
+		<li class="toolbar-icon-bg hidden-xs">
+            <a href="#"><span class="icon-bg"><i class="ti ti-world"></i></span></i></a>
+        </li>
+
+        <li class="toolbar-icon-bg hidden-xs">
+            <a href="#"><span class="icon-bg"><i class="ti ti-view-grid"></i></span></i></a>
+        </li>
+
+        <li class="toolbar-icon-bg hidden-xs" id="trigger-fullscreen">
+            <a href="#" class="toggle-fullscreen"><span class="icon-bg"><i class="ti ti-fullscreen"></i></span></i></a>
+        </li>
+
+        <li class="dropdown toolbar-icon-bg hidden-xs">
+			<a href="#" class="hasnotifications dropdown-toggle" data-toggle='dropdown'><span class="icon-bg"><i class="ti ti-email"></i></span><span
+			class="badge badge-deeporange">2</span></a>
+			<div class="dropdown-menu notifications arrow">
+				<div class="topnav-dropdown-header">
+					<span>Messages</span>
+				</div>
+				<div class="scroll-pane">
+					<ul class="media-list scroll-content">
+						<li class="media notification-message">
+							<a href="#">
+								<div class="media-left">
+									<img class="img-circle avatar" src="http://placehold.it/300&text=Placeholder" alt="" />
+								</div>
+								<div class="media-body">
+									<h4 class="notification-heading"><strong>Vincent Keller</strong> <span class="text-gray">‒ Design should be ...</span></h4>
+									<span class="notification-time">2 mins ago</span>
+								</div>
+							</a>
+						</li>
+						<li class="media notification-message">
+							<a href="#">
+								<div class="media-left">
+									<img class="img-circle avatar" src="http://placehold.it/300&text=Placeholder" alt="" />
+								</div>
+								<div class="media-body">
+									<h4 class="notification-heading"><strong>Frend Pratt</strong> <span class="text-gray">‒ I will start with the ...</span></h4>
+									<span class="notification-time">40 mins ago</span>
+								</div>
+							</a>
+						</li>
+						<li class="media notification-message">
+							<a href="#">
+								<div class="media-left">
+									<img class="img-circle avatar" src="http://placehold.it/300&text=Placeholder" alt="" />
+								</div>
+								<div class="media-body">
+									<h4 class="notification-heading"><strong>Cynthia Hines</strong> <span class="text-gray">‒ Interior bits are ...</span></h4>
+									<span class="notification-time">6 hours ago</span>
+								</div>
+							</a>
+						</li>
+						<li class="media notification-message">
+							<a href="#">
+								<div class="media-left">
+									<img class="img-circle avatar" src="http://placehold.it/300&text=Placeholder" alt="" />
+								</div>
+								<div class="media-body">
+									<h4 class="notification-heading"><strong>Robin Horton</strong> <span class="text-gray">‒ Are you even ...</span></h4>
+									<span class="notification-time">8 days ago</span>
+								</div>
+							</a>
+						</li>
+						<li class="media notification-message">
+							<a href="#">
+								<div class="media-left">
+									<img class="img-circle avatar" src="http://placehold.it/300&text=Placeholder" alt="" />
+								</div>
+								<div class="media-body">
+									<h4 class="notification-heading"><strong>Amanda Torrez</strong> <span class="text-gray">‒ The message is ...</span></h4>
+									<span class="notification-time">16 hours ago</span>
+								</div>
+							</a>
+						</li>
+						<li class="media notification-message">
+							<a href="#">
+								<div class="media-left">
+									<img class="img-circle avatar" src="http://placehold.it/300&text=Placeholder" alt="" />
+								</div>
+								<div class="media-body">
+									<h4 class="notification-heading"><strong>Khan Farhan</strong> <span class="text-gray">‒ Expected the stuff ...</span></h4>
+									<span class="notification-time">2 days ago</span>
+								</div>
+							</a>
+						</li>
+						<li class="media notification-message">
+							<a href="#">
+								<div class="media-left">
+									<img class="img-circle avatar" src="http://placehold.it/300&text=Placeholder" alt="" />
+								</div>
+								<div class="media-body">
+									<h4 class="notification-heading"><strong>Will Whedon</strong> <span class="text-gray">‒ The movie of this ...</span></h4>
+									<span class="notification-time">4 days ago</span>
+								</div>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="topnav-dropdown-footer">
+					<a href="#">See all messages</a>
+				</div>
+			</div>
+		</li>
+		
+		<li class="dropdown toolbar-icon-bg">
+			<a href="#" class="hasnotifications dropdown-toggle" data-toggle='dropdown'><span class="icon-bg"><i class="ti ti-bell"></i></span><span class="badge badge-deeporange">2</span></a>
+			<div class="dropdown-menu notifications arrow">
+				<div class="topnav-dropdown-header">
+					<span>Notifications</span>
+				</div>
+				<div class="scroll-pane">
+					<ul class="media-list scroll-content">
+						<li class="media notification-success">
+							<a href="#">
+								<div class="media-left">
+									<span class="notification-icon"><i class="ti ti-check"></i></span>
+								</div>
+								<div class="media-body">
+									<h4 class="notification-heading">Update 1.0.4 successfully pushed</h4>
+									<span class="notification-time">8 mins ago</span>
+								</div>
+							</a>
+						</li>
+						<li class="media notification-info">
+							<a href="#">
+								<div class="media-left">
+									<span class="notification-icon"><i class="ti ti-check"></i></span>
+								</div>
+								<div class="media-body">
+									<h4 class="notification-heading">Update 1.0.3 successfully pushed</h4>
+									<span class="notification-time">24 mins ago</span>
+								</div>
+							</a>
+						</li>
+						<li class="media notification-teal">
+							<a href="#">
+								<div class="media-left">
+									<span class="notification-icon"><i class="ti ti-check"></i></span>
+								</div>
+								<div class="media-body">
+									<h4 class="notification-heading">Update 1.0.2 successfully pushed</h4>
+									<span class="notification-time">16 hours ago</span>
+								</div>
+							</a>
+						</li>
+						<li class="media notification-indigo">
+							<a href="#">
+								<div class="media-left">
+									<span class="notification-icon"><i class="ti ti-check"></i></span>
+								</div>
+								<div class="media-body">
+									<h4 class="notification-heading">Update 1.0.1 successfully pushed</h4>
+									<span class="notification-time">2 days ago</span>
+								</div>
+							</a>
+						</li>
+						<li class="media notification-danger">
+							<a href="#">
+								<div class="media-left">
+									<span class="notification-icon"><i class="ti ti-arrow-up"></i></span>
+								</div>
+								<div class="media-body">
+									<h4 class="notification-heading">Initial Release 1.0</h4>
+									<span class="notification-time">4 days ago</span>
+								</div>
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="topnav-dropdown-footer">
+					<a href="#">See all notifications</a>
+				</div>
+			</div>
+		</li>
+
+		<li class="dropdown toolbar-icon-bg">
+			<a href="#" class="dropdown-toggle username" data-toggle="dropdown">
+				<img class="img-circle" src="http://placehold.it/300&text=Placeholder" alt="" />
+			</a>
+			<ul class="dropdown-menu userinfo arrow">
+				<li><a href="#/"><i class="ti ti-user"></i><span>Profile</span><span class="badge badge-info pull-right">80%</span></a></li>
+				<li><a href="#/"><i class="ti ti-panel"></i><span>Account</span></a></li>
+				<li><a href="#/"><i class="ti ti-settings"></i><span>Settings</span></a></li>
+				<li class="divider"></li>
+				<li><a href="#/"><i class="ti ti-stats-up"></i><span>Earnings</span></a></li>
+				<li><a href="#/"><i class="ti ti-view-list-alt"></i><span>Statement</span></a></li>
+				<li><a href="#/"><i class="ti ti-money"></i><span>Withdrawals</span></a></li>
+				<li class="divider"></li>
+				<li><a href="#/"><i class="ti ti-shift-right"></i><span>Sign Out</span></a></li>
+			</ul>
+		</li>
+
+	</ul>
+
+</header>
+
+        <div id="wrapper">
+            <div id="layout-static">
+                <div class="static-sidebar-wrapper sidebar-default">
+                    <div class="static-sidebar">
+                        <div class="sidebar">
+	<div class="widget">
+        <div class="widget-body">
+            <div class="userinfo">
+                <div class="avatar">
+                    <img src="http://placehold.it/300&text=Placeholder" class="img-responsive img-circle"> 
+                </div>
+                <div class="info">
+                    <span class="username">Jonathan Smith</span>
+                    <span class="useremail">jon@avenxo.com</span>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="widget stay-on-collapse" id="widget-sidebar">
+        <nav role="navigation" class="widget-body">
+	<ul class="acc-menu">
+		<li class="nav-separator"><span>Explore</span></li>
+		<li><a href="index.html"><i class="ti ti-home"></i><span>Dashboard</span><span class="badge badge-teal">2</span></a></li>
+		<li><a href="angular/app/"><i class="ti ti-shield"></i><span>AngularJS</span></span></a></li>
+		<li><a href="javascript:;"><i class="ti ti-layout"></i><span>Layout</span></a>
+			<ul class="acc-menu">
+				<li><a href="layout-grids.html">Grid Scaffolding</a></li>
+				<li><a href="layout-static-leftbar.html">Static Sidebar</a></li>
+				<li><a href="layout-sidebar-scroll.html">Scroll Sidebar</a></li>
+				<li><a href="layout-horizontal.html">Horizontal Nav</a></li>
+				<li><a href="layout-boxed.html">Boxed</a></li>	
+			</ul>
+		</li>
+		<li><a href="javascript:;"><i class="ti ti-view-list-alt"></i><span>UI Kit</span></a>
+			<ul class="acc-menu">
+				<li><a href="ui-typography.html">Typography</a></li>
+				<li><a href="ui-buttons.html">Buttons</a></li>
+				<li><a href="ui-modals.html">Modal</a></li>
+                <li><a href="ui-progress.html">Progress</a></li>
+				<li><a href="ui-paginations.html">Paginations</a></li>
+				<li><a href="ui-breadcrumbs.html">Breadcrumbs</a></li>
+				<li><a href="ui-labelsbadges.html">Labels &amp; Badges</a></li>
+                <li><a href="ui-alerts.html">Alerts</a></li>
+                <li><a href="ui-tabs.html">Tabs</a></li>
+                <li><a href="ui-wells.html">Wells</a></li>
+                <li><a href="ui-icons-fontawesome.html">FontAwesome Icons</a></li>
+                <li><a href="ui-icons-themify.html">Themify Icons</a></li>
+				<li><a href="ui-helpers.html">Helpers</a></li>
+        		<li><a href="ui-imagecarousel.html">Images &amp; Carousel</a></li>
+			</ul>
+		</li>
+        <li><a href="javascript:;"><i class="ti ti-control-shuffle"></i><span>Components</span></a>
+        	<ul class="acc-menu">
+        		<li><a href="ui-tiles.html">Tiles</a></li>
+        		<li><a href="custom-skylo.html">Page Progress</a></li>
+        		<li><a href="custom-bootbox.html">Bootbox</a></li>
+        		<li><a href="custom-pines.html">Pines Notification</a></li>
+        		<li><a href="custom-pulsate.html">Pulsate</a></li>
+				<li><a href="custom-knob.html">jQuery Knob</a></li>
+				<li><a href="custom-ionrange.html">Ion Range Slider</a></li>
+        	</ul>
+        </li>
+		<li><a href="javascript:;"><i class="ti ti-pencil"></i><span>Forms</span></a>
+			<ul class="acc-menu">
+				<li><a href="ui-forms.html">Form Layout</a></li>
+				<li><a href="form-components.html">Form Components</a></li>
+				<li><a href="form-pickers.html">Pickers</a></li>
+				<li><a href="form-wizard.html">Form Wizard</a></li>
+				<li><a href="form-validation.html">Form Validation</a></li>
+				<li><a href="form-masks.html">Form Masks</a></li>
+				<li><a href="form-dropzone.html">Dropzone Uploader</a></li>
+				<li><a href="form-summernote.html">Summernote</a></li>
+				<li><a href="form-markdown.html">Markdown Editor</a></li>
+				<li><a href="form-xeditable.html">Inline Editor</a></li>
+				<li><a href="form-gridforms.html">Grid Forms</a></li>
+			</ul>
+		</li>
+		<li>
+			<a href="javascript:;"><i class="ti ti-settings"></i><span>Panels</span></a>
+			<ul class="acc-menu">
+				<li><a href="ui-panels.html">Panels</a></li>
+				<li><a href="ui-advancedpanels.html">Draggable Panels</a></li>
+			</ul>
+		<li><a href="javascript:;"><i class="ti ti-layout-grid3"></i><span>Tables</span></a>
+			<ul class="acc-menu">
+				<li><a href="ui-tables.html">Basic Tables</a></li>
+				<li><a href="tables-responsive.html">Responsive Tables</a></li>
+				<li><a href="tables-editable.html">Editable Tables</a></li>
+				<li><a href="tables-data.html">Data Tables</a></li>
+				<li><a href="tables-fixedheader.html">Fixed Header Tables</a></li>
+			</ul>
+		</li>
+		<li><a href="javascript:;"><i class="ti ti-stats-up"></i><span>Analytics</span></a>
+			<ul class="acc-menu">
+				<li><a href="charts-flot.html">Flot</a></li>
+				<li><a href="charts-sparklines.html">Sparklines</a></li>
+				<li><a href="charts-morris.html">Morris.js</a></li>
+				<li><a href="charts-easypiechart.html">Easy Pie Chart</a></li>
+			</ul>
+		</li>
+		<li><a href="javascript:;"><i class="ti ti-map-alt"></i><span>Maps</span></a>
+			<ul class="acc-menu">
+				<li><a href="maps-google.html">Google Maps</a></li>
+				<li><a href="maps-jvectormap.html">jVectorMap</a></li>
+				<li><a href="maps-mapael.html">Mapael</a></li>
+			</ul>
+		</li>
+		<li><a href="javascript:;"><i class="ti ti-file"></i><span>Pages</span></a>
+			<ul class="acc-menu">
+				<li><a href="extras-profile.html">Profile</a></li>
+				<li><a href="extras-invoice.html">Invoice</a></li>
+				<li><a href="javascript:;">Email Templates</a>
+					<ul class="acc-menu">
+						<li><a href="responsive-email/basic.html">Basic</a></li>
+						<li><a href="responsive-email/hero.html">Hero</a></li>
+						<li><a href="responsive-email/sidebar.html">Sidebar</a></li>
+						<li><a href="responsive-email/sidebar-hero.html">Sidebar Hero</a></li>
+					</ul>
+				</li>
+				<li><a href="coming-soon.html">Coming Soon</a></li>
+				<li><a href="extras-faq.html">FAQ</a></li>
+				<li><a href="extras-registration.html">Registration</a></li>
+				<li><a href="extras-forgotpassword.html">Password Reset</a></li>
+				<li><a href="extras-login.html">Login</a></li>
+				<li><a href="extras-404.html">404 Page</a></li>
+				<li><a href="extras-500.html">500 Page</a></li>
+			</ul>
+		</li>
+
+		<li class="nav-separator"><span>Extras</span></li>
+		<li><a href="app-inbox.html"><i class="ti ti-email"></i><span>Inbox</span><span class="badge badge-danger">3</span></a></li>
+		<li><a href="extras-calendar.html"><i class="ti ti-calendar	"></i><span>Calendar</span><span class="badge badge-orange">1</span></a></li>
+	</ul>
+</nav>
+    </div>
+
+    <div class="widget" id="widget-progress">
+        <div class="widget-heading">
+            Progress
+        </div>
+        <div class="widget-body">
+
+            <div class="mini-progressbar">
+                <div class="clearfix mb-sm">
+                    <div class="pull-left">Bandwidth</div>
+                    <div class="pull-right">50%</div>
+                </div>
+                
+                <div class="progress">    
+                    <div class="progress-bar progress-bar-lime" style="width: 50%"></div>
+                </div>
+            </div>
+            <div class="mini-progressbar">
+                <div class="clearfix mb-sm">
+                    <div class="pull-left">Storage</div>
+                    <div class="pull-right">25%</div>
+                </div>
+                
+                <div class="progress">    
+                    <div class="progress-bar progress-bar-info" style="width: 25%"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+                    </div>
+                </div>
+                <div class="static-content-wrapper">
+                    <div class="static-content">
+                        <div class="page-content">
+                            <ol class="breadcrumb">
+                                
+<li><a href="index.html">Home</a></li>
+<li class="active"><a href="profile.html">Profile</a></li>
+
+                            </ol>
+                            <div class="container-fluid">
+                                 
+<div data-widget-group="group1">
+	<div class="row">
+		<div class="col-sm-3">
+			<div class="panel panel-profile">
+			  <div class="panel-body">
+			    <img src="http://placehold.it/300&text=Placeholder" class="img-circle">
+			    <div class="name">Robin Horton</div>
+			    <div class="info">Graphic Designer</div>
+			    <ul class="list-inline text-center">
+			    	<li><a href="#" class="profile-facebook-icon"><i class="ti ti-facebook"></i></a></li>
+			    	<li><a href="#" class="profile-twitter-icon"><i class="ti ti-twitter"></i></a></li>
+			    	<li><a href="#" class="profile-dribbble-icon"><i class="ti ti-dribbble"></i></a></li>
+			    </ul>
+			  </div>
+			</div><!-- panel -->
+			<div class="list-group list-group-alternate mb-n nav nav-tabs">
+				<a href="#tab-about" 	role="tab" data-toggle="tab" class="list-group-item active"><i class="ti ti-user"></i> About <span class="badge badge-primary">80%</span></a>
+				<a href="#tab-timeline" role="tab" data-toggle="tab" class="list-group-item"><i class="ti ti-time"></i> Timeline</a>
+				<a href="#tab-projects" role="tab" data-toggle="tab" class="list-group-item"><i class="ti ti-view-list-alt"></i> Projects</a>
+				<a href="#tab-photos" 	role="tab" data-toggle="tab" class="list-group-item"><i class="ti ti-view-grid"></i> Photos</a>
+				<a href="#tab-edit" 	role="tab" data-toggle="tab" class="list-group-item"><i class="ti ti-pencil"></i> Edit</a>
+			</div>
+		</div><!-- col-sm-3 -->
+		<div class="col-sm-9">
+			<div class="tab-content">
+				<div class="tab-pane" id="tab-projects">
+					<div class="panel panel-default">
+						<div class="panel-heading">
+							<h2>Projects</h2>
+						</div>
+						<div class="panel-body">
+							<div class="table-responsive">
+								<table class="table m-n">
+									<thead>
+										  <tr>
+										    <th>#</th>
+										    <th>Project Title</th>
+										    <th>Description</th>
+										    <th>Progress</th>
+										  </tr>
+									</thead>
+									<tbody>
+										  <tr>
+										    <th scope="row">1.</th>
+										    <td><strong>Avenxo</strong></td>
+										    <td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit</td>
+										    <td class="vam">
+												<div class="progress m-n">
+				                                  <div class="progress-bar progress-bar-success" style="width: 20%"></div>
+				                                </div>
+				                            </td>
+										  </tr>
+										  <tr>
+										    <th scope="row">2.</th>
+										    <td><strong>Phoenix</strong></td>
+										    <td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit</td>
+										    <td class="vam">
+												<div class="progress m-n">
+				                                  <div class="progress-bar progress-bar-success" style="width: 50%"></div>
+				                                </div>
+				                            </td>
+										  </tr>
+										  <tr>
+										    <th scope="row">3.</th>
+										    <td><strong>Arvin</strong></td>
+										    <td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit</td>
+										    <td class="vam">
+												<div class="progress m-n">
+				                                  <div class="progress-bar progress-bar-success" style="width: 10%"></div>
+				                                </div>
+				                            </td>
+										  </tr>
+										  <tr>
+										    <th scope="row">4.</th>
+										    <td><strong>Flip3</strong></td>
+										    <td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit</td>
+										    <td class="vam">
+												<div class="progress m-n">
+				                                  <div class="progress-bar progress-bar-success" style="width: 75%"></div>
+				                                </div>
+				                            </td>
+										  </tr>
+										  <tr>
+										    <th scope="row">5.</th>
+										    <td><strong>Appboom</strong></td>
+										    <td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit</td>
+										    <td class="vam">
+												<div class="progress m-n">
+				                                  <div class="progress-bar progress-bar-success" style="width: 25%"></div>
+				                                </div>
+				                            </td>
+										  </tr>
+										  <tr>
+										    <th scope="row">6.</th>
+										    <td><strong>Xavant</strong></td>
+										    <td>Lorem ipsum dolor sit amet, consectetuer adipiscing elit</td>
+										    <td class="vam">
+												<div class="progress m-n">
+				                                  <div class="progress-bar progress-bar-success" style="width: 15%"></div>
+				                                </div>
+				                            </td>
+										  </tr>
+									</tbody>
+								</table>
+							</div><!-- /.table-responsive -->
+						</div> <!-- /.panel-body -->
+					</div>
+				</div> <!-- #tab-projects -->
+
+				<div class="tab-pane active" id="tab-about">
+					<div class="panel panel-default">
+					    <div class="panel-heading">
+					    	<h2>About</h2>
+					    </div>
+						<div class="panel-body">
+					      	<div class="about-area">
+						      	<h4>Bio</h4>
+						      	<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p> 
+						      	<p>Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p>
+							</div>
+							<div class="about-area">
+						      	<h4>Basic Information</h4>
+								    <div class="table-responsive">
+								      <table class="table">
+								        <tbody>
+								          <tr>
+								            <th>Web</th>
+								            <td><a href="#">www.johndoe.com</a></td>
+								          </tr>
+								          <tr>
+								            <th>Email</th>
+								            <td><a href="#">doe@lime.com</a></td>
+								          </tr>
+								          <tr>
+								            <th>Phone</th>
+								            <td>+61 3 8376 6284</td>
+								          </tr>
+								          <tr>
+								            <th>Position</th>
+								            <td>Designer</td>
+								          </tr>
+								          <tr>
+								            <th>Status</th>
+								            <td>Member</td>
+								          </tr>
+								          <tr>
+								            <th>Social</th>
+								            <td>
+								            	<ul class="list-inline m-n">
+								            		<li><a href="#"><i class="ti ti-pinterest"></i></a></li>
+								            		<li><a href="#"><i class="ti ti-twitter"></i></a></li>
+								            		<li><a href="#"><i class="ti ti-google"></i></a></li>
+								            		<li><a href="#"><i class="ti ti-linkedin"></i></a></li>
+								            		<li><a href="#"><i class="ti ti-dribbble"></i></a></li>
+								            		<li><a href="#"><i class="ti ti-facebook"></i></a></li>
+								            	</ul>
+								            </td>
+								          </tr>
+								        </tbody>
+								      </table>
+								    </div>
+							</div>
+							<div class="about-area">
+						      	<h4>Personal Information</h4>
+								    <div class="table-responsive">
+								      <table class="table about-table">
+								        <tbody>
+								          <tr>
+								            <th>Full Name</th>
+								            <td>Jonathan Davison Smith</td>
+								          </tr>
+								          <tr>
+								            <th>Birth Date</th>
+								            <td>1 January</td>
+								          </tr>
+								          <tr>
+								            <th>Birth Year</th>
+								            <td>1980</td>
+								          </tr>
+								          <tr>
+								            <th>Gender</th>
+								            <td>Male</td>
+								          </tr>
+								          <tr>
+								            <th>Languages</th>
+								            <td>English</td>
+								          </tr>
+								          <tr>
+								            <th>City</th>
+								            <td>Canbera</td>
+								          </tr>
+								          <tr>
+								            <th>Country</th>
+								            <td>Australia</td>
+								          </tr>
+								        </tbody>
+								      </table>
+								    </div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="tab-pane" id="tab-timeline">
+					<div class="panel">
+						<div class="panel-heading">
+							<h2>Timeline</h2>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-md-12">
+									<ul class="timeline">
+										<li class="timeline-primary">
+											<div class="timeline-icon"><i class="ti ti-pencil"></i></div>
+											<div class="timeline-body">
+												<div class="timeline-header">
+													<span class="author">Posted by <a href="#">David Tennant</a></span>
+													<span class="date">Monday, November 21, 2013</span>
+												</div>
+												<div class="timeline-content">
+													<h4>Consectetur Adipisicing Elit</h4>
+													<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia, officiis, molestiae, deserunt asperiores architecto ut vel repudiandae dolore inventore nesciunt necessitatibus doloribus ratione facere consectetur suscipit!</p>
+												</div>
+											</div>
+										</li>
+										<li class="timeline-info">
+											<div class="timeline-icon"><i class="ti ti-heart"></i></div>
+											<div class="timeline-body">
+												<div class="timeline-header">
+													<span class="author">Posted by <a href="#">David Tennant</a></span>
+													<span class="date">Monday, November 21, 2013</span>
+												</div>
+												<div class="timeline-content">
+													<h4>Consectetur Adipisicing Elit</h4>
+													<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia, officiis, molestiae, deserunt asperiores architecto ut vel repudiandae dolore inventore nesciunt necessitatibus doloribus ratione facere consectetur suscipit!</p>
+												</div>
+											</div>
+										</li>
+										<li class="timeline-warning">
+											<div class="timeline-icon"><i class="ti ti-camera"></i></div>
+											<div class="timeline-body">
+												<div class="timeline-header">
+													<span class="author">Posted by <a href="#">David Tennant</a></span>
+													<span class="date">Monday, November 21, 2013</span>
+												</div>
+												<div class="timeline-content">
+													<h4>Consectetur Adipisicing Elit</h4>
+													<ul class="list-inline">
+														<li><img src="http://placehold.it/300&text=Placeholder" alt="" class="pull-left img-thumbnail img-responsive clearfix" width="200"></li>
+														<li><img src="http://placehold.it/300&text=Placeholder" alt="" class="pull-left img-thumbnail img-responsive clearfix" width="200"></li>
+													</ul>
+												</div>
+											</div>
+										</li>
+										<li class="timeline-danger">
+											<div class="timeline-icon"><i class="ti ti-home"></i></div>
+											<div class="timeline-body">
+												<div class="timeline-header">
+													<span class="author">Posted by <a href="#">David Tennant</a></span>
+													<span class="date">Monday, November 21, 2013</span>
+												</div>
+												<div class="timeline-content">
+													<h4>Consectetur Adipisicing Elit</h4>
+													<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia, officiis, molestiae, deserunt asperiores architecto ut vel repudiandae dolore inventore nesciunt necessitatibus doloribus ratione facere consectetur suscipit!</p>
+												</div>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="tab-pane" id="tab-photos">
+					<div class="panel">
+						<div class="panel-heading">
+							<h2>Photos</h2>
+						</div>
+						<div class="panel-body profile-photos">
+							<div class="row">
+								<div class="col-md-3">
+									<img src="http://placehold.it/300&text=Placeholder" alt="" class="img-thumbnail img-responsive mb-xl">
+								</div>
+								<div class="col-md-3">
+									<img src="http://placehold.it/300&text=Placeholder" alt="" class="img-thumbnail img-responsive mb-xl">
+								</div>
+								<div class="col-md-3">
+									<img src="http://placehold.it/300&text=Placeholder" alt="" class="img-thumbnail img-responsive mb-xl">
+								</div>
+								<div class="col-md-3">
+									<img src="http://placehold.it/300&text=Placeholder" alt="" class="img-thumbnail img-responsive mb-xl">
+								</div>
+							</div>
+							<div class="row">
+								<div class="col-md-3">
+									<img src="http://placehold.it/300&text=Placeholder" alt="" class="img-thumbnail img-responsive mb-xl">
+								</div>
+								<div class="col-md-3">
+									<img src="http://placehold.it/300&text=Placeholder" alt="" class="img-thumbnail img-responsive mb-xl">
+								</div>
+								<div class="col-md-3">
+									<img src="http://placehold.it/300&text=Placeholder" alt="" class="img-thumbnail img-responsive mb-xl">
+								</div>
+								<div class="col-md-3">
+									<img src="http://placehold.it/300&text=Placeholder" alt="" class="img-thumbnail img-responsive mb-xl">
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="tab-pane" id="tab-edit">
+					<div class="panel">
+						<div class="panel-heading">
+							<h2>Edit</h2>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-md-12">
+									<form class="form-horizontal tabular-form">
+										<div class="form-group">
+											<label for="form-name" class="col-sm-2 control-label">Name</label>
+											<div class="col-sm-8 tabular-border">
+												<input type="text" class="form-control" id="form-name" placeholder="Full Name">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="form-website" class="col-sm-2 control-label">Website</label>
+											<div class="col-sm-8 tabular-border">
+												<input type="text" class="form-control" id="form-website" placeholder="http://">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="radio" class="col-sm-2 control-label">Gender</label>
+											<div class="col-sm-8 tabular-border">
+												<div class="radio block icheck"><label><input type="radio" name="gender"> Male</label></div>
+												<div class="radio block icheck"><label><input type="radio" name="gender"> Female</label></div>
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="form-password" class="col-sm-2 control-label">Password</label>
+											<div class="col-sm-8 tabular-border">
+												<input type="password" class="form-control" id="form-password" placeholder="Password">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="form-confirmpass" class="col-sm-2 control-label">Confrim Password</label>
+											<div class="col-sm-8 tabular-border">
+												<input type="password" class="form-control" id="form-confirmpass" placeholder="Password">
+											</div>
+										</div>
+										<div class="form-group">
+											<label for="selector1" class="col-sm-2 control-label">Country</label>
+											<div class="col-sm-8 tabular-border"><select name="selector1" id="selector1" class="form-control">
+												<option value="Afghanistan">Afghanistan</option>
+												<option value="Åland_Islands">Åland Islands</option>
+												<option value="Albania">Albania</option>
+												<option value="Algeria">Algeria</option>
+												<option value="American_Samoa">American Samoa</option>
+												<option value="Andorra">Andorra</option>
+												<option value="Angola">Angola</option>
+												<option value="Anguilla">Anguilla</option>
+												<option value="Antarctica">Antarctica</option>
+												<option value="Antigua_And_Barbuda">Antigua and Barbuda</option>
+												<option value="Argentina">Argentina</option>
+												<option value="Armenia">Armenia</option>
+												<option value="Aruba">Aruba</option>
+												<option value="Australia">Australia</option>
+												<option value="Austria">Austria</option>
+												<option value="Azerbaijan">Azerbaijan</option>
+												<option value="Bahamas">Bahamas</option>
+												<option value="Bahrain">Bahrain</option>
+												<option value="Bangladesh">Bangladesh</option>
+												<option value="Barbados">Barbados</option>
+												<option value="Belarus">Belarus</option>
+												<option value="Belgium">Belgium</option>
+												<option value="Belize">Belize</option>
+												<option value="Benin">Benin</option>
+												<option value="Bermuda">Bermuda</option>
+												<option value="Bhutan">Bhutan</option>
+												<option value="Bolivia">Bolivia</option>
+												<option value="Bosnia_And_Herzegovina">Bosnia and Herzegovina</option>
+												<option value="Botswana">Botswana</option>
+												<option value="Bouvet_Island">Bouvet Island</option>
+												<option value="Brazil">Brazil</option>
+												<option value="British_Indian_Ocean_Territory">British Indian Ocean Territory</option>
+												<option value="Brunei_Darussalam">Brunei Darussalam</option>
+												<option value="Bulgaria">Bulgaria</option>
+												<option value="Burkina_Faso">Burkina Faso</option>
+												<option value="Burundi">Burundi</option>
+												<option value="Cambodia">Cambodia</option>
+												<option value="Cameroon">Cameroon</option>
+												<option value="Canada">Canada</option>
+												<option value="Cape_Verde">Cape Verde</option>
+												<option value="Cayman_Islands">Cayman Islands</option>
+												<option value="Central_African_Republic">Central African Republic</option>
+												<option value="Chad">Chad</option>
+												<option value="Chile">Chile</option>
+												<option value="China">China</option>
+												<option value="Christmas_Island">Christmas Island</option>
+												<option value="Cocos_(Keeling)_Islands">Cocos (Keeling) Islands</option>
+												<option value="Colombia">Colombia</option>
+												<option value="Comoros">Comoros</option>
+												<option value="Congo">Congo</option>
+												<option value="Congo,_The_Democratic_Republic_Of_The">Congo, The Democratic Republic of The</option>
+												<option value="Cook_Islands">Cook Islands</option>
+												<option value="Costa_Rica">Costa Rica</option>
+												<option value="Cote_D'ivoire">Cote D'ivoire</option>
+												<option value="Croatia">Croatia</option>
+												<option value="Cuba">Cuba</option>
+												<option value="Cyprus">Cyprus</option>
+												<option value="Czech_Republic">Czech Republic</option>
+												<option value="Denmark">Denmark</option>
+												<option value="Djibouti">Djibouti</option>
+												<option value="Dominica">Dominica</option>
+												<option value="Dominican_Republic">Dominican Republic</option>
+												<option value="Ecuador">Ecuador</option>
+												<option value="Egypt">Egypt</option>
+												<option value="El_Salvador">El Salvador</option>
+												<option value="Equatorial_Guinea">Equatorial Guinea</option>
+												<option value="Eritrea">Eritrea</option>
+												<option value="Estonia">Estonia</option>
+												<option value="Ethiopia">Ethiopia</option>
+												<option value="Falkland_Islands_(Malvinas)">Falkland Islands (Malvinas)</option>
+												<option value="Faroe_Islands">Faroe Islands</option>
+												<option value="Fiji">Fiji</option>
+												<option value="Finland">Finland</option>
+												<option value="France">France</option>
+												<option value="French_Guiana">French Guiana</option>
+												<option value="French_Polynesia">French Polynesia</option>
+												<option value="French_Southern_Territories">French Southern Territories</option>
+												<option value="Gabon">Gabon</option>
+												<option value="Gambia">Gambia</option>
+												<option value="Georgia">Georgia</option>
+												<option value="Germany">Germany</option>
+												<option value="Ghana">Ghana</option>
+												<option value="Gibraltar">Gibraltar</option>
+												<option value="Greece">Greece</option>
+												<option value="Greenland">Greenland</option>
+												<option value="Grenada">Grenada</option>
+												<option value="Guadeloupe">Guadeloupe</option>
+												<option value="Guam">Guam</option>
+												<option value="Guatemala">Guatemala</option>
+												<option value="Guernsey">Guernsey</option>
+												<option value="Guinea">Guinea</option>
+												<option value="Guinea-bissau">Guinea-bissau</option>
+												<option value="Guyana">Guyana</option>
+												<option value="Haiti">Haiti</option>
+												<option value="Heard_Island_And_Mcdonald_Islands">Heard Island and Mcdonald Islands</option>
+												<option value="Holy_See_(Vatican_City_State)">Holy See (Vatican City State)</option>
+												<option value="Honduras">Honduras</option>
+												<option value="Hong_Kong">Hong Kong</option>
+												<option value="Hungary">Hungary</option>
+												<option value="Iceland">Iceland</option>
+												<option value="India">India</option>
+												<option value="Indonesia">Indonesia</option>
+												<option value="Iran,_Islamic_Republic_Of">Iran, Islamic Republic of</option>
+												<option value="Iraq">Iraq</option>
+												<option value="Ireland">Ireland</option>
+												<option value="Isle_Of_Man">Isle of Man</option>
+												<option value="Israel">Israel</option>
+												<option value="Italy">Italy</option>
+												<option value="Jamaica">Jamaica</option>
+												<option value="Japan">Japan</option>
+												<option value="Jersey">Jersey</option>
+												<option value="Jordan">Jordan</option>
+												<option value="Kazakhstan">Kazakhstan</option>
+												<option value="Kenya">Kenya</option>
+												<option value="Kiribati">Kiribati</option>
+												<option value="Korea,_Democratic_People's_Republic_Of">Korea, Democratic People's Republic of</option>
+												<option value="Korea,_Republic_Of">Korea, Republic of</option>
+												<option value="Kuwait">Kuwait</option>
+												<option value="Kyrgyzstan">Kyrgyzstan</option>
+												<option value="Lao_People's_Democratic_Republic">Lao People's Democratic Republic</option>
+												<option value="Latvia">Latvia</option>
+												<option value="Lebanon">Lebanon</option>
+												<option value="Lesotho">Lesotho</option>
+												<option value="Liberia">Liberia</option>
+												<option value="Libyan_Arab_Jamahiriya">Libyan Arab Jamahiriya</option>
+												<option value="Liechtenstein">Liechtenstein</option>
+												<option value="Lithuania">Lithuania</option>
+												<option value="Luxembourg">Luxembourg</option>
+												<option value="Macao">Macao</option>
+												<option value="Macedonia,_The_Former_Yugoslav_Republic_Of">Macedonia, The Former Yugoslav Republic of</option>
+												<option value="Madagascar">Madagascar</option>
+												<option value="Malawi">Malawi</option>
+												<option value="Malaysia">Malaysia</option>
+												<option value="Maldives">Maldives</option>
+												<option value="Mali">Mali</option>
+												<option value="Malta">Malta</option>
+												<option value="Marshall_Islands">Marshall Islands</option>
+												<option value="Martinique">Martinique</option>
+												<option value="Mauritania">Mauritania</option>
+												<option value="Mauritius">Mauritius</option>
+												<option value="Mayotte">Mayotte</option>
+												<option value="Mexico">Mexico</option>
+												<option value="Micronesia,_Federated_States_Of">Micronesia, Federated States of</option>
+												<option value="Moldova,_Republic_Of">Moldova, Republic of</option>
+												<option value="Monaco">Monaco</option>
+												<option value="Mongolia">Mongolia</option>
+												<option value="Montenegro">Montenegro</option>
+												<option value="Montserrat">Montserrat</option>
+												<option value="Morocco">Morocco</option>
+												<option value="Mozambique">Mozambique</option>
+												<option value="Myanmar">Myanmar</option>
+												<option value="Namibia">Namibia</option>
+												<option value="Nauru">Nauru</option>
+												<option value="Nepal">Nepal</option>
+												<option value="Netherlands">Netherlands</option>
+												<option value="Netherlands_Antilles">Netherlands Antilles</option>
+												<option value="New_Caledonia">New Caledonia</option>
+												<option value="New_Zealand">New Zealand</option>
+												<option value="Nicaragua">Nicaragua</option>
+												<option value="Niger">Niger</option>
+												<option value="Nigeria">Nigeria</option>
+												<option value="Niue">Niue</option>
+												<option value="Norfolk_Island">Norfolk Island</option>
+												<option value="Northern_Mariana_Islands">Northern Mariana Islands</option>
+												<option value="Norway">Norway</option>
+												<option value="Oman">Oman</option>
+												<option value="Pakistan">Pakistan</option>
+												<option value="Palau">Palau</option>
+												<option value="Palestinian_Territory,_Occupied">Palestinian Territory, Occupied</option>
+												<option value="Panama">Panama</option>
+												<option value="Papua_New_Guinea">Papua New Guinea</option>
+												<option value="Paraguay">Paraguay</option>
+												<option value="Peru">Peru</option>
+												<option value="Philippines">Philippines</option>
+												<option value="Pitcairn">Pitcairn</option>
+												<option value="Poland">Poland</option>
+												<option value="Portugal">Portugal</option>
+												<option value="Puerto_Rico">Puerto Rico</option>
+												<option value="Qatar">Qatar</option>
+												<option value="Reunion">Reunion</option>
+												<option value="Romania">Romania</option>
+												<option value="Russian_Federation">Russian Federation</option>
+												<option value="Rwanda">Rwanda</option>
+												<option value="Saint_Helena">Saint Helena</option>
+												<option value="Saint_Kitts_And_Nevis">Saint Kitts and Nevis</option>
+												<option value="Saint_Lucia">Saint Lucia</option>
+												<option value="Saint_Pierre_And_Miquelon">Saint Pierre and Miquelon</option>
+												<option value="Saint_Vincent_And_The_Grenadines">Saint Vincent and The Grenadines</option>
+												<option value="Samoa">Samoa</option>
+												<option value="San_Marino">San Marino</option>
+												<option value="Sao_Tome_And_Principe">Sao Tome and Principe</option>
+												<option value="Saudi_Arabia">Saudi Arabia</option>
+												<option value="Senegal">Senegal</option>
+												<option value="Serbia">Serbia</option>
+												<option value="Seychelles">Seychelles</option>
+												<option value="Sierra_Leone">Sierra Leone</option>
+												<option value="Singapore">Singapore</option>
+												<option value="Slovakia">Slovakia</option>
+												<option value="Slovenia">Slovenia</option>
+												<option value="Solomon_Islands">Solomon Islands</option>
+												<option value="Somalia">Somalia</option>
+												<option value="South_Africa">South Africa</option>
+												<option value="South_Georgia_And_The_South_Sandwich_Islands">South Georgia and The South Sandwich Islands</option>
+												<option value="Spain">Spain</option>
+												<option value="Sri_Lanka">Sri Lanka</option>
+												<option value="Sudan">Sudan</option>
+												<option value="Suriname">Suriname</option>
+												<option value="Svalbard_And_Jan_Mayen">Svalbard and Jan Mayen</option>
+												<option value="Swaziland">Swaziland</option>
+												<option value="Sweden">Sweden</option>
+												<option value="Switzerland">Switzerland</option>
+												<option value="Syrian_Arab_Republic">Syrian Arab Republic</option>
+												<option value="Taiwan,_Province_Of_China">Taiwan, Province of China</option>
+												<option value="Tajikistan">Tajikistan</option>
+												<option value="Tanzania,_United_Republic_Of">Tanzania, United Republic of</option>
+												<option value="Thailand">Thailand</option>
+												<option value="Timor-leste">Timor-leste</option>
+												<option value="Togo">Togo</option>
+												<option value="Tokelau">Tokelau</option>
+												<option value="Tonga">Tonga</option>
+												<option value="Trinidad_And_Tobago">Trinidad and Tobago</option>
+												<option value="Tunisia">Tunisia</option>
+												<option value="Turkey">Turkey</option>
+												<option value="Turkmenistan">Turkmenistan</option>
+												<option value="Turks_And_Caicos_Islands">Turks and Caicos Islands</option>
+												<option value="Tuvalu">Tuvalu</option>
+												<option value="Uganda">Uganda</option>
+												<option value="Ukraine">Ukraine</option>
+												<option value="United_Arab_Emirates">United Arab Emirates</option>
+												<option value="United_Kingdom">United Kingdom</option>
+
+												<option value="United_States" selected="selected">United States</option>
+												<option value="United_States_Minor_Outlying_Islands">United States Minor Outlying Islands</option>
+												<option value="Uruguay">Uruguay</option>
+												<option value="Uzbekistan">Uzbekistan</option>
+												<option value="Vanuatu">Vanuatu</option>
+												<option value="Venezuela">Venezuela</option>
+												<option value="Viet_Nam">Viet Nam</option>
+												<option value="Virgin_Islands,_British">Virgin Islands, British</option>
+												<option value="Virgin_Islands,_U.S.">Virgin Islands, U.S.</option>
+												<option value="Wallis_And_Futuna">Wallis and Futuna</option>
+												<option value="Western_Sahara">Western Sahara</option>
+												<option value="Yemen">Yemen</option>
+												<option value="Zambia">Zambia</option>
+												<option value="Zimbabwe">Zimbabwe</option>
+											</select></div>
+										</div>
+										
+										<div class="form-group">
+											<label class="col-sm-2 control-label">Bio</label>
+											<div class="col-sm-8">
+												<textarea class="form-control fullscreen"></textarea>
+											</div>
+										</div>
+										
+									</form>	
+								</div>
+							</div>
+						</div>
+						<div class="panel-footer">
+							<div class="row">
+								<div class="col-sm-8 col-sm-offset-2">
+									<button class="btn-primary btn">Save</button>
+									<button class="btn-default btn">Reset</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div><!-- .tab-content -->
+		</div><!-- col-sm-8 -->
+	</div>
+</div>
+
+                            </div> <!-- .container-fluid -->
+                        </div> <!-- #page-content -->
+                    </div>
+                    <footer role="contentinfo">
+    <div class="clearfix">
+        <ul class="list-unstyled list-inline pull-left">
+            <li><h6 style="margin: 0;">&copy; 2015 Avenxo</h6></li>
+        </ul>
+        <button class="pull-right btn btn-link btn-xs hidden-print" id="back-to-top"><i class="ti ti-arrow-up"></i></button>
+    </div>
+</footer>
+
+                </div>
+            </div>
+        </div>
+
+    
+    <!-- Switcher -->
+    <div class="demo-options">
+        <div class="demo-options-icon"><i class="ti ti-paint-bucket"></i></div>
+        <div class="demo-heading">Demo Settings</div>
+
+        <div class="demo-body">
+            <div class="tabular">
+                <div class="tabular-row">
+                    <div class="tabular-cell">Fixed Header</div>
+                    <div class="tabular-cell demo-switches"><input class="bootstrap-switch" type="checkbox" checked data-size="mini" data-on-color="success" data-off-color="default" name="demo-fixedheader" data-on-text="&nbsp;" data-off-text="&nbsp;"></div>
+                </div>
+                <div class="tabular-row">
+                    <div class="tabular-cell">Boxed Layout</div>
+                    <div class="tabular-cell demo-switches"><input class="bootstrap-switch" type="checkbox" data-size="mini" data-on-color="success" data-off-color="default" name="demo-boxedlayout" data-on-text="&nbsp;" data-off-text="&nbsp;"></div>
+                </div>
+                <div class="tabular-row">
+                    <div class="tabular-cell">Collapse Leftbar</div>
+                    <div class="tabular-cell demo-switches"><input class="bootstrap-switch" type="checkbox" data-size="mini" data-on-color="success" data-off-color="default" name="demo-collapseleftbar" data-on-text="&nbsp;" data-off-text="&nbsp;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-body">
+            <div class="option-title">Topnav</div>
+            <ul id="demo-header-color" class="demo-color-list">
+                <li><span class="demo-cyan"></span></li>
+                <li><span class="demo-light-blue"></span></li>
+                <li><span class="demo-blue"></span></li>
+                <li><span class="demo-indigo"></span></li>
+                <li><span class="demo-deep-purple"></span></li> 
+                <li><span class="demo-purple"></span></li> 
+                <li><span class="demo-pink"></span></li> 
+                <li><span class="demo-red"></span></li>
+                <li><span class="demo-teal"></span></li>
+                <li><span class="demo-green"></span></li>
+                <li><span class="demo-light-green"></span></li>
+                <li><span class="demo-lime"></span></li>
+                <li><span class="demo-yellow"></span></li>
+                <li><span class="demo-amber"></span></li>
+                <li><span class="demo-orange"></span></li>               
+                <li><span class="demo-deep-orange"></span></li>
+                <li><span class="demo-midnightblue"></span></li>
+                <li><span class="demo-bluegray"></span></li>
+                <li><span class="demo-bluegraylight"></span></li>
+                <li><span class="demo-black"></span></li> 
+                <li><span class="demo-gray"></span></li> 
+                <li><span class="demo-graylight"></span></li> 
+                <li><span class="demo-default"></span></li>
+                <li><span class="demo-brown"></span></li>
+            </ul>
+        </div>
+
+        <div class="demo-body">
+            <div class="option-title">Sidebar</div>
+            <ul id="demo-sidebar-color" class="demo-color-list">
+                <li><span class="demo-cyan"></span></li>
+                <li><span class="demo-light-blue"></span></li>
+                <li><span class="demo-blue"></span></li>
+                <li><span class="demo-indigo"></span></li>
+                <li><span class="demo-deep-purple"></span></li> 
+                <li><span class="demo-purple"></span></li> 
+                <li><span class="demo-pink"></span></li> 
+                <li><span class="demo-red"></span></li>
+                <li><span class="demo-teal"></span></li>
+                <li><span class="demo-green"></span></li>
+                <li><span class="demo-light-green"></span></li>
+                <li><span class="demo-lime"></span></li>
+                <li><span class="demo-yellow"></span></li>
+                <li><span class="demo-amber"></span></li>
+                <li><span class="demo-orange"></span></li>               
+                <li><span class="demo-deep-orange"></span></li>
+                <li><span class="demo-midnightblue"></span></li>
+                <li><span class="demo-bluegray"></span></li>
+                <li><span class="demo-bluegraylight"></span></li>
+                <li><span class="demo-black"></span></li> 
+                <li><span class="demo-gray"></span></li> 
+                <li><span class="demo-graylight"></span></li> 
+                <li><span class="demo-default"></span></li>
+                <li><span class="demo-brown"></span></li>
+            </ul>
+        </div>
+
+
+
+    </div>
+<!-- /Switcher -->
+    <!-- Load site level scripts -->
+
+<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script> -->
+
+<script type="text/javascript" src="assets/js/jquery-1.10.2.min.js"></script> 							<!-- Load jQuery -->
+<script type="text/javascript" src="assets/js/jqueryui-1.10.3.min.js"></script> 							<!-- Load jQueryUI -->
+<script type="text/javascript" src="assets/js/bootstrap.min.js"></script> 								<!-- Load Bootstrap -->
+<script type="text/javascript" src="assets/js/enquire.min.js"></script> 									<!-- Load Enquire -->
+
+<script type="text/javascript" src="assets/plugins/velocityjs/velocity.min.js"></script>					<!-- Load Velocity for Animated Content -->
+<script type="text/javascript" src="assets/plugins/velocityjs/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="assets/plugins/wijets/wijets.js"></script>     						<!-- Wijet -->
+
+<script type="text/javascript" src="assets/plugins/codeprettifier/prettify.js"></script> 				<!-- Code Prettifier  -->
+<script type="text/javascript" src="assets/plugins/bootstrap-switch/bootstrap-switch.js"></script> 		<!-- Swith/Toggle Button -->
+
+<script type="text/javascript" src="assets/plugins/bootstrap-tabdrop/js/bootstrap-tabdrop.js"></script>  <!-- Bootstrap Tabdrop -->
+
+<script type="text/javascript" src="assets/plugins/iCheck/icheck.min.js"></script>     					<!-- iCheck -->
+
+<script type="text/javascript" src="assets/plugins/nanoScroller/js/jquery.nanoscroller.min.js"></script> <!-- nano scroller -->
+
+<script type="text/javascript" src="assets/js/application.js"></script>
+<script type="text/javascript" src="assets/demo/demo.js"></script>
+<script type="text/javascript" src="assets/demo/demo-switcher.js"></script>
+
+<!-- End loading site level scripts -->
+    
+    <!-- Load page level scripts-->
+    
+<script type="text/javascript" src="assets/plugins/form-fseditor/jquery.fseditor-min.js"></script>            			<!-- Fullscreen Editor -->
+<script type="text/javascript" src="assets/plugins/bootbox/bootbox.js"></script> 	<!-- Bootbox -->
+
+<script type="text/javascript" src="assets/demo/demo-profile.js"></script>
+
+    <!-- End loading page level scripts-->
+
+    </body>
+</html>

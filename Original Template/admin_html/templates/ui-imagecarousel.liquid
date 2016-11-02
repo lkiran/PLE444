@@ -1,0 +1,98 @@
+{% layout 'layout' %}
+{% block title %}Images &amp; Carousel{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">UI Elements</a></li>
+<li class="active"><a href="ui-imagecarousel.html">Images &amp; Carousel</a></li>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+<div data-widget-group="group1">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-transparent" data-widget='{"draggable": "false"}'>
+                <div class="panel-heading">
+                    <h2>Images</h2>
+                </div>
+                <div class="panel-body">
+                    <p>Add classes to an <code>img</code> element to easily style images in any project.</p>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <img src="{{'demo/stockphoto/carousel_01.jpg' | asset_url | img_loc }}" class="img-rounded img-responsive" style="margin: 5px 5px 10px;">
+                        </div>
+                        <div class="col-md-2">
+                            <img src="{{'demo/stockphoto/carousel_03.jpg' | asset_url | img_loc }}" class="img-circle img-responsive" style="margin: 5px 5px 10px;">
+                        </div>
+                        <div class="col-md-2">
+                            <img src="{{'demo/stockphoto/carousel_02.jpg' | asset_url | img_loc }}" class="img-thumbnail img-responsive" style="margin: 5px 5px 10px;">
+                        </div>
+                        <div class="col-md-6">
+                            <p><code>&lt;img src="..." alt="..." class="img-rounded"&gt;</code></p>
+                            <p><code>&lt;img src="..." alt="..." class="img-circle"&gt;</code></p>
+                            <p><code>&lt;img src="..." alt="..." class="img-thumbnail"&gt;</code></p>
+                        </div>
+                    </div>
+                    <p>Images in Avenxo, thanks to Bootstrap 3, can be made responsive-friendly via the addition of the <code>.img-responsive</code> class. This ensures that even large images scale down to the parent</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-transparent" data-widget='{"draggable": "false"}'>
+                <div class="panel-heading">
+                    <h2>Carousel</h2>
+                </div>
+                <div class="panel-body">
+                    <p class="mb-md">The slideshow below shows an example of a simple carousel plugin which you can use to cycle through elements at regular intervals</p>
+
+                    <div id="carousel-example-captions" class="carousel slide">
+                        <ol class="carousel-indicators">
+                            <li data-target="#carousel-example-captions" data-slide-to="0" class=""></li>
+                            <li data-target="#carousel-example-captions" data-slide-to="1" class=""></li>
+                            <li data-target="#carousel-example-captions" data-slide-to="2" class="active"></li>
+                        </ol>
+                        <div class="carousel-inner">
+                            <div class="item">
+                                <img src="{{'demo/stockphoto/carousel_01.jpg' | asset_url | img_loc }}">
+                                <div class="carousel-caption">
+                                    <h3>First slide label</h3>
+                                    <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                                </div>
+                            </div>
+                            <div class="item">
+                                <img src="{{'demo/stockphoto/carousel_02.jpg' | asset_url | img_loc }}">
+                                <div class="carousel-caption">
+                                    <h3>Second slide label</h3>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                </div>
+                            </div>
+                            <div class="item active">
+                                <img src="{{'demo/stockphoto/carousel_03.jpg' | asset_url | img_loc }}">
+                                <div class="carousel-caption">
+                                    <h3>Third slide label</h3>
+                                    <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <a class="left carousel-control" href="#carousel-example-captions" data-slide="prev">
+                            <i class="fa fa-prev icon-prev"></i>
+                        </a>
+                        <a class="right carousel-control" href="#carousel-example-captions" data-slide="next">
+                            <i class="fa fa-next icon-next"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

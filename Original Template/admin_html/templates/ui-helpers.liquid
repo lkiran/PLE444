@@ -1,0 +1,275 @@
+{% layout 'layout' %}
+{% block title %}Helpers{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">UI Elements</a></li>
+<li class="active"><a href="ui-helpers.html">Helpers</a></li>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+
+<div class="row">
+	<div class="col-md-12 col-lg-6">
+
+		<h4>Margin</h4>
+		<div class="alert alert-inverse">
+			<p>The default base margin is set to 4px. Other margins are calculated as a multiple of the base margin, e.g. <code>m-md</code> is <code>@base-margin*4</code>. You can change the base margin from the helpers.less file</p>
+
+			<p class="mb-n"><strong>Negative Margins:</strong> Add a class <code>.n</code> for the negative value of that margin. For example <code>.ml-sm.n</code> would produce <code>{margin-left: -8px}</code></p>
+		</div>
+		
+		<div class="panel">
+			<div class="panel-body no-padding">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Margin Class</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr><td>.m-n  	 </td> <td><code>{margin: 0px  !important}</code></td></tr>
+						<tr><td>.m-xs 	 </td> <td><code>{margin: 4px  !important}</code></td></tr>
+						<tr><td>.m-sm 	 </td> <td><code>{margin: 8px  !important}</code></td></tr>
+						<tr><td>.m    	 </td> <td><code>{margin: 12px !important}</code></td></tr>
+						<tr><td>.m-md 	 </td> <td><code>{margin: 16px !important}</code></td></tr>
+						<tr><td>.m-lg 	 </td> <td><code>{margin: 24px !important}</code></td></tr>
+						<tr><td>.m-xl 	 </td> <td><code>{margin: 32px !important}</code></td></tr>
+						<tr><td>.m-xxl	 </td> <td><code>{margin: 40px !important}</code></td></tr>
+
+						<tr><td colspan="2">&nbsp;</td></tr>
+
+						<tr><td>.mb-n  </td>  <td><code>{margin-bottom: 0px  !important}</code></td></tr>
+						<tr><td>.mb-xs </td>  <td><code>{margin-bottom: 4px  !important}</code></td></tr>
+						<tr><td>.mb-sm </td>  <td><code>{margin-bottom: 8px  !important}</code></td></tr>
+						<tr><td>.mb    </td>  <td><code>{margin-bottom: 12px !important}</code></td></tr>
+						<tr><td>.mb-md </td>  <td><code>{margin-bottom: 16px !important}</code></td></tr>
+						<tr><td>.mb-lg </td>  <td><code>{margin-bottom: 24px !important}</code></td></tr>
+						<tr><td>.mb-xl </td>  <td><code>{margin-bottom: 32px !important}</code></td></tr>
+						<tr><td>.mb-xxl</td>  <td><code>{margin-bottom: 40px !important}</code></td></tr>
+
+						<tr><td colspan="2">&nbsp;</td></tr>
+
+						<tr><td>.ml-n  </td>  <td><code>{margin-left: 0px  !important}</code></td></tr>
+						<tr><td>.ml-xs </td>  <td><code>{margin-left: 4px  !important}</code></td></tr>
+						<tr><td>.ml-sm </td>  <td><code>{margin-left: 8px  !important}</code></td></tr>
+						<tr><td>.ml    </td>  <td><code>{margin-left: 12px !important}</code></td></tr>
+						<tr><td>.ml-md </td>  <td><code>{margin-left: 16px !important}</code></td></tr>
+						<tr><td>.ml-lg </td>  <td><code>{margin-left: 24px !important}</code></td></tr>
+						<tr><td>.ml-xl </td>  <td><code>{margin-left: 32px !important}</code></td></tr>
+						<tr><td>.ml-xxl</td>  <td><code>{margin-left: 40px !important}</code></td></tr>
+
+						<tr><td colspan="2">&nbsp;</td></tr>
+
+						<tr><td>.mr-n  </td>  <td><code>{margin-right: 0px 	!important}</code></td></tr>
+						<tr><td>.mr-xs </td>  <td><code>{margin-right: 4px  !important}</code></td></tr>
+						<tr><td>.mr-sm </td>  <td><code>{margin-right: 8px  !important}</code></td></tr>
+						<tr><td>.mr    </td>  <td><code>{margin-right: 12px !important}</code></td></tr>
+						<tr><td>.mr-md </td>  <td><code>{margin-right: 16px !important}</code></td></tr>
+						<tr><td>.mr-lg </td>  <td><code>{margin-right: 24px !important}</code></td></tr>
+						<tr><td>.mr-xl </td>  <td><code>{margin-right: 32px !important}</code></td></tr>
+						<tr><td>.mr-xxl</td>  <td><code>{margin-right: 40px !important}</code></td></tr>
+
+						<tr><td colspan="2">&nbsp;</td></tr>
+
+						<tr><td>.mt-n  </td>  <td><code>{margin-top: 0px  !important}</code></td></tr>
+						<tr><td>.mt-xs </td>  <td><code>{margin-top: 4px  !important}</code></td></tr>
+						<tr><td>.mt-sm </td>  <td><code>{margin-top: 8px  !important}</code></td></tr>
+						<tr><td>.mt    </td>  <td><code>{margin-top: 12px !important}</code></td></tr>
+						<tr><td>.mt-md </td>  <td><code>{margin-top: 16px !important}</code></td></tr>
+						<tr><td>.mt-lg </td>  <td><code>{margin-top: 24px !important}</code></td></tr>
+						<tr><td>.mt-xl </td>  <td><code>{margin-top: 32px !important}</code></td></tr>
+						<tr><td>.mt-xxl</td>  <td><code>{margin-top: 40px !important}</code></td></tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="col-md-12 col-lg-6">
+
+		<h4>Padding</h4>
+		<div class="alert alert-inverse">
+			<p>The default base padding is set to 5px. Other paddings are calculated as a multiple of the base padding, e.g. <code>p-md</code> is <code>@base-padding*4</code>. You can change the base padding from the helpers.less file</p>
+
+			<p class="mb0"><strong>Negative Paddings:</strong> Add a class <code>.n</code> for the negative value of that padding. For example <code>.pl10.n</code> would produce <code>{padding-left: -10px}</code></p>
+		</div>
+		<div class="panel">
+			<div class="panel-body no-padding">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Padding Class</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr><td>.p-n  	 </td> <td><code>{padding: 0px  !important}</code></td></tr>
+						<tr><td>.p-xs 	 </td> <td><code>{padding: 4px  !important}</code></td></tr>
+						<tr><td>.p-sm 	 </td> <td><code>{padding: 8px  !important}</code></td></tr>
+						<tr><td>.p    	 </td> <td><code>{padding: 12px !important}</code></td></tr>
+						<tr><td>.p-md 	 </td> <td><code>{padding: 16px !important}</code></td></tr>
+						<tr><td>.p-lg 	 </td> <td><code>{padding: 24px !important}</code></td></tr>
+						<tr><td>.p-xl 	 </td> <td><code>{padding: 32px !important}</code></td></tr>
+						<tr><td>.p-xxl	 </td> <td><code>{padding: 40px !important}</code></td></tr>
+
+						<tr><td colspan="2">&nbsp;</td></tr>
+
+						<tr><td>.pb-n  </td>  <td><code>{padding-bottom: 0px  !important}</code></td></tr>
+						<tr><td>.pb-xs </td>  <td><code>{padding-bottom: 4px  !important}</code></td></tr>
+						<tr><td>.pb-sm </td>  <td><code>{padding-bottom: 8px  !important}</code></td></tr>
+						<tr><td>.pb    </td>  <td><code>{padding-bottom: 12px !important}</code></td></tr>
+						<tr><td>.pb-md </td>  <td><code>{padding-bottom: 16px !important}</code></td></tr>
+						<tr><td>.pb-lg </td>  <td><code>{padding-bottom: 24px !important}</code></td></tr>
+						<tr><td>.pb-xl </td>  <td><code>{padding-bottom: 32px !important}</code></td></tr>
+						<tr><td>.pb-xxl</td>  <td><code>{padding-bottom: 40px !important}</code></td></tr>
+
+						<tr><td colspan="2">&nbsp;</td></tr>
+
+						<tr><td>.pl-n  </td>  <td><code>{padding-left: 0px  !important}</code></td></tr>
+						<tr><td>.pl-xs </td>  <td><code>{padding-left: 4px  !important}</code></td></tr>
+						<tr><td>.pl-sm </td>  <td><code>{padding-left: 8px  !important}</code></td></tr>
+						<tr><td>.pl    </td>  <td><code>{padding-left: 12px !important}</code></td></tr>
+						<tr><td>.pl-md </td>  <td><code>{padding-left: 16px !important}</code></td></tr>
+						<tr><td>.pl-lg </td>  <td><code>{padding-left: 24px !important}</code></td></tr>
+						<tr><td>.pl-xl </td>  <td><code>{padding-left: 32px !important}</code></td></tr>
+						<tr><td>.pl-xxl</td>  <td><code>{padding-left: 40px !important}</code></td></tr>
+
+						<tr><td colspan="2">&nbsp;</td></tr>
+
+						<tr><td>.pr-n  </td>  <td><code>{padding-right: 0px 	!important}</code></td></tr>
+						<tr><td>.pr-xs </td>  <td><code>{padding-right: 4px  !important}</code></td></tr>
+						<tr><td>.pr-sm </td>  <td><code>{padding-right: 8px  !important}</code></td></tr>
+						<tr><td>.pr    </td>  <td><code>{padding-right: 12px !important}</code></td></tr>
+						<tr><td>.pr-md </td>  <td><code>{padding-right: 16px !important}</code></td></tr>
+						<tr><td>.pr-lg </td>  <td><code>{padding-right: 24px !important}</code></td></tr>
+						<tr><td>.pr-xl </td>  <td><code>{padding-right: 32px !important}</code></td></tr>
+						<tr><td>.pr-xxl</td>  <td><code>{padding-right: 40px !important}</code></td></tr>
+
+						<tr><td colspan="2">&nbsp;</td></tr>
+
+						<tr><td>.pt-n  </td>  <td><code>{padding-top: 0px  !important}</code></td></tr>
+						<tr><td>.pt-xs </td>  <td><code>{padding-top: 4px  !important}</code></td></tr>
+						<tr><td>.pt-sm </td>  <td><code>{padding-top: 8px  !important}</code></td></tr>
+						<tr><td>.pt    </td>  <td><code>{padding-top: 12px !important}</code></td></tr>
+						<tr><td>.pt-md </td>  <td><code>{padding-top: 16px !important}</code></td></tr>
+						<tr><td>.pt-lg </td>  <td><code>{padding-top: 24px !important}</code></td></tr>
+						<tr><td>.pt-xl </td>  <td><code>{padding-top: 32px !important}</code></td></tr>
+						<tr><td>.pt-xxl</td>  <td><code>{padding-top: 40px !important}</code></td></tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-12">
+		<h4>Embed Responsively</h4>
+		<div class="alert alert-inverse">
+			<p class="mb0">The Embed Responsively class helps build responsive embed codes for embedding rich third-party media into responsive web pages. Simply wrap the media object in <code>embed-container</code> class.</p>
+		</div>
+		<div class="panel">
+			<div class="panel-body no-padding">
+
+				<div class="table-responsive">
+					<table class="table table-hover table-striped mb0">
+						<thead>
+							<tr>
+								<th width="300">Third Party</th>
+								<th>Code Sample</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Youtube</td>
+								<td><code>&lt;div class='embed-container'&gt;&lt;iframe src='http://www.youtube.com/embed/QILiHiTD3uc' frameborder='0' allowfullscreen&gt;&lt;/iframe&gt;&lt;/div</code></td>
+							</tr>
+							<tr>
+								<td>Vimeo</td>
+								<td><code>&lt;div class='embed-container'&gt;&lt;iframe src='http://player.vimeo.com/video/66140585' frameborder='0' webkitAllowFullScreen mozallowfullscreen allowFullScreen&gt;&lt;/iframe&gt;&lt;/div&gt;</td></code>
+							</tr>
+							<tr>
+								<td>DailyMotion</td>
+								<td><code>&lt;div class='embed-container'&gt;&lt;iframe src='http://www.dailymotion.com/embed/video/xsr67x' frameborder='0' webkitAllowFullScreen mozallowfullscreen allowFullScreen&gt;&lt;/iframe&gt;&lt;/div&gt;</td></code>
+							</tr>
+							<tr>
+								<td>Google Maps</td>
+								<td><code>&lt;div class='embed-container'&gt;&lt;iframe src='https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387144.0075834208!2d-73.97800349999999!3d40.7056308!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew+York%2C+NY!5e0!3m2!1sen!2sus!4v1394298866288' width='600' height='450' frameborder='0' style='border:0'&gt;&lt;/iframe&gt;&lt;/div&gt;</td></code>
+							</tr>
+							<tr>
+								<td>Instagram</td>
+								<td><code>&lt;div class='embed-container'&gt;&lt;iframe src='//instagram.com/p/dnQi4EGuZx/embed/' frameborder='0' scrolling='no' allowtransparency='true'&gt;&lt;/iframe&gt;&lt;/div&gt;</td></code>
+							</tr>
+							<tr>
+								<td>Vine</td>
+								<td><code>&lt;div class='embed-container'&gt;&lt;iframe width='100%' src='https://vine.co/v/h9eAhKWzJlv/embed/simple' frameborder='0' scrolling='no' allowtransparency='true'&gt;&lt;/iframe&gt;&lt;script async src='//platform.vine.co/static/scripts/embed.js' charset='utf-8'&gt;&lt;/script&gt;&lt;/div&gt;;</code></td>
+							</tr>
+
+							
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+	<div class="col-md-12">
+		<h4>Others</h4>
+		<div class="panel">
+			<div class="panel-body no-padding">
+
+				<div class="table-responsive">
+					<table class="table table-hover table-striped mb0">
+						<thead>
+							<tr>
+								<th width="300">Class Functions</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Vertical Alignment</td>
+								<td>To vertically center a div, add <code>position:relative</code> to the parent and <code>vertical-align</code> class to the child.</td>
+							</tr>
+							<tr>
+								<td>Vertical Align For Tables</td>
+								<td>
+									To vertical align contents in table, add classes <code>vat</code>, <code>vam</code> and <code>vab</code> to td to align contents <i>top</i>, <i>middle</i> and <i>bottom</i> respectively. Alternatively apply the classes <code>table-vat</code>, <code>table-vam</code> and <code>table-vab</code> to the <code>table</code> to align contents to all cells in the table
+								</td>
+							</tr>
+							<tr>
+								<td>Avatar</td>
+								<td>Using <code>img.avatar</code> will style an image with Avenxo standard for Avatar</td>
+							</tr>
+							<tr>
+								<td>iSelect</td>
+								<td>wrap <code>select</code> in <code>div.iSelect</code> for custom font-awesome icons</td>
+							</tr>
+							
+
+							
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+</div>
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,72 @@
+    <ol class="breadcrumb">
+        <li><a href="#/">Dashboard</a></li>
+        <li>Charts</li>
+        <li class="active">Easy Pie Chart</li>
+    </ol>
+
+
+<div class="container-fluid" ng-controller="RangeAndSliderController">
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="alert alert-info">
+                <h3>Easy Pie Chart</h3>
+                <p>Easy pie chart is a jQuery plugin that uses the canvas element to render simple pie charts for single values. These charts are highly customizable, very easy to implement, scale to the resolution of the display of the client to provide sharp charts even on retina displays</p>
+            </div>
+
+			<panel panel-class="panel-default" data-heading="EasyPieChart">
+				<p>Easy Pie Chart is a liteweight plugin to draw simple, animated pie charts for single values.</p>
+				<p>Use it by adding an <code>easypiechart</code> attribute and setting the <code>data-percent</code> and <code>data-options</code> values.</p>
+				<div class="row mt-xl">
+
+					<div class="col-md-3 col-sm-6 col-xs-6">
+						<div easypiechart class="easypiechart"
+							data-percent="percentages[0]"
+							data-options="epOpts[0]"><span class="percent">{{percentages[0]}}</span>
+						</div>
+
+						<label for="newvisits"><span class="label label-teal">New Visits</span></label>
+						<hr class="visible-sm visible-xs">
+					</div>
+					<div class="col-md-3 col-sm-6 col-xs-6">
+						<div easypiechart class="easypiechart"
+							data-percent="percentages[1]"
+							data-options="epOpts[1]"><span class="percent">{{percentages[1]}}</span>
+						</div>
+
+						<label for="bouncerate"><span class="label label-success">Bounce Rate</span></label>
+						<hr class="visible-sm visible-xs">
+					</div>
+					<div class="col-md-3 col-sm-6 col-xs-6">
+						<div easypiechart class="easypiechart"
+							data-percent="percentages[2]"
+							data-options="epOpts[2]"><span class="percent">{{percentages[2]}}</span>
+						</div>
+
+						<label for="clickrate"><span class="label label-danger">Click Rate</span></label>
+						<hr class="visible-sm visible-xs">
+					</div>
+					<div class="col-md-3 col-sm-6 col-xs-6">
+						<div easypiechart class="easypiechart"
+							data-percent="percentages[3]"
+							data-options="epOpts[3]"><span class="percent">{{percentages[3]}}</span>
+						</div>
+						<label for="covertionrate"><span class="label label-purple">Conversion</span></label>
+						<hr class="visible-sm visible-xs">
+					</div>
+
+				</div>
+
+				<div class="row mt-xl">
+                    <div class="col-md-offset-4 col-md-4">
+                        <button ng-click="randomizePie()" class="btn btn-default btn-block">Update Pie Charts</button>
+                    </div>
+                </div>
+
+				
+			</panel>
+		</div>
+	</div>
+
+
+</div> <!-- container-fluid -->

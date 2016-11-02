@@ -1,0 +1,113 @@
+    <ol class="breadcrumb">
+        <li><a href="#/">Dashboard</a></li>
+        <li>Advanced Forms</li>
+        <li class="active">Form Masks</li>
+    </ol>
+
+
+<div class="container-fluid">
+
+    <div class="alert alert-info">
+        <p>Input masks integrate formatting cues directly into an input field to help signal how to correctly answer a question. These formatting instructions are automatically included in an input and cannot be removed by a user. More importantly, a user cannot enter other non-valid characters into the input field.</p>
+        <p>You can add these masks directly inline with the HTML5 <code>data-inputmask</code> attribute. No code necessary!</p>
+    </div>
+
+    <div class="panel panel-midnightblue" data-widget='{"draggable": "false"}'>
+        <div class="panel-heading">
+            <h2>Masked Input Fields</h2>
+            <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body, .panel-footer"}'></div>
+        </div>
+        <div class="panel-body">
+            <form action="" class="form-horizontal row-border">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Date</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control mask" data-inputmask="'alias': 'date'">
+                    </div>
+                    <div class="col-sm-3"><p class="help-block">alias:date</p></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Phone</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control mask" data-inputmask="'mask':'(999) 999-9999'">
+                    </div>
+                    <div class="col-sm-3"><p class="help-block">(999) 999-9999</p></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Phone + Ext</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control mask" data-inputmask="'mask':'(999) 999-9999 x99999'"></div>
+                    <div class="col-sm-3"><p class="help-block">(999) 999-9999 x99999</p></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Int' Phone</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control mask" data-inputmask="'mask':'+33 999 999 999'">
+                    </div>
+                    <div class="col-sm-3"><p class="help-block">+33 999 999 999</p></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">TaxID</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control mask" data-inputmask="'mask':'99-9999999'">
+                    </div>
+                    <div class="col-sm-3"><p class="help-block">99-9999999</p></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">SSN</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control mask" data-inputmask="'mask':'999-99-9999'">
+                    </div>
+                    <div class="col-sm-3"><p class="help-block">999-99-9999</p></div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Product Key</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control mask" data-inputmask="'mask':'a*-999-a999'">
+                    </div>
+                    <div class="col-sm-3"><p class="help-block">a*-999-a999</p></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Purchase Order</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control mask" data-inputmask="'mask':'PO: aaa-999-***'">
+                    </div>
+                    <div class="col-sm-3"><p class="help-block">PO: aaa-999-***</p></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Percent</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control mask" data-inputmask="'mask':'99%'">
+                    </div>
+                    <div class="col-sm-3"><p class="help-block">99%</p></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Currency</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control mask" data-inputmask="'mask':'999,999,999.99 $', 'numericInput' : true"></div>
+                    <div class="col-sm-3"><p class="help-block">right alignment</p></div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Currency 2</label>
+                    <div class="col-sm-6">
+                        <input type="text" class="form-control mask" data-inputmask="'mask':'$ 999,999,999.99', 'greedy' : false, 'rightAlignNumerics' : false"></div>
+                    <div class="col-sm-3"><p class="help-block">left alignment</p></div>
+                </div>
+            </form>
+            
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <div class="btn-toolbar">
+                        <button class="btn-primary btn">Submit</button>
+                        <button class="btn-default btn">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div> <!-- container-fluid -->

@@ -1,0 +1,29 @@
+<!-- Load site level scripts -->
+
+<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script> -->
+
+{{ "js/jquery-1.10.2.min.js" | asset_url | script_tag }} 							<!-- Load jQuery -->
+{{ "js/jqueryui-1.10.3.min.js" | asset_url | script_tag }} 							<!-- Load jQueryUI -->
+{{ "js/bootstrap.min.js" | asset_url | script_tag }} 								<!-- Load Bootstrap -->
+{{ "js/enquire.min.js" | asset_url | script_tag }} 									<!-- Load Enquire -->
+
+{{ "plugins/velocityjs/velocity.min.js" | asset_url | script_tag }}					<!-- Load Velocity for Animated Content -->
+{{ "plugins/velocityjs/velocity.ui.min.js" | asset_url | script_tag }}
+
+{{ "plugins/wijets/wijets.js" | asset_url | script_tag }}     						<!-- Wijet -->
+
+{{ "plugins/codeprettifier/prettify.js" | asset_url | script_tag }} 				<!-- Code Prettifier  -->
+{{ "plugins/bootstrap-switch/bootstrap-switch.js" | asset_url | script_tag }} 		<!-- Swith/Toggle Button -->
+
+{{ "plugins/bootstrap-tabdrop/js/bootstrap-tabdrop.js" | asset_url | script_tag }}  <!-- Bootstrap Tabdrop -->
+
+{{ "plugins/iCheck/icheck.min.js" | asset_url | script_tag }}     					<!-- iCheck -->
+
+{{ "plugins/nanoScroller/js/jquery.nanoscroller.min.js" | asset_url | script_tag }} <!-- nano scroller -->
+
+{{ "js/application.js" | asset_url | script_tag }}
+{{ "demo/demo.js" | asset_url | script_tag }}
+{{ "demo/demo-switcher.js" | asset_url | script_tag }}
+
+<!-- End loading site level scripts -->

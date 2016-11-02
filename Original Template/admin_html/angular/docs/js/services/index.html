@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Services - Avenxo Docs</title>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/highlight.css">
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+  <script type="text/javascript" src="../../js/theme.js"></script>
+
+  <style>
+    body {font-size: 90%;}
+    pre, code {font-size: 100%;}
+    h3, h4, h5, h6 {color: #2980b9; font-weight: 300}
+  </style> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../../index.html" class="icon icon-home"> Avenxo Docs</a>
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+      <ul class="current">
+    
+        
+            <li class="toctree-l1 ">
+                <a class="" href="../../installation/index.html">Installation</a>
+            </li>
+        
+
+    
+        
+        <span>Layout</span>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../layout/markup/index.html">Markup</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../layout/styles/index.html">Styles</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../layout/fonts/index.html">Fonts</a>
+                    
+                </li>
+            
+        
+
+    
+        
+        <span>JavaScript</span>
+            
+                <li class="toctree-l1 current">
+                    <a class="current" href="index.html">Services</a>
+                    
+                        <ul>
+                        
+                            <li class="toctree-l2"><a href="#services">Services</a></li>
+                            
+                                <li><a class="toctree-l3" href="#theme">$theme</a></li>
+                            
+                                <li><a class="toctree-l3" href="#progressloader">progressLoader</a></li>
+                            
+                                <li><a class="toctree-l3" href="#lazyload">lazyLoad</a></li>
+                            
+                        
+                        </ul>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../controllers/index.html">Controllers</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../modules/index.html">Modules</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../wijets/index.html">Wijets</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../directives/index.html">Directives</a>
+                    
+                </li>
+            
+        
+
+    
+        
+        <span>Other</span>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../faq/index.html">Frequently Asked Questions</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../changelog/index.html">Changelog</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../contact/index.html">Contact</a>
+                    
+                </li>
+            
+        
+
+    
+</ul>
+
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
+        <a href="../../index.html"></a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+    <li>Services</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              <h1 id="services">Services</h1>
+<p>Avenxo ships with a set of important core services that can be injected into controllers as needed. These services are a part of the core theme services, available as the <code>theme.core.services</code> module. Here is a usage manual for the custom services.</p>
+<h2 id="theme">$theme</h2>
+<p>Defined in <em>scripts/core/services/theme.js</em></p>
+<p>The <code>$theme</code> service is used for controlling theme-wide behaviors and appearance. It is intended to be injected into controllers as needed, as used in <em>scripts/core/controllers/mainController.js</em>.</p>
+<h3 id="usage-example">Usage example</h3>
+<pre><code>app.controller('MyController', ['$theme', function ($theme) {
+    ...
+}]);
+</code></pre>
+
+<h3 id="methods">Methods</h3>
+<p>It primarily exposes a getter and a setter for various theme options.</p>
+<pre><code>$theme.get('optionName');
+</code></pre>
+
+<p>And,</p>
+<pre><code>$theme.set('optionName', value);
+</code></pre>
+
+<p>The options are as follows:</p>
+<ul>
+<li><code>fixedHeader</code>: header is fixed (<code>boolean</code>, default <code>true</code>),</li>
+<li><code>headerBarHidden</code>: pull-down header bar is hidden (boolean, default <code>true</code>),</li>
+<li><code>leftbarCollapsed</code>: left sidebar is collapsed (boolean, default <code>false</code>),</li>
+<li><code>leftbarShown</code>: left sidebar is hidden (boolean, default <code>false</code>),</li>
+<li><code>rightbarCollapsed</code>: right infobar is collapsed (boolean, default <code>false</code>),</li>
+<li><code>fullscreen</code>: page is fullscreen (boolean, default <code>false</code>),</li>
+<li><code>layoutHorizontal</code>: horizontal layout is enabled (boolean, default <code>false</code>),</li>
+<li><code>layoutHorizontalLargeIcons</code>: horizontal layout uses large icons (boolean, default <code>false</code>),</li>
+<li><code>layoutBoxed</code>: boxed layout is enabled (boolean, default <code>false</code>),</li>
+<li><code>showSmallSearchBar</code>: (boolean, default <code>false</code>),</li>
+<li><code>topNavThemeClass</code>: nav bar class, default <code>navbar-default</code>,</li>
+<li><code>sidebarThemeClass</code>: left sidebar class, default <code>sidebar-midnightblue</code>,</li>
+<li><code>showChatBox</code>: chat box is visible, (boolean, default <code>false</code>),</li>
+<li><code>pageTransitionStyle</code>: page transition style, one of the styles from animate.css, default <code>fadeIn</code>,</li>
+<li><code>dropdownTransitionStyle</code>: dropdown animation style, default <code>flipInX</code></li>
+</ul>
+<p>In addition, there is a <code>getBrandColor()</code> method you can use to retrieve a brand color. Example:</p>
+<pre><code>$theme.getBrandColor('primary');
+</code></pre>
+
+<h3 id="events">Events</h3>
+<p>Sometimes you might wish to subscribe to changes in the layout. For this the <code>$theme</code> service emits 3 scope events which are as follows:</p>
+<ul>
+<li><code>themeEvent:maxWidth767</code>: page max width is now below 768px</li>
+<li><code>themeEvent:changed:&lt;option_name&gt;</code>: theme option <option_name> has been changed (passes new value to listeners)</li>
+<li><code>themeEvent:changed</code>: a theme option has been changed (passes <code>{ key: &lt;option_name&gt;, value: &lt;option_value&gt;}</code> to listeners)</li>
+</ul>
+<h2 id="progressloader">progressLoader</h2>
+<p>Defined in <em>scripts/core/services/services.js</em></p>
+<p>The <code>progressLoader</code> is wrapper around the <a href="https://github.com/colintoh/skylo">Skylo</a> progress bar.</p>
+<h3 id="methods_1">Methods</h3>
+<p>The factory has the following methods:</p>
+<ul>
+<li><code>start</code>: start loader</li>
+<li><code>end</code>: finish loading</li>
+<li><code>set</code>: set progress, takes an integer parameter as percentage of progress</li>
+<li><code>inch</code>: inch ahead progress, takes an integer parameter as percentage of progress to increment</li>
+</ul>
+<h2 id="lazyload">lazyLoad</h2>
+<p>Defined in <em>scripts/core/services/services.js</em></p>
+<p>The <code>lazyLoad</code> service is a delayed script loader to be used in route definitions. Example:</p>
+<pre><code>app.config(['$provide', '$routeProvider', function ($provide, $routeProvider) {
+    $routeProvider
+    .when('/', {
+        templateUrl: 'views/index.html',
+        resolve: {
+            lazyLoad: ['lazyLoad', function (lazyLoad) {
+                return lazyLoad.load([
+                    'bower_components/fullcalendar/fullcalendar.js',
+                ]);
+            }]
+        }
+    })
+    // other definitions
+    .otherwise({
+        redirectTo: '/'
+    });
+}]);
+</code></pre>
+
+
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../controllers/index.html" class="btn btn-neutral float-right" title="Controllers"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../../layout/fonts/index.html" class="btn btn-neutral" title="Fonts"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+    <!-- Copyright etc -->
+    </p>
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        
+      <span><a href="../../layout/fonts/index.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      <span style="margin-left: 15px"><a href="../controllers/index.html" style="color: #fcfcfc">Next &raquo;</a></span>
+    </span>
+</div>
+
+</body>
+</html>

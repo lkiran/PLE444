@@ -1,0 +1,43 @@
+    <ol class="breadcrumb">
+        <li><a href="#/">Dashboard</a></li>
+        <li>Charts</li>
+        <li class="active">Morris.js</li>
+    </ol>
+
+<div class="container-fluid" ng-controller="SvgChartsController">
+
+    <div class="row">
+        <div class="col-md-12">
+            <alert>
+                <p>Morris.js charts are highly-interactive charts created using the <code>svg-chart</code> directive.</p>
+                <p>Pass in the chart options in the <code>svg-chart</code> attribute and the chart type <code>data-type</code> attribute.</p>
+            </alert>
+        </div>
+
+        <div class="col-md-6">
+            <panel heading="Line Graph">
+                <div svg-chart="lineChart"
+                    data-type="'Line'"></div>
+            </panel>
+        </div>
+        <div class="col-md-6">
+            <panel heading="Bar Graph">
+                <div svg-chart="barChart"
+                    data-type="'Bar'"></div>
+            </panel>
+        </div>
+        <div class="col-md-6">
+            <panel heading="Donut Graph">
+                <div svg-chart="donutChart"
+                    data-type="'Donut'"></div>
+            </panel>
+        </div>
+        <div class="col-md-6">
+            <panel heading="Area Graph">
+                <div svg-chart="areaChart"
+                    data-type="'Area'"></div>
+            </panel>
+        </div>
+    </div>
+
+</div> <!-- container-fluid -->

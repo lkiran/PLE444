@@ -1,0 +1,245 @@
+    <ol class="breadcrumb">
+        <li><a href="#/">Dashboard</a></li>
+        <li>Advanced Forms</li>
+        <li class="active">Form Validation</li>
+    </ol>
+
+    <div class="container-fluid" ng-controller="AngularFormValidationController">
+
+        <div class="panel panel-midnightblue" data-widget='{"draggable": "false"}'>
+          <div class="panel-heading">
+                <h2>Form Validation States</h2>
+                <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+          </div>
+          <div class="panel-body">
+            <p>Avenxo includes validation styles for error, warning, and success states on form controls. To use, add <code>.has-warning</code>, <code>.has-error</code>, or <code>.has-success</code> to the parent element. Any <code>.control-label</code>, <code>.form-control</code>, and <code>.help-block</code> within that element will receive the validation styles</p>
+                <form action="" class="form-horizontal row-border">
+                    <div class="form-group has-success">
+                        <label for="" class="col-md-3 control-label">Input with Success</label>
+                        <div class="col-md-6"><input type="text" class="form-control"></div>
+                        <div class="col-md-3"><p class="help-block"><i class="fa fa-check"></i> Great success!</p></div>
+                    </div>
+                    <div class="form-group has-warning">
+                        <label for="" class="col-md-3 control-label">Input with Warning</label>
+                        <div class="col-md-6"><input type="text" class="form-control"></div>
+                        <div class="col-md-3"><p class="help-block"><i class="fa fa-exclamation-triangle"></i> Be careful!</p></div>
+                    </div>
+                    <div class="form-group has-error">
+                        <label for="" class="col-md-3 control-label">Input with Error</label>
+                        <div class="col-md-6"><input type="text" class="form-control"></div>
+                        <div class="col-md-3"><p class="help-block"><i class="fa fa-times-circle"></i> Oops! Not wow.</p></div>
+                    </div>
+                </form>
+          </div>
+        </div>
+
+        <div class="panel panel-midnightblue" data-widget='{"draggable": "false"}'>
+            <div class="panel-heading">
+                <h2>Form Validation</h2>
+                <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body, .panel-footer"}'></div>
+            </div>
+            <div class="panel-body">
+
+                <form class="form-horizontal row-border" name="form.validateDemoForm">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Required Field</label>
+                        <div class="col-sm-6">
+                            <input name="required"
+                                type="text"
+                                placeholder="Required Field"
+                                required
+                                ng-model="validateDemoForm.required"
+                                class="form-control">
+                            <span class="help-block" ng-show="form.validateDemoForm.required.$error.required && form.validateDemoForm.required.$dirty">This field is required</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Min-length</label>
+                        <div class="col-sm-6">
+                            <input name="minlength"
+                                type="text"
+                                data-ng-minlength="6"
+                                placeholder="At least 6 characters"
+                                required
+                                ng-model="validateDemoForm.minlength"
+                                class="form-control">
+                                <span class="help-block" ng-show="form.validateDemoForm.minlength.$error.required && form.validateDemoForm.minlength.$dirty">This field is required</span>
+                                <span class="help-block" ng-show="form.validateDemoForm.minlength.$error.minlength && form.validateDemoForm.minlength.$dirty">Value must be 6 characters or more</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Max-legnth</label>
+                        <div class="col-sm-6">
+                            <input name="maxlength"
+                                type="text"
+                                data-ng-maxlength="6"
+                                placeholder="At most 6 characters"
+                                required
+                                ng-model="validateDemoForm.maxlength"
+                                class="form-control">
+                                <span class="help-block" ng-show="form.validateDemoForm.maxlength.$error.required && form.validateDemoForm.maxlength.$dirty">This field is required</span>
+                                <span class="help-block" ng-show="form.validateDemoForm.maxlength.$error.maxlength && form.validateDemoForm.maxlength.$dirty">Value must be 6 characters or less</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Range length</label>
+                        <div class="col-sm-6">
+                            <input name="rangelength"
+                                type="text"
+                                data-ng-minlength=5
+                                data-ng-maxlength=10
+                                placeholder="Between 5 and 10 characters"
+                                required
+                                ng-model="validateDemoForm.rangeLength"
+                                class="form-control">
+                                <span class="help-block" ng-show="form.validateDemoForm.rangelength.$error.required && form.validateDemoForm.rangelength.$dirty">This field is required</span>
+                                <span class="help-block" ng-show="form.validateDemoForm.rangelength.$error.minlength && form.validateDemoForm.rangelength.$dirty">Value must be 6 characters or more</span>
+                                <span class="help-block" ng-show="form.validateDemoForm.rangelength.$error.maxlength && form.validateDemoForm.rangelength.$dirty">Value must be 6 characters or less</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">RegExp</label>
+                        <div class="col-sm-6">
+                            <input name="pattern"
+                                type="text"
+                                data-ng-pattern="/^#[A-Fa-f0-9]{6}/"
+                                placeholder="Hexadecimal Color Code"
+                                required="required"
+                                ng-model="validateDemoForm.pattern"
+                                class="form-control">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Email</label>
+                        <div class="col-sm-6">
+                            <input name="email"
+                                type="text"
+                                data-type="email"
+                                placeholder="Email address"
+                                required
+                                ng-model="validateDemoForm.email"
+                                class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">URL</label>
+                        <div class="col-sm-6">
+                            <input name="url"
+                                type="url"
+                                placeholder="URL address"
+                                required
+                                ng-model="validateDemoForm.url"
+                                class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Digits</label>
+                        <div class="col-sm-6">
+                            <input name="digits"
+                                type="number"
+                                placeholder="Numbers only"
+                                required
+                                ng-model="validateDemoForm.digits"
+                                class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Minimum Number Value</label>
+                        <div class="col-sm-6">
+                            <input name="digits_min"
+                                type="number"
+                                data-min="5"
+                                placeholder="Minimum Value is 5"
+                                required
+                                ng-model="validateDemoForm.digitsMin"
+                                class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Maximum Number Value</label>
+                        <div class="col-sm-6">
+                            <input name="digits_max"
+                                type="number"
+                                data-max=10
+                                placeholder="Maximum Value is 10"
+                                required
+                                ng-model="validateDemoForm.digitsMax"
+                                class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Number Value Within Range</label>
+                        <div class="col-sm-6">
+                            <input name="digits_minmax"
+                                type="number"
+                                data-min=5
+                                data-max=10
+                                placeholder="Maximum Value is between 5 and 10 inclusive"
+                                required
+                                ng-model="validateDemoForm.digitsMinMax"
+                                class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Alphanumeric</label>
+                        <div class="col-sm-6">
+                            <input name="alphanumeric"
+                                type="text"
+                                data-ng-pattern="/^\w+$/"
+                                placeholder="Alphanumeric only"
+                                required
+                                ng-model="validateDemoForm.alphanum"
+                                class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Password</label>
+                        <div class="col-sm-6">
+                            <input name="password"
+                                type="text"
+                                required
+                                ng-model="validateDemoForm.password"
+                                class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Repeat Password</label>
+                        <div class="col-sm-6">
+                            <input name="confirm_password"
+                                type="text"
+                                password-verify="validateDemoForm.password"
+                                required
+                                ng-model="validateDemoForm.confirmPassword"
+                                class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Checkbox</label>
+                        <div class="col-sm-6">
+                            <div class="checkbox">
+                              <label>
+                                <input name="terms"
+                                    type="checkbox"
+                                    value=""
+                                    ng-model="validateDemoForm.terms"
+                                    required>
+                                Accept Terms &amp; Conditions
+                              </label>
+                          </div>
+                      </div>
+                    </div>
+                </form>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <div class="btn-toolbar">
+                            <button class="btn-primary btn" ng-click="submitValidationForm()" ng-disabled="!canSubmitValidationForm()">Submit</button>
+                            <button class="btn-default btn" ng-click="resetValidationForm()" ng-disabled="!canResetValidationForm()">Reset</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- container-fluid -->

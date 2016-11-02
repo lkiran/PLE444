@@ -1,0 +1,138 @@
+{% layout 'layout' %}
+{% block title %}Flot{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Charts</a></li>
+<li class="active"><a href="charts-flot.html">Flot</a></li>
+{% endblock %}
+
+{% block styles %}{% endblock %}
+
+{% block scripts %}
+    <script src="assets/plugins/charts-flot/jquery.flot.min.js"></script>             <!-- Flot Main File -->
+    <script src="assets/plugins/charts-flot/jquery.flot.stack.min.js"></script>       <!-- Flot Stacked Charts Plugin -->
+    <script src="assets/plugins/charts-flot/jquery.flot.pie.min.js"></script>         <!-- Flot Pie Chart Plugin -->
+    <script src="assets/plugins/charts-flot/jquery.flot.orderBars.min.js"></script>   <!-- Flot Ordered Bars Plugin-->
+    <script src="assets/plugins/charts-flot/jquery.flot.resize.js"></script>          <!-- Flot Responsive -->
+
+    <script src="assets/plugins/charts-flot/jquery.flot.tooltip.min.js"></script>    <!-- Flot Tooltips -->
+
+    <script src="assets/demo/demo-flotgraph.js"></script>
+{% endblock %}
+
+{% block content %}
+<div data-widget-group="group1">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default" data-widget='{"draggable": "false"}'>
+                <div class="panel-heading">
+                    <h2>Interacting with data point</h2>
+                    <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+                </div>
+                <div class="panel-body">
+                    <div id="sincos" style="height: 300px"></div>
+                    <p id="hoverdata" class="text-center">Mouse hovers at (<span id="x">0</span>, <span id="y">0</span>). <span id="clickdata"></span></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="panel panel-default" data-widget='{"draggable": "false"}'>
+                <div class="panel-heading">
+                    <h2>Ordered Bars</h2>
+                    <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+                </div>
+                <div class="panel-body">
+                    <div id="ordered" style="height: 300px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="panel panel-default" data-widget='{"draggable": "false"}'>
+                <div class="panel-heading">
+                    <h2>Multiple Graph Types In One</h2>
+                    <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+                </div>
+                <div class="panel-body">
+                    <div id="multiple" style="height: 300px" class="centered"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="panel panel-default" data-widget='{"draggable": "false"}'>
+                <div class="panel-heading">
+                    <h2>Live Dynamic</h2>
+                    <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+                </div>
+                <div class="panel-body">
+                    <div id="realtime-updates" style="height: 300px" class="centered"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="panel panel-default" data-widget='{"draggable": "false"}'>
+                <div class="panel-heading">
+                    <h2>Stacking</h2>
+                    <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+                </div>
+                <div class="panel-body">
+                    <div id="stacking" style="height: 300px" class="centered mb20"></div>
+                    <div class="clearfix">
+                        <ul class="stackControls demo-btns pull-left">
+                            <li><button class="btn btn-success-alt">With stacking</button></li>
+                            <li><button class="btn btn-success-alt">Without stacking</button></li>
+                        </ul>
+                        
+                        <ul class="graphControls demo-btns pull-right">
+                            <li><button class="btn btn-midnightblue-alt">Bars</button></li>
+                            <li><button class="btn btn-midnightblue-alt">Lines</button></li>
+                            <li><button class="btn btn-midnightblue-alt">Lines with steps</button></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-default" data-widget='{"draggable": "false"}'>
+              <div class="panel-heading">
+                    <h2>Pie Chart</h2>
+                    <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+              </div>
+              <div class="panel-body">
+                    <div id="graph0" style="width:100%; height: 300px" class="centered"></div>
+              </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-default" data-widget='{"draggable": "false"}'>
+              <div class="panel-heading">
+                    <h2>Donut</h2>
+                    <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+              </div>
+              <div class="panel-body">
+                    <div id="donut" style="width:100%; height: 300px" class="centered"></div>
+              </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="panel panel-default" data-widget='{"draggable": "false"}'>
+              <div class="panel-heading">
+                    <h2>Interactive</h2>
+                    <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+              </div>
+              <div class="panel-body">
+                    <div id="interactive" style="width:100%; height: 300px" class="centered"></div>
+              </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

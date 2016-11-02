@@ -1,0 +1,348 @@
+{% layout 'layout' %}
+{% block title %}Form Pickers{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Advanced Forms</a></li>
+<li class="active"><a href="ui-forms.html">Form Pickers</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/form-daterangepicker/daterangepicker-bs3.css" | asset_url | stylesheet_tag }}    <!-- DateRangePicker -->
+{{ "plugins/iCheck/skins/minimal/blue.css" | asset_url | stylesheet_tag }}                   <!-- Custom Checkboxes / iCheck -->
+{{ "plugins/clockface/css/clockface.css" | asset_url | stylesheet_tag }}                   	<!-- Clockface -->
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/form-daterangepicker/moment.min.js" | asset_url | script_tag }}              			<!-- Moment.js for Date Range Picker -->
+
+{{ "plugins/form-colorpicker/js/bootstrap-colorpicker.min.js" | asset_url | script_tag }} 			<!-- Color Picker -->
+
+{{ "plugins/form-daterangepicker/daterangepicker.js" | asset_url | script_tag }}     				<!-- Date Range Picker -->
+{{ "plugins/bootstrap-datepicker/bootstrap-datepicker.js" | asset_url | script_tag }}      			<!-- Datepicker -->
+{{ "plugins/bootstrap-timepicker/bootstrap-timepicker.js" | asset_url | script_tag }}      			<!-- Timepicker -->
+{{ "plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js" | asset_url | script_tag }} <!-- DateTime Picker -->
+
+{{ "plugins/clockface/js/clockface.js" | asset_url | script_tag }}     								<!-- Clockface -->
+
+
+{{ "demo/demo-pickers.js" | asset_url | script_tag }}
+{% endblock %}
+
+{% block content %}
+<div data-widget-group="group1">
+	<div class="row">
+		<div class="col-xs-12">
+
+			<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2>Date Picker</h2>
+					<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+				</div>
+				<div class="panel-body">
+					<form action="" class="form-horizontal row-border">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Default</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" id="datepicker">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Disable Past Dates</label>
+							<div class="col-sm-8">
+								<div class="input-group date" id="datepicker-pastdisabled">
+									<span class="input-group-addon"><i class="ti ti-calendar"></i></span>
+									<input type="text" class="form-control">
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Start with Year View</label>
+							<div class="col-sm-8">
+								<div class="input-group date" id="datepicker-startview">
+									<span class="input-group-addon"><i class="ti ti-calendar"></i></span>
+									<input type="text" class="form-control">
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Inline Dates</label>
+							<div class="col-sm-8">
+								<div id="datepicker-inline"></div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Date Range</label>
+							<div class="col-sm-8">
+								<div class="input-daterange input-group" id="datepicker-range">
+									<input type="text" class="input-small form-control" name="start" />
+									<span class="input-group-addon">to</span>
+									<input type="text" class="input-small form-control" name="end" />
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2>Date Range Picker</h2>
+					<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+				</div>
+				<div class="panel-body">
+					<form action="" class="form-horizontal row-border">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Select Date Range</label>
+							<div class="col-sm-8">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="ti ti-calendar"></i></span>
+									<input type="text" class="form-control" id="daterangepicker1">
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Advanced Range Selector</label>
+							<div class="col-sm-8">
+								<button class="btn btn-default" id="daterangepicker2">
+									<i class="ti ti-calendar"></i> 
+									<span><?php echo date("F j, Y", strtotime('-30 day')); ?> - <?php echo date("F j, Y"); ?></span> <b class="caret"></b>
+								</button>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Select Both Date and Time</label>
+							<div class="col-sm-8">
+								<div class="input-group">
+									<span name="daterangepicker3" class="input-group-addon"><i class="ti ti-calendar"></i></span>
+									<input for="daterangepicker3" type="text" class="form-control" id="daterangepicker3">
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+			
+			
+			<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2>Time Picker</h2>
+					<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+				</div>
+				<div class="panel-body">
+					<form action="" class="form-horizontal row-border">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Without Component Markup</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" id="timepicker2">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Input Group (Default, click icon)</label>
+							<div class="col-sm-8">
+								 <div class="input-group bootstrap-timepicker">
+								 	<div class="input-group-addon"><i class="ti ti-time"></i></div>
+			        			    <input id="timepicker1" type="text" class="form-control">
+			        			</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Only Mask (without Dropdown)</label>
+							<div class="col-sm-8">
+								<div class="input-group bootstrap-timepicker">
+									<div class="input-group-addon"><i class="ti ti-time"></i></div>
+			            			<input id="timepicker3" type="text" class="form-control">
+			        			</div>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+			<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2>Clockface Time Picker</h2>
+					<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+				</div>
+				<div class="panel-body">
+					<div class="form-horizontal row-border">
+						<div class="form-group">
+							<label for="t1" class="col-sm-2 control-label">Default</label>
+							<div class="col-sm-8">
+								<input type="text" id="t1" value="2:30 PM" data-format="hh:mm A" class="form-control">
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="t2" class="col-sm-2 control-label">Input Group</label>
+							<div class="col-sm-8">
+								<div class="input-group">
+								    <input type="text" id="t2" value="14:30" class="form-control" readonly="">
+								    <span class="input-group-addon" id="toggle-btn"><i class="ti ti-time"></i></span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="t3" class="col-sm-2 control-label">Inline</label>
+							<div class="col-sm-8">
+								<div id="t3" class="well pull-left p0"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2>Date/Time Picker</h2>
+					<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+				</div>
+				<div class="panel-body">
+					<div class="form-horizontal row-border">
+						<div class="form-group">
+							<label for="dtp-1" class="col-sm-2 control-label">Default Date/Time Picker</label>
+							<div class="col-sm-8">
+				                <input class="form-control" type="text" id="dtp-1">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="dtp-2" class="col-sm-2 control-label">Input Group</label>
+							<div class="col-sm-8">
+								<div class="input-group date" id="dtp-2">
+									<input type="text" class="form-control">
+									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+									<span class="input-group-addon"><i class="fa fa-close"></i></span>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group ">
+							<label for="dtp-3" class="col-sm-2 control-label">Meridian Format</label>
+							<div class="col-sm-8">
+								<div class="input-group date" id="dtp-3">
+									<input type="text" class="form-control">
+									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+									<span class="input-group-addon"><i class="fa fa-close"></i></span>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group ">
+							<label for="dtp-3" class="col-sm-2 control-label">Only Date</label>
+							<div class="col-sm-8">
+								<div class="input-group date" id="dtp-5">
+									<input type="text" class="form-control">
+									<span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+									<span class="input-group-addon"><i class="fa fa-close"></i></span>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group ">
+							<label for="dtp-3" class="col-sm-2 control-label">Only Time</label>
+							<div class="col-sm-8">
+								<div class="input-group date" id="dtp-6">
+									<input type="text" class="form-control">
+									<span class="input-group-addon"><i class="fa fa-clock-o"></i></span>
+									<span class="input-group-addon"><i class="fa fa-close"></i></span>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label for="dtp-4" class="col-sm-2 control-label">Inline</label>
+							<div class="col-sm-8">
+								<div id="dtp-4"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2>Color Pickers</h2>
+					<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+				</div>
+				<div class="panel-body">
+					<form action="" class="form-horizontal row-border">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Default</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control cpicker" data-color-format="hex" value="#fff">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">RGBA</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control cpicker" data-color-format="rgba" value="rgba(255, 146, 180,0.9)">
+								<p class="help-block">RGBA format specified via data-tag</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Input Group</label>
+							<div class="col-sm-8">
+								<div class="input-group cpicker color" data-color="rgb(255, 146, 180)" data-color-format="rgb">
+									<input type="text" readonly class="form-control" value="">
+									<span class="input-group-addon"><i style="background-color: rgb(255, 146, 180); margin-left: 8px;"></i></span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-8 col-sm-offset-2"><a data-toggle="modal" href="#cpicker_modal" class="btn btn-primary">Launch Color Pickers in Modal Dialog Box</a></div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+
+
+
+
+	<!-- Colorpicker Modal -->
+	<div class="modal fade modals" id="cpicker_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h2 class="modal-title">Colorpickers</h2>
+				</div>
+				<div class="modal-body">
+					<form action="" class="form-horizontal">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Default</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control cpicker" data-color-format="hex" value="#fff">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">RGBA</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control cpicker" data-color-format="rgba" value="rgba(255, 146, 180,0.9)">
+								<p class="help-block">RGBA format specified via data-tag</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Input Group</label>
+							<div class="col-sm-8">
+								<div class="input-group color cpicker" data-color="rgb(255, 146, 180)" data-color-format="rgb">
+									<input type="text" readonly class="form-control" value="">
+									<span class="input-group-addon"><i style="background-color: rgb(255, 146, 180); margin-left: 8px;"></i></span>
+								</div>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+</div>
+{% endblock %}

@@ -1,0 +1,342 @@
+{% layout 'layout' %}
+{% block title %}Pines Notificaition{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Custom Components</a></li>
+<li class="active"><a href="custom-pines.html">Pines Notification</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/pines-notify/pnotify.css" | asset_url | stylesheet_tag }} 		<!-- PNotify -->
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/pines-notify/pnotify.min.js" | asset_url | script_tag }} 		<!-- PNotify -->
+{% endblock %}
+
+{% block content %}
+<div data-widget-group="group1">
+	<div class="row">
+		<div class="col-md-12">
+
+			<div class="alert alert-info">
+				<h3>Growl-like Notifications</h3>
+				<p>Subtle notification popups designed to provide an unparalleled level of flexibility, while still being very easy to implement and use</p>
+			</div>
+
+
+			<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2>Pines Notify</h2>
+					<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+				</div>
+				<div class="panel-body">
+					<h4>Core Module</h4>
+
+					<div class="row">
+						<div class="col-xs-3">
+							<button class="btn btn-default btn-block" onclick="new PNotify({
+								title: 'Regular Notice',
+								text: 'Check me out! I\'m a notice.',
+								icon: 'ti ti-info',
+								styling: 'fontawesome'
+							});">Regular Notice</button>
+						</div>
+						<div class="col-xs-3">
+							<button class="btn btn-default btn-block" onclick="new PNotify({
+								title: 'New Thing',
+								text: 'Just to let you know, something happened.',
+								type: 'info',
+								icon: 'ti ti-info-alt',
+								styling: 'fontawesome'
+							});">Regular Info</button>
+						</div>
+						<div class="col-xs-3">
+							<button class="btn btn-default btn-block" onclick="new PNotify({
+								title: 'Regular Success',
+								text: 'That thing that you were trying to do worked!',
+								type: 'success',
+								icon: 'ti ti-check',
+								styling: 'fontawesome'
+							});">Regular Success</button>
+						</div>
+						<div class="col-xs-3">
+							<button class="btn btn-default btn-block" onclick="new PNotify({
+								title: 'Oh No!',
+								text: 'Something terrible happened.',
+								type: 'error',
+								icon: 'ti ti-close',
+								styling: 'fontawesome'
+							});">Regular Error</button>
+						</div>
+					</div>
+
+					<hr>
+
+					<div class="row mb-md">
+						<div class="col-xs-3">
+							<button class="btn btn-default btn-block" onclick="new PNotify({
+								title: 'Font Awesome Icon',
+								text: 'I have an icon that uses the Font Awesome icon styles.',
+								icon: 'ti ti-email',
+								styling: 'fontawesome'
+							});">Font Awesome Icon Notice</button>
+						</div>
+						<div class="col-xs-3">
+							<button class="btn btn-default btn-block" onclick="new PNotify({
+								text: 'Check me out! I\'m a notice.',
+								icon: 'ti ti-info-alt',
+								styling: 'fontawesome'
+							});">Simple Notice</button>
+						</div>
+						<div class="col-xs-3">
+							<button class="btn btn-default btn-block" onclick="new PNotify({
+								title: 'No Shadow Notice',
+								text: 'I don\'t have a shadow. (It\'s cause I\'m a vampire or something. Or is that reflections...)',
+								shadow: false,
+								icon: 'ti ti-info-alt',
+								styling: 'fontawesome'
+							});">No Shadow Notice</button>
+						</div>
+						<div class="col-xs-3">
+							<button class="btn btn-default btn-block" onclick="new PNotify({
+								title: 'No Rounded Corners Notice',
+								text: 'Warning: Contains sharp objects. Not suitable for browsers under the age of CSS3.',
+								cornerclass: 'ui-pnotify-sharp',
+								icon: 'ti ti-info-alt',
+								styling: 'fontawesome'
+							});">No Rounded Corners</button>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-xs-3">
+							<button class="btn btn-default btn-block" onclick="new PNotify({
+								title: 'Fast Fading Notice',
+								text: 'I fade in and out really quickly.',
+								animate_speed: 'fast',
+								icon: 'ti ti-info-alt',
+								styling: 'fontawesome'
+							});">Fast Fading Notice</button>
+						</div>
+
+						<div class="col-xs-3">
+							<button class="btn btn-default btn-block" onclick="var notice = new PNotify({
+								text: $('#form_notice').html(),
+								icon: false,
+								width: 'auto',
+								hide: false,
+								styling: 'fontawesome',
+								buttons: {
+									closer: false,
+									sticker: false
+								},
+								insert_brs: false
+							});
+							notice.get().find('form.pf-form').on('click', '[name=cancel]', function(){
+								notice.remove();
+							}).submit(function(){
+								var username = $(this).find('input[name=username]').val();
+								if (!username) {
+									alert('Please provide a username.');
+									return false;
+								}
+								notice.update({
+									title: 'Welcome',
+									text: 'Successfully logged in as '+username,
+									icon: true,
+									width: PNotify.prototype.options.width,
+									hide: true,
+									buttons: {
+										closer: true,
+										sticker: true
+									},
+									type: 'success'
+								});
+								return false;
+							});">Form Notice</button>
+						</div>
+
+						<div class="col-xs-3">
+							<button class="btn btn-default btn-block" onclick="var notice = new PNotify({
+									title: 'Click Notice',
+									text: 'I wish someone would click me.',
+									icon: 'ti ti-info-alt',
+									styling: 'fontawesome'
+								});
+								notice.get().click(function(e){
+									if ($(e.target).is('.ui-pnotify-closer *, .ui-pnotify-sticker *'))
+										return;
+									notice.update({type: 'success', text: 'Yay, you clicked me!<div style=&quot;text-align: center;&quot;><img src=&quot;http://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Happy_smiley_face.png/240px-Happy_smiley_face.png&quot; /></div>'});
+								});">Click Notice</button>
+						</div>
+
+						<div class="col-xs-3">
+							<button class="btn btn-default btn-block" onclick="new PNotify({
+								title: 'Big Notice',
+								text: 'Check me out! I\'m tall and wide, even though my text isn\'t.',
+								width: '500px',
+								min_height: '400px',
+								icon: 'ti ti-info-alt',
+								styling: 'fontawesome'
+							});">Big Notice</button>
+						</div>
+					</div>
+
+					<hr>
+
+
+					<h4>Desktop Modules <small>Provides Web Notifications that display even when the web page is hidden.</small></h4>
+					<p>The first time you click one of these buttons, you will be asked to grant permission for this site to show notices. Then you can click them again to see the desktop notification.</p>
+
+					<p>If your browser doesn't support Web Notifications, or you deny permission to show them, you will only see regular in-browser notices. You can check <a href="http://caniuse.com/notifications">here</a>.</p>
+
+					<div class="row">
+						<div class="col-xs-3">
+							<button class="btn btn-default btn-block" onclick="PNotify.desktop.permission(); (new PNotify({
+							title: 'Desktop Notice',
+							text: 'If you\'ve given me permission, I\'ll appear as a desktop notification. If you haven\'t, I\'ll still appear as a regular PNotify notice.',
+							desktop: {
+								desktop: true
+							},
+							icon: 'ti ti-info-alt',
+							styling: 'fontawesome'
+						})).get().click(function(e){
+							if ($('.ui-pnotify-closer, .ui-pnotify-sticker, .ui-pnotify-closer *, .ui-pnotify-sticker *').is(e.target))
+								return;
+							alert('Hey! You clicked the desktop notification!');
+						});">Desktop Notification Notice</button>
+						</div>
+						<div class="col-xs-3">
+							<button class="btn btn-default btn-block" onclick="PNotify.desktop.permission(); (new PNotify({
+								title: 'Desktop Info',
+								text: 'If you\'ve given me permission, I\'ll appear as a desktop notification. If you haven\'t, I\'ll still appear as a regular PNotify notice.',
+								type: 'info',
+								desktop: {
+									desktop: true
+								},
+								icon: 'ti ti-info-alt',
+								styling: 'fontawesome'
+							})).get().click(function(e){
+								if ($('.ui-pnotify-closer, .ui-pnotify-sticker, .ui-pnotify-closer *, .ui-pnotify-sticker *').is(e.target))
+									return;
+								alert('Hey! You clicked the desktop notification!');
+							});">Desktop Notification Info</button>
+						</div>
+						<div class="col-xs-3">
+							<button class="btn btn-default btn-block" onclick="PNotify.desktop.permission(); (new PNotify({
+									title: 'Desktop Success',
+									text: 'If you\'ve given me permission, I\'ll appear as a desktop notification. If you haven\'t, I\'ll still appear as a regular PNotify notice.',
+									type: 'success',
+									desktop: {
+										desktop: true
+									},
+									icon: 'ti ti-info-alt',
+									styling: 'fontawesome'
+								})).get().click(function(e){
+									if ($('.ui-pnotify-closer, .ui-pnotify-sticker, .ui-pnotify-closer *, .ui-pnotify-sticker *').is(e.target))
+										return;
+									alert('Hey! You clicked the desktop notification!');
+								});">Desktop Notification Success</button>
+						</div>
+						<div class="col-xs-3">
+							<button class="btn btn-default btn-block" onclick="PNotify.desktop.permission(); (new PNotify({
+								title: 'Desktop Error',
+								text: 'If you\'ve given me permission, I\'ll appear as a desktop notification. If you haven\'t, I\'ll still appear as a regular PNotify notice.',
+								type: 'error',
+								desktop: {
+									desktop: true
+								},
+								icon: 'ti ti-info-alt',
+								styling: 'fontawesome'
+							})).get().click(function(e){
+								if ($('.ui-pnotify-closer, .ui-pnotify-sticker, .ui-pnotify-closer *, .ui-pnotify-sticker *').is(e.target))
+									return;
+								alert('Hey! You clicked the desktop notification!');
+							});">Desktop Notification Error</button>
+						</div>
+					</div>
+
+					<hr>
+
+					<h4>Buttons Module <small>Provides a sticker and a closer button.</small></h4>
+					<div class="alert alert-info">Since the Buttons module provides buttons by default, many of the demos on this page include the buttons.</div>
+
+					<div class="row">
+						<div class="col-xs-3">
+							<button class="btn btn-default btn-block" onclick="new PNotify({
+								title: 'Sticky Notice',
+								text: 'Check me out! I\'m a sticky notice. You\'ll have to close me yourself.',
+								hide: false,
+								icon: 'ti ti-info-alt',
+								styling: 'fontawesome'
+							});">Sticky Notice</button>
+						</div>
+						<div class="col-xs-3">
+							<button class="btn btn-default btn-block" onclick="new PNotify({
+								title: 'Sticky Info',
+								text: 'Sticky info, you know, like a newspaper covered in honey.',
+								type: 'info',
+								hide: false,
+								icon: 'ti ti-info-alt',
+								styling: 'fontawesome'
+							});">Sticky Info</button>
+						</div>
+						<div class="col-xs-3">
+							<button class="btn btn-default btn-block" onclick="new PNotify({
+								title: 'Sticky Success',
+								text: 'Sticky success... I\'m not even gonna make a joke.',
+								type: 'success',
+								hide: false,
+								icon: 'ti ti-info-alt',
+								styling: 'fontawesome'
+							});">Sticky Success</button>
+						</div>
+						<div class="col-xs-3">
+							<button class="btn btn-default btn-block" onclick="new PNotify({
+								title: 'Uh Oh!',
+								text: 'Something really terrible happened. You really need to read this, so I won\'t close automatically.',
+								type: 'error',
+								hide: false,
+								icon: 'ti ti-info-alt',
+								styling: 'fontawesome'
+							});">Sticky Error</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="form_notice" style="display: none;">
+		<form class="pf-form pform_custom" action="" method="post">
+			<div class="pf-element pf-heading">
+				<h4>Login to Continue</h4>
+				<p>Just an example.</p>
+			</div>
+			<div class="pf-element">
+				<label>
+					<span class="pf-label">Username</span>
+					<input class="pf-field form-control input-sm" type="text" name="username" />
+				</label>
+			</div>
+			<div class="pf-element">
+				<label>
+					<span class="pf-label">Password</span>
+					<input class="pf-field form-control input-sm" type="password" name="password" />
+				</label>
+			</div>
+
+			<div class="mb checkbox-inline"><label><input type="checkbox"> Remember Me</label></div>
+
+			<div>
+				<input class="pf-button btn btn-primary" type="submit" name="submit" value="Submit" />
+				<input class="pf-button btn btn-default" type="button" name="cancel" value="Cancel" />
+			</div>
+		</form>
+	</div>
+</div>
+
+{% endblock %}

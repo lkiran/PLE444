@@ -1,0 +1,81 @@
+<style>
+	/* page-specific styling */
+	.btn-block {margin-bottom: 10px;}
+</style>
+
+    <ol class="breadcrumb">
+		<li><a href="#/">Dashboard</a></li>
+		<li>Components</li>
+		<li class="active">Pines Notifications</li>
+	</ol>
+
+
+<div class="container-fluid" ng-controller="AlertsController">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="alert alert-info">
+				<h4>Growl-like Notifications</h4>
+				<p>Subtle notification popups designed to provide an unparalleled level of flexibility, while still being very easy to implement and use</p>
+			</div>
+
+			<panel panel-class="panel-sky" heading="Pines Notifications">
+					<h4 class="mt0">Growl-like Notifications</h4>
+					<p>Subtle notification popups designed to provide an unparalleled level of flexibility, while still being very easy to implement and use</p>
+					<h4>Simple Demos</h4>
+					<div class="row">
+						<div class="col-xs-4">
+							<button class="btn btn-block btn-info-alt" ng-click="simpleInfo()">Info Style</button>
+						</div>
+						<div class="col-xs-4">
+							<button class="btn btn-block btn-success-alt" ng-click="simpleSuccess()">Success Style</button>
+						</div>
+						<div class="col-xs-4">
+							<button class="btn btn-block btn-danger-alt" ng-click="simpleError()">Error Style</button>
+						</div>
+					</div>
+					
+					<h4>Sticky Demos</h4>
+					<div class="row">
+						<div class="col-xs-4">
+							<button class="btn btn-block btn-info-alt" ng-click="stickyInfo()">Info Style</button>
+						</div>
+						<div class="col-xs-4">
+							<button class="btn btn-block btn-success-alt" ng-click="stickySuccess()">Success Style</button>
+						</div>
+						<div class="col-xs-4">
+							<button class="btn btn-block btn-danger-alt" ng-click="stickyError()">Error Style</button>
+						</div>
+					</div>
+
+					<h4>Advanced Demos</h4>
+					<div class="row">
+						<div class="col-md-3 col-sm-4 col-xs-6">
+							<button class="btn btn-default-alt btn-block" ng-click="bigNotice()">Big Notice</button>
+						</div>
+						<div class="col-md-3 col-sm-4 col-xs-6">
+							<button class="btn btn-default-alt btn-block" ng-click="showRich();">Rich Notice</button>
+						</div>
+						<div class="col-md-3 col-sm-4 col-xs-6">
+							<button class="btn btn-default-alt btn-block" ng-click="showDynamic();">Dynamic Notice</button>
+						</div>
+						<div class="col-md-3 col-sm-4 col-xs-6">
+							<button class="btn btn-default-alt btn-block" ng-click="showNoHistory()">No History Notice</button>
+						</div>
+						<div class="col-md-3 col-sm-4 col-xs-6">
+							<button class="btn btn-default-alt btn-block" ng-click="showNoSticky()">No Sticky Buttons</button>
+						</div>
+						<div class="col-md-3 col-sm-4 col-xs-6">
+							<button class="btn btn-default-alt btn-block" ng-click="showPermanent()">Permanent Buttons</button>
+						</div>
+						<div class="col-md-3 col-sm-4 col-xs-6">
+							<button class="btn btn-default-alt btn-block" ng-click="showNoMouseReset()">No Mouse Reset</button>
+						</div>
+						<div class="col-md-3 col-sm-4 col-xs-6">
+							<button class="btn btn-default-alt btn-block" ng-click="showChanging()">Changing Styles</button>
+						</div>
+					</div>
+			</panel>
+		</div>
+	</div>
+
+</div> <!-- container-fluid -->

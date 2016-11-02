@@ -1,0 +1,99 @@
+{% layout 'layout' %}
+{% block title %}Sliders &amp; Ranges{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Custom Components</a></li>
+<li class="active"><a href="custom-knob.html">jQuery Knob</a></li>
+{% endblock %}
+
+{% block styles %}
+<style>
+    /* Only used for demo to center the knob */
+    .centeredcontainer {width:180px; margin:0 auto 25px}
+</style>
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/knob/jquery.knob.min.js" | asset_url | script_tag }}
+
+<script>
+$(function() {
+    $(".dial").knob(); // knob
+});
+</script>
+
+{% endblock %}
+
+{% block content %}
+<div data-widget-group="group1">
+    <div class="row">
+        <div class="col-md-12">
+
+        <div class="alert alert-info">
+            <h3>jQuery Knob <small>jQuery Dial</small></h3>
+            <p>Nice, downward compatible, touchable, jQuery dial. </p>
+            <br />
+            <h4 class="mt20">Features:</h4>
+            <ul>
+                <li>Canvas based; no png or jpg sprites.</li>
+                <li>Touch, mouse and mousewheel, keyboard events implemented.</li>
+                <li>Downward compatible; overloads an input element.</li>
+            </ul>
+        </div>
+
+
+            <div class="panel panel-info" data-widget='{"draggable": "false"}'>
+                <div class="panel-heading">
+                    <h2>jQuery Knob</h2>
+                    <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+                </div>
+                <div class="panel-body">
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p>jQuery Knob is a downward compatible, canvas based and touch friendly jQuery dial</p>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="centeredcontainer">
+                                <p class="text-center">Display input disabled</p>
+                                <input type="text" class="dial" value="25" data-width="180" data-displayInput="false" data-thickness=".05">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="centeredcontainer">
+                                <p class="text-center">Rounded Linecap</p>
+                                <input type="text" class="dial" data-linecap="round" value="63" data-width="180" data-fgColor="#07d14f" data-thickness=".05">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="centeredcontainer">
+                                <p class="text-center">Cursor Mode</p>
+                                <input type="text" class="dial" data-cursor=true value="12" data-width="180" data-fgColor="#ffa200" data-thickness=".05">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="centeredcontainer">
+                                <p class="text-center">Angle offset and arc</p>
+                                <input type="text" class="dial" value="42" data-angleOffset="-125" data-angleArc="250" data-width="180" data-fgColor="#e74949" data-thickness=".05">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="centeredcontainer">
+                                <p class="text-center">Display previous values</p>
+                                <input type="text" class="dial" value="23" data-width="180" data-fgColor="#dc51f5" data-displayPrevious="true" data-thickness=".05">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="centeredcontainer">
+                                <p class="text-center">Five digit values with 1,000 steps</p>
+                                <input type="text" class="dial" value="2000" data-width="180" data-fgColor="#a4ed16" data-step="1000" data-min="-15000" data-max="15000" data-thickness=".05">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

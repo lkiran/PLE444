@@ -1,0 +1,92 @@
+    <ol class="breadcrumb">
+        <li><a href="#/">Dashboard</a></li>
+        <li>Charts</li>
+        <li class="active">nvd3 Charts</li>
+    </ol>
+
+
+<div class="container-fluid" ng-controller="Nvd3ChartsController">
+    <div class="row">
+        <div class="col-xs-12">
+
+            <alert class="alert alert-info">
+                <p>Use the excellent nvd3 plugin to make dynamic charts like these. This project is an attempt to build re-usable charts and chart components for d3.js without taking away the power that d3.js gives you</p>
+            </alert>
+
+            <panel heading="Cumulative" Charts</a>
+                <nvd3-cumulative-line-chart data="cumulativeLineChartData" id="cumulativeLineChartExampleId" height="350" showxaxis="true" showyaxis="true" tooltips="false" interactive="false" x="xArrayFunction()" y="yArrayFunction()" xaxistickformat="xAxisTickFormatYearFunction()">
+                    <svg></svg>
+                </nvd3-cumulative-line-chart>
+            </panel>
+
+            <panel heading="Multi Bar Charts">
+                <nvd3-multi-bar-chart data="multiBarChartData" id="multiBarChartExample" height="300" showxaxis="true" showyaxis="true" interactive="true" yaxistickformat="yAxisTickFormatFunction()" xaxistickformat="xAxisTickFormatFunction()" xaxistickvalues="[1025409600000, 1036040400000, 1043989200000, 1054353600000]">
+                        <svg></svg>
+                </nvd3-multi-bar-chart>
+            </panel>
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-md-6">
+            <panel heading="Line with Focus Charts">
+                <nvd3-line-with-focus-chart data="lineChartData" id="lineWithFocusChartId" height="400" height2="50" xaxistickformat="xAxisTickFormatFunction()" x2axistickformat="xAxisTickFormatFunction()">
+                     <svg></svg>
+                </nvd3-line-with-focus-chart>
+            </panel>
+
+            <panel heading="Stacked Charts">
+                <nvd3-stacked-area-chart data="stackedAreaChartData" id="stackedAreaChartExample" height="350" showxaxis="true" showyaxis="true" interactive="true" xaxistickformat="xAxisTickFormatFunction()" yaxistickformat="yAxisTickFormatFunction()">
+                    <svg></svg>
+                </nvd3-stacked-area-chart>
+            </panel>
+
+            <panel heading="Discrete Charts">
+                <nvd3-discrete-bar-chart data="discreteBarData" id="discreteBarChartExample" xaxistickformat="xAxisTickFormatMonthFunction()" yaxistickformat="yAxisTickFormatFunction()" height="350" showxaxis="true" showyaxis="true">
+                        <svg></svg>
+                </nvd3-discrete-bar-chart>
+            </panel>
+
+            <panel heading="Line Charts">
+                <nvd3-line-chart data="lineChartData" id="lineChartExample" height="350" showxaxis="true" showyaxis="true" interactive="true" xaxistickformat="xAxisTickFormatFunction()" yaxistickformat="yAxisTickFormatFunction()">
+                    <svg></svg>
+                </nvd3-line-chart>
+            </panel>
+        </div>
+        <div class="col-md-6">
+
+
+            <panel heading="Multi Bar Horizontal Charts">
+                <nvd3-multi-bar-horizontal-chart data="multiBarChartData" id="multiBarHorizontalChartExample" yaxistickformat="yAxisTickFormatFunction()" height="350">
+                        <svg></svg>
+                </nvd3-multi-bar-horizontal-chart>
+            </panel>
+
+            <panel heading="Pie Charts">
+                <nvd3-pie-chart data="pieChartData" id="pieChartExample" height="350" showlabels="true" interactive="true" x="xPieFunction()" y="yPieFunction()">
+                    <svg height="250"></svg>
+                </nvd3-pie-chart>
+            </panel>
+
+            <panel heading="Scatter Charts">
+                <nvd3-scatter-chart data="scatterChartExampleData" id="scatterChartExampleId" xaxistickformat="xAxisTickFormatScatterFunction()" yaxistickformat="yAxisTickFormatFunction()" height="300">
+                    <svg></svg>
+                </nvd3-scatter-chart>
+            </panel>
+
+            <panel heading="Sparkline Charts">
+                <nvd3-sparkline-chart data="sparklineChartData" id="sparklineChartExampleId" height="150" margin="{left:30, top:20, bottom:20, right:50}" x="sparklineXFunction()" y="sparklineYFunction()">
+                    <svg></svg>
+                </nvd3-sparkline-chart>
+            </panel>
+
+            <panel heading="Bullet Charts">
+                <nvd3-bullet-chart data="bulletChartData" id="bulletChartId" margin="{left:75,top:60,bottom:60,right:10}" height="160">
+                    <svg></svg>
+                </nvd3-bullet-chart>
+            </panel>
+        </div>
+    </div> <!-- row -->
+
+</div> <!-- container-fluid -->

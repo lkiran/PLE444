@@ -1,0 +1,57 @@
+{% layout "layout-sidebar-scroll" %}
+{% block title %}Scroll Sidebar{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Layout</a></li>
+<li class="active"><a href="layout-scroll-sidebar.html">Scroll Sidebar</a></li>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+	$("#dyna").click(function () {
+		if ($("#dynamo").text() == "")
+			$("#dynamo").text("Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.");
+		else {
+			$("#dynamo").html($("#dynamo").text() + $("#dynamo").text());
+		}
+	})
+
+	$("#dyna-del").click(function () {
+		$("#dynamo").html("");
+	})	
+</script>
+{% endblock %}
+
+{% block content %}
+<div data-widget-group="group1">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="alert alert-info">
+				<p>Scrollable Leftbar: scrolls on large and small screen</p>
+			</div>
+			<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2>Excepteur Sint</h2>
+					<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+				</div>
+				<div class="panel-body">
+					<p>
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</p>
+
+					<p>
+						<a href="#" class="btn btn-primary" id="dyna">Dynamo</a>
+						<a href="#" class="btn btn-primary" id="dyna-del">Delete</a>
+					</p>
+
+					<div id="dynamo"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque minima, eos accusamus laborum ipsum! Officiis tempore necessitatibus, suscipit rem amet! Voluptates, tempora a tempore asperiores perferendis nam animi voluptatem, veniam, esse possimus fugit assumenda quo magni quos sit debitis quam quaerat fugiat maiores ipsum numquam sapiente accusantium consequuntur qui natus. Expedita debitis, eveniet quas libero facilis officiis, magnam doloremque quod repudiandae molestiae, officia, totam culpa? Molestiae ducimus tempore reprehenderit cumque odit explicabo, similique sit totam, rem eos quas nesciunt, libero in optio rerum eaque. Rerum, quas, alias. Dolore fuga ratione nisi, neque perspiciatis quaerat aut voluptate reiciendis nostrum hic, tenetur enim. Voluptates, expedita repellendus qui dolor, labore dolorem beatae quasi at obcaecati ipsam mollitia a ab commodi sapiente. Iusto earum accusamus perferendis ab doloribus molestiae, incidunt rem! Veritatis odit maiores tempore numquam, adipisci nam repellendus iure quos facilis mollitia, assumenda nisi, ducimus inventore quod tempora, ad nulla corrupti doloribus animi consequuntur itaque deleniti corporis blanditiis quibusdam praesentium? Provident illo unde, natus ipsam, possimus beatae adipisci, cumque fuga repellat dolorem consequatur. Nihil voluptatibus, optio aliquam alias error pariatur nostrum, vero dignissimos voluptates expedita quod consequatur perspiciatis odio architecto praesentium debitis ipsam libero blanditiis. Ipsam quos similique aliquam id repellendus! Perferendis quis magni deleniti quasi ab aliquid consequuntur ipsa distinctio porro, quos a consequatur veniam cum, delectus quam, quas! Earum debitis veniam sequi illo corporis sed officiis iste eum fugit, velit id, molestias fugiat quibusdam incidunt in tempore laudantium voluptates. Placeat, fugiat nemo repellendus quia sint omnis! Explicabo temporibus alias quis cumque assumenda, asperiores velit aliquam expedita sed. Voluptates saepe explicabo beatae, officia laudantium accusantium eaque consequuntur magnam ullam, dolor assumenda mollitia error nulla, minima modi repellat facilis ducimus iusto perspiciatis repellendus corrupti harum porro. Aspernatur quia dolorum eos hic ipsa. Sint error atque nesciunt odio similique tenetur ex incidunt minus voluptates?</p></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

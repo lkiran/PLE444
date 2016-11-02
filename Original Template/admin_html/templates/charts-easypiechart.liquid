@@ -1,0 +1,76 @@
+{% layout 'layout' %}
+{% block title %}Easy Pie Chart{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Custom Components</a></li>
+<li class="active"><a href="ui-sliders.html">Easy Pie Chart</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/easypiechart/jquery.easypiechart.js" | asset_url | script_tag }}        <!-- EasyPieChart-->
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/easypiechart/jquery.easypiechart.js" | asset_url | script_tag }}
+{{ "demo/demo-charts-easypiechart.js" | asset_url | script_tag }}
+{% endblock %}
+
+{% block content %}
+<div data-widget-group="group1">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="alert alert-info">
+                <h3>Easy Pie Chart</h3>
+                <p>Easy pie chart is a jQuery plugin that uses the canvas element to render simple pie charts for single values. These charts are highly customizable, very easy to implement, scale to the resolution of the display of the client to provide sharp charts even on retina displays</p>
+            </div>
+
+            <div class="panel panel-info" data-widget='{"draggable": "false"}'>
+                <div class="panel-heading">
+                      <h2>Easy Pie Chart</h2>
+                      <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-3 col-sm-6 col-xs-6">
+                            <div class="easypiechart" id="newvisits" data-percent="65">
+                                <span class="percent"></span>
+                            </div>
+                            <label for="newvisits"><span class="label label-teal">New Visits</span></label>
+                            <hr class="visible-sm visible-xs">
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-6">
+                            <span class="easypiechart" id="bouncerate" data-percent="81">
+                                <span class="percent"></span>
+                            </span>
+                            <label for="bouncerate"><span class="label label-success">Bounce Rate</span></label>
+                            <hr class="visible-sm visible-xs">
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-6">
+                            <span class="easypiechart" id="clickrate" data-percent="42">
+                                <span class="percent"></span>
+                            </span>
+                            <label for="clickrate"><span class="label label-danger">Click Rate</span></label>
+                            <hr class="visible-sm visible-xs">
+                        </div>
+                        <div class="col-md-3 col-sm-6 col-xs-6">
+                            <span class="easypiechart" id="covertionrate" data-percent="23">
+                                <span class="percent"></span>
+                            </span>
+                            <label for="covertionrate"><span class="label label-purple">Conversion</span></label>
+                            <hr class="visible-sm visible-xs">
+                        </div>
+                    </div>
+                    <div class="row mt-xl">
+                        <div class="col-md-offset-4 col-md-4">
+                            <a href="#" id="updatePieCharts" class="btn btn-default btn-block">Update Pie Charts</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

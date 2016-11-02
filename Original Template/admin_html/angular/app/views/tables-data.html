@@ -1,0 +1,45 @@
+    <ol class="breadcrumb">
+        <li><a href="#/">Dashboard</a></li>
+        <li>Advanced Tables</li>
+        <li class="active">Data Tables</li>
+    </ol>
+
+
+<div class="container-fluid" ng-controller="TablesAdvancedController">
+    <div class="row">
+      <div class="col-md-12">
+      
+            <!-- <panel panel-class="panel-primary" data-heading="Table With Pagination and Async Data">
+                <alert>This is an advanced demonstration of ngGrid's remote data and pagination capabilities. Please check <a target="_blank" href="http://angular-ui.github.io/ng-grid/">the official docs</a> for more information.</alert>
+
+                <div class="input mb-md">
+                    <input type="text" ng-model="filterOptions.filterText" class="form-control" placeholder="Search filter...">
+                </div>
+
+                <div style="height: 400px;" ng-grid="gridOptions"></div>
+
+            </panel> -->
+
+            <div class="panel panel-transparent">
+                <div class="panel-heading">
+                    <h2>Table With Pagination and Async Data</h2>
+                </div>
+                <div class="panel-body">
+                    <div class="alert alert-inverse mb-xl">This is an advanced demonstration of ngGrid's remote data and pagination capabilities. Please check <a target="_blank" href="http://angular-ui.github.io/ng-grid/">the official docs</a> for more information.</div>
+
+                    <div class="input mb-xl">
+                        <input type="text" ng-model="filterOptions.filterText" class="form-control" placeholder="Search filter...">
+                    </div>
+
+                    <div class="panel">
+                        <div class="panel-body no-padding">
+                            <div style="height: 512px;" ng-grid="gridOptions"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div> <!-- container-fluid -->

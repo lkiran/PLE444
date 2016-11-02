@@ -1,0 +1,29 @@
+{% layout "layout-error" %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block content %}
+    <div class="error-wrapper">
+        <div class="container">
+            <h1>Uh-oh!</h1>
+            <p>It looks like you have taken a wrong turn</p>
+            <p class="mb20">If you are in denial and think it's a conspiracy that cannot possibly be true, try using the search bar below.</p>
+        
+            <div class="row">
+                <div class="col-md-12">
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="errsearch" placeholder="Search...">
+                            <span class="input-group-btn">
+                                <button class="btn btn-primary" type="button">Search</button>
+                            </span>
+                        </div>
+                    <p class="text-center mt-lg"><small><a href="#">Report error?</a></small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

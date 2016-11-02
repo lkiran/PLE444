@@ -1,0 +1,43 @@
+{% layout 'layout' %}
+{% block title %}Dropzone Uploader{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Advanced Forms</a></li>
+<li class="active"><a href="form-dropzone.html">Dropzone Uploader</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/dropzone/css/dropzone.css" | asset_url | stylesheet_tag }} <!-- Dropzone Plugin -->
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/dropzone/dropzone.min.js" | asset_url | script_tag }}   	<!-- Dropzone Plugin -->
+{% endblock %}
+
+{% block content %}
+
+<div class="alert alert-info">
+    <h3>Dropzone</h3>
+    <p>DropzoneJS is an open source library that provides drag'n'drop file uploads with image previews.</p>
+    <p><i class="ti ti-info-alt"></i> This is a demo, and as such, no files are actually uploaded.</p>
+</div>
+<div data-widget-group="group1">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default" data-widget='{"draggable": "false"}'>
+                <div class="panel-heading">
+                    <h2>File Upload</h2>
+                    <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+                    <div class="options">
+
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <form action="upload.php" class="dropzone"></form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

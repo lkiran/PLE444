@@ -1,0 +1,48 @@
+<div class="sidebar">
+	<div class="widget">
+        <div class="widget-body">
+            <div class="userinfo">
+                <div class="avatar">
+                    <img src="{{'demo/avatar/avatar_15.png' | asset_url | img_loc }}" class="img-responsive img-circle"> 
+                </div>
+                <div class="info">
+                    <span class="username">Jonathan Smith</span>
+                    <span class="useremail">jon@avenxo.com</span>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="widget stay-on-collapse" id="widget-sidebar">
+        {% include navigation %}
+    </div>
+
+    <div class="widget" id="widget-progress">
+        <div class="widget-heading">
+            Progress
+        </div>
+        <div class="widget-body">
+
+            <div class="mini-progressbar">
+                <div class="clearfix mb-sm">
+                    <div class="pull-left">Bandwidth</div>
+                    <div class="pull-right">50%</div>
+                </div>
+                
+                <div class="progress">    
+                    <div class="progress-bar progress-bar-lime" style="width: 50%"></div>
+                </div>
+            </div>
+            <div class="mini-progressbar">
+                <div class="clearfix mb-sm">
+                    <div class="pull-left">Storage</div>
+                    <div class="pull-right">25%</div>
+                </div>
+                
+                <div class="progress">    
+                    <div class="progress-bar progress-bar-info" style="width: 25%"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

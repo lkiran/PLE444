@@ -1,0 +1,327 @@
+{% layout 'layout' %}
+{% block title %}Panels{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">UI Elements</a></li>
+<li class="active"><a href="ui-panels.html">Panels</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/switchery/switchery.css" | asset_url | stylesheet_tag }}        					<!-- Switchery -->
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/switchery/switchery.js" | asset_url | script_tag }}     								<!-- Switchery -->
+<script>
+$(function () {
+
+	$(".panel-color-list>li>span").click(function(e) {
+		$(".panel").attr('class','panel').addClass($(this).attr('data-style'));
+	});
+	
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div data-widget-group="group1">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="alert alert-info mb-xl">
+				<h3>Panel Options</h3>
+				<p>All the basic panel options and colors are shown below. More Advanced Panels options will be coming soon!</p>
+				<ul class="panel-color-list list-inline mt">
+					<li><span data-style="panel-info"></span></li>
+					<li><span data-style="panel-primary"></span></li>
+					<li><span data-style="panel-blue"></span></li>
+					<li><span data-style="panel-indigo"></span></li>
+					<li><span data-style="panel-deeppurple"></span></li>
+					<li><span data-style="panel-purple"></span></li>
+					<li><span data-style="panel-pink"></span></li>
+					<li><span data-style="panel-danger"></span></li>
+					<li><span data-style="panel-teal"></span></li>
+					<li><span data-style="panel-green"></span></li>
+					<li><span data-style="panel-success"></span></li>
+					<li><span data-style="panel-lime"></span></li>
+					<li><span data-style="panel-yellow"></span></li>
+					<li><span data-style="panel-warning"></span></li>
+					<li><span data-style="panel-orange"></span></li>
+					<li><span data-style="panel-deeporange"></span></li>
+					<li><span data-style="panel-midnightblue"></span></li>
+					<li><span data-style="panel-bluegray"></span></li>
+					<li><span data-style="panel-bluegraylight"></span></li>
+					<li><span data-style="panel-black"></span></li>
+					<li><span data-style="panel-gray"></span></li>
+					<li><span data-style="panel-default"></span></li>
+					<li><span data-style="panel-white"></span></li>
+					<li><span data-style="panel-brown"></span></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6">
+			<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2>Panel</h2>
+					<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body, .panel-footer"}'></div>
+				</div>
+				<div class="panel-body" style="height: 148px">
+					Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.
+				</div>
+				<div class="panel-footer">
+					<span class="text-gray"><em>Footer</em></span>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2>Panel with Scroll</h2>
+					<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+				</div>
+				<div class="panel-body scroll-pane" style="height: 200px;">
+					<div class="scroll-content">
+						<p>Itaque, iste, aliquid dolore rem praesentium adipisci molestiae cum quae alias temporibus quod dolor porro saepe doloribus illo. Ab mollitia magnam animi expedita quam beatae quae consequatur. Tenetur sint esse perferendis minima. Non, sapiente, placeat, dicta sunt nulla ipsum dolor ullam deserunt nihil itaque ab modi a ratione! Nihil ipsam nobis quo quos corporis porro inventore quibusdam aperiam optio. Necessitatibus ducimus unde quibusdam sequi. Veniam, perspiciatis, eaque fugiat soluta ratione sequi qui voluptatibus? Aspernatur, ex, provident, illo deleniti architecto repudiandae est exercitationem repellat quod illum maiores harum optio dicta. Deleniti, officiis, veniam, perferendis saepe non dolorem delectus cum libero excepturi eos pariatur animi ea ullam nesciunt magnam illo aliquam? Nam, nostrum, nihil suscipit ut sint voluptatibus quisquam aliquam qui illo debitis quidem consequatur similique sunt facilis aut dolores excepturi deserunt maxime sequi veritatis delectus quis quo expedita omnis quod ad soluta labore sit laudantium modi? Dignissimos, suscipit, autem, maiores esse laborum magnam quam inventore dicta ab atque vel similique eaque quae. Culpa, ab, magni, magnam velit libero quasi vel ea quo similique nostrum rerum natus et excepturi molestiae assumenda quod itaque distinctio quia dolorum sit minus impedit dolorem cumque iure necessitatibus pariatur.</p>
+						<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia aperiam delectus nulla in ex deleniti ducimus quam molestias, sint laudantium deserunt maxime tenetur nihil, numquam molestiae eligendi recusandae voluptatem reprehenderit asperiores culpa aut. Ab illum rem rerum ducimus nobis quod est a aliquam eum odio tempore at, iure atque? Quo, ad sunt. Aliquam nihil voluptatum, officiis ipsa, cum, natus, laudantium perspiciatis voluptatem debitis dolorem nam id molestias nostrum veritatis maxime eligendi! Vel numquam illum, voluptas ad quidem. Vitae soluta culpa quia veritatis accusantium rerum praesentium illum maiores. Fugit eaque excepturi rem natus, dolorem numquam, veniam corrupti doloribus officia incidunt reprehenderit mollitia omnis provident minus quisquam nobis eos. Nobis reprehenderit tempora facere asperiores ad illum sunt possimus quos deleniti nesciunt. Earum laborum incidunt accusamus corrupti, dolores, quis sit facilis quia quibusdam iusto officia. At atque cupiditate cumque officia, quasi distinctio nam eveniet! Reprehenderit suscipit itaque dolores magnam quaerat, aspernatur quae! Aspernatur fugit dolores distinctio odit at, eaque minima reprehenderit ipsa quae labore temporibus delectus perspiciatis fuga id beatae molestiae quaerat, qui libero et consequatur minus. Fugit saepe magni quod, deserunt similique obcaecati ipsum, voluptas ipsa nisi aliquam perferendis, nam est voluptatum temporibus esse eum provident eaque sint. Ducimus perspiciatis, expedita fuga.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row"> 
+		<div class="col-xs-12">
+			<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2>Nestable Panles</h2>
+					<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+				</div>
+				<div class="panel-body">
+					<p class="mb-xl">Have nested panels inside a panel</p>
+
+					<div class="row">
+						<div class="col-md-4">
+							<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+								<div class="panel-heading">
+									<h2>Panel</h2>
+									<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+								</div>
+								<div class="panel-body">
+									Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+								<div class="panel-heading">
+									<h2>Panel</h2>
+									<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+								</div>
+								<div class="panel-body">
+									Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.
+								</div>
+							</div>
+						</div>
+						<div class="col-md-4">
+							<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+								<div class="panel-heading">
+									<h2>Panel</h2>
+									<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+								</div>
+								<div class="panel-body">
+									Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+								<div class="panel-heading">
+									<h2>Panel</h2>
+									<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+								</div>
+								<div class="panel-body">
+									Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+								<div class="panel-heading">
+									<h2>Panel</h2>
+									<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+								</div>
+								<div class="panel-body">
+									Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.
+								</div>
+							</div>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-6">
+			<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2>Tabs</h2>
+					<div>
+						<ul class="nav nav-tabs pull-right">
+							<li class="active"><a href="#home1" data-toggle="tab">Home</a></li>
+							<li><a href="#tabb2" data-toggle="tab">Two</a></li>
+							<li><a href="#tabb3" data-toggle="tab">Three</a></li>
+							<li><a href="#tabb4" data-toggle="tab">Four</a></li>
+							<li><a href="#tabb5" data-toggle="tab">Five</a></li>
+							<li><a href="#tabb6" data-toggle="tab">Six</a></li>
+							<li><a href="#tabb7" data-toggle="tab">Seven</a></li>
+							<li><a href="#tabb8" data-toggle="tab">Eight</a></li>
+							<li><a href="#tabb9" data-toggle="tab">Nine</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="tab-content">
+						<div class="tab-pane active" id="home1">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+						<div class="tab-pane" id="tabb2">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+						<div class="tab-pane" id="tabb3">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+						<div class="tab-pane" id="tabb4">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+						<div class="tab-pane" id="tabb5">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+						<div class="tab-pane" id="tabb6">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+						<div class="tab-pane" id="tabb7">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+						<div class="tab-pane" id="tabb8">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+						<div class="tab-pane" id="tabb9">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2>
+						<ul class="nav nav-tabs">
+							<li class="active"><a href="#home" data-toggle="tab">Home</a></li>
+							<li><a href="#tab2" data-toggle="tab">Two</a></li>
+							<li><a href="#tab3" data-toggle="tab">Three</a></li>
+							<li><a href="#tab4" data-toggle="tab">Four</a></li>
+							<li><a href="#tab5" data-toggle="tab">Five</a></li>
+							<li><a href="#tab6" data-toggle="tab">Six</a></li>
+							<li><a href="#tab7" data-toggle="tab">Seven</a></li>
+							<li><a href="#tab8" data-toggle="tab">Eight</a></li>
+							<li><a href="#tab9" data-toggle="tab">Nine</a></li>
+						</ul>
+					</h2>
+				</div>
+				<div class="panel-body">
+					<div class="tab-content">
+						<div class="tab-pane active" id="home">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+						<div class="tab-pane" id="tab2">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+						<div class="tab-pane" id="tab3">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+						<div class="tab-pane" id="tab4">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+						<div class="tab-pane" id="tab5">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+						<div class="tab-pane" id="tab6">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+						<div class="tab-pane" id="tab7">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+						<div class="tab-pane" id="tab8">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+						<div class="tab-pane" id="tab9">Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-4">
+			<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2><i class="ti ti-mouse"></i>Panel</h2>
+					<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+				</div>
+				<div class="panel-body">
+					Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2><i class="ti ti-globe"></i>Panel</h2>
+					<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+				</div>
+				<div class="panel-body">
+					Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2><i class="ti ti-panel"></i>Panel</h2>
+					<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+				</div>
+				<div class="panel-body">
+					Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h2>Panel</h2>
+					
+					<div class="panel-ctrls">
+						<a href="#" class="button-icon"><i class="ti ti-file"></i></a>
+						<a href="#" class="button-icon"><i class="ti ti-mouse"></i></a>
+						<a href="#" class="button-icon"><i class="ti ti-settings"></i></a>
+					</div>
+				</div>
+				<div class="panel-body">
+					Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h2>Panel</h2>
+					
+					<div class="panel-ctrls">
+						<a href="#" class="button-icon"><i class="ti ti-file"></i></a>
+						<a href="#" class="button-icon"><i class="ti ti-mouse"></i></a>
+						<a href="#" class="button-icon"><i class="ti ti-settings"></i></a>
+					</div>						
+				</div>
+				<div class="panel-body">
+					Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h2>Panel</h2>
+					
+					<div class="panel-ctrls">
+						<a href="#" class="button-icon"><i class="ti ti-file"></i></a>
+						<a href="#" class="button-icon"><i class="ti ti-mouse"></i></a>
+						<a href="#" class="button-icon"><i class="ti ti-settings"></i></a>
+					</div>
+				</div>
+				<div class="panel-body">
+					Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

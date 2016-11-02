@@ -1,0 +1,53 @@
+<ol class="breadcrumb">
+	<li><a href="#/">Dashboard</a></li>
+	<li>UI Components</li>
+	<li class="active">Images &amp; Carousel</li>
+</ol>
+
+<div class="container-fluid">
+
+<div class="row">
+	<div class="col-md-12">
+
+        <panel panel-class="panel-transparent" heading="Images">
+            <p>Add classes to an <code>img</code> element to easily style images in any project.</p>
+            <div class="row">
+                <div class="col-md-2">
+                    <img masked-image src="assets/demo/stockphoto/carousel_01.jpg" class="img-rounded img-responsive" alt="Olivia Wilde" style="margin: 5px 5px 10px;">
+                </div>
+                <div class="col-md-2">
+                    <img masked-image src="assets/demo/stockphoto/carousel_02.jpg" class="img-circle img-responsive" alt="Scarlett Johannson" height="120"style="margin: 5px 5px 10px;">
+                </div>
+                <div class="col-md-2">
+                    <img masked-image src="assets/demo/stockphoto/carousel_03.jpg" class="img-thumbnail img-responsive" alt="Emma Watson"style="margin: 5px 5px 10px;">
+                </div>
+                <div class="col-md-6">
+                    <p><code>&lt;img src="..." alt="..." class="img-rounded"&gt;</code></p>
+                    <p><code>&lt;img src="..." alt="..." class="img-circle"&gt;</code></p>
+                    <p><code>&lt;img src="..." alt="..." class="img-thumbnail"&gt;</code></p>
+                </div>
+            </div>
+
+            <p>Images in Avenxo, thanks to Bootstrap 3, can be made responsive-friendly via the addition of the <code>.img-responsive</code> class. This ensures that even large images scale down to the parent</p>
+        </panel>
+	</div>
+
+	<div class="col-md-12" ng-controller="CarouselDemoController">
+        <panel panel-class="panel-transparent" heading="Carousel">
+                <p>The slideshow below shows an example of a simple carousel plugin which you can use to cycle through elements at regular intervals</p>
+
+                <carousel interval="myInterval" style="width:100%;margin:0 auto" disable-animation="true">
+                    <slide ng-repeat="slide in slides" active="slide.active">
+                      <img masked-image ng-src="{{slide.image}}" style="margin:auto;">
+                        <div class="carousel-caption">
+                            <h4>Slide {{$index}}</h4>
+                            <p>{{slide.text}}</p>
+                        </div>
+                    </slide>
+                </carousel>
+        </panel>
+	</div>
+
+</div>
+
+</div> <!-- container-fluid -->

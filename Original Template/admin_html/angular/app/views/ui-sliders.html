@@ -1,0 +1,206 @@
+    <ol class="breadcrumb">
+		<li><a href="#/">Dashboard</a></li>
+		<li>UI Components</li>
+		<li class="active">Sliders and Ranges</li>
+	</ol>
+
+
+<div class="container-fluid" ng-controller="RangeAndSliderController">
+
+	<div class="row">
+		<div class="col-md-12">
+
+			<tabset panel-tabs="true" panel-class="panel-success" heading="Angular Bootstrap Slider">
+				<tab>
+					<tab-heading><i class="fa fa-desktop"></i></tab-heading>
+					<form action="" class="form-horizontal row-border">
+						<div class="form-group">
+							<div class="col-md-3">
+								Basic Slider
+							</div>
+							<div class="col-md-9">
+								<input type="text"
+									ui-bs-slider
+									data-slider-min="0"
+									data-slider-max="10"
+									data-slider-step="1"
+									data-slider-orientation="horizontal"
+									data-slider-value="6"
+									data-slider-selection="before"
+									data-slider-tooltip="show"
+									data-slider-handle="round">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-md-3">
+								Range slider disabled
+							</div>
+							<div class="col-md-9">
+								<input type="text"
+								   ui-bs-slider
+								   data-slider-min="0"
+								   data-slider-max="10"
+								   data-slider-step="1"
+								   data-slider-orientation="horizontal"
+								   data-slider-value="5"
+								   data-slider-selection="before"
+								   data-slider-tooltip="show"
+								   data-slider-handle="round"
+								   data-slider-enabled="false">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-md-3">
+								Range slider with step set to 10
+							</div>
+							<div class="col-md-9">
+								<input type="text"
+									value=""
+									ui-bs-slider
+									data-slider-min="0"
+									data-slider-max="100"
+									data-slider-step="10"
+									data-slider-orientation="horizontal"
+									data-slider-value="60"
+									data-slider-selection="before"
+									data-slider-tooltip="show"
+									data-slider-handle="round">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-md-3">Range slider with predifined value to 30</div>
+							<div class="col-md-9">
+								 <input type="text"
+									value=""
+									ui-bs-slider
+									data-slider-min="0"
+									data-slider-max="100"
+									data-slider-step="10"
+									data-slider-orientation="horizontal"
+									data-slider-value="30"
+									data-slider-selection="before"
+									data-slider-tooltip="show"
+									data-slider-handle="round">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-md-3">Range slider with range</div>
+							<div class="col-md-9">
+								<input type="text"
+									value=""
+									ui-bs-slider
+									data-slider-min="0"
+									data-slider-max="100"
+									data-slider-step="10"
+									data-slider-orientation="horizontal"
+									data-slider-value="[20, 80]"
+									data-slider-selection="before"
+									data-slider-tooltip="show"
+									data-slider-handle="round">
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-md-3">Vertical Slider</div>
+							<div class="col-md-9">
+								<input type="text"
+									   ui-bs-slider
+									   data-slider-min="0"
+									   data-slider-max="10"
+									   data-slider-step="1"
+									   data-slider-orientation="vertical"
+									   data-slider-value="5"
+									   data-slider-selection="before"
+									   data-slider-tooltip="show"
+									   data-slider-handle="round">
+								<input type="text"
+									   value=""
+									   ui-bs-slider
+									   data-slider-min="0"
+									   data-slider-max="100"
+									   data-slider-step="10"
+									   data-slider-orientation="vertical"
+									   data-slider-value="50"
+									   data-slider-selection="before"
+									   data-slider-tooltip="show"
+									   data-slider-handle="round">
+								<input type="text"
+									   value=""
+									   ui-bs-slider
+									   data-slider-min="0"
+									   data-slider-max="100"
+									   data-slider-step="10"
+									   data-slider-orientation="vertical"
+									   data-slider-value="30"
+									   data-slider-selection="before"
+									   data-slider-tooltip="show"
+									   data-slider-handle="round">
+								<input type="text"
+									   value=""
+									   ui-bs-slider
+									   data-slider-min="0"
+									   data-slider-max="100"
+									   data-slider-step="10"
+									   data-slider-orientation="vertical"
+									   data-slider-value="[10, 90]"
+									   data-slider-selection="before"
+									   data-slider-tooltip="show"
+									   data-slider-handle="round">
+							</div>
+						</div>
+					</form>
+				</tab>
+				<tab>
+					<tab-heading><i class="fa fa-code"></i></tab-heading>
+					<p>Using sliders is as easy as adding a <code>ui-bs-slider</code> attribute and setting slider properties.</p>
+<pre class="prettyprint">
+&lt;input type=&quot;text&quot;
+   value=&quot;&quot;
+   ui-bs-slider
+   data-slider-min=&quot;0&quot;
+   data-slider-max=&quot;100&quot;
+   data-slider-step=&quot;10&quot;
+   data-slider-value=&quot;[10, 90]&quot;
+   data-slider-selection=&quot;before&quot;
+   data-slider-tooltip=&quot;show&quot;
+   data-slider-handle=&quot;round&quot;&gt;
+</pre>
+					<div class="row">
+						<div class="col-md-9">
+							<input type="text" style="width: 200% !important"
+								value="8"
+								ui-bs-slider
+								data-slider-min="0"
+								data-slider-max="100"
+								data-slider-step="10"
+								data-slider-value="[10, 90]"
+								data-slider-selection="before"
+								data-slider-tooltip="show"
+								data-slider-handle="round">
+						</div>
+					</div>
+
+				</tab>
+			</tabset>
+
+		</div>
+		
+
+		<div class="col-md-12">
+			<panel panel-class="panel-primary" heading="Sky Loader">
+				<p>Add progress loaders at the top of the page like YouTube!</p>
+				<div class="row">
+					<div class="col-md-6">
+						<button class="btn btn-primary btn-block" ng-click="loaderStart()">Load Demo</button>
+						<button class="btn btn-primary btn-block" ng-click="loaderSet(50)">Set Position 50</button>
+					</div>
+					<div class="col-md-6">
+						<button class="btn btn-primary btn-block" ng-click="loaderGet()">Get Position</button>
+						<button class="btn btn-primary btn-block" ng-click="loaderInch(10)">Inch Forward (+ 10)</button>
+					</div>
+				</div>
+			</panel>
+		</div>
+	</div>
+
+
+</div> <!-- container-fluid -->

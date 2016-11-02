@@ -1,0 +1,78 @@
+{% layout 'layout' %}
+{% block title %}Mapael{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Charts</a></li>
+<li class="active"><a href="charts-mapael.html">Mapael</a></li>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/jQuery-Mapael/js/raphael/raphael-min.js" | asset_url | script_tag }}        <!-- Load Raphael as Dependency -->
+{{ "plugins/jQuery-Mapael/js/jquery.mapael.js" | asset_url | script_tag }}              <!-- jQuery Mapael -->
+
+{{ "plugins/jquery-mousewheel/jquery.mousewheel.min.js" | asset_url | script_tag }}     <!-- MouseWheel Support -->
+
+{{ "plugins/jQuery-Mapael/js/maps/world_countries.js" | asset_url | script_tag }}       <!-- Vector Data of World Countries -->
+{{ "plugins/jQuery-Mapael/js/maps/usa_states.js" | asset_url | script_tag }}            <!-- Vector Data of USA States -->
+
+{{ "demo/demo-mapael.js" | asset_url | script_tag }}
+{% endblock %}
+
+{% block content %}
+
+<div class="alert alert-info">
+    <h3>jQuery Mapael</h3>
+    <p>jQuery Mapael is a jQuery plugin based on raphael.js that allows you to display dynamic vector maps. The maps can be interactive, is SEO friendly, and resizable.</p>
+</div>
+<div data-widget-group="group1">
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="panel panel-transparent">
+                <div class="panel-heading">
+                    <h2>Map of USA with some plotted cities</h2>
+                    
+                </div>
+                <div class="panel-body">
+                    <div class="map-usa">
+                        <div class="map">
+                            <span>Alternative content for the map</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-transparent">
+                <div class="panel-heading">
+                    <h2>Map of the world with the population by country</h2>
+                </div>
+                <div class="panel-body">
+                    <div class="map-world">
+                        <div class="map">
+                            <span>Alternative content for the map</span>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="areaLegend">
+                                    <span>Alternative content for the legend</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="plotLegend">
+                                    <span>Alternative content for the legend</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

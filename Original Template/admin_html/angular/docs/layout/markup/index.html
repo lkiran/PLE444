@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Markup - Avenxo Docs</title>
+  
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/highlight.css">
+
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.min.js"></script>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script>
+  <script type="text/javascript" src="../../js/theme.js"></script>
+
+  <style>
+    body {font-size: 90%;}
+    pre, code {font-size: 100%;}
+    h3, h4, h5, h6 {color: #2980b9; font-weight: 300}
+  </style> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../../index.html" class="icon icon-home"> Avenxo Docs</a>
+        
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+      <ul class="current">
+    
+        
+            <li class="toctree-l1 ">
+                <a class="" href="../../installation/index.html">Installation</a>
+            </li>
+        
+
+    
+        
+        <span>Layout</span>
+            
+                <li class="toctree-l1 current">
+                    <a class="current" href="index.html">Markup</a>
+                    
+                        <ul>
+                        
+                            <li class="toctree-l2"><a href="#grids">Grids</a></li>
+                            
+                                <li><a class="toctree-l3" href="#general-markup">General Markup</a></li>
+                            
+                                <li><a class="toctree-l3" href="#partial-views">Partial Views</a></li>
+                            
+                                <li><a class="toctree-l3" href="#body-classes">body classes</a></li>
+                            
+                                <li><a class="toctree-l3" href="#boxed-layouts">Boxed Layouts</a></li>
+                            
+                                <li><a class="toctree-l3" href="#fullscreen-mode">Fullscreen Mode</a></li>
+                            
+                                <li><a class="toctree-l3" href="#horizontal-layout">Horizontal Layout</a></li>
+                            
+                                <li><a class="toctree-l3" href="#navigation">Navigation</a></li>
+                            
+                        
+                        </ul>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../styles/index.html">Styles</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../fonts/index.html">Fonts</a>
+                    
+                </li>
+            
+        
+
+    
+        
+        <span>JavaScript</span>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../js/services/index.html">Services</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../js/controllers/index.html">Controllers</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../js/modules/index.html">Modules</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../js/wijets/index.html">Wijets</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../js/directives/index.html">Directives</a>
+                    
+                </li>
+            
+        
+
+    
+        
+        <span>Other</span>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../faq/index.html">Frequently Asked Questions</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../changelog/index.html">Changelog</a>
+                    
+                </li>
+            
+                <li class="toctree-l1 ">
+                    <a class="" href="../../contact/index.html">Contact</a>
+                    
+                </li>
+            
+        
+
+    
+</ul>
+
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="icon icon-reorder"></i>
+        <a href="../../index.html"></a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../../index.html">Docs</a> &raquo;</li>
+    <li>Markup</li>
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              <h1 id="grids">Grids</h1>
+<p>The theme is fluid layout with 12 columns. The sidebar (on the left) and the infobar (right) are removed from the grid.</p>
+<h2 id="general-markup">General Markup</h2>
+<p>The general template structure is the same throughout the template. Here is the general structure.</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;&lt;!--insert all stylesheet links --&gt;&lt;/head&gt;
+&lt;body&gt;
+    &lt;header id=&quot;topnav&quot; class=&quot;navbar&quot;&gt;
+        &lt;!-- All header links, including sidebar triggers and drop downs--&gt;
+    &lt;/header&gt;
+    &lt;nav id=&quot;headernav&quot; class=&quot;navbar&quot;&gt;
+        &lt;!-- The horizontal nav links are generated here --&gt;
+    &lt;/nav&gt;
+
+    &lt;div id=&quot;wrapper&quot;&gt;
+        &lt;div id=&quot;layout-static&quot;&gt;
+            &lt;div class=&quot;static-sidebar-wrapper&quot;&gt;
+                &lt;nav class=&quot;static-sidebar&quot; role=&quot;navigation&quot;&gt;
+                    &lt;!-- All sidebar links are generated here --&gt;
+                &lt;/nav&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;static-content-wrapper&quot;&gt;
+                &lt;div class=&quot;static-content&quot;&gt;
+                    &lt;div id=&quot;wrap&quot; class=&quot;mainview-animation animated&quot;&gt;
+                        &lt;!-- The actual contents of the page --&gt;
+                    &lt;/div&gt; &lt;!--wrap --&gt;
+                &lt;/div&gt;
+                &lt;footer role=&quot;contentinfo&quot;&gt;
+                    &lt;!-- Footer content --&gt;
+                &lt;/footer&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>The contents of the infobar and the header has been separated from the <em>app/index.html</em> page to reduce clutter. They can be found at the <em>app\views\layout</em> folder.</p>
+<h2 id="partial-views">Partial Views</h2>
+<p>Wildcard routes look for a .html file with the name matching the URL segment after the #/.</p>
+<p>So, when you hit the URL <em>#/layout-fixed</em>, Avenxo will make a request to the server for <em>layout-fixed.html</em> partial view file located in app/views/.</p>
+<h2 id="body-classes"><em>body</em> classes</h2>
+<p>Several important classes are added to the <code>body</code> element to control overall page appearance. They are added conditionally by the controller (<a href="../../js/controllers/index.html#root-maincontroller">MainController</a>) using the <code>$theme</code> service (more on this <a href="../../js/services/index.html#theme">here</a>).</p>
+<pre><code>&lt;body
+  ng-app=&quot;themesApp&quot;
+  ng-controller=&quot;MainController&quot;
+  class=&quot;{{getLayoutOption('sidebarThemeClass')}} {{getLayoutOption('topNavThemeClass')}}&quot;
+  ng-class=&quot;{
+              'static-header': !getLayoutOption('fixedHeader'),
+              'focusedform': getLayoutOption('fullscreen'),
+              'layout-horizontal': getLayoutOption('layoutHorizontal'),
+              'fixed-layout': getLayoutOption('layoutBoxed'),
+              'sidebar-collapsed': getLayoutOption('leftbarCollapsed') &amp;&amp; !getLayoutOption('leftbarShown'),
+              'show-infobar': getLayoutOption('rightbarCollapsed'),
+              'show-sidebar': getLayoutOption('leftbarShown')
+            }&quot;
+  ng-click=&quot;hideHeaderBar();hideChatBox()&quot;
+  to-top-on-load
+&gt;
+&lt;!-- other stuff --&gt;
+&lt;/body&gt;
+</code></pre>
+
+<p>As theme options change, so do these classes. Check out the <code>$theme</code> service documentation for details.</p>
+<h2 id="boxed-layouts">Boxed Layouts</h2>
+<p>In JavaScript, you can use the <code>$theme</code> service to turn on boxed layout with <code>$theme.set('layoutBoxed', true)</code>.</p>
+<p>You can change the width of the boxed layout and the background from the <em>variables.less</em> file, <code>@boxed-layout</code>.</p>
+<h2 id="fullscreen-mode">Fullscreen Mode</h2>
+<p>You can turn on full screen mode with <code>$theme.set('fullscreen', true)</code>.</p>
+<p>The body needs a <code>focusedform</code> class if using the site for pages such as log in or sign up which focuses on a single form in the page.</p>
+<h2 id="horizontal-layout">Horizontal Layout</h2>
+<p>To turn on horizontal layout, use <code>$theme.set('layoutHorizontal', true)</code>.</p>
+<p>The body needs a <code>layout-horizontal</code> class to use the horizontal layout.</p>
+<h2 id="navigation">Navigation</h2>
+<p>Avenxo has a data-driven navigation system in keeping with the Angular methodology. Therefore, it's split between <em>view</em> and <em>model</em> parts.</p>
+<p>First, the view is set up to recursively render the menu items using the <em>templates/nav_renderer.html</em> template snippet.</p>
+<pre><code>&lt;ul ng-controller=&quot;NavigationController&quot; id=&quot;sidebar&quot; sticky-scroll=&quot;40&quot;&gt;
+  &lt;li ng-repeat=&quot;item in menu&quot;
+      ng-class=&quot;{ hasChild: (item.children!==undefined),
+                    active: item.selected,
+                      open: (item.children!==undefined) &amp;&amp; item.open,
+           'nav-separator': item.separator==true,
+            'search-focus': (searchQuery.length&gt;0 &amp;&amp; item.selected) }&quot; 
+        ng-show=&quot;!(searchQuery.length &amp;&amp; !item.selected)&quot;
+      ng-include=&quot;'templates/nav_renderer.html'&quot;
+    &gt;&lt;/li&gt;
+&lt;/ul&gt;
+</code></pre>
+
+<p>Note that the behavior is driven by the <code>NavigationController</code> controller. This is defined in the <em>app/scripts/controllers/Navigation.js</em> file (more on this <a href="../../js/controllers/index.html#navigation">here</a>.</p>
+
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../styles/index.html" class="btn btn-neutral float-right" title="Styles"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../../installation/index.html" class="btn btn-neutral" title="Installation"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+    <!-- Copyright etc -->
+    </p>
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        
+      <span><a href="../../installation/index.html" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      <span style="margin-left: 15px"><a href="../styles/index.html" style="color: #fcfcfc">Next &raquo;</a></span>
+    </span>
+</div>
+
+</body>
+</html>

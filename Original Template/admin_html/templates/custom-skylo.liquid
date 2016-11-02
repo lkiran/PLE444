@@ -1,0 +1,77 @@
+{% layout 'layout' %}
+{% block title %}Page Progress Bar{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Custom Components</a></li>
+<li class="active"><a href="custom-skylo.html">Page Progress Bar</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/progress-skylo/skylo.css" | asset_url | stylesheet_tag }} 	<!-- Skylo -->
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/progress-skylo/skylo.js" | asset_url | script_tag }} 		<!-- Skylo -->
+
+{{ "demo/demo-custom-skylo.js" | asset_url | script_tag }}
+{% endblock %}
+
+{% block content %}
+<div data-widget-group="group1">
+	<div class="row">
+		<div class="col-md-12">
+			
+			<div class="alert alert-info">
+				<h3>Skylo <small>The Sky Loader</small></h3>
+				
+				<p>A Twitter Bootstrap extension to add progress loader at the top of the page. Just like YouTube!</p>
+			</div>
+			
+			<div class="panel panel-info" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2>Sky Loader</h2>
+					<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+				</div>
+				<div class="panel-body">
+					<div class="row mb-md">
+						<div class="col-md-4">
+							<a href="javascript:;" id="demoskylo" class="btn btn-primary btn-block">Load demo</a>
+						</div>
+						<div class="col-md-8">
+							<p>Loads demo</p>
+						</div>
+					</div>
+
+					<div class="row mb-md">
+						<div class="col-md-4">
+							<a href="javascript:;" id="setskylo" class="btn btn-default btn-block">Set position (50)</a>
+						</div>
+						<div class="col-md-8">
+							<p>Set's position of the loading bar <code>[0-100]</code></p>
+						</div>
+					</div>
+
+					<div class="row mb-md">
+						<div class="col-md-4">
+							<a href="javascript:;" id="getskylo" class="btn btn-default btn-block">Get position</a>
+						</div>
+						<div class="col-md-8">
+							<p>Get current position of the loading bar.</p>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-4">
+							<a href="javascript:;" id="inchskylo" class="btn btn-default btn-block">Inch Forward (+ 10)</a>
+						</div>
+						<div class="col-md-8">
+							<p>Loader will inch forward according to the parameters set. <code>[0-100]</code></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

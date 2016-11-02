@@ -1,0 +1,136 @@
+{% layout 'layout' %}
+{% block title %}Modals{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">UI Elements</a></li>
+<li class="active"><a href="ui-modals.html">Modals</a></li>
+{% endblock %}
+
+{% block styles %}
+<style>
+/*To make sure there is modal displayed with this class for demo*/
+.visiblemodal {
+	position: relative;
+	top: auto;
+	right: auto;
+	left: auto;
+	bottom: auto;
+	z-index: 1;
+	display: block;
+	overflow: hidden;
+}
+</style>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-transparent">
+			<div class="panel-heading">
+				<h2>Modal Dialog Boxes</h2>
+				<!-- <div class="options">
+					<ul class="nav nav-tabs">
+						<li class="active"><a href="#domwell" data-toggle="tab"><i class="fa fa-desktop"></i></a></li>
+						<li><a href="#codewell" data-toggle="tab"><i class="fa fa-code"></i></a></li>
+					</ul>
+				</div> -->
+			</div>
+			<div class="panel-body">
+				<p>Modals are streamlined, but flexible, dialog prompts with the minimum required functionality and smart defaults.</p>
+				<h4>Static example</h4>
+				<div class="tab-content">
+					<div class="tab-pane active" id="domwell">
+						<p>A rendered modal with header, body, and set of actions in the footer.</p>
+						<div class="modal visiblemodal">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+										<h2 class="modal-title">Modal title</h2>
+									</div>
+									<div class="modal-body">
+										<p>One fine body…</p>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+										<button type="button" class="btn btn-primary">Save changes</button>
+									</div>
+								</div><!-- /.modal-content -->
+							</div><!-- /.modal-dialog -->
+						</div><!-- /.modal -->
+
+					</div>
+					<div class="tab-pane" id="codewell">
+<pre class="prettyprint linenums">
+&lt;div class=&quot;modal&quot;&gt;
+  &lt;div class=&quot;modal-dialog&quot;&gt;
+    &lt;div class=&quot;modal-content&quot;&gt;
+      &lt;div class=&quot;modal-header&quot;&gt;
+        &lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;modal&quot; aria-hidden=&quot;true&quot;&gt;&#x00d7;&lt;/button&gt;
+        &lt;h2 class=&quot;modal-title&quot;&gt;Modal title&lt;/h2&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;modal-body&quot;&gt;
+        &lt;p&gt;One fine body&#x2026;&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;modal-footer&quot;&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn btn-default&quot; data-dismiss=&quot;modal&quot;&gt;Close&lt;/button&gt;
+        &lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot;&gt;Save changes&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;&lt;!-- /.modal-content --&gt;
+  &lt;/div&gt;&lt;!-- /.modal-dialog --&gt;
+&lt;/div&gt;&lt;!-- /.modal --&gt;
+</pre>
+					</div>
+				</div>
+
+				<h4>Live demo</h4>
+				<p>Toggle a modal via JavaScript by clicking the button below. It will slide down and fade in from the top of the page.</p>
+				<a data-toggle="modal" href="#myModal" class="btn btn-primary btn-lg">Launch demo modal</a>
+
+				<!-- Modal -->
+				<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								<h2 class="modal-title">Modal title</h2>
+							</div>
+							<div class="modal-body">
+								<h2>Text in a modal</h2>
+								<p>Duis mollis, est non commodo luctus, nisi erat porttitor ligula.</p>
+
+								<h2>Tooltips in a modal</h2>
+								<p><a href="#" class="tooltips" title="Tooltip">This link</a> and <a href="#" class="tooltips" title="Tooltip">that link</a> should have tooltips on hover.</p>
+
+								<hr>
+
+								<h2>Overflowing text to show scroll behavior</h2>
+								<p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+								<p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+								<p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+								<p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+								<p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+								<p><img src="{{'demo/stockphoto/music_02.jpg' | asset_url | img_loc }}" alt="Fountain" class="img-rounded img-responsive"></p>
+								<p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+								<p>Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.</p>
+								<p>Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor auctor.</p>
+								<p>Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus auctor fringilla.</p>
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-primary">Save changes</button>
+							</div>
+						</div><!-- /.modal-content -->
+					</div><!-- /.modal-dialog -->
+				</div><!-- /.modal -->
+
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

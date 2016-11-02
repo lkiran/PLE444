@@ -1,0 +1,91 @@
+{% layout "layout-comingsoon" %}
+
+{% block scripts %}
+{{ "plugins/countdown/countdown.js" | asset_url | script_tag }}
+
+<script>
+$(function() {
+    $('.countdown').countdown({
+        date: "June 7, 2087 15:03:26",
+        render: function(data) {
+          var el = $(this.el);
+          el.empty()
+            //.append("<div class='col-sm-3'><div class='time-block'><span class='digit'>" + this.leadingZeros(data.years, 4) + " </span><span class='digit-desc'>years</span></div></div>")
+            .append("<div class='col-sm-3'><div class='time-block'><span class='digit'>" + this.leadingZeros(data.days, 3) + " </span><span class='digit-desc'>days</span></div></div>")
+            .append("<div class='col-sm-3'><div class='time-block'><span class='digit'>" + this.leadingZeros(data.hours, 2) + " </span><span class='digit-desc'>hrs</span></div></div>")
+            .append("<div class='col-sm-3'><div class='time-block'><span class='digit'>" + this.leadingZeros(data.min, 2) + " </span><span class='digit-desc'>min</span></div></div>")
+            .append("<div class='col-sm-3'><div class='time-block'><span class='digit'>" + this.leadingZeros(data.sec, 2) + " </span><span class='digit-desc'>sec</span></div></div>");
+        }
+    });
+});
+</script>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block content %}
+<div class="coming-soon-wrapper">
+    <div class="container">
+        <h1>Coming Soon!</h1>
+
+        <div class="row">
+
+            <p class="mb-xl">Reprehenderit corrupti debitis dolorum, et cumque in, nostrum reiciendis molestiae quod, beatae nemo possimus. A repellat praesentium provident voluptate quam distinctio voluptates. Adipisci, ipsum pariatur quae minus omnis, sint quaerat ab distinctio. Iure ratione, eaque.</p>
+
+            <!-- The JS code replaces the inner HTML of .countdown and is not necessary, but keeping it to show the markup structure -->
+
+            <div class="countdown clearfix">
+                <div class="col-sm-3">
+                    <div class="time-block">
+                        <span class="digit">25</span>
+                        <span class="digit-desc">Days</span>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="time-block">
+                        <span class="digit">15</span>
+                        <span class="digit-desc">Hours</span>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="time-block">
+                        <span class="digit">32</span>
+                        <span class="digit-desc">Minutes</span>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="time-block">
+                        <span class="digit">43</span>
+                        <span class="digit-desc">Seconds</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="input-group mt-xl mb-xl">
+                    <input type="text" class="form-control" id="errsearch" placeholder="email@address.com">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">Sign up!</button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <ul class="demo-btns list-inline">
+                    <li><a href="#" class="btn btn-social btn-rounded btn-facebook"><i class="ti ti-facebook"></i></a></li>
+                    <li><a href="#" class="btn btn-social btn-rounded btn-twitter"><i class="ti ti-twitter"></i></a></li>
+                    <li><a href="#" class="btn btn-social btn-rounded btn-github"><i class="ti ti-github"></i></a></li>
+                    <li><a href="#" class="btn btn-social btn-rounded btn-flickr"><i class="ti ti-flickr"></i></a></li>
+                    
+                    <li><a href="#" class="btn btn-social btn-rounded btn-youtube"><i class="ti ti-youtube"></i></a></li>
+                    <li><a href="#" class="btn btn-social btn-rounded btn-linkedin"><i class="ti ti-linkedin"></i></a></li>
+                    <li><a href="#" class="btn btn-social btn-rounded btn-googleplus"><i class="ti ti-google"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

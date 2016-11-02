@@ -1,0 +1,44 @@
+{% include header %}
+    <!-- The following CSS are included as plugins and can be removed if unused-->
+    {% block styles %}{% endblock %}
+    </head>
+    {% include analytics %}
+
+    <body class="layout-boxed animated-content">
+        {% include topnav %}
+
+        <div id="wrapper">
+            <div id="layout-static">
+                <div class="static-sidebar-wrapper sidebar-default">
+                    <div class="static-sidebar">
+                        {% include sidebar %}
+                    </div>
+                </div>
+                <div class="static-content-wrapper">
+                    <div class="static-content">
+                        <div class="page-content">
+                            <ol class="breadcrumb">
+                                {% block breadcrumb %}<li><a href="index.html">Home</a></li>{% endblock %}
+                            </ol>
+                            <div class="container-fluid">
+                                {% block content %}{% endblock %}
+                            </div> <!-- .container-fluid -->
+                        </div> <!-- #page-content -->
+                    </div>
+                    {% include footer %}
+                </div>
+            </div>
+        </div>
+
+
+    {% include demo-switcher %}
+    {% include scripts %}
+    
+    <!-- Load page level scripts-->
+    {% block scripts %}{% endblock %}
+    <!-- End loading page level scripts-->
+
+    {% include "demo-switcher" %}
+
+    </body>
+</html>

@@ -1,0 +1,67 @@
+{% layout 'layout' %}
+{% block title %}Calendar{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Extras</a></li>
+<li class="active"><a href="extras-calendar">Calendar</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/fullcalendar/fullcalendar.css" | asset_url | stylesheet_tag }}   <!-- Calendar Plugin -->
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/fullcalendar/moment.min.js" | asset_url | script_tag }} 	 <!-- Moment.js Dependency -->
+{{ "plugins/fullcalendar/fullcalendar.min.js" | asset_url | script_tag }}   <!-- Calendar Plugin -->
+
+{{ "demo/demo-calendar.js" | asset_url | script_tag }}
+{% endblock %}
+
+{% block content %}
+<div class="alert alert-info">
+	<h3>FullCalendar 2 <small>Drag and Drop Calendar</small></h3>
+	<p>FullCalendar is a jQuery plugin that provides a full-sized, drag &amp; drop calendar like the one below. It uses AJAX to fetch events on-the-fly for each month and is easily configured to use your own feed format (an extension is provided for Google Calendar). It is visually customizable and exposes hooks for user-triggered events (like clicking or dragging an event).</p>
+</div>
+<div data-widget-group="group1">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="panel panel-transparent" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2>Basic Calendar</h2>
+				</div>
+				<div class="panel-body">
+					<div id="calendar-drag"></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-12">
+			<div class="panel panel-transparent" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2>Calendar with External Drag &amp; Drop</h2>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+	                    <div id="external-events" class="col-sm-3 mb-xl">
+	                        <h4 class="mt-n">Draggable Events</h4>
+	                        <ul class="list-unstyled">
+		                        <li><div class='external-event label'>All Day Event</div></li>
+		                        <li><div class='external-event label'>Birthday Party</div></li>
+		                        <li><div class='external-event label'>Meeting</div></li>
+		                        <li><div class='external-event label'>Lunch</div></li>
+		                        <li><div class='external-event label'>Dinner</div></li>
+		                        <li><div class='external-event label'>Date</div></li>
+		                    </ul>
+	                        <div class="checkbox icheck">
+	                        	<label for='drop-remove'><input type='checkbox' id='drop-remove' />Remove after drop</label>
+	                        </div>
+	                    </div>
+	                    <div id="calendar-external" class="col-sm-9"></div>
+	                </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

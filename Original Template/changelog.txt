@@ -1,0 +1,9 @@
+Changelog
+---------
+
+v1.0 / 6th June 2015
+- Initial Release
+
+v1.0.1 / 16th June 2015
+- Page content animations
+- IE9 fixes

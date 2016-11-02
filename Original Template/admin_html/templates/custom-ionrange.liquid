@@ -1,0 +1,70 @@
+{% layout 'layout' %}
+{% block title %}Ion Range Slider{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">Custom Components</a></li>
+<li class="active"><a href="custom-ionrange.html">Ion Range Slider</a></li>
+{% endblock %}
+
+{% block styles %}
+{{ "plugins/Ion.RangeSlider/css/ion.rangeSlider.css" | asset_url | stylesheet_tag }}                    <!-- Ion Range Slider -->
+{{ "plugins/Ion.RangeSlider/css/ion.rangeSlider.skinNice.css" | asset_url | stylesheet_tag }}           <!-- Ion Range Slider Default Skin -->
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/Ion.RangeSlider/js/ion-rangeSlider/ion.rangeSlider.min.js" | asset_url | script_tag }}      <!-- Ion Range Slider -->
+
+{{ "demo/demo-custom-ionrange.js" | asset_url | script_tag }}
+{% endblock %}
+
+{% block content %}
+<div data-widget-group="group1">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="alert alert-info">
+				<h3>Ion Range Slider</h3>
+				<p>Ion Range Slider is a cool, comfortable, and easily customizable jQuery range slider</p>
+			</div>
+
+			<div class="panel panel-danger" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2>Ion Range Slider</h2>
+					<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+				</div>
+				<div class="panel-body">
+					<div class="form-horizontal row-border">
+						<div class="form-group">
+							<div class="col-xs-2">Basic Range</div>
+							<div class="col-xs-8"><div id="range-step"></div></div>
+						</div>
+						<div class="form-group">
+							<div class="col-xs-2">Money Range 1</div>
+							<div class="col-xs-8"><div id="range-money"></div></div>
+						</div>
+						<div class="form-group">
+							<div class="col-xs-2">Month Slider</div>
+							<div class="col-xs-8"><div id="range-month"></div></div>
+						</div>
+						<div class="form-group">
+							<div class="col-xs-2">Temperature Slider</div>
+							<div class="col-xs-8"><div id="range-temp"></div></div>
+						</div>
+						<div class="form-group">
+							<div class="col-xs-2">Range Console</div>
+							<div class="col-xs-8">
+								<div id="range-console"></div>
+
+								<pre id="result" class="mt-md"></pre>
+
+								<button id="randomize" class="btn btn-default btn-block">Randomize Slider</button>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

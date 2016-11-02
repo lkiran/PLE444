@@ -1,0 +1,53 @@
+<style>
+/* page-specific styling */
+.visiblemodal {
+	position: relative;
+	top: auto;
+	right: auto;
+	left: auto;
+	bottom: auto;
+	z-index: 0;
+	display: block;
+	overflow: hidden;
+}
+</style>
+
+    <ol class="breadcrumb">
+		<li><a href="#/">Dashboard</a></li>
+		<li>UI Components</li>
+		<li class="active">Modal Boxes</li>
+	</ol>
+
+
+<div class="container-fluid" ng-controller="ModalsDemoController">
+
+	<div class="row">
+		<div class="col-md-12">
+			<div class="alert alert-info">
+				<h3>Bootbox <small>Programmatic Bootstrap Modals</small></h3>
+				<p>Bootbox.js is a small JavaScript library which allows you to create programmatic dialog boxes using Twitter’s Bootstrap modals, without having to worry about creating, managing or removing any of the required DOM elements or JS event handlers.</p>
+			</div>
+
+			<panel panel-class="panel-default" heading="Bootbox">
+				<p>Bootbox.js is a small JavaScript library which allows you to create programmatic dialog boxes using Twitter’s Bootstrap modals, without having to worry about creating, managing or removing any of the required DOM elements or JS event handlers.</p>
+				
+				<div class="row">
+					<div class="col-md-6">
+						<a href="javascript:;" class="btn btn-default btn-block" ng-click="openAlert()">Basic alert example</a>
+						<a href="javascript:;" class="btn btn-default btn-block" ng-click="openAlertWithCallback()">Alert with callback</a>
+					</div>
+					<div class="col-md-6">
+						<a href="javascript:;" class="btn btn-default btn-block" ng-click="openConfirm()">Confirm example</a>
+						<a href="javascript:;" class="btn btn-default btn-block" ng-click="openPrompt()">Prompt example</a>
+					</div>
+				</div>
+				<div class="row" style="margin-top: 10px;">
+					<div class="col-xs-12">
+						<a href="javascript:;" class="btn btn-primary btn-block" ng-click="openDialog()">Advanced Dialog</a>
+					</div>
+				</div>
+			</panel>
+		</div>
+	</div>
+
+</div> <!-- container-fluid -->

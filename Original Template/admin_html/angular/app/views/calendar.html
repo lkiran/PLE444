@@ -1,0 +1,50 @@
+    <ol class="breadcrumb">
+        <li><a href="#/">Dashboard</a></li>
+        <li class="active">Calendar</li>
+    </ol>
+
+
+<div class="container-fluid" ng-controller="CalendarController">
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="panel panel-transparent calendar">
+            <div class="panel-heading">
+                <h2>Basic Calendar</h2>
+            </div>
+            <div class="panel-body">
+                <div class="alert alert-info">Click on a date to create an event, drag &amp; drop to move events or extend time ranges</div>
+                <div data-make-full-calendar="{ events: demoEvents }" ng-model="demoEvents"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12">
+        <div class="panel panel-transparent">
+            <div class="panel-heading">
+                <h2>Calendar with External Drag &amp; Drop</h2>
+                <div class="options">
+                    
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                <div id="el"></div>
+                    <div id='external-events' class="col-sm-3">
+                        <h4>Draggable Events</h4>
+                        <form ng-submit="addEvent()" style="margin-bottom: 10px;" class="clearfix">
+                            <label for="" class="control-label">Enter a name for an event:</label>
+                            <input type="text" ng-model="newEvent" class="form-control" style="margin-bottom: 10px;" placeholder="Event Name...">
+                            <button class="btn btn-primary pull-left" ng-click="addEvent()">Create Event</button>
+                        </form>
+                        <div ng-repeat="event in events">
+                            <div class='external-event label label-info' data-draggable-event="{ title: event.title }" >{{event.title}}</div>
+                        </div>
+                    </div>
+
+                    <div data-make-full-calendar="{ defaultView: 'agendaWeek', droppable: true, removeDroppedEvent: true }" class="col-sm-9"></div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- container-fluid -->

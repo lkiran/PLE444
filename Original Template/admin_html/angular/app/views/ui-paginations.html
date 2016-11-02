@@ -1,0 +1,87 @@
+	    <ol class="breadcrumb">
+					<li><a href="#/">Dashboard</a></li>
+					<li>UI Components</li>
+					<li class="active">Pagers and Paginations</li>
+			</ol>
+
+	<div class="container-fluid" ng-controller="PaginationAndPagingController">
+
+	<div class="row">
+			<div class="col-md-12">
+		<tabset panel-tabs="true" panel-class="panel-transparent" heading="Pagination with Pager">
+			<tab>
+				<tab-heading><i class="ti ti-desktop"></i></tab-heading>
+					<div class="row">
+						<div class="col-sm-6">
+							<h4>Pagination</h4>
+							<p>Pagination using Angular is a breeze! Check out the examples below.</p>
+
+							<pagination class="mb5" total-items="totalItems" ng-model="currentPage" ng-change="pageChanged()"></pagination>
+							<br>
+							<pagination class="mb5 pagination-sm" boundary-links="true" total-items="totalItems" ng-model="currentPage" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" default-texts></pagination>
+							<br>
+							<pagination class="mb5" direction-links="false" boundary-links="true" total-items="totalItems" ng-model="currentPage"></pagination>
+							<br>
+							<pagination class="mb5" direction-links="false" total-items="totalItems" ng-model="currentPage" num-pages="smallnumPages"></pagination>
+							<br>
+
+							<pre>The selected page no: {{currentPage}}</pre>
+							<button class="btn btn-info" ng-click="currentPage = 3">Set current page to: 3</button>
+						</div>
+						<div class="col-sm-6">
+							<h4>Pager</h4>
+							<pager total-items="totalItems" ng-model="currentPage"></pager>
+							<pager total-items="totalItems" ng-model="currentPage" default-texts></pager>
+						</div>
+					</div>
+
+					<h4>Limiting the maximum visible buttons</h4>
+					<pagination class="mb5" total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true"></pagination>
+					<br>
+					<pagination class="mb5" total-items="bigTotalItems" ng-model="bigCurrentPage" max-size="maxSize" class="pagination-sm" boundary-links="true" rotate="false" num-pages="numPages"></pagination>
+					<br>
+					<pre>Page: {{bigCurrentPage}} / {{numPages}}</pre>
+
+			</tab>
+			<tab>
+				<tab-heading><i class="ti ti-settings"></i></tab-heading>
+				<p>Source HTML for the demo:</p>
+				<tabset tab-theme="info">
+					<tab heading="HTML">
+<pre class="prettyprint">
+&lt;pagination total-items=&quot;totalItems&quot; ng-model=&quot;currentPage&quot; ng-change=&quot;pageChanged()&quot;&gt;&lt;/pagination&gt;
+&lt;pagination boundary-links=&quot;true&quot; total-items=&quot;totalItems&quot; ng-model=&quot;currentPage&quot; class=&quot;pagination-sm&quot; previous-text=&quot;&amp;lsaquo;&quot; next-text=&quot;&amp;rsaquo;&quot; first-text=&quot;&amp;laquo;&quot; last-text=&quot;&amp;raquo;&quot;&gt;&lt;/pagination&gt;
+&lt;pagination direction-links=&quot;false&quot; boundary-links=&quot;true&quot; total-items=&quot;totalItems&quot; ng-model=&quot;currentPage&quot;&gt;&lt;/pagination&gt;
+&lt;pagination direction-links=&quot;false&quot; total-items=&quot;totalItems&quot; ng-model=&quot;currentPage&quot; num-pages=&quot;smallnumPages&quot;&gt;&lt;/pagination&gt;
+
+&lt;pre&gt;The selected page no: {{currentPage}}&lt;/pre&gt;
+&lt;button class=&quot;btn btn-info&quot; ng-click=&quot;currentPage = 3&quot;&gt;Set current page to: 3&lt;/button&gt;
+
+&lt;hr&gt;
+&lt;h4&gt;Using a Pager&lt;/h4&gt;
+&lt;pager total-items=&quot;totalItems&quot; ng-model=&quot;currentPage&quot;&gt;&lt;/pager&gt;
+
+&lt;h4&gt;Limiting the maximum visible buttons&lt;/h4&gt;
+&lt;pagination total-items=&quot;bigTotalItems&quot; ng-model=&quot;bigCurrentPage&quot; max-size=&quot;maxSize&quot; class=&quot;pagination-sm&quot; boundary-links=&quot;true&quot;&gt;&lt;/pagination&gt;
+&lt;pagination total-items=&quot;bigTotalItems&quot; ng-model=&quot;bigCurrentPage&quot; max-size=&quot;maxSize&quot; class=&quot;pagination-sm&quot; boundary-links=&quot;true&quot; rotate=&quot;false&quot; num-pages=&quot;numPages&quot;&gt;&lt;/pagination&gt;
+&lt;pre&gt;Page: {{bigCurrentPage}} / {{numPages}}&lt;/pre&gt;
+</pre>
+								</tab>
+								<tab heading="JavaScript">
+<pre class="prettyprint">
+// inside the controller
+$scope.totalItems = 64;
+$scope.currentPage = 4;
+
+$scope.maxSize = 5;
+$scope.bigTotalItems = 175;
+$scope.bigCurrentPage = 1;
+</pre>  
+					</tab>
+				</tabset>
+			</tab>
+		</tabset>
+			</div>
+	</div>
+
+</div> <!-- container-fluid -->

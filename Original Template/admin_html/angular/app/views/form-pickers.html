@@ -1,0 +1,215 @@
+    <ol class="breadcrumb">
+        <li><a href="#/">Dashboard</a></li>
+        <li>Forms</li>
+        <li class="active">Pickers</li>
+    </ol>
+
+<div class="container-fluid">
+
+<div data-widget-group="group1">
+	<div class="row">
+		<div class="col-xs-12">
+
+			<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2>Date Picker</h2>
+					<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+				</div>
+				<div class="panel-body">
+		<div ng-controller="DatepickerDemoController" class="form-horizontal row-border">
+
+			<div class="form-group">
+				<label for="#" class="col-md-3 control-label">Inline</label>
+				<div class="col-md-6">
+					<datepicker ng-model="dt" min-date="minDate" show-weeks="true" class="datepicker"></datepicker>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label for="#" class="col-md-3 control-label">Input Group</label>
+				<div class="col-md-6">
+					<div class="input-group">
+						<input type="text" class="form-control datepicker" datepicker-popup="{{format}}" ng-model="dt" is-open="opened" min-date="minDate" max-date="'2015-06-22'" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+						<div class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="open($event)"><i class="ti ti-calendar"></i></button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="control-label col-sm-3">Format:</label> 
+				<div class="col-sm-6">
+					<select class="form-control" ng-model="format" ng-options="f for f in formats">
+						<option></option>
+					</select>
+					<br>
+					<button type="button" class="btn btn-sm btn-info" ng-click="today()">Today</button>
+					<button type="button" class="btn btn-sm btn-default" ng-click="dt = '2009-08-24'">2009-08-24</button>
+					<button type="button" class="btn btn-sm btn-danger" ng-click="clear()">Clear</button>
+					<button type="button" class="btn btn-sm btn-default" ng-click="toggleMin()" tooltip="After today restriction">Min date</button>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<div class="col-md-6 col-md-offset-3 control-label">
+					<pre>Selected date is: <em>{{dt | date:'fullDate' }}</em></pre>
+				</div>
+			</div>
+		</div>
+				</div>
+			</div>
+
+			<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2>Date Range Picker</h2>
+					<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+				</div>
+				<div class="panel-body">
+		<div ng-controller="DateRangePickerDemo">
+			<form action="" class="form-horizontal row-border">
+				<div class="form-group">
+					<label class="col-sm-3 control-label">Select Date Range</label>
+					<div class="col-sm-6">
+						<div class="input-group">
+							<span class="input-group-addon"><i class="ti ti-calendar"></i></span>
+							<input type="text" class="form-control" daterangepicker="">
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label">Advanced Range Selector</label>
+					<div class="col-sm-6">
+						<button class="btn btn-default" daterangepicker="drp_options" date-begin="drp_start" date-end="drp_end">
+							<i class="ti ti-calendar"></i> <span style="margin-left: 5px">{{drp_start}} - {{drp_end}}</span> <b class="caret"></b>
+						</button>
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label">Select Both Date and Time</label>
+					<div class="col-sm-6">
+						<div class="input-group">
+							<span name="daterangepicker3" class="input-group-addon"><i class="ti ti-calendar"></i></span>
+							<input type="text" class="form-control" daterangepicker="{ timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A' }">
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+				</div>
+			</div>
+			
+			
+			<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2>Time Picker</h2>
+					<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+				</div>
+				<div class="panel-body">
+		<form action="" class="form-horizontal" ng-controller="TimepickerDemoCtrl">
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Default</label>
+				<div class="col-sm-6">
+					<timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian" class="timepicker"></timepicker>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">External Controls</label>
+				<div class="col-sm-6">
+					  <button class="btn btn-info" ng-click="toggleMode()">12H / 24H</button>
+					  <button class="btn btn-default" ng-click="update()">Set to 14:00</button>
+					  <button class="btn btn-danger" ng-click="clear()">Clear</button>
+				</div>
+			</div>
+		 </form>
+				</div>
+			</div>
+
+			<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2>Color Pickers</h2>
+					<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+				</div>
+				<div class="panel-body">
+					<form action="" class="form-horizontal row-border">
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Default</label>
+							<div class="col-sm-8">
+								<input data-colorpicker type="text" class="form-control cpicker" data-color-format="hex" value="#fff">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">RGBA</label>
+							<div class="col-sm-8">
+								<input data-colorpicker type="text" class="form-control cpicker" data-color-format="rgba" value="rgba(255, 146, 180,0.9)">
+								<p class="help-block">RGBA format specified via data-tag</p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label">Input Group</label>
+							<div class="col-sm-8">
+								<div class="input-group cpicker color" data-color="rgb(255, 146, 180)" data-color-format="rgb">
+									<input data-colorpicker type="text" readonly class="form-control" value="">
+									<span class="input-group-addon"><i style="background-color: rgb(255, 146, 180); margin-left: 8px;"></i></span>
+								</div>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-8 col-sm-offset-2"><a data-toggle="modal" data-target="#cpicker_modal" class="btn btn-primary">Launch Color Pickers in Modal Dialog Box</a></div>
+						</div>
+					</form>
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+
+
+
+
+
+  <!-- Colorpicker Modal -->
+  <div class="modal fade modals" id="cpicker_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		  <h4 class="modal-title">Colorpickers</h4>
+		</div>
+		<div class="modal-body">
+		<form action="" class="form-horizontal">
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Default</label>
+				<div class="col-sm-6">
+					<input data-colorpicker type="text" class="form-control cpicker" data-color-format="hex" value="#fff">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">RGBA</label>
+				<div class="col-sm-6">
+					<input data-colorpicker type="text" class="form-control cpicker" data-color-format="rgba" value="rgba(255, 146, 180,0.9)">
+					<p class="help-block">RGBA format specified via data-tag</p>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">Input Group</label>
+				<div class="col-sm-6">
+					<div class="input-group color cpicker" data-color="rgb(255, 146, 180)" data-color-format="rgb">
+						<input data-colorpicker type="text" readonly class="form-control" value="">
+						<span class="input-group-addon"><i style="background-color: rgb(255, 146, 180); margin-left: 8px;"></i></span>
+					</div>
+				</div>
+			</div>
+		</form>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		  <button type="button" class="btn btn-primary">Save changes</button>
+		</div>
+	  </div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+</div>
+
+</div> <!-- container-fluid -->

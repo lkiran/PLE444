@@ -1,0 +1,56 @@
+{% layout 'layout' %}
+{% block title %}Modals{% endblock %}
+
+{% block breadcrumb %}
+<li><a href="index.html">Home</a></li>
+<li><a href="#">UI Elements</a></li>
+<li class="active"><a href="ui-modals.html">Modals</a></li>
+{% endblock %}
+
+{% block styles %}
+{% endblock %}
+
+{% block scripts %}
+{{ "plugins/bootbox/bootbox.js" | asset_url | script_tag }} 	<!-- Bootbox -->
+{{ "demo/demo-modals.js" | asset_url | script_tag }}
+{% endblock %}
+
+{% block content %}
+<div data-widget-group="group1">
+	<div class="row">
+		<div class="col-md-12">
+
+			<div class="alert alert-info">
+				<h3>Bootbox <small>Programmatic Bootstrap Modals</small></h3>
+				<p>Bootbox.js is a small JavaScript library which allows you to create programmatic dialog boxes using Twitter’s Bootstrap modals, without having to worry about creating, managing or removing any of the required DOM elements or JS event handlers.</p>
+			</div>
+
+			<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+				<div class="panel-heading">
+					<h2>Bootbox</h2>
+					<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+				</div>
+				<div class="panel-body">
+
+					<div class="row">
+						<div class="col-md-6">
+							<a href="javascript:;" class="btn btn-default btn-block" id="bootbox-demo-1">Basic alert example</a>
+							<a href="javascript:;" class="btn btn-default btn-block" id="bootbox-demo-2">Alert with callback</a>
+						</div>
+						<div class="col-md-6">
+							<a href="javascript:;" class="btn btn-default btn-block" id="bootbox-demo-3">Confirm example</a>
+							<a href="javascript:;" class="btn btn-default btn-block" id="bootbox-demo-4">Prompt example</a>
+						</div>
+					</div>
+					<div class="row" style="margin-top: 10px;">
+						<div class="col-xs-12">
+							<a href="javascript:;" class="btn btn-primary btn-block" id="bootbox-demo-5">Advanced Dialog</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+{% endblock %}
