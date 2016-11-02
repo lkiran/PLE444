@@ -21,7 +21,7 @@ namespace PLE444.Models
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("PleDbContext", throwIfV1Schema: false)
         {
         }
 

@@ -195,19 +195,55 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Context\PleDbContext.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CommunitiesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611022121578_UserDEtail.cs" />
+    <Compile Include="Migrations\201611022121578_UserDEtail.Designer.cs">
+      <DependentUpon>201611022121578_UserDEtail.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611022144378_Community.cs" />
+    <Compile Include="Migrations\201611022144378_Community.Designer.cs">
+      <DependentUpon>201611022144378_Community.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611022247377_NineTable.cs" />
+    <Compile Include="Migrations\201611022247377_NineTable.Designer.cs">
+      <DependentUpon>201611022247377_NineTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611022325452_TwoTable.cs" />
+    <Compile Include="Migrations\201611022325452_TwoTable.Designer.cs">
+      <DependentUpon>201611022325452_TwoTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Community.cs" />
+    <Compile Include="Models\Interest.cs" />
+    <Compile Include="Models\Course.cs" />
+    <Compile Include="Models\Document.cs" />
+    <Compile Include="Models\Event.cs" />
+    <Compile Include="Models\EventReponse.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Post.cs" />
+    <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\Tag.cs" />
+    <Compile Include="Models\UserCommunity.cs" />
+    <Compile Include="Models\UserInterest.cs" />
+    <Compile Include="Models\UserCourse.cs" />
+    <Compile Include="Models\UserDetail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Database.mdf" />
+    <Content Include="App_Data\Database_log.ldf">
+      <DependentUpon>Database.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\style-blessed1.css" />
@@ -2221,10 +2257,13 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Communities\Create.cshtml" />
+    <Content Include="Views\Communities\Delete.cshtml" />
+    <Content Include="Views\Communities\Details.cshtml" />
+    <Content Include="Views\Communities\Edit.cshtml" />
+    <Content Include="Views\Communities\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -2232,6 +2271,20 @@
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201611022121578_UserDEtail.resx">
+      <DependentUpon>201611022121578_UserDEtail.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611022144378_Community.resx">
+      <DependentUpon>201611022144378_Community.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611022247377_NineTable.resx">
+      <DependentUpon>201611022247377_NineTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611022325452_TwoTable.resx">
+      <DependentUpon>201611022325452_TwoTable.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
