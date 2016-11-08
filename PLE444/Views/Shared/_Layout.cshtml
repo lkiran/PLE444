@@ -3,7 +3,7 @@
 	
 *@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
 	<meta charset="utf-8">
 	<title>PLE 444</title>
@@ -227,7 +227,7 @@
 					<img class="img-circle" src="~/Content/img/pp.jpg" alt="" />
 				</a>
 				<ul class="dropdown-menu userinfo arrow">
-					<li><a href="#/"><i class="ti ti-user"></i><span>Profil</span><span class="badge badge-info pull-right">80%</span></a></li>
+					<li><a href="@Url.Action("Index","User")"><i class="ti ti-user"></i><span>Profil</span><span class="badge badge-info pull-right">80%</span></a></li>
 					<li><a href="#/"><i class="ti ti-panel"></i><span>Hesap</span></a></li>
 					<li><a href="#/"><i class="ti ti-settings"></i><span>Ayarlar</span></a></li>
 					<li class="divider"></li>
@@ -244,26 +244,26 @@
 					<div class="sidebar">
 						<div class="widget">
 						</div>
-						<div class="widget stay-on-collapse" id="widget-sidebar">
+						<div class="widget" id="widget-sidebar">
 							<nav role="navigation" class="widget-body">
 								<ul class="acc-menu">
 									<li class="nav-separator"><span>İçerik</span></li>
 									<li>
-										<a href="javascript:;"><i class="ti ti-direction"></i><span>Dersler</span></a>
-										<ul class="acc-menu" style="display: block;">
+										<a href="#_"><i class="ti ti-direction"></i><span>Dersler</span></a>
+										<ul class="" style="display: block;">
 											<li><a href="#">MATH 101.02</a></li>
 											<li><a href="#">CET 444.01</a></li>
 										</ul>
 									</li><li>
-										<a href="javascript:;"><i class="ti ti-direction"></i><span>Alanlar</span></a>
-										<ul class="acc-menu" style="display: block;">
+										<a href="#_"><i class="ti ti-direction"></i><span>Alanlar</span></a>
+										<ul class="" style="display: block;">
 											<li><a href="#">Bilişim</a></li>
 											<li><a href="#">Fotoğraf</a></li>
 										</ul>
 									</li>
 									<li>
-										<a href="javascript:;"><i class="ti ti-direction"></i><span>Gruplar</span></a>
-										<ul class="acc-menu" style="display: block;">
+										<a href="#_"><i class="ti ti-direction"></i><span>Gruplar</span></a>
+										<ul class="" style="display: block;">
 											<li><a href="#">Databaseciler</a></li>
 											<li><a href="#">Math101 Sınav</a></li>
 										</ul>
@@ -278,7 +278,27 @@
 			<div class="static-content-wrapper">
 				<div class="static-content">
 					<div class="page-content">
-						@RenderBody()
+                        <ol class="breadcrumb">
+                            <li class="active"><a href="#">Kullanıcı</a></li>
+                        </ol>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-9">                                
+                                    @RenderBody()
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="panel panel-default" data-widget='{"draggable": "false"}'>
+                                        <div class="panel-heading">
+                                            <h2>Panel</h2>
+                                            <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+                                        </div>
+                                        <div class="panel-body">
+                                            Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 					</div> <!-- #page-content -->
 				</div>
 				<footer role="contentinfo">

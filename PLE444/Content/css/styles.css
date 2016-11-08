@@ -848,7 +848,7 @@ html {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 body {
-  font-family: 'Source Sans Pro', 'Segoe UI', 'Droid Sans', Tahoma, Arial, sans-serif;
+  font-family: Arial, Tahoma, sans-serif;
   font-size: 14px;
   line-height: 1.45;
   color: #616161;
@@ -947,7 +947,7 @@ h6,
 .h4,
 .h5,
 .h6 {
-  font-family: 'Source Sans Pro', 'Segoe UI', 'Droid Sans', Tahoma, Arial, sans-serif;
+  font-family: Arial, Tahoma, sans-serif;
   font-weight: 400;
   line-height: 1.2;
   color: #616161;
@@ -4652,7 +4652,7 @@ button.close {
   z-index: 1230;
   display: block;
   visibility: visible;
-  font-family: 'Source Sans Pro', 'Segoe UI', 'Droid Sans', Tahoma, Arial, sans-serif;
+  font-family: Arial, Tahoma, sans-serif;
   font-size: 12px;
   font-weight: normal;
   line-height: 1.4;
@@ -4759,7 +4759,7 @@ button.close {
   display: none;
   max-width: 276px;
   padding: 1px;
-  font-family: 'Source Sans Pro', 'Segoe UI', 'Droid Sans', Tahoma, Arial, sans-serif;
+  font-family: Arial, Tahoma, sans-serif;
   font-size: 14px;
   font-weight: normal;
   line-height: 1.45;
@@ -6306,7 +6306,7 @@ h6,
 .h6 {
   margin-top: 16px;
   margin-bottom: 16px;
-  font-family: 'Source Sans Pro', 'Segoe UI', 'Droid Sans', Tahoma, Arial, sans-serif;
+  font-family: Arial, Tahoma, sans-serif;
 }
 h1,
 h2,
@@ -13337,7 +13337,7 @@ body.topnav-collapsed header.navbar.navbar-default .navbar-collapse .open .tt-dr
 }
 .label {
   padding: 0em 0.3em;
-  font-family: 'Source Sans Pro', 'Segoe UI', 'Droid Sans', Tahoma, Arial, sans-serif;
+  font-family: Arial, Tahoma, sans-serif;
   font-weight: 600;
   border-radius: 2px;
   font-size: 85%;
@@ -13419,7 +13419,7 @@ body.topnav-collapsed header.navbar.navbar-default .navbar-collapse .open .tt-dr
 .badge {
   padding: 0px 5px;
   font-size: 12px;
-  font-family: 'Source Sans Pro', 'Segoe UI', 'Droid Sans', Tahoma, Arial, sans-serif;
+  font-family: Arial, Tahoma, sans-serif;
 }
 .badge-primary {
   background-color: #03a9f4;
@@ -19804,7 +19804,7 @@ body.layout-boxed #wrapper {
 /* Breadcrumb Mod */
 .page-content > .breadcrumb {
   border: 0 !important;
-  margin: 0 0 32px 0;
+  /*margin: 0 0 32px 0;*/
   padding: 12px 16px;
   display: inherit;
   background: #f5f5f5;
@@ -23906,7 +23906,7 @@ textarea.autosize {
   font-size: 14px;
   margin-top: 16px;
   margin-bottom: 16px;
-  font-family: 'Source Sans Pro', 'Segoe UI', 'Droid Sans', Tahoma, Arial, sans-serif;
+  font-family: Arial, Tahoma, sans-serif;
   font-weight: 700;
 }
 .stepy-header li small,
@@ -23928,7 +23928,7 @@ textarea.autosize {
   margin-top: 16px;
   margin-bottom: 16px;
   font-weight: 400;
-  font-family: 'Source Sans Pro', 'Segoe UI', 'Droid Sans', Tahoma, Arial, sans-serif;
+  font-family: Arial, Tahoma, sans-serif;
   font-family: 300;
 }
 .stepy-header li div small,
@@ -24243,7 +24243,7 @@ fieldset[disabled] .fc .fc-button.active {
   font-size: 18px;
   margin-top: 16px;
   margin-bottom: 16px;
-  font-family: 'Source Sans Pro', 'Segoe UI', 'Droid Sans', Tahoma, Arial, sans-serif;
+  font-family: Arial, Tahoma, sans-serif;
   font-weight: 400;
   text-transform: uppercase;
   margin: 0;
@@ -24268,7 +24268,7 @@ fieldset[disabled] .fc .fc-button.active {
     font-size: 14px;
     margin-top: 16px;
     margin-bottom: 16px;
-    font-family: 'Source Sans Pro', 'Segoe UI', 'Droid Sans', Tahoma, Arial, sans-serif;
+    font-family: Arial, Tahoma, sans-serif;
     font-weight: 700;
     margin: 4px 0;
   }
@@ -25046,7 +25046,7 @@ label.icheck.checkbox {
   border-top: 0 !important;
 }
 .jvectormap-tip {
-  font-family: 'Source Sans Pro', 'Segoe UI', 'Droid Sans', Tahoma, Arial, sans-serif !important;
+  font-family:  Arial, Tahoma, sans-serif !important;
   font-size: 12px !important;
   font-weight: normal !important;
   line-height: 1.4 !important;
@@ -25783,9 +25783,7 @@ li.show-grid [class*="col-"] {
   background: #121;
   box-shadow: inset 0px 0px 1px 0px #fff;
 }
-.demo-example .breadcrumb {
-  margin-bottom: 32px;
-}
+
 #demo-type-table {
   width: 100%;
   margin: -20px 0 -20px 0;
