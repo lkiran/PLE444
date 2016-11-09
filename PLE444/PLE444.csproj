@@ -198,6 +198,7 @@
     <Compile Include="Context\PleDbContext.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CommunitiesController.cs" />
+    <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -2264,6 +2265,7 @@
     <Content Include="Views\Communities\Edit.cshtml" />
     <Content Include="Views\Communities\Index.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Course\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
