@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using PLE444.Context;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,10 +10,14 @@ namespace PLE444.Controllers
 {
     public class UserController : Controller
     {
-        // GET: User
+        private PleDbContext db = new PleDbContext();
+        [Authorize]
         public ActionResult Index()
         {
-            return View();
+            var currentuserId = User.Identity.GetUserId();
+            var userDetail = db.UserDetails.Find(currentuserId);
+
+            return View(userDetail);
         }
     }
 }

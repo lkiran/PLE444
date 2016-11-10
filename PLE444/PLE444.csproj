@@ -205,21 +205,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201611022121578_UserDEtail.cs" />
-    <Compile Include="Migrations\201611022121578_UserDEtail.Designer.cs">
-      <DependentUpon>201611022121578_UserDEtail.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611022144378_Community.cs" />
-    <Compile Include="Migrations\201611022144378_Community.Designer.cs">
-      <DependentUpon>201611022144378_Community.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611022247377_NineTable.cs" />
-    <Compile Include="Migrations\201611022247377_NineTable.Designer.cs">
-      <DependentUpon>201611022247377_NineTable.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611022325452_TwoTable.cs" />
-    <Compile Include="Migrations\201611022325452_TwoTable.Designer.cs">
-      <DependentUpon>201611022325452_TwoTable.cs</DependentUpon>
+    <Compile Include="Migrations\201611101907574_updateudetail.cs" />
+    <Compile Include="Migrations\201611101907574_updateudetail.Designer.cs">
+      <DependentUpon>201611101907574_updateudetail.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -242,10 +230,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="App_Data\Database.mdf" />
-    <Content Include="App_Data\Database_log.ldf">
-      <DependentUpon>Database.mdf</DependentUpon>
-    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\css\style-blessed1.css" />
@@ -2267,7 +2251,6 @@
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Course\Index.cshtml" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
@@ -2277,17 +2260,11 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201611022121578_UserDEtail.resx">
-      <DependentUpon>201611022121578_UserDEtail.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611022144378_Community.resx">
-      <DependentUpon>201611022144378_Community.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611022247377_NineTable.resx">
-      <DependentUpon>201611022247377_NineTable.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611022325452_TwoTable.resx">
-      <DependentUpon>201611022325452_TwoTable.cs</DependentUpon>
+    <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201611101907574_updateudetail.resx">
+      <DependentUpon>201611101907574_updateudetail.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
