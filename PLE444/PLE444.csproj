@@ -211,6 +211,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Community.cs" />
     <Compile Include="Models\Interest.cs" />
     <Compile Include="Models\Course.cs" />
@@ -222,6 +223,7 @@
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Tag.cs" />
+    <Compile Include="Models\UserAssignment.cs" />
     <Compile Include="Models\UserCommunity.cs" />
     <Compile Include="Models\UserInterest.cs" />
     <Compile Include="Models\UserCourse.cs" />
