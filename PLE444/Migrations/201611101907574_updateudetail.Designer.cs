@@ -7,13 +7,13 @@ namespace PLE444.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class TwoTable : IMigrationMetadata
+    public sealed partial class updateudetail : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(TwoTable));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(updateudetail));
         
         string IMigrationMetadata.Id
         {
-            get { return "201611022325452_TwoTable"; }
+            get { return "201611101907574_updateudetail"; }
         }
         
         string IMigrationMetadata.Source

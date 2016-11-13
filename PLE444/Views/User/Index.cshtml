@@ -1,8 +1,10 @@
-﻿
+﻿@model PLE444.Models.UserDetail
+
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<h1> @ViewBag.User205 </h1>
 
 <div class="panel panel-bluegray" data-widget='{"draggable": "false"}'>
     <div class="panel-heading">
@@ -24,8 +26,8 @@
             <div class="panel panel-profile">
                 <div class="panel-body">
                     <img src="~/Content/img/pp.jpg" class="img-circle">
-                    <div class="name">Oğuz Ak</div>
-                    <div class="info">Eğitmen</div>
+                    <div class="name">@Model.Name </div>
+                    <div class="info">Öğrenci</div>
                     <ul class="list-inline text-center">
                         <li><a href="#" class="profile-facebook-icon"><i class="ti ti-facebook"></i></a></li>
                         <li><a href="#" class="profile-twitter-icon"><i class="ti ti-twitter"></i></a></li>
@@ -38,11 +40,11 @@
         <div class="col-sm-9">
             <div class="panel panel-default">
                         <div class="panel-heading">
-                            <h2>About</h2>
+                            <h2>Hakkında</h2>
                         </div>
                         <div class="panel-body">
                             <div class="about-area">
-                                <h4>Bio</h4>
+                                <h4>Vizyon</h4>
                                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p>
                                 <p>Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p>
                             </div>
@@ -51,26 +53,20 @@
                                 <div class="table-responsive">
                                     <table class="table">
                                         <tbody>
+                                         
                                             <tr>
-                                                <th>Web</th>
-                                                <td><a href="#">www.johndoe.com</a></td>
+                                                <th>Mail</th>
+                                                <td><a href="#">@Model.EPosta</a></td>
                                             </tr>
                                             <tr>
-                                                <th>Email</th>
-                                                <td><a href="#">doe@lime.com</a></td>
+                                                <th>Telefon</th>
+                                                <td>@Model.PhoneNumber</td>
                                             </tr>
                                             <tr>
-                                                <th>Phone</th>
-                                                <td>+61 3 8376 6284</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Position</th>
+                                                <th>Pozisyon</th>
                                                 <td>Designer</td>
                                             </tr>
-                                            <tr>
-                                                <th>Status</th>
-                                                <td>Member</td>
-                                            </tr>
+                                          
                                             <tr>
                                                 <th>Social</th>
                                                 <td>
@@ -94,33 +90,27 @@
                                     <table class="table about-table">
                                         <tbody>
                                             <tr>
-                                                <th>Full Name</th>
-                                                <td>Jonathan Davison Smith</td>
+                                                <th>İsim</th>
+                                                <td>@Model.Name</td>
                                             </tr>
                                             <tr>
-                                                <th>Birth Date</th>
-                                                <td>1 January</td>
+                                                <th>Doğum Tarihi</th>
+                                                <td>@Model.DogumTarih</td>
+                                            </tr>
+                                           
+                                            <tr>
+                                                <th>Cinsiyet</th>
+                                                <td>@Model.Gender</td>
                                             </tr>
                                             <tr>
-                                                <th>Birth Year</th>
-                                                <td>1980</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Gender</th>
-                                                <td>Male</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Languages</th>
+                                                <th>Diller</th>
                                                 <td>English</td>
                                             </tr>
                                             <tr>
-                                                <th>City</th>
+                                                <th>Adres</th>
                                                 <td>Canbera</td>
                                             </tr>
-                                            <tr>
-                                                <th>Country</th>
-                                                <td>Australia</td>
-                                            </tr>
+                                            
                                         </tbody>
                                     </table>
                                 </div>
