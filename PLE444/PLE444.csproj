@@ -197,7 +197,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Context\PleDbContext.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\CommunitiesController.cs" />
+    <Compile Include="Controllers\CommunityController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -2259,13 +2259,10 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Communities\Create.cshtml" />
-    <Content Include="Views\Communities\Delete.cshtml" />
-    <Content Include="Views\Communities\Details.cshtml" />
-    <Content Include="Views\Communities\Edit.cshtml" />
-    <Content Include="Views\Communities\Index.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Course\Index.cshtml" />
+    <Content Include="Views\Community\Index.cshtml" />
+    <Content Include="Views\Community\Events.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
