@@ -201,6 +201,7 @@
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\UploaderTestController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -234,6 +235,8 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\jquery.filer-dragdropbox-theme.css" />
+    <Content Include="Content\css\jquery.filer.css" />
     <Content Include="Content\css\style-blessed1.css" />
     <Content Include="Content\css\style-blessed2.css" />
     <Content Include="Content\css\style-blessed3.css" />
@@ -282,6 +285,9 @@
     <Content Include="Content\fonts\glyphicons\css\glyphicons.css" />
     <Content Include="Content\fonts\glyphicons\css\glyphicons.min.css" />
     <Content Include="Content\fonts\glyphicons\font\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\fonts\jquery.filer-icons\jquery-filer-preview.html" />
+    <Content Include="Content\fonts\jquery.filer-icons\jquery-filer.css" />
+    <Content Include="Content\fonts\jquery.filer-icons\jquery-filer.svg" />
     <Content Include="Content\fonts\themify-icons\demo-files\demo.css" />
     <Content Include="Content\fonts\themify-icons\fonts\themify.svg" />
     <Content Include="Content\fonts\themify-icons\ie7\ie7.css" />
@@ -913,6 +919,8 @@
     <Content Include="Content\js\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\js\jquery-1.10.2.min.js" />
     <Content Include="Content\js\jquery-1.8.3.min.js" />
+    <Content Include="Content\js\jquery.filer.js" />
+    <Content Include="Content\js\jquery.filer.min.js" />
     <Content Include="Content\js\jquery.layout.min.js" />
     <Content Include="Content\js\jquery.touchSwipe.min.js" />
     <Content Include="Content\js\jqueryui-1.10.3.min.js" />
@@ -2199,6 +2207,9 @@
     <Content Include="Content\plugins\summernote\src\less\summernote.less" />
     <Content Include="Content\plugins\switchery\README.md" />
     <Content Include="Content\plugins\wijets\.DS_Store" />
+    <Content Include="Content\fonts\jquery.filer-icons\jquery-filer.eot" />
+    <Content Include="Content\fonts\jquery.filer-icons\jquery-filer.ttf" />
+    <Content Include="Content\fonts\jquery.filer-icons\jquery-filer.woff" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -2249,6 +2260,7 @@
     <Content Include="Views\Course\Index.cshtml" />
     <Content Include="Views\Community\Index.cshtml" />
     <Content Include="Views\Community\Events.cshtml" />
+    <Content Include="Views\UploaderTest\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -2260,6 +2272,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201611101907574_updateudetail.resx">
