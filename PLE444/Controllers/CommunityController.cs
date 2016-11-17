@@ -17,5 +17,13 @@ namespace PLE444.Controllers
         {
             return View();
         }
+        public ActionResult Discussion()
+        {
+            return View();
+        }
+        public ActionResult Archive()
+        {
+            return View();
+        }
     }
 }

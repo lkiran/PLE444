@@ -2261,6 +2261,8 @@
     <Content Include="Views\Community\Index.cshtml" />
     <Content Include="Views\Community\Events.cshtml" />
     <Content Include="Views\UploaderTest\Index.cshtml" />
+    <Content Include="Views\Community\Archive.cshtml" />
+    <Content Include="Views\Community\Discussion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
