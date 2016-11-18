@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "Grades";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="panel panel-bluegray" data-widget='{"draggable": "false"}'>
+    <div class="panel-heading">
+        <span class="pull-right">MATH 101.02 Calculus</span>
+        <h2>
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="@Url.Action("Index","Course")">Bölümler</a></li>
+                <li><a href="@Url.Action("Assignments","Course")"> Ödevler</a></li>
+                <li><a href="@Url.Action("Materials","Course")">Materyaller</a></li>
+                <li><a href="@Url.Action("Grades","Course")">Notlar</a></li>
+                <li><a href="#Communities">Tartışmalar</a></li>
+            </ul>
+        </h2>
+    </div>
+</div>
+
+<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+    <div class="panel-heading">
+   
+        <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+    </div>
+    <div class="panel-body">
+        <table class="table table-hover m-n">
+            <thead>
+                <tr>
+                   
+                    <th>Başlık</th>
+                    <th>Not</th>
+                    <th>Yüzdelik Etkisi</th>
+                                      <th>Sonuç</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="warning">
+                    <td>Midterm1</td> 
+                    <td>80</td> 
+                    <td>20</td> 
+                    <td>16</td>
+
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+</div>
+
