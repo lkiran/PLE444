@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace PLE444.Models
@@ -7,6 +8,7 @@ namespace PLE444.Models
     {
         [Required]
         [Display(Name = "Email")]
+
         public string Email { get; set; }
     }
 
@@ -64,6 +66,7 @@ namespace PLE444.Models
 
     public class RegisterViewModel
     {
+
         [Required]
         [EmailAddress]
         [Display(Name = "Email")]
@@ -78,7 +81,18 @@ namespace PLE444.Models
         [DataType(DataType.Password)]
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+       
+
         public string ConfirmPassword { get; set; }
+        public string ProfilePicture { get; set; }
+        public string Name { get; set; }
+        public String LastName { get; set; }
+        public DateTime BirthDate { get; set; }
+        public String PhoneNo { get; set; }
+        public String Vision { get; set; }
+        public String Mission { get; set; }
+        //public int RoleId { get; set; }
+        //public virtual Role Role { get; set; }
     }
 
     public class ResetPasswordViewModel
