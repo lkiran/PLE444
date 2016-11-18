@@ -5,6 +5,8 @@
 
 <h2>@ViewBag.Title.</h2>
 
+
+
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
@@ -15,6 +17,47 @@
         @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m=>m.Gender, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.DropDownList("Gender", EnumHelper.GetSelectList(typeof(PLE444.Models.GenderType)), new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.PhoneNo, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.PhoneNo, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Vision, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Vision, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Mission, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Mission, new { @class = "form-control" })
         </div>
     </div>
     <div class="form-group">
@@ -39,3 +82,19 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+<script>
+    $(document).ready(function () {
+        $("#datepicker").datepicker({ todayHighlight: true });
+    });
+</script>
+
+@Scripts.Render("~/Content/plugins/bootstrap-datepicker/bootstrap-datepicker.js")
+@Scripts.Render("~/Content/plugins/form-daterangepicker/daterangepicker.js")
+@Scripts.Render("~/Content/plugins/bootstrap-timepicker/bootstrap-timepicker.js")
+@Scripts.Render("~/Content/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js")
+
+<script type="text/javascript" src="assets/plugins/form-daterangepicker/daterangepicker.js"></script>     				<!-- Date Range Picker -->
+     			<!-- Datepicker -->
+<script type="text/javascript" src="assets/plugins/bootstrap-timepicker/bootstrap-timepicker.js"></script>      			<!-- Timepicker -->
+<script type="text/javascript" src="assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script> <!-- DateTime Picker -->

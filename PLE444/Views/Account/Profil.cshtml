@@ -1,0 +1,124 @@
+﻿@model PLE444.Models.ApplicationUser
+@{
+    ViewBag.Title = "Profil";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="panel panel-bluegray" data-widget='{"draggable": "false"}'>
+    <div class="panel-heading">
+        <h2>
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#Profile">Profil</a></li>
+                <li><a href="@Url.Action("ListUsers", "User")">Arkadaşlar</a></li>
+                <li><a href="#Files">Dosyalar</a></li>
+                <li><a href="#Events">Etkinlikler</a></li>
+                <li><a href="#Communities">Topluluklar</a></li>
+            </ul>
+        </h2>
+    </div>
+</div>
+
+<div data-widget-group="group1">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="panel panel-profile">
+                <div class="panel-body">
+                    <img src="~/Content/img/pp.jpg" class="img-circle">
+                    <div class="name">@Model.Name </div>
+                    <div class="info">Öğrenci</div>
+                    <ul class="list-inline text-center">
+                        <li><a href="#" class="profile-facebook-icon"><i class="ti ti-facebook"></i></a></li>
+                        <li><a href="#" class="profile-twitter-icon"><i class="ti ti-twitter"></i></a></li>
+                        <li><a href="#" class="profile-dribbble-icon"><i class="ti ti-dribbble"></i></a></li>
+                    </ul>
+                </div>
+            </div><!-- panel -->
+
+        </div><!-- col-sm-3 -->
+        <div class="col-sm-9">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h2>Hakkında</h2>
+                </div>
+                <div class="panel-body">
+                    <div class="about-area">
+                        <h4>Vizyon</h4>
+                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p>
+                        <p>Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p>
+                    </div>
+                    <div class="about-area">
+                        <h4>Basic Information</h4>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tbody>
+
+                                    <tr>
+                                        <th>Mail</th>
+                                        <td><a href="#">@Model.Email</a></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Telefon</th>
+                                        <td>@Model.PhoneNumber</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Pozisyon</th>
+                                        <td>Designer</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Social</th>
+                                        <td>
+                                            <ul class="list-inline m-n">
+                                                <li><a href="#"><i class="ti ti-pinterest"></i></a></li>
+                                                <li><a href="#"><i class="ti ti-twitter"></i></a></li>
+                                                <li><a href="#"><i class="ti ti-google"></i></a></li>
+                                                <li><a href="#"><i class="ti ti-linkedin"></i></a></li>
+                                                <li><a href="#"><i class="ti ti-dribbble"></i></a></li>
+                                                <li><a href="#"><i class="ti ti-facebook"></i></a></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="about-area">
+                        <h4>Personal Information</h4>
+                        <div class="table-responsive">
+                            <table class="table about-table">
+                                <tbody>
+                                    <tr>
+                                        <th>İsim</th>
+                                        <td>@Model.Name</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Doğum Tarihi</th>
+                                        <td>19 Mart 1919</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Cinsiyet</th>
+                                        <td>@Model.Gender</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Diller</th>
+                                        <td>English</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Adres</th>
+                                        <td>Canbera</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- col-sm-8 -->
+    </div>
+</div>
+
+
