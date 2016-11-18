@@ -197,13 +197,23 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Context\PleDbContext.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\CommunitiesController.cs" />
+    <Compile Include="Controllers\CommunityController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
+    <Compile Include="Controllers\CoursesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\UploaderTestController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611182124126_InitialCreate.cs" />
+    <Compile Include="Migrations\201611182124126_InitialCreate.Designer.cs">
+      <DependentUpon>201611182124126_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611182251333_db.cs" />
+    <Compile Include="Migrations\201611182251333_db.Designer.cs">
+      <DependentUpon>201611182251333_db.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -2250,6 +2260,16 @@
     <Content Include="Views\Course\Index.cshtml" />
     <Content Include="Views\User\ListUsers.cshtml" />
     <Content Include="Views\Account\Profil.cshtml" />
+    <Content Include="Views\Community\Archive.cshtml" />
+    <Content Include="Views\Community\Discussion.cshtml" />
+    <Content Include="Views\Community\Events.cshtml" />
+    <Content Include="Views\Community\Index.cshtml" />
+    <Content Include="Views\Courses\Create.cshtml" />
+    <Content Include="Views\Courses\Delete.cshtml" />
+    <Content Include="Views\Courses\Details.cshtml" />
+    <Content Include="Views\Courses\Edit.cshtml" />
+    <Content Include="Views\Courses\Index.cshtml" />
+    <Content Include="Views\UploaderTest\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -2261,6 +2281,16 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Helpers\" />
+    <Folder Include="Uploads\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201611182124126_InitialCreate.resx">
+      <DependentUpon>201611182124126_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611182251333_db.resx">
+      <DependentUpon>201611182251333_db.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

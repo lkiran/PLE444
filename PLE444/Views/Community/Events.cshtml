@@ -1,0 +1,90 @@
+﻿
+@{
+    ViewBag.Title = "Events";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="panel panel-bluegray" data-widget='{"draggable": "false"}'>
+    <div class="panel-heading">
+        <span class="pull-right">Databaseciler</span>
+        <h2>
+            <ul class="nav nav-tabs">
+                <li ><a href="@Url.Action("Index","Community")" >Özellikler</a></li>
+                <li class="active"><a href="@Url.Action("Events","Community")" >Etkinlikler</a></li>
+                <li><a href="@Url.Action("Discussion","Community")" >Tartışma</a></li>
+                <li><a href="@Url.Action("Archieve","Community")" >Arşiv</a></li>
+
+            </ul>
+        </h2>
+    </div>
+</div>
+
+<div class="panel" style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);">
+    <div class="panel-heading">
+        <h2>Timeline</h2>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="timeline">
+                    <li class="timeline-primary">
+                        <div class="timeline-icon"><i class="ti ti-pencil"></i></div>
+                        <div class="timeline-body">
+                            <div class="timeline-header">
+                                <span class="author">Posted by <a href="#">David Tennant</a></span>
+                                <span class="date">Monday, November 21, 2013</span>
+                            </div>
+                            <div class="timeline-content">
+                                <h4>Consectetur Adipisicing Elit</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia, officiis, molestiae, deserunt asperiores architecto ut vel repudiandae dolore inventore nesciunt necessitatibus doloribus ratione facere consectetur suscipit!</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="timeline-info">
+                        <div class="timeline-icon"><i class="ti ti-heart"></i></div>
+                        <div class="timeline-body">
+                            <div class="timeline-header">
+                                <span class="author">Posted by <a href="#">David Tennant</a></span>
+                                <span class="date">Monday, November 21, 2013</span>
+                            </div>
+                            <div class="timeline-content">
+                                <h4>Consectetur Adipisicing Elit</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia, officiis, molestiae, deserunt asperiores architecto ut vel repudiandae dolore inventore nesciunt necessitatibus doloribus ratione facere consectetur suscipit!</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="timeline-warning">
+                        <div class="timeline-icon"><i class="ti ti-camera"></i></div>
+                        <div class="timeline-body">
+                            <div class="timeline-header">
+                                <span class="author">Posted by <a href="#">David Tennant</a></span>
+                                <span class="date">Monday, November 21, 2013</span>
+                            </div>
+                            <div class="timeline-content">
+                                <h4>Consectetur Adipisicing Elit</h4>
+                                <ul class="list-inline">
+                                    <li><img src="http://placehold.it/300&amp;text=Placeholder" alt="" class="pull-left img-thumbnail img-responsive clearfix" width="200"></li>
+                                    <li><img src="http://placehold.it/300&amp;text=Placeholder" alt="" class="pull-left img-thumbnail img-responsive clearfix" width="200"></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="timeline-danger">
+                        <div class="timeline-icon"><i class="ti ti-home"></i></div>
+                        <div class="timeline-body">
+                            <div class="timeline-header">
+                                <span class="author">Posted by <a href="#">David Tennant</a></span>
+                                <span class="date">Monday, November 21, 2013</span>
+                            </div>
+                            <div class="timeline-content">
+                                <h4>Consectetur Adipisicing Elit</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officia, officiis, molestiae, deserunt asperiores architecto ut vel repudiandae dolore inventore nesciunt necessitatibus doloribus ratione facere consectetur suscipit!</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

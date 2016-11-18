@@ -23,14 +23,14 @@ namespace PLE444.Models
 
         }
         
-        public string Name { get; set; }
-        public String LastName { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
         public GenderType Gender { get; set; }
         public string ProfilePicture { get; set; }
 
-        public String PhoneNo { get; set; }
-        public String Vision { get; set; }
-        public String Mission { get; set; }
+        public string PhoneNo { get; set; }
+        public string Vision { get; set; }
+        public string Mission { get; set; }
         //public int RoleId { get; set; }
         //public virtual Role Role { get; set; }
 

@@ -19,5 +19,7 @@ namespace PLE444.Models
         public String Title { get; set; }
         public String Description { get; set; }
         public DateTime Deadline { get; set; }
+        public DateTime DateAdded { get; set; }
+
     }
 }
