@@ -8,8 +8,13 @@ namespace PLE444.Models
 {
     public class Friendship
     {
-        [Key]
-        public String ID { get; set; }
+        public Friendship()
+        {
+            Id = Guid.NewGuid();
+        }
+
+        [Required]
+        public Guid Id { get; private set; }
         public String userID { get; set; }
         public String FriendID { get; set; }
         public Boolean isApproved { get; set; }

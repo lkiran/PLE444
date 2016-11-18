@@ -9,11 +9,11 @@
         <div class="panel-heading">
             <h2>
                 <ul class="nav nav-tabs">
-                    <li><a href="#Profile" data-toggle="tab">Profil</a></li>
-                    <li class="active"><a href="@Url.Action("ListUsers", "User")" data-toggle="tab">Arkadaşlar</a></li>
-                    <li><a href="#Files" data-toggle="tab">Dosyalar</a></li>
-                    <li><a href="#Events" data-toggle="tab">Etkinlikler</a></li>
-                    <li><a href="#Communities" data-toggle="tab">Topluluklar</a></li>
+                    <li><a href="@Url.Action("Profil","Account")"  >Profil</a></li>
+                    <li class="active"><a href="@Url.Action("ListUsers", "User")"  >Arkadaşlar</a></li>
+                    <li><a href="#Files"  >Dosyalar</a></li>
+                    <li><a href="#Events"  >Etkinlikler</a></li>
+                    <li><a href="#Communities"  >Topluluklar</a></li>
                 </ul>
             </h2>
         </div>
@@ -23,21 +23,21 @@
         <div class="col-xs-12">
             <div class="panel panel-default" data-widget='{"draggable": "false"}'>
                 <div class="panel-heading">
-                    <h2>Default Tables</h2>
+                    <h2>Arkadaş Listesi</h2>
                     <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
                     <div class="options">
 
                     </div>
                 </div>
                 <div class="panel-body">
-                    <p>For basic styling—light padding and only horizontal dividers—add the base class <code>.table</code> to any <code>&lt;table&gt;</code>.</p>
+                    @*<p>For basic styling—light padding and only horizontal dividers—add the base class <code>.table</code> to any <code>&lt;table&gt;</code>.</p>*@
                     <table class="table m-n">
                         <thead>
                             <tr>
                                 <th>Profile Pic</th>
                                 <th>Name</th>
                                 <th>Surname</th>
-                                <th></th>
+                                <th>Actions</th>
                                
 
                             </tr>
@@ -48,7 +48,11 @@
                                 <tr>
                                     <td>@user.ProfilePicture</td>
                                      <td>@user.Name</td>
-                                    <td>@user.LastName</td>                                   
+                                    <td>@user.LastName</td>     
+                                    
+                                    <td><a href="@Url.Action("AddFriend", "User", new {id=user.Id })" class="btn btn-success"> Ekle </a>
+                                    <a href="" class="btn btn-primary"> Mesaj Gönder </a>
+                                    <a href="" class="btn btn-danger"> Çıkar </a></td>                                 
                                 </tr>
                             }
 

@@ -63,9 +63,9 @@ namespace PLE444.Models
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
     }
-
     public class RegisterViewModel
     {
+        public enum GenderType { Kadın, Erkek, Belirtilmedi };
 
         [Required]
         [EmailAddress]
@@ -87,7 +87,8 @@ namespace PLE444.Models
         public string ProfilePicture { get; set; }
         public string Name { get; set; }
         public String LastName { get; set; }
-        public DateTime BirthDate { get; set; }
+
+        public GenderType Gender { get; set; }
         public String PhoneNo { get; set; }
         public String Vision { get; set; }
         public String Mission { get; set; }

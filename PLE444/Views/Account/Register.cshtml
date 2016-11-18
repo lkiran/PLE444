@@ -35,17 +35,11 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(m => m.BirthDate, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m=>m.Gender, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
             @Html.DropDownList("Gender", EnumHelper.GetSelectList(typeof(PLE444.Models.GenderType)), new { @class = "form-control" })
         </div>
     </div>
-    @*<div class="form-group">
-        @Html.LabelFor(m => m.BirthDate, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.BirthDate, "{0:dd/MM/yyyy}", new { @class = "form-control" , id = "datepicker" })
-         </div>
-    </div>*@ş
 
     <div class="form-group">
         @Html.LabelFor(m => m.PhoneNo, new { @class = "col-md-2 control-label" })

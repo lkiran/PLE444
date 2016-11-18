@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.ComponentModel.DataAnnotations;
 
 namespace PLE444.Models
 {
@@ -26,7 +27,7 @@ namespace PLE444.Models
         public String LastName { get; set; }
         public GenderType Gender { get; set; }
         public string ProfilePicture { get; set; }
-        public DateTime BirthDate { get; set; }
+
         public String PhoneNo { get; set; }
         public String Vision { get; set; }
         public String Mission { get; set; }
