@@ -60,14 +60,7 @@ namespace PLE444.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
-        private ApplicationDbContext db = new ApplicationDbContext();
-        [Authorize]
-        public ActionResult Profil()
-        {
-            var currentuserId = User.Identity.GetUserId();
-            var userDetail = db.Users.Find(currentuserId);
-            return View(userDetail);
-        }
+
         //
         // POST: /Account/Login
         [HttpPost]
