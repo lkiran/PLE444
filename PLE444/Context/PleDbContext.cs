@@ -22,5 +22,6 @@ namespace PLE444.Context
 		public DbSet<UserInterest> UserInterests { get; set; }
 		public DbSet<Tag> Tags { get; set; }
 		public DbSet<Post> Posts { get; set; }
-	}
+        public DbSet <Assignment> Assignments { get; set; }
+    }
 }
