@@ -205,13 +205,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201611101907574_updateudetail.cs" />
-    <Compile Include="Migrations\201611101907574_updateudetail.Designer.cs">
-      <DependentUpon>201611101907574_updateudetail.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Community.cs" />
+    <Compile Include="Models\Friendship.cs" />
     <Compile Include="Models\Interest.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Document.cs" />
@@ -222,10 +220,10 @@
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Tag.cs" />
+    <Compile Include="Models\UserAssignment.cs" />
     <Compile Include="Models\UserCommunity.cs" />
     <Compile Include="Models\UserInterest.cs" />
     <Compile Include="Models\UserCourse.cs" />
-    <Compile Include="Models\UserDetail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -2250,6 +2248,8 @@
     <Content Include="Views\Communities\Index.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Course\Index.cshtml" />
+    <Content Include="Views\User\ListUsers.cshtml" />
+    <Content Include="Views\Account\Profil.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -2261,11 +2261,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201611101907574_updateudetail.resx">
-      <DependentUpon>201611101907574_updateudetail.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
