@@ -9,8 +9,9 @@ namespace PLE444.Context
 {
 	public class PleDbContext : DbContext
 	{
-		public DbSet<UserDetail> UserDetails { get; set; }
-		public DbSet<Community> Communities { get; set; }
+        
+        public DbSet <Friendship> Friendship { get; set; }
+        public DbSet<Community> Communities { get; set; }
 		public DbSet<Course> Courses { get; set; }
 		public DbSet<Document> Documents { get; set; }
 		public DbSet<Event> Events { get; set; }

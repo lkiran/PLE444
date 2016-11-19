@@ -60,7 +60,14 @@ namespace PLE444.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
-
+        private ApplicationDbContext db = new ApplicationDbContext();
+        [Authorize]
+        public ActionResult Profil()
+        {
+            var currentuserId = User.Identity.GetUserId();
+            var userDetail = db.Users.Find(currentuserId);
+            return View(userDetail);
+        }
         //
         // POST: /Account/Login
         [HttpPost]
@@ -151,7 +158,15 @@ namespace PLE444.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email,
+                                                Email = model.Email,
+                                                FirstName =model.FirstName,
+                                                LastName =model.LastName,
+                                                ProfilePicture =model.ProfilePicture,
+                                                PhoneNo =model.PhoneNo,Mission=model.Mission,
+                                                Vision =model.Vision,
+                                                Gender =model.Gender
+                };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

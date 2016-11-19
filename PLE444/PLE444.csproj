@@ -199,6 +199,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CommunityController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
+    <Compile Include="Controllers\CoursesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\UploaderTestController.cs" />
@@ -206,14 +207,19 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201611101907574_updateudetail.cs" />
-    <Compile Include="Migrations\201611101907574_updateudetail.Designer.cs">
-      <DependentUpon>201611101907574_updateudetail.cs</DependentUpon>
+    <Compile Include="Migrations\201611182124126_InitialCreate.cs" />
+    <Compile Include="Migrations\201611182124126_InitialCreate.Designer.cs">
+      <DependentUpon>201611182124126_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611182251333_db.cs" />
+    <Compile Include="Migrations\201611182251333_db.Designer.cs">
+      <DependentUpon>201611182251333_db.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Community.cs" />
+    <Compile Include="Models\Friendship.cs" />
     <Compile Include="Models\Interest.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Document.cs" />
@@ -228,15 +234,12 @@
     <Compile Include="Models\UserCommunity.cs" />
     <Compile Include="Models\UserInterest.cs" />
     <Compile Include="Models\UserCourse.cs" />
-    <Compile Include="Models\UserDetail.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\css\jquery.filer-dragdropbox-theme.css" />
-    <Content Include="Content\css\jquery.filer.css" />
     <Content Include="Content\css\style-blessed1.css" />
     <Content Include="Content\css\style-blessed2.css" />
     <Content Include="Content\css\style-blessed3.css" />
@@ -285,9 +288,6 @@
     <Content Include="Content\fonts\glyphicons\css\glyphicons.css" />
     <Content Include="Content\fonts\glyphicons\css\glyphicons.min.css" />
     <Content Include="Content\fonts\glyphicons\font\glyphicons-halflings-regular.svg" />
-    <Content Include="Content\fonts\jquery.filer-icons\jquery-filer-preview.html" />
-    <Content Include="Content\fonts\jquery.filer-icons\jquery-filer.css" />
-    <Content Include="Content\fonts\jquery.filer-icons\jquery-filer.svg" />
     <Content Include="Content\fonts\themify-icons\demo-files\demo.css" />
     <Content Include="Content\fonts\themify-icons\fonts\themify.svg" />
     <Content Include="Content\fonts\themify-icons\ie7\ie7.css" />
@@ -919,8 +919,6 @@
     <Content Include="Content\js\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\js\jquery-1.10.2.min.js" />
     <Content Include="Content\js\jquery-1.8.3.min.js" />
-    <Content Include="Content\js\jquery.filer.js" />
-    <Content Include="Content\js\jquery.filer.min.js" />
     <Content Include="Content\js\jquery.layout.min.js" />
     <Content Include="Content\js\jquery.touchSwipe.min.js" />
     <Content Include="Content\js\jqueryui-1.10.3.min.js" />
@@ -2207,9 +2205,6 @@
     <Content Include="Content\plugins\summernote\src\less\summernote.less" />
     <Content Include="Content\plugins\switchery\README.md" />
     <Content Include="Content\plugins\wijets\.DS_Store" />
-    <Content Include="Content\fonts\jquery.filer-icons\jquery-filer.eot" />
-    <Content Include="Content\fonts\jquery.filer-icons\jquery-filer.ttf" />
-    <Content Include="Content\fonts\jquery.filer-icons\jquery-filer.woff" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -2256,13 +2251,25 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\Communities\Create.cshtml" />
+    <Content Include="Views\Communities\Delete.cshtml" />
+    <Content Include="Views\Communities\Details.cshtml" />
+    <Content Include="Views\Communities\Edit.cshtml" />
+    <Content Include="Views\Communities\Index.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Course\Index.cshtml" />
-    <Content Include="Views\Community\Index.cshtml" />
-    <Content Include="Views\Community\Events.cshtml" />
-    <Content Include="Views\UploaderTest\Index.cshtml" />
+    <Content Include="Views\User\ListUsers.cshtml" />
+    <Content Include="Views\Account\Profil.cshtml" />
     <Content Include="Views\Community\Archive.cshtml" />
     <Content Include="Views\Community\Discussion.cshtml" />
+    <Content Include="Views\Community\Events.cshtml" />
+    <Content Include="Views\Community\Index.cshtml" />
+    <Content Include="Views\Courses\Create.cshtml" />
+    <Content Include="Views\Courses\Delete.cshtml" />
+    <Content Include="Views\Courses\Details.cshtml" />
+    <Content Include="Views\Courses\Edit.cshtml" />
+    <Content Include="Views\Courses\Index.cshtml" />
+    <Content Include="Views\UploaderTest\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -2274,11 +2281,15 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Helpers\" />
     <Folder Include="Uploads\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201611101907574_updateudetail.resx">
-      <DependentUpon>201611101907574_updateudetail.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201611182124126_InitialCreate.resx">
+      <DependentUpon>201611182124126_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611182251333_db.resx">
+      <DependentUpon>201611182251333_db.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
