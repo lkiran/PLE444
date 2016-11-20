@@ -5,15 +5,14 @@ namespace PLE444.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<PLE444.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<PLE444.Context.PleDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "PLE444.Models.ApplicationDbContext";
         }
 
-        protected override void Seed(PLE444.Models.ApplicationDbContext context)
+        protected override void Seed(PLE444.Context.PleDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

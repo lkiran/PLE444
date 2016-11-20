@@ -197,6 +197,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Context\PleDbContext.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ChaptersController.cs" />
     <Compile Include="Controllers\CommunityController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\CoursesController.cs" />
@@ -207,17 +208,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201611182124126_InitialCreate.cs" />
-    <Compile Include="Migrations\201611182124126_InitialCreate.Designer.cs">
-      <DependentUpon>201611182124126_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201611182251333_db.cs" />
-    <Compile Include="Migrations\201611182251333_db.Designer.cs">
-      <DependentUpon>201611182251333_db.cs</DependentUpon>
+    <Compile Include="Migrations\201611201442333_fmsdlfs.cs" />
+    <Compile Include="Migrations\201611201442333_fmsdlfs.Designer.cs">
+      <DependentUpon>201611201442333_fmsdlfs.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
+    <Compile Include="Models\Chapter.cs" />
     <Compile Include="Models\Community.cs" />
     <Compile Include="Models\Friendship.cs" />
     <Compile Include="Models\Interest.cs" />
@@ -227,6 +225,7 @@
     <Compile Include="Models\EventReponse.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\Material.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Tag.cs" />
@@ -2270,6 +2269,17 @@
     <Content Include="Views\Courses\Edit.cshtml" />
     <Content Include="Views\Courses\Index.cshtml" />
     <Content Include="Views\UploaderTest\Index.cshtml" />
+    <Content Include="Views\Community\List.cshtml" />
+    <Content Include="Views\Course\AssignmentCreate.cshtml" />
+    <Content Include="Views\Course\Assignments.cshtml" />
+    <Content Include="Views\Course\ChapterCreate.cshtml" />
+    <Content Include="Views\Course\Chapters.cshtml" />
+    <Content Include="Views\Course\CourseCreate.cshtml" />
+    <Content Include="Views\Course\CourseDelete.cshtml" />
+    <Content Include="Views\Course\CourseDetails.cshtml" />
+    <Content Include="Views\Course\CourseEdit.cshtml" />
+    <Content Include="Views\Course\Grades.cshtml" />
+    <Content Include="Views\Course\Materials.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -2283,13 +2293,11 @@
     <Folder Include="App_Data\" />
     <Folder Include="Helpers\" />
     <Folder Include="Uploads\" />
+    <Folder Include="Views\Group\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201611182124126_InitialCreate.resx">
-      <DependentUpon>201611182124126_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201611182251333_db.resx">
-      <DependentUpon>201611182251333_db.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201611201442333_fmsdlfs.resx">
+      <DependentUpon>201611201442333_fmsdlfs.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

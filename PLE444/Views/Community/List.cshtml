@@ -1,0 +1,53 @@
+﻿@model IEnumerable<PLE444.Models.Community>
+@{
+    ViewBag.Title = "List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+    <div class="panel-heading">
+
+        @Html.ActionLink("Yeni Grup Oluştur", "CourseCreate")
+
+        <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+    </div>
+    <div class="panel-body">
+        <table class="table table-hover m-n">
+
+            <thead>
+                <tr>
+
+                    <th>İsim</th>
+                    <th>Açıklama</th>
+                    <th>Durum</th>
+                   
+                    <th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tbody>
+                    <tr class="success">
+
+                        <td> <a href="#"> @item.Name</a></td>
+                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                        <td>
+                            @if (item.isOpen) { @Html.Raw("Açık") }
+                            else {@Html.Raw("Kapalı")  }
+                        </td>
+                        <td>16</td>
+                        <td>
+                            @Html.ActionLink("Düzenle", "CourseEdit", new { id = item.ID }) |
+                            @Html.ActionLink("Detaylar", "CourseDetails", new { id = item.ID }) |
+                            @Html.ActionLink("Sil", "CourseDelete", new { id = item.ID })
+                        </td>
+                    </tr>
+                </tbody>
+            }
+        </table>
+    </div>
+</div>
+
+
+

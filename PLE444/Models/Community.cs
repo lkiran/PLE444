@@ -17,6 +17,11 @@ namespace PLE444.Models
 		public Guid ID { get; private set; }
 		public String Name { get; set; }
 		public String Description { get; set; }
+        public bool isOpen { get; set; }
+        public bool isHiden { get; set; }
+        public bool canCreateEvents { get; set; }
+        public string GroupPhoto { get; set; }
+        public string AdminId { get; set; }
 
-	}
+    }
 }

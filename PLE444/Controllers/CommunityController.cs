@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PLE444.Context;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,11 +9,17 @@ namespace PLE444.Controllers
 {
     public class CommunityController : Controller
     {
-        // GET: Community
+        // GET: Community 
+        private PleDbContext db = new PleDbContext();
+        public ActionResult List() {
+            var com = db.Communities.ToList();
+            return View(com);
+        }
         public ActionResult Index()
         {
             return View();
        }
+       
         public ActionResult Events()
         {
             return View();
