@@ -7,9 +7,9 @@ using System.Web;
 
 namespace PLE444.Models
 {
-    public class Assignment
+    public class Material
     {
-        public Assignment()
+        public Material()
         {
             Id = Guid.NewGuid();
         }
@@ -17,6 +17,8 @@ namespace PLE444.Models
         [Required]
         public Guid Id { get; private set; }
         public Course Course { get; set; }
+        public Chapter Chapter { get; set; }
+        public Document Document { get; set; }
         [Required]
         [DisplayName("Başlık")]
         public String Title { get; set; }
@@ -25,9 +27,6 @@ namespace PLE444.Models
         public String Description { get; set; }
         [Required]
         [DisplayName("Teslim Tarihi")]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}", ApplyFormatInEditMode = true)]
-        public DateTime Deadline { get; set; }
         public DateTime DateAdded { get; set; }
 
     }
