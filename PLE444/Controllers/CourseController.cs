@@ -14,11 +14,12 @@ namespace PLE444.Controllers
     public class CourseController : Controller
     {
         private PleDbContext db = new PleDbContext();
-        // GET: Course
+        
         public ActionResult Index()
         {
             return View(db.Courses.ToList());
         }
+
         public ActionResult Assignments( Guid id)
         {
             var c = db.Courses.Find(id);
@@ -26,6 +27,7 @@ namespace PLE444.Controllers
             ViewBag.CourseName = c.Name.ToUpper() + " - " + c.Description;
             return View(assignment);
         }
+
         public ActionResult CourseDetails(Guid? id)
         {
             if (id == null)
@@ -39,8 +41,7 @@ namespace PLE444.Controllers
             }
             return View(course);
         }
-
-        // GET: Courses/Edit/5
+                
         public ActionResult CourseEdit(Guid? id)
         {
             if (id == null)
@@ -55,9 +56,6 @@ namespace PLE444.Controllers
             return View(course);
         }
 
-        // POST: Courses/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CourseEdit([Bind(Include = "ID,Name,Description,CourseStart")] Course course)
@@ -70,22 +68,12 @@ namespace PLE444.Controllers
             }
             return View(course);
         }
-        public ActionResult Chapters( Guid id)
-        {
-            var c = db.Courses.Find(id);
-            var chapter= db.Chapters.Where(a => a.CourseId == id).ToList();
-            ViewBag.CourseName = c.Name.ToUpper() + " - " + c.Description;
-            return View(chapter);
-        }
-        // GET: Courses/Create
+       
         public ActionResult CourseCreate()
         {
             return View();
         }
-
      
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CourseCreate([Bind(Include = "ID,Name,Description,CourseStart")] Course course)
@@ -100,6 +88,7 @@ namespace PLE444.Controllers
 
             return View(course);
         }
+
         public ActionResult CourseDelete(Guid? id)
         {
             if (id == null)
@@ -114,7 +103,6 @@ namespace PLE444.Controllers
             return View(course);
         }
 
-        // POST: Courses/Delete/5
         [HttpPost, ActionName("CourseDelete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
@@ -124,21 +112,17 @@ namespace PLE444.Controllers
             db.SaveChanges();
             return RedirectToAction("Index");
         }
-      //  public ActionResult AssignmentCreate()
-              public ActionResult AssignmentCreate(Guid id)
+
+        public ActionResult AssignmentCreate(Guid id)
         {
            
             ViewBag.CourseID = db.Courses.Find(id);
             return View();
         }
 
-  
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AssignmentCreate([Bind(Include = "Id,Title,Description,Deadline,DateAdded")] Assignment assignment)
-            // public ActionResult AssignmentCreate([Bind(Include = "Id,Title,Description,Deadline,DateAdded,Course")] Assignment assignment)
         {
             if (ModelState.IsValid)
             {
@@ -151,6 +135,15 @@ namespace PLE444.Controllers
 
             return View(assignment);
         }
+
+        public ActionResult Chapters(Guid id)
+        {
+            var c = db.Courses.Find(id);
+            var chapter = db.Chapters.Where(a => a.CourseId == id).ToList();
+            ViewBag.CourseName = c.Name.ToUpper() + " - " + c.Description;
+            return View(chapter);
+        }
+
         public ActionResult ChapterCreate(Guid id)
         {
             var c = new Chapter();
@@ -158,9 +151,6 @@ namespace PLE444.Controllers
             return View(c);
         }
 
-        // POST: Chapters/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ChapterCreate([Bind(Include = "Id,Title,Description,DateAdded,CourseId")] Chapter chapter)
@@ -179,6 +169,7 @@ namespace PLE444.Controllers
         {
             return View();
         }
+
         public ActionResult Grades()
         {
             return View();

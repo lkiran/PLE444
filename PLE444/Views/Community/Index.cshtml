@@ -1,4 +1,4 @@
-﻿
+﻿@model PLE444.Models.Community
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -24,12 +24,26 @@
         <div class="panel panel-profile">
             <div class="panel-body">
                 <div class="col-sm-3">
-                    <img src="~/Content/img/pp.jpg" class="img-circle">
-                    <div class="name">Group Name </div>
-                    <div class="info">Öğrenci</div>
+                    @if (Model.GroupPhoto == null)
+                    {
+                        <img src="~/Content/img/pp.jpg" class="img-circle">
+                    }
+                    else
+                    {
+                        <img src="@Model.GroupPhoto" class="img-circle">
+                    }
+                    <div class="name">@Model.Name </div>
                 </div>
                 <div class="col-sm-9 text-left">
-                    <p class="lead">Group Type</p>
+                    <p class="lead">@Model.Description</p>
+                    @if (Model.isOpen)
+                    { 
+                         <p>Açık Grup</p>
+                    }
+                    else
+                    {
+                        <p>Kapalı Grup</p>
+                    }                   
                 </div>
             </div>
         </div><!-- panel -->

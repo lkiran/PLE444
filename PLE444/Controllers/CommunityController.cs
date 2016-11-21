@@ -1,7 +1,11 @@
-﻿using PLE444.Context;
+﻿using Microsoft.AspNet.Identity;
+using PLE444.Context;
+using PLE444.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -11,14 +15,55 @@ namespace PLE444.Controllers
     {
         // GET: Community 
         private PleDbContext db = new PleDbContext();
+
         public ActionResult List() {
             var com = db.Communities.ToList();
             return View(com);
         }
-        public ActionResult Index()
+        public ActionResult Create()
         {
             return View();
-       }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Community community, HttpPostedFileBase uploadFile)
+        {       
+            if (ModelState.IsValid)
+            {
+                var currentuserId = User.Identity.GetUserId();
+                var imageFilePath = "";
+
+                if (uploadFile.ContentLength > 0) //check length of bytes are greater then zero or not
+                {
+                    //for checking uploaded file is image or not
+                    if (Path.GetExtension(uploadFile.FileName).ToLower() == ".jpg"
+                        || Path.GetExtension(uploadFile.FileName).ToLower() == ".png"
+                        || Path.GetExtension(uploadFile.FileName).ToLower() == ".gif"
+                        || Path.GetExtension(uploadFile.FileName).ToLower() == ".jpeg")
+                    {
+                        var fileName = Guid.NewGuid().ToString() + Path.GetExtension(uploadFile.FileName);
+                        imageFilePath = Path.Combine(Server.MapPath("~/Uploads"), fileName);
+                        uploadFile.SaveAs(imageFilePath);
+                        ViewBag.UploadSuccess = true;
+                    }
+                }
+
+                community.AdminId = currentuserId;
+                community.GroupPhoto = "/Uploads/" + uploadFile.FileName;
+                db.Communities.Add(community);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(community);
+        }
+
+        public ActionResult Index(Guid id)
+        {
+            var c = db.Communities.Find(id);
+            return View(c);
+        }
        
         public ActionResult Events()
         {
