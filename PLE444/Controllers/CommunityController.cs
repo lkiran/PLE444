@@ -16,10 +16,6 @@ namespace PLE444.Controllers
         // GET: Community 
         private PleDbContext db = new PleDbContext();
 
-        public ActionResult List() {
-            var com = db.Communities.ToList();
-            return View(com);
-        }
         public ActionResult Create()
         {
             return View();
@@ -59,8 +55,13 @@ namespace PLE444.Controllers
             return View(community);
         }
 
-        public ActionResult Index(Guid id)
+        public ActionResult Index(Guid? id)
         {
+            if(id== null)
+            {
+                var com = db.Communities.ToList();
+                return View("List",com);
+            }
             var c = db.Communities.Find(id);
             return View(c);
         }
@@ -69,9 +70,12 @@ namespace PLE444.Controllers
         {
             return View();
         }
-        public ActionResult Discussion()
-        {
-            return View();
+        public ActionResult Discussion(Guid? id)
+        {    
+            var community = db.Communities.Find(id);           
+            //JobPost = _db.JobPosts.Include(i => i.JobTags).First(i => i.Id == id),
+            var m = db.Communities.Include("Discussion").Include("Discussion.Messages").FirstOrDefault(i => i.ID == id);
+            return View(m);
         }
         public ActionResult Archive()
         {

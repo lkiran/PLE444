@@ -1,4 +1,4 @@
-﻿
+﻿@model PLE444.Models.Community
 @{
     ViewBag.Title = "Discussion";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,238 +9,67 @@
         <span class="pull-right">Databaseciler</span>
         <h2>
             <ul class="nav nav-tabs">
-                <li ><a href="@Url.Action("Index","Community")" >Grup</a></li>
-                <li><a href="@Url.Action("Events","Community")" >Etkinlik</a></li>
-                <li class="active"><a href="@Url.Action("Discussion","Community")" >Tartışma</a></li>
-                <li><a href="@Url.Action("Archive","Community")" >Arşiv</a></li>
+                <li ><a href="@Url.Action("Index")" >Grup</a></li>
+                <li><a href="@Url.Action("Events")" >Etkinlik</a></li>
+                <li class="active"><a href="@Url.Action("Discussion")" >Tartışma</a></li>
+                <li><a href="@Url.Action("Archive")" >Arşiv</a></li>
 
             </ul>
         </h2>
     </div>
 </div>
 
-
-<ul class="converstion">
-    <li>
-        <div class="panel">
-            <div class="media msg">
-                <a class="pull-left" href="#">
-                    <img class="media-object" data-src="holder.js/64x64" alt="64x64" style="width: 32px; height: 32px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACqUlEQVR4Xu2Y60tiURTFl48STFJMwkQjUTDtixq+Av93P6iBJFTgg1JL8QWBGT4QfDX7gDIyNE3nEBO6D0Rh9+5z9rprr19dTa/XW2KHl4YFYAfwCHAG7HAGgkOQKcAUYAowBZgCO6wAY5AxyBhkDDIGdxgC/M8QY5AxyBhkDDIGGYM7rIAyBgeDAYrFIkajEYxGIwKBAA4PDzckpd+322243W54PJ5P5f6Omh9tqiTAfD5HNpuFVqvFyckJms0m9vf3EY/H1/u9vb0hn89jsVj8kwDfUfNviisJ8PLygru7O4TDYVgsFtDh9Xo9NBrNes9cLgeTybThgKenJ1SrVXGf1WoVDup2u4jFYhiPx1I1P7XVBxcoCVCr1UBfTqcTrVYLe3t7OD8/x/HxsdiOPqNGo9Eo0un02gHkBhJmuVzC7/fj5uYGXq8XZ2dnop5Mzf8iwMPDAxqNBmw2GxwOBx4fHzGdTpFMJkVzNB7UGAmSSqU2RoDmnETQ6XQiOyKRiHCOSk0ZEZQcUKlU8Pz8LA5vNptRr9eFCJQBFHq//szG5eWlGA1ywOnpqQhBapoWPfl+vw+fzweXyyU+U635VRGUBOh0OigUCggGg8IFK/teXV3h/v4ew+Hwj/OQU4gUq/w4ODgQrkkkEmKEVGp+tXm6XkkAOngmk4HBYBAjQA6gEKRmyOL05GnR99vbW9jtdjEGdP319bUIR8oA+pnG5OLiQoghU5OElFlKAtCGr6+vKJfLmEwm64aosd/XbDbbyIBSqSSeNKU+HXzlnFAohKOjI6maMs0rO0B20590n7IDflIzMmdhAfiNEL8R4jdC/EZIJj235R6mAFOAKcAUYApsS6LL9MEUYAowBZgCTAGZ9NyWe5gCTAGmAFOAKbAtiS7TB1Ng1ynwDkxRe58vH3FfAAAAAElFTkSuQmCC">
-                </a>
-                <div class="media-body">
-                    <small class="pull-right time"><i class="fa fa-clock-o"></i> 12:10am</small>
-                    <h5 class="media-heading">Naimish Sakhpara</h5>
-                    <small class="col-lg-10">Arnab Goswami: "Some people close to Congress Party and close to the government had a #secret #meeting in a farmhouse in Maharashtra in which Anna Hazare send some representatives and they had a meeting in the discussed how to go about this all fast and how eventually this will end."</small>
-                </div>
-            </div>
-        </div>
-        <ul>
-            <li>
-                <div class="panel">
-                    <div class="media msg">
-                        <a class="pull-left" href="#">
-                            <img class="media-object" data-src="holder.js/64x64" alt="64x64" style="width: 32px; height: 32px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACqUlEQVR4Xu2Y60tiURTFl48STFJMwkQjUTDtixq+Av93P6iBJFTgg1JL8QWBGT4QfDX7gDIyNE3nEBO6D0Rh9+5z9rprr19dTa/XW2KHl4YFYAfwCHAG7HAGgkOQKcAUYAowBZgCO6wAY5AxyBhkDDIGdxgC/M8QY5AxyBhkDDIGGYM7rIAyBgeDAYrFIkajEYxGIwKBAA4PDzckpd+322243W54PJ5P5f6Omh9tqiTAfD5HNpuFVqvFyckJms0m9vf3EY/H1/u9vb0hn89jsVj8kwDfUfNviisJ8PLygru7O4TDYVgsFtDh9Xo9NBrNes9cLgeTybThgKenJ1SrVXGf1WoVDup2u4jFYhiPx1I1P7XVBxcoCVCr1UBfTqcTrVYLe3t7OD8/x/HxsdiOPqNGo9Eo0un02gHkBhJmuVzC7/fj5uYGXq8XZ2dnop5Mzf8iwMPDAxqNBmw2GxwOBx4fHzGdTpFMJkVzNB7UGAmSSqU2RoDmnETQ6XQiOyKRiHCOSk0ZEZQcUKlU8Pz8LA5vNptRr9eFCJQBFHq//szG5eWlGA1ywOnpqQhBapoWPfl+vw+fzweXyyU+U635VRGUBOh0OigUCggGg8IFK/teXV3h/v4ew+Hwj/OQU4gUq/w4ODgQrkkkEmKEVGp+tXm6XkkAOngmk4HBYBAjQA6gEKRmyOL05GnR99vbW9jtdjEGdP319bUIR8oA+pnG5OLiQoghU5OElFlKAtCGr6+vKJfLmEwm64aosd/XbDbbyIBSqSSeNKU+HXzlnFAohKOjI6maMs0rO0B20590n7IDflIzMmdhAfiNEL8R4jdC/EZIJj235R6mAFOAKcAUYApsS6LL9MEUYAowBZgCTAGZ9NyWe5gCTAGmAFOAKbAtiS7TB1Ng1ynwDkxRe58vH3FfAAAAAElFTkSuQmCC">
-                        </a>
-                        <div class="media-body">
-                            <small class="pull-right time"><i class="fa fa-clock-o"></i> 12:10am</small>
-                            <h5 class="media-heading">Naimish Sakhpara</h5>
-                            <small class="col-lg-10">Arnab Goswami: "Some people close to Congress Party and close to the government had a #secret #meeting in a farmhouse in Maharashtra in which Anna Hazare send some representatives and they had a meeting in the discussed how to go about this all fast and how eventually this will end."</small>
-                        </div>
-                    </div>
-                </div>
-				<ul>
-					<li>
-                        <div class="panel col-md-push-0">
-                            <div class="media msg">
-                                <a class="pull-left" href="#">
-                                    <img class="media-object" data-src="holder.js/64x64" alt="64x64" style="width: 32px; height: 32px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACqUlEQVR4Xu2Y60tiURTFl48STFJMwkQjUTDtixq+Av93P6iBJFTgg1JL8QWBGT4QfDX7gDIyNE3nEBO6D0Rh9+5z9rprr19dTa/XW2KHl4YFYAfwCHAG7HAGgkOQKcAUYAowBZgCO6wAY5AxyBhkDDIGdxgC/M8QY5AxyBhkDDIGGYM7rIAyBgeDAYrFIkajEYxGIwKBAA4PDzckpd+322243W54PJ5P5f6Omh9tqiTAfD5HNpuFVqvFyckJms0m9vf3EY/H1/u9vb0hn89jsVj8kwDfUfNviisJ8PLygru7O4TDYVgsFtDh9Xo9NBrNes9cLgeTybThgKenJ1SrVXGf1WoVDup2u4jFYhiPx1I1P7XVBxcoCVCr1UBfTqcTrVYLe3t7OD8/x/HxsdiOPqNGo9Eo0un02gHkBhJmuVzC7/fj5uYGXq8XZ2dnop5Mzf8iwMPDAxqNBmw2GxwOBx4fHzGdTpFMJkVzNB7UGAmSSqU2RoDmnETQ6XQiOyKRiHCOSk0ZEZQcUKlU8Pz8LA5vNptRr9eFCJQBFHq//szG5eWlGA1ywOnpqQhBapoWPfl+vw+fzweXyyU+U635VRGUBOh0OigUCggGg8IFK/teXV3h/v4ew+Hwj/OQU4gUq/w4ODgQrkkkEmKEVGp+tXm6XkkAOngmk4HBYBAjQA6gEKRmyOL05GnR99vbW9jtdjEGdP319bUIR8oA+pnG5OLiQoghU5OElFlKAtCGr6+vKJfLmEwm64aosd/XbDbbyIBSqSSeNKU+HXzlnFAohKOjI6maMs0rO0B20590n7IDflIzMmdhAfiNEL8R4jdC/EZIJj235R6mAFOAKcAUYApsS6LL9MEUYAowBZgCTAGZ9NyWe5gCTAGmAFOAKbAtiS7TB1Ng1ynwDkxRe58vH3FfAAAAAElFTkSuQmCC">
-                                </a>
-                                <div class="media-body">
-                                    <small class="pull-right time"><i class="fa fa-clock-o"></i> 12:10am</small>
-                                    <h5 class="media-heading">Naimish Sakhpara</h5>
-                                    <small class="col-lg-10">Arnab Goswami: "Some people close to Congress Party and close to the government had a #secret #meeting in a farmhouse in Maharashtra in which Anna Hazare send some representatives and they had a meeting in the discussed how to go about this all fast and how eventually this will end."</small>
+<div class="row">
+    <div class="col-md-9">
+         <div class="panel-group panel-default" id="accordionA">
+                    
+                    @foreach (var discussion in Model.Discussion)
+                    {
+                        <div class="panel panel-default">
+                            <a data-toggle="collapse" data-parent="#accordionA" href="#collapseTwo"><div class="panel-heading"><h2>@discussion.Topic</h2></div></a>
+                            <div id="collapseTwo" class="collapse">
+                                <div class="panel-body">
+                                    @foreach (var message in discussion.Messages)
+                                    {
+                                        <div class="message">
+                                            <img class="img-circle" style="width:40px" src="~/Content/img/pp.jpg" />
+                                            <strong style="margin-left:10px;">@message.SenderId</strong>
+                                            <div class="pull-right">
+                                                <small>@message.DateSent</small>
+                                            </div>
+                                            <br>
+                                            <p style="margin-left:50px;">@message.Content</p>
+                                            <hr>
+                                        </div>
+                                    }
+                                    <div class="message">
+                                        <img class="img-circle" style="width:40px" src="~/Content/img/pp.jpg" />
+                                        <strong style="margin-left:10px;">Levent Kıran</strong>
+                                        <div class="pull-right">
+                                        </div>
+                                        <br>
+                                        <form action="" method="post" class="form-horizontal row-border">
+                                            <div class="form-group  ml-xxl">
+                                                <div class="col-sm-12">
+                                                    <textarea class="form-control autosize" style="overflow: hidden; word-wrap: break-word; resize: horizontal;"></textarea>
+                                                </div>
+                                            </div>
+                                            <button type="submit" class="btn btn-success pull-right">Gönder</button>
+                                        </form>
+                                    </div> 
                                 </div>
                             </div>
                         </div>
-                    </li>
-					<li>
-                        <div class="panel">
-                            <div class="media msg">
-                                <a class="pull-left" href="#">
-                                    <img class="media-object" data-src="holder.js/64x64" alt="64x64" style="width: 32px; height: 32px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACqUlEQVR4Xu2Y60tiURTFl48STFJMwkQjUTDtixq+Av93P6iBJFTgg1JL8QWBGT4QfDX7gDIyNE3nEBO6D0Rh9+5z9rprr19dTa/XW2KHl4YFYAfwCHAG7HAGgkOQKcAUYAowBZgCO6wAY5AxyBhkDDIGdxgC/M8QY5AxyBhkDDIGGYM7rIAyBgeDAYrFIkajEYxGIwKBAA4PDzckpd+322243W54PJ5P5f6Omh9tqiTAfD5HNpuFVqvFyckJms0m9vf3EY/H1/u9vb0hn89jsVj8kwDfUfNviisJ8PLygru7O4TDYVgsFtDh9Xo9NBrNes9cLgeTybThgKenJ1SrVXGf1WoVDup2u4jFYhiPx1I1P7XVBxcoCVCr1UBfTqcTrVYLe3t7OD8/x/HxsdiOPqNGo9Eo0un02gHkBhJmuVzC7/fj5uYGXq8XZ2dnop5Mzf8iwMPDAxqNBmw2GxwOBx4fHzGdTpFMJkVzNB7UGAmSSqU2RoDmnETQ6XQiOyKRiHCOSk0ZEZQcUKlU8Pz8LA5vNptRr9eFCJQBFHq//szG5eWlGA1ywOnpqQhBapoWPfl+vw+fzweXyyU+U635VRGUBOh0OigUCggGg8IFK/teXV3h/v4ew+Hwj/OQU4gUq/w4ODgQrkkkEmKEVGp+tXm6XkkAOngmk4HBYBAjQA6gEKRmyOL05GnR99vbW9jtdjEGdP319bUIR8oA+pnG5OLiQoghU5OElFlKAtCGr6+vKJfLmEwm64aosd/XbDbbyIBSqSSeNKU+HXzlnFAohKOjI6maMs0rO0B20590n7IDflIzMmdhAfiNEL8R4jdC/EZIJj235R6mAFOAKcAUYApsS6LL9MEUYAowBZgCTAGZ9NyWe5gCTAGmAFOAKbAtiS7TB1Ng1ynwDkxRe58vH3FfAAAAAElFTkSuQmCC">
-                                </a>
-                                <div class="media-body">
-                                    <small class="pull-right time"><i class="fa fa-clock-o"></i> 12:10am</small>
-                                    <h5 class="media-heading">Naimish Sakhpara</h5>
-                                    <small class="col-lg-10">Arnab Goswami: "Some people close to Congress Party and close to the government had a #secret #meeting in a farmhouse in Maharashtra in which Anna Hazare send some representatives and they had a meeting in the discussed how to go about this all fast and how eventually this will end."</small>
-                                </div>
-                            </div>
-                        </div>
-                    </li>
-				</ul>
-			</li>
-			<li>
-                <div class="panel">
-                    <div class="media msg">
-                        <a class="pull-left" href="#">
-                            <img class="media-object" data-src="holder.js/64x64" alt="64x64" style="width: 32px; height: 32px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACqUlEQVR4Xu2Y60tiURTFl48STFJMwkQjUTDtixq+Av93P6iBJFTgg1JL8QWBGT4QfDX7gDIyNE3nEBO6D0Rh9+5z9rprr19dTa/XW2KHl4YFYAfwCHAG7HAGgkOQKcAUYAowBZgCO6wAY5AxyBhkDDIGdxgC/M8QY5AxyBhkDDIGGYM7rIAyBgeDAYrFIkajEYxGIwKBAA4PDzckpd+322243W54PJ5P5f6Omh9tqiTAfD5HNpuFVqvFyckJms0m9vf3EY/H1/u9vb0hn89jsVj8kwDfUfNviisJ8PLygru7O4TDYVgsFtDh9Xo9NBrNes9cLgeTybThgKenJ1SrVXGf1WoVDup2u4jFYhiPx1I1P7XVBxcoCVCr1UBfTqcTrVYLe3t7OD8/x/HxsdiOPqNGo9Eo0un02gHkBhJmuVzC7/fj5uYGXq8XZ2dnop5Mzf8iwMPDAxqNBmw2GxwOBx4fHzGdTpFMJkVzNB7UGAmSSqU2RoDmnETQ6XQiOyKRiHCOSk0ZEZQcUKlU8Pz8LA5vNptRr9eFCJQBFHq//szG5eWlGA1ywOnpqQhBapoWPfl+vw+fzweXyyU+U635VRGUBOh0OigUCggGg8IFK/teXV3h/v4ew+Hwj/OQU4gUq/w4ODgQrkkkEmKEVGp+tXm6XkkAOngmk4HBYBAjQA6gEKRmyOL05GnR99vbW9jtdjEGdP319bUIR8oA+pnG5OLiQoghU5OElFlKAtCGr6+vKJfLmEwm64aosd/XbDbbyIBSqSSeNKU+HXzlnFAohKOjI6maMs0rO0B20590n7IDflIzMmdhAfiNEL8R4jdC/EZIJj235R6mAFOAKcAUYApsS6LL9MEUYAowBZgCTAGZ9NyWe5gCTAGmAFOAKbAtiS7TB1Ng1ynwDkxRe58vH3FfAAAAAElFTkSuQmCC">
-                        </a>
-                        <div class="media-body">
-                            <small class="pull-right time"><i class="fa fa-clock-o"></i> 12:10am</small>
-                            <h5 class="media-heading">Naimish Sakhpara</h5>
-                            <small class="col-lg-10">Arnab Goswami: "Some people close to Congress Party and close to the government had a #secret #meeting in a farmhouse in Maharashtra in which Anna Hazare send some representatives and they had a meeting in the discussed how to go about this all fast and how eventually this will end."</small>
-                        </div>
-                    </div>
-                </div>
-            </li>
-		</ul>
-	</li>
-	<li>
-        <div class="panel">
-            <div class="media msg">
-                <a class="pull-left" href="#">
-                    <img class="media-object" data-src="holder.js/64x64" alt="64x64" style="width: 32px; height: 32px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAACqUlEQVR4Xu2Y60tiURTFl48STFJMwkQjUTDtixq+Av93P6iBJFTgg1JL8QWBGT4QfDX7gDIyNE3nEBO6D0Rh9+5z9rprr19dTa/XW2KHl4YFYAfwCHAG7HAGgkOQKcAUYAowBZgCO6wAY5AxyBhkDDIGdxgC/M8QY5AxyBhkDDIGGYM7rIAyBgeDAYrFIkajEYxGIwKBAA4PDzckpd+322243W54PJ5P5f6Omh9tqiTAfD5HNpuFVqvFyckJms0m9vf3EY/H1/u9vb0hn89jsVj8kwDfUfNviisJ8PLygru7O4TDYVgsFtDh9Xo9NBrNes9cLgeTybThgKenJ1SrVXGf1WoVDup2u4jFYhiPx1I1P7XVBxcoCVCr1UBfTqcTrVYLe3t7OD8/x/HxsdiOPqNGo9Eo0un02gHkBhJmuVzC7/fj5uYGXq8XZ2dnop5Mzf8iwMPDAxqNBmw2GxwOBx4fHzGdTpFMJkVzNB7UGAmSSqU2RoDmnETQ6XQiOyKRiHCOSk0ZEZQcUKlU8Pz8LA5vNptRr9eFCJQBFHq//szG5eWlGA1ywOnpqQhBapoWPfl+vw+fzweXyyU+U635VRGUBOh0OigUCggGg8IFK/teXV3h/v4ew+Hwj/OQU4gUq/w4ODgQrkkkEmKEVGp+tXm6XkkAOngmk4HBYBAjQA6gEKRmyOL05GnR99vbW9jtdjEGdP319bUIR8oA+pnG5OLiQoghU5OElFlKAtCGr6+vKJfLmEwm64aosd/XbDbbyIBSqSSeNKU+HXzlnFAohKOjI6maMs0rO0B20590n7IDflIzMmdhAfiNEL8R4jdC/EZIJj235R6mAFOAKcAUYApsS6LL9MEUYAowBZgCTAGZ9NyWe5gCTAGmAFOAKbAtiS7TB1Ng1ynwDkxRe58vH3FfAAAAAElFTkSuQmCC">
-                </a>
-                <div class="media-body">
-                    <small class="pull-right time"><i class="fa fa-clock-o"></i> 12:10am</small>
-                    <h5 class="media-heading">Naimish Sakhpara</h5>
-                    <small class="col-lg-10">Arnab Goswami: "Some people close to Congress Party and close to the government had a #secret #meeting in a farmhouse in Maharashtra in which Anna Hazare send some representatives and they had a meeting in the discussed how to go about this all fast and how eventually this will end."</small>
-                </div>
-            </div>
-        </div>
-    </li>
-</ul>
+                    }
+            
+                </div>       
+    </div>
+</div>
 
-<style>
-    ul.converstion{
-        list-style: none;        
-    }
-   .converstion li > ul{
-        list-style: none;
-    }
-   .converstion .panel {
+<script src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
 
-       margin-bottom: 16px;
- 
-    }
-   .converstion li > p {      
-       width:200px;
-   }
-       .conversation-wrap
-    {
-        box-shadow: -2px 0 3px #ddd;
-        padding:0;
-        max-height: 400px;
-        overflow: auto;
-    }
-    .conversation
-    {
-        padding:5px;
-        border-bottom:1px solid #ddd;
-        margin:0;
-
-    }
-
-    .message-wrap
-    {
-        box-shadow: 0 0 3px #ddd;
-        padding:0;
-
-    }
-    .msg
-    {
-        padding:5px;
-        /*border-bottom:1px solid #ddd;*/
-        margin:0;
-    }
-    .msg-wrap
-    {
-        padding:10px;
-        max-height: 400px;
-        overflow: auto;
-
-    }
-
-    .time
-    {
-        color:#bfbfbf;
-    }
-
-    .send-wrap
-    {
-        border-top: 1px solid #eee;
-        border-bottom: 1px solid #eee;
-        padding:10px;
-        /*background: #f8f8f8;*/
-    }
-
-    .send-message
-    {
-        resize: none;
-    }
-
-    .highlight
-    {
-        background-color: #f7f7f9;
-        border: 1px solid #e1e1e8;
-    }
-
-    .send-message-btn
-    {
-        border-top-left-radius: 0;
-        border-top-right-radius: 0;
-        border-bottom-left-radius: 0;
-
-        border-bottom-right-radius: 0;
-    }
-    .btn-panel
-    {
-        background: #f7f7f9;
-    }
-
-    .btn-panel .btn
-    {
-        color:#b8b8b8;
-
-        transition: 0.2s all ease-in-out;
-    }
-
-    .btn-panel .btn:hover
-    {
-        color:#666;
-        background: #f8f8f8;
-    }
-    .btn-panel .btn:active
-    {
-        background: #f8f8f8;
-        box-shadow: 0 0 1px #ddd;
-    }
-
-    .btn-panel-conversation .btn,.btn-panel-msg .btn
-    {
-
-        background: #f8f8f8;
-    }
-    .btn-panel-conversation .btn:first-child
-    {
-        border-right: 1px solid #ddd;
-    }
-
-    .msg-wrap .media-heading
-    {
-        color:#003bb3;
-        font-weight: 700;
-    }
-
-
-    .msg-date
-    {
-        background: none;
-        text-align: center;
-        color:#aaa;
-        border:none;
-        box-shadow: none;
-        border-bottom: 1px solid #ddd;
-    }
-
-</style>
+<script>
+    $(document).ready(function () {
+        $('textarea.autosize').autosize({ append: "\n" })
+    });
+</script>

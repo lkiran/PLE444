@@ -208,15 +208,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201611201442333_fmsdlfs.cs" />
-    <Compile Include="Migrations\201611201442333_fmsdlfs.Designer.cs">
-      <DependentUpon>201611201442333_fmsdlfs.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Chapter.cs" />
     <Compile Include="Models\Community.cs" />
+    <Compile Include="Models\Discussion.cs" />
     <Compile Include="Models\Friendship.cs" />
     <Compile Include="Models\Interest.cs" />
     <Compile Include="Models\Course.cs" />
@@ -226,6 +223,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Material.cs" />
+    <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Tag.cs" />
@@ -239,6 +237,8 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\jquery.filer-dragdropbox-theme.css" />
+    <Content Include="Content\css\jquery.filer.css" />
     <Content Include="Content\css\style-blessed1.css" />
     <Content Include="Content\css\style-blessed2.css" />
     <Content Include="Content\css\style-blessed3.css" />
@@ -918,6 +918,8 @@
     <Content Include="Content\js\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\js\jquery-1.10.2.min.js" />
     <Content Include="Content\js\jquery-1.8.3.min.js" />
+    <Content Include="Content\js\jquery.filer.js" />
+    <Content Include="Content\js\jquery.filer.min.js" />
     <Content Include="Content\js\jquery.layout.min.js" />
     <Content Include="Content\js\jquery.touchSwipe.min.js" />
     <Content Include="Content\js\jqueryui-1.10.3.min.js" />
@@ -2204,9 +2206,13 @@
     <Content Include="Content\plugins\summernote\src\less\summernote.less" />
     <Content Include="Content\plugins\switchery\README.md" />
     <Content Include="Content\plugins\wijets\.DS_Store" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <None Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="Scripts\jquery-3.1.1.js" />
+    <Content Include="Scripts\jquery-3.1.1.min.js" />
+    <Content Include="Scripts\jquery-3.1.1.slim.js" />
+    <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
+    <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.1.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
@@ -2280,6 +2286,12 @@
     <Content Include="Views\Course\CourseEdit.cshtml" />
     <Content Include="Views\Course\Grades.cshtml" />
     <Content Include="Views\Course\Materials.cshtml" />
+    <Content Include="Views\Chapters\ChapterCreate.cshtml" />
+    <Content Include="Views\Chapters\Delete.cshtml" />
+    <Content Include="Views\Chapters\Details.cshtml" />
+    <Content Include="Views\Chapters\Edit.cshtml" />
+    <Content Include="Views\Chapters\Index.cshtml" />
+    <Content Include="Views\Community\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -2287,18 +2299,12 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Helpers\" />
     <Folder Include="Uploads\" />
     <Folder Include="Views\Group\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201611201442333_fmsdlfs.resx">
-      <DependentUpon>201611201442333_fmsdlfs.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

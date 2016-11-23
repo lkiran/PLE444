@@ -24,7 +24,8 @@ namespace PLE444.Context
 		public DbSet<Tag> Tags { get; set; }
 		public DbSet<Post> Posts { get; set; }
         public DbSet <Assignment> Assignments { get; set; }
-     
+        public DbSet<Discussion> Discussions { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
         public System.Data.Entity.DbSet<PLE444.Models.Chapter> Chapters { get; set; }
     }
