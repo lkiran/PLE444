@@ -13,7 +13,7 @@ namespace PLE444.Models
         }
         public Guid ID { get; set; }
         public string Topic { get; set; }
-        public Guid CreatorId { get; set; }
+        public string CreatorId { get; set; }
         public DateTime DateCreated { get; set; }
         public virtual ICollection<Message> Messages { get; set; }
     }

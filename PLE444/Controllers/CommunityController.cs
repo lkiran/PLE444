@@ -3,6 +3,7 @@ using PLE444.Context;
 using PLE444.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -72,11 +73,75 @@ namespace PLE444.Controllers
         }
         public ActionResult Discussion(Guid? id)
         {    
-            var community = db.Communities.Find(id);           
-            //JobPost = _db.JobPosts.Include(i => i.JobTags).First(i => i.Id == id),
+            var community = db.Communities.Find(id);                  
             var m = db.Communities.Include("Discussion").Include("Discussion.Messages").FirstOrDefault(i => i.ID == id);
+
+            if (TempData["Active"] == null)
+                ViewBag.Active = m.Discussion.First().ID;
+            else
+                ViewBag.Active = TempData["Active"];
+            ViewBag.CurrentUserId = User.Identity.GetUserId();
             return View(m);
         }
+
+        public  ActionResult AddTitle(string id)
+        {
+            ViewBag.CommunityId = id;           
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddTitle(Discussion discussion, Guid communityId)
+        {
+            if (ModelState.IsValid)
+            {
+                var d = new Discussion();
+                d.DateCreated = DateTime.Now;
+                d.CreatorId= User.Identity.GetUserId();
+                d.Topic = discussion.Topic;
+
+                db.Discussions.Add(d);
+
+                var c = db.Communities.Find(communityId);
+                c.Discussion.Add(d);
+
+                db.Entry(c).State = EntityState.Modified;
+
+                db.SaveChanges();
+
+                return RedirectToAction("Discussion", new { id = communityId });
+            }
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SendMessage(Message message, Guid communityId, Guid discussionId)
+        {
+            if (ModelState.IsValid)
+            {
+                var m = new Message();
+                m.Content = message.Content;
+                m.DateSent = DateTime.Now;
+                m.SenderId = User.Identity.GetUserId();
+
+                db.Messages.Add(m);
+
+                var d = db.Discussions.Find(discussionId);
+                d.Messages.Add(m);
+
+                db.Entry(d).State = EntityState.Modified;
+
+                db.SaveChanges();
+
+                TempData["Active"] = discussionId;
+                return RedirectToAction("Discussion", new { id = communityId });
+            }
+            return View();
+        }
+
         public ActionResult Archive()
         {
             return View();

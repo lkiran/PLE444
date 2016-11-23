@@ -208,6 +208,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\UserHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -2292,6 +2293,8 @@
     <Content Include="Views\Chapters\Edit.cshtml" />
     <Content Include="Views\Chapters\Index.cshtml" />
     <Content Include="Views\Community\Create.cshtml" />
+    <Content Include="Views\Community\AddTitle.cshtml" />
+    <Content Include="Views\Community\SendMessage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -2302,7 +2305,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Helpers\" />
     <Folder Include="Uploads\" />
     <Folder Include="Views\Group\" />
   </ItemGroup>

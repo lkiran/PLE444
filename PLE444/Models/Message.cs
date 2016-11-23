@@ -13,7 +13,7 @@ namespace PLE444.Models
         }
         public Guid ID { get; set; }
         public string Content { get; set; }
-        public Guid SenderId { get; set; }
+        public string SenderId { get; set; }
         public DateTime DateSent { get; set; }
     }
 }
