@@ -33,22 +33,31 @@
                                 @foreach (var message in discussion.Messages)
                                 {
                                     <div class="message">
-                                        @{var h = new PLE444.Helpers.UserHelper();}
+                                        @{var h = new PLE444.Helpers.UserHelper();
+                                            var dh = new PLE444.Helpers.DataManipulationHelper();
+                                         }
                                         <img class="img-circle" style="width:40px" src="/Uploads/@h.GetUserPhotoFromID(message.SenderId)" />                                        
                                         
                                         <strong style="margin-left:10px;">@h.GetUserFullNameFromID(message.SenderId)</strong>
                                         <div class="pull-right">
-                                            <small>@message.DateSent</small>
+                                            <small>@dh.GetDeltaDate(message.DateSent)</small>
                                         </div>
                                         <br>
                                         <p style="margin-left:50px;">@message.Content</p>
                                         <hr>
                                     </div>
                                 }
-                                <div class="message">                                        
-                                    @Html.Partial("SendMessage", new PLE444.Models.Message(), new ViewDataDictionary { { "DiscussionId", discussion.ID } ,
-                                                                                                                       { "CommunityId", Model.ID } ,
-                                                                                                                       { "CurrentUserId", ViewBag.CurrentUserId } })                                                          
+                                <div class="message">  
+                                    @if(ViewBag.CurrentUserId==null)
+                                    {
+                                        <p>Mesaj yollamak için yapın</p>
+                                    }
+                                    else
+                                    {
+                                        @Html.Partial("SendMessage", new PLE444.Models.Message(), new ViewDataDictionary { { "DiscussionId", discussion.ID } ,
+                                                                                                                           { "CommunityId", Model.ID } ,
+                                                                                                                           { "CurrentUserId", ViewBag.CurrentUserId } }) 
+                                    }                                                         
                                 </div> 
                             </div>
                         </div>
