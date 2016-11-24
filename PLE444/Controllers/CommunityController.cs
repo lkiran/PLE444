@@ -30,6 +30,7 @@ namespace PLE444.Controllers
             {
                 var currentuserId = User.Identity.GetUserId();
                 var imageFilePath = "";
+                var fileName = "";
 
                 if (uploadFile.ContentLength > 0) //check length of bytes are greater then zero or not
                 {
@@ -39,7 +40,7 @@ namespace PLE444.Controllers
                         || Path.GetExtension(uploadFile.FileName).ToLower() == ".gif"
                         || Path.GetExtension(uploadFile.FileName).ToLower() == ".jpeg")
                     {
-                        var fileName = Guid.NewGuid().ToString() + Path.GetExtension(uploadFile.FileName);
+                        fileName = Guid.NewGuid().ToString() + Path.GetExtension(uploadFile.FileName);
                         imageFilePath = Path.Combine(Server.MapPath("~/Uploads"), fileName);
                         uploadFile.SaveAs(imageFilePath);
                         ViewBag.UploadSuccess = true;
@@ -47,7 +48,7 @@ namespace PLE444.Controllers
                 }
 
                 community.AdminId = currentuserId;
-                community.GroupPhoto = "/Uploads/" + uploadFile.FileName;
+                community.GroupPhoto = "/Uploads/" + fileName;
                 db.Communities.Add(community);
                 db.SaveChanges();
                 return RedirectToAction("Index");
