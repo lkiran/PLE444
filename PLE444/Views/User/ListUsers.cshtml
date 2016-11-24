@@ -31,7 +31,23 @@
                         {
                             <tr>
                                
-                                <td>@user.ProfilePicture</td>
+                                
+                                    @{ var h = new PLE444.Helpers.UserHelper();
+                                        var pp = h.GetUserPhotoFromID(user.Id);
+                                    }
+
+                                <td>
+                                    @if (pp == "")
+                                    {
+                                        <img src="~/Content/img/pp.jpg" class="img-circle" style="height:60px;">
+                                    }
+                                    else
+                                    {
+                                        <img src="@pp" class="img-circle" style="height:60px;">
+                                    }
+                                </td>
+                                
+                               
                                 <td>@user.FirstName @user.LastName </td>
                                 <td>
                                     <a href="@Url.Action("AddFriend", "User", new {id=user.Id })" class="btn btn-success"> Ekle </a>

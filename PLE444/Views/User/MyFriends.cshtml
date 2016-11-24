@@ -33,27 +33,33 @@
                     @*<p>For basic styling—light padding and only horizontal dividers—add the base class <code>.table</code> to any <code>&lt;table&gt;</code>.</p>*@
                     <table class="table m-n">
                         <thead>
-                            <tr>
-                                <th>Profile Pic</th>
-                                <th>Name</th>
-                                <th>Surname</th>
-                                <th>Actions</th>
-                               
-
-                            </tr>
+                        
                         </thead>
                         <tbody>
                             @foreach (var user in Model)
                             {
                                 <tr>
-                                    @{ var h = new PLE444.Helpers.UserHelper();}                          
+                                    @{ var h = new PLE444.Helpers.UserHelper();
+                                       var pp = h.GetUserPhotoFromID(user.FriendID);
+                                    }    
+                                    
+                                    <td> 
+                                        @if(pp == "")
+                                        {
+                                            <img src="~/Content/img/pp.jpg" class="img-circle" style="height:60px;">
+                                        }
+                                        else
+                                        {
+                                            <img src="@pp" class="img-circle" style="height:60px;">
+                                        }                   
+                                    </td>                      
                                     <td>@h.GetUserFullNameFromID(user.FriendID)<td>                                        
                                     
                                    <td>
-                                       <a href="@Url.Action("RemoveFriends", "User", new {id=user.Id })" class="btn btn-danger"> Çıkar </a>
+                                       <a href="@Url.Action("RemoveFriends", "User", new {id=user.Id })" class="btn btn-danger-alt"> Çıkar </a>
                                       
 
-                                    <a href="" class="btn btn-primary"> Mesaj Gönder </a>
+                                    <a href="" class="btn btn-primary-alt"> Mesaj Gönder </a>
                                     </td>                                 
                                 </tr>
                             }
