@@ -19,14 +19,29 @@
         </h2>
     </div>
 </div>
+@using (Html.BeginForm("ProfilEdit", "User", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
 
 <div data-widget-group="group1">
     <div class="row">
         <div class="col-sm-3">
             <div class="panel panel-profile">
                 <div class="panel-body">
-                    <img src="~/Content/img/pp.jpg" class="img-circle">
-                    <div class="name">@Model.FirstName </div>
+                    @if (@Model.ProfilePicture == "")
+                    {
+                        <img src="~/Content/img/pp.jpg" class="img-circle">
+                    }
+                    else
+                    {
+                        <img src="@Model.ProfilePicture" class="img-circle">
+                    }                    <div class="form-group">
+                       
+                        
+                         <input name="uploadFile" type="file" id="filer_input" />
+                       
+                    </div>
+                    <div class="name"></div>
                     <div class="info">Öğrenci</div>
                     <ul class="list-inline text-center">
                         <li><a href="#" class="profile-facebook-icon"><i class="ti ti-facebook"></i></a></li>
@@ -37,61 +52,58 @@
             </div><!-- panel -->
 
         </div><!-- col-sm-3 -->
+
+
         <div class="col-sm-9">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h2>Hakkında</h2>
+                    <div class="pull-right">
+                        <a><i class="fa fa-pencil"></i></a>
+                       
+                    </div>
+
                 </div>
                 <div class="panel-body">
                     <div class="about-area">
                         <h4>Vizyon</h4>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p>
-                        <p>Asperiores in eveniet sapiente error fuga tenetur ex ea dignissimos voluptas ab molestiae eos totam quo dolorem maxime illo neque quia itaque.</p>
+                       @Html.TextAreaFor(model => model.Vision, new { @class = "form-control" })
+                        <h4>Misyon</h4>
+                        @Html.TextAreaFor(model => model.Mission, new { @class = "form-control" })
                     </div>
                     <div class="about-area">
-                        <h4>Basic Information</h4>
+                        <h4>İletişim bilgileri</h4>
                         <div class="table-responsive">
                             <table class="table">
                                 <tbody>
 
                                     <tr>
                                         <th>Mail</th>
-                                        <td><a href="#">@Model.Email</a></td>
+                                        <td>@Html.TextBoxFor(m => m.Email, new { @class = "form-control" })</td>
                                     </tr>
                                     <tr>
                                         <th>Telefon</th>
-                                        <td>@Model.PhoneNumber</td>
+                                        <td>@Html.TextBoxFor(m => m.PhoneNo, new { @class = "form-control" })</td>
                                     </tr>
                                     <tr>
                                         <th>Pozisyon</th>
                                         <td>Designer</td>
                                     </tr>
 
-                                    <tr>
-                                        <th>Social</th>
-                                        <td>
-                                            <ul class="list-inline m-n">
-                                                <li><a href="#"><i class="ti ti-pinterest"></i></a></li>
-                                                <li><a href="#"><i class="ti ti-twitter"></i></a></li>
-                                                <li><a href="#"><i class="ti ti-google"></i></a></li>
-                                                <li><a href="#"><i class="ti ti-linkedin"></i></a></li>
-                                                <li><a href="#"><i class="ti ti-dribbble"></i></a></li>
-                                                <li><a href="#"><i class="ti ti-facebook"></i></a></li>
-                                            </ul>
-                                        </td>
-                                    </tr>
+                                  
                                 </tbody>
                             </table>
                         </div>
                     </div>
                     <div class="about-area">
-                        <h4>Personal Information</h4>
+                        <h4>Kişisel bilgiler</h4>
                         <div class="table-responsive">
                             <table class="table about-table">
                                 <tbody>
                                     <tr>
                                         <th>İsim</th>
-                                        <td>@Model.FirstName</td>
+                                        <td>@Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })</td>
                                     </tr>
                                     <tr>
                                         <th>Doğum Tarihi</th>
@@ -100,19 +112,11 @@
 
                                     <tr>
                                         <th>Cinsiyet</th>
-                                        <td>@Model.Gender</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Diller</th>
-                                        <td>English</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Adres</th>
-                                        <td>Canbera</td>
-                                    </tr>
-
+                                        <td>@Html.DropDownList("Gender", EnumHelper.GetSelectList(typeof(PLE444.Models.GenderType)), new { @class = "form-control" })</td>
+                                    </tr>                                      
                                 </tbody>
-                            </table>
+                           </table>
+                            <input type="submit" class="btn btn-default" value="Kaydet" />
                         </div>
                     </div>
                 </div>
@@ -120,5 +124,8 @@
         </div><!-- col-sm-8 -->
     </div>
 </div>
+}
+
+
 
 

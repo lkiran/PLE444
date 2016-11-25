@@ -2296,6 +2296,9 @@
     <Content Include="Views\Community\Create.cshtml" />
     <Content Include="Views\Community\AddTitle.cshtml" />
     <Content Include="Views\Community\SendMessage.cshtml" />
+    <Content Include="Views\User\MyFriends.cshtml" />
+    <Content Include="Views\User\Profil.cshtml" />
+    <Content Include="Views\User\ProfilEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

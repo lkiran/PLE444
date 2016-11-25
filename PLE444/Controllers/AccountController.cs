@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using PLE444.Models;
+using System.Data.Entity;
 
 namespace PLE444.Controllers
 {
@@ -60,15 +61,7 @@ namespace PLE444.Controllers
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
-        private ApplicationDbContext db = new ApplicationDbContext();
-        [Authorize]
-        public ActionResult Profil()
-        {
-            var currentuserId = User.Identity.GetUserId();
-            var userDetail = db.Users.Find(currentuserId);
-            return View(userDetail);
-        }
-        //
+
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]
@@ -186,6 +179,7 @@ namespace PLE444.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
+
 
         //
         // GET: /Account/ConfirmEmail
