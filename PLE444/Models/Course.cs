@@ -18,5 +18,6 @@ namespace PLE444.Models
         public String Name { get; set; }
         public String Description { get; set; }
         public DateTime CourseStart { get; set; }
+        public virtual ICollection<Chapter> Chapters { get; set; }
     }
 }

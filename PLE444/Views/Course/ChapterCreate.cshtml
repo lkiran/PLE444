@@ -26,12 +26,12 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.TextAreaFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @style= "background-color:white;" } })
                 @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
             </div>
         </div>
 
-        <input type="hidden" name="courseId" id="courseId" value="@ViewBag.CourseId">
+        <input type="hidden" name="courseId" id ="courseId" value="@ViewBag.CourseId">
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
@@ -43,24 +43,27 @@
 
 <div>
     @Html.ActionLink("Back to List", "Index")
-</div>
-<!-- Include stylesheet -->
-<link href="https://cdn.quilljs.com/1.1.5/quill.snow.css" rel="stylesheet">
-
-<!-- Create the editor container -->
-<div id="editor">
-    <p>Hello World!</p>
-    <p>Some initial <strong>bold</strong> text</p>
-    <p><br></p>
-</div>
-
-<!-- Include the Quill library -->
-<script src="https://cdn.quilljs.com/1.1.5/quill.js"></script>
-
-<!-- Initialize Quill editor -->
+</div>,
+<script src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
 <script>
-  var quill = new Quill('#editor', {
-    theme: 'snow'
-  });
-  var text = quill.getText();
+    $(document).ready(function () {
+        $('#Description').summernote({
+            focus: true,
+            height: 150,
+            codemirror: {
+                theme: 'united'
+            },
+            toolbar: [
+                // [groupName, [list of button]]
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']]
+            ]
+
+        });        
+    });
+  
 </script>
