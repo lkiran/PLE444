@@ -76,9 +76,6 @@ namespace PLE444.Controllers
             var community = db.Communities.Find(id);                  
             var m = db.Communities.Include("Discussion").Include("Discussion.Messages").FirstOrDefault(i => i.ID == id);
 
-            if (TempData["Active"] == null)
-                ViewBag.Active = m.Discussion.First().ID;
-            else
                 ViewBag.Active = TempData["Active"];
             ViewBag.CurrentUserId = User.Identity.GetUserId();
             return View(m);
