@@ -81,6 +81,7 @@ namespace PLE444.Controllers
             else
                 ViewBag.Active = TempData["Active"];
             ViewBag.CurrentUserId = User.Identity.GetUserId();
+            
             return View(m);
         }
 
