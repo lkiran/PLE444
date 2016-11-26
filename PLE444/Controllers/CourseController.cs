@@ -19,6 +19,10 @@ namespace PLE444.Controllers
         {
             return View(db.Courses.ToList());
         }
+        public ActionResult ChapterList()
+        {
+            return View(db.Chapters.ToList());
+        }
 
         public ActionResult Assignments( Guid id)
         {
@@ -141,26 +145,48 @@ namespace PLE444.Controllers
             var c = db.Courses.Find(id);
             var chapter = db.Chapters.Where(a => a.CourseId == id).ToList();
             ViewBag.CourseName = c.Name.ToUpper() + " - " + c.Description;
-            return View(chapter);
+            if (id == null)
+            {
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(chapter);
+            }
+           
         }
 
-        public ActionResult ChapterCreate(Guid id)
+        public ActionResult ChapterCreate(string id)
         {
-            var c = new Chapter();
-            c.CourseId = id;
-            return View(c);
+            ViewBag.CourseId = id;
+            return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ChapterCreate([Bind(Include = "Id,Title,Description,DateAdded,CourseId")] Chapter chapter)
+        public ActionResult ChapterCreate( Chapter chapter, Guid courseId)
         {
             if (ModelState.IsValid)
-            {                
-                db.Chapters.Add(chapter);
+            {
+                var c = new Chapter();
+                c.DateAdded = DateTime.Now;
+                c.Title = chapter.Title;
+                c.Description = chapter.Description;
+
+                db.Chapters.Add(c);
+
+                var co = db.Courses.Find(courseId);
+                co.Chapters.Add(c);
+
+                db.Entry(co).State = EntityState.Modified;
+
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                return RedirectToAction("ChapterList");
             }
+
+          
 
             return View(chapter);
         }
