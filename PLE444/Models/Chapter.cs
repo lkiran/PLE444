@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace PLE444.Models
 {
@@ -23,11 +24,14 @@ namespace PLE444.Models
         [DisplayName("Başlık")]
         public String Title { get; set; }
         [Required]
+        [AllowHtml]
         [DisplayName("İçerik")]
         public String Description { get; set; }
         [Required]
         
         public DateTime DateAdded { get; set; }
 
+        public ICollection<Material> Materials { get; set; }
+        
     }
 }

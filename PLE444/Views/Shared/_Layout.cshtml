@@ -254,10 +254,10 @@
 								<ul class="acc-menu">
 									<li class="nav-separator"><span>İçerik</span></li>
 									<li>
-										<a href="@Url.Action("Index","Course")"><i class="ti ti-direction"></i><span>Dersler</span></a>
+										<a href="@Url.Action("Index","Course", new { id = "" })"><i class="ti ti-direction"></i><span>Dersler</span></a>
 										<ul class="" style="display: block;">
-											<li><a href="@Url.Action("Index","Course")">MATH 101.02</a></li>
-											<li><a href="@Url.Action("Index","Course")">CET 444.01</a></li>
+                                            @{ Html.RenderAction("Courses", "Layout"); }
+											
 										</ul>
 									</li><li>
 										<a href="#_"><i class="ti ti-direction"></i><span>Alanlar</span></a>
@@ -267,10 +267,9 @@
 										</ul>
 									</li>
 									<li>
-										<a href="@Url.Action("Index","Community")"><i class="ti ti-direction"></i><span>Gruplar</span></a>
+										<a href="@Url.Action("Index","Community", new { id = "" })"><i class="ti ti-direction"></i><span>Gruplar</span></a>
 										<ul class="" style="display: block;">
-                                            <li><a href="@Url.Action("Index","Community")">Databaseciler</a></li>
-											<li><a href="@Url.Action("Index","Community")">Math101 Sınav</a></li>
+                                            @{ Html.RenderAction("Communities", "Layout"); }
 										</ul>
 									</li>
 									

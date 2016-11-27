@@ -12,6 +12,5 @@ namespace PLE444.Models
 		[Key]
 		public String FilePath { get; set; }
 		public String Description { get; set; }
-		public float Rate { get; set; }
 	}
 }

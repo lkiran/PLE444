@@ -201,6 +201,7 @@
     <Compile Include="Controllers\CommunityController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LayoutController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\UploaderTestController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -2466,7 +2467,11 @@
     <Content Include="Views\User\MyFriends.cshtml" />
     <Content Include="Views\User\Profil.cshtml" />
     <Content Include="Views\User\ProfilEdit.cshtml" />
-    <Content Include="Views\Course\ChapterList.cshtml" />
+    <Content Include="Views\Course\Discussion.cshtml" />
+    <Content Include="Views\Course\AddTitle.cshtml" />
+    <Content Include="Views\Course\SendMessage.cshtml" />
+    <Content Include="Views\Layout\Courses.cshtml" />
+    <Content Include="Views\Layout\Communities.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

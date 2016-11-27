@@ -1,0 +1,93 @@
+﻿@model PLE444.Models.Course
+@{
+    ViewBag.Title = "Discussion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="panel panel-bluegray" data-widget='{"draggable": "false"}'>
+    <div class="panel-heading">
+        <span class="pull-right">@ViewBag.CourseName</span>
+        <h2>
+            <ul class="nav nav-tabs">
+                <li ><a href="#">Bölümler</a></li>
+                <li><a href="@Url.Action("Assignments","Course",new { id = Model.ID })"> Ödevler</a></li>
+                <li><a href="@Url.Action("Materials","Course",new { id = Model.ID })">Materyaller</a></li>
+                <li><a href="@Url.Action("Grades","Course",new { id = Model.ID })">Notlar</a></li>
+                <li class="active"><a href="@Url.Action("Discussion","Course",new { id = Model.ID })">Tartışmalar</a></li>
+            </ul>
+        </h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-9">
+        <h2>@ViewBag.Action</h2>
+         <div class="panel-group panel-default" id="accordionA">    
+                @{var orderedDiscussions = Model.Discussion.OrderBy(o => o.Topic); }
+                @foreach (var discussion in orderedDiscussions)
+                    {
+                    <div class="panel panel-default">
+                        <a data-toggle="collapse" data-parent="#accordionA" href="#@discussion.ID"><div class="panel-heading"><h2>@discussion.Topic</h2></div></a>
+          
+                        <div id="@discussion.ID" class="@("collapse " + (discussion.ID == ViewBag.Active ? "in" : ""))">  
+                            <div class="panel-body">
+                               
+                                @{
+                                    string PrevUserId = "";
+                                    var orderedMessages = discussion.Messages.OrderBy(o=> o.DateSent);
+                                    foreach (var message in orderedMessages)
+                                    {
+                                        var h = new PLE444.Helpers.UserHelper();
+                                        var dh = new PLE444.Helpers.DataManipulationHelper();
+
+                                    <div class="message">
+                                        @if (message.SenderId != PrevUserId)
+                                        {
+                                            if (h.GetUserPhotoFromID(message.SenderId) == null || h.GetUserPhotoFromID(message.SenderId) == "")
+                                            {
+                                                <img class="img-circle" style="width:40px" src="~/Content/img/pp.jpg" />
+                                            }
+                                            else
+                                            {
+                                                <img class="img-circle" style="width:40px" src="/Uploads/@h.GetUserPhotoFromID(message.SenderId)" />                                 
+                                            }
+
+                                            <strong style="margin-left:10px;">@h.GetUserFullNameFromID(message.SenderId)</strong>
+                                            <br>
+                                        }
+                                        <div class="pull-right">
+                                            <small>@dh.GetDeltaDate(message.DateSent)</small>
+                                        </div>
+                                        
+                                        <p style="margin-left:50px;">@message.Content</p>
+                                        
+                                    </div>
+
+                                        PrevUserId = message.SenderId;
+                                    }
+                                    
+                                }
+                                <hr>
+                                <div class="message">  
+                                    @if(ViewBag.CurrentUserId==null)
+                                    {
+                                        <p>Mesaj yollamak için yapın</p>
+                                    }
+                                    else
+                                    {
+                                        @Html.Partial("SendMessage", new PLE444.Models.Message(), new ViewDataDictionary { { "DiscussionId", discussion.ID } ,
+                                                                                                                           { "CourseId", Model.ID } ,
+                                                                                                                           { "CurrentUserId", ViewBag.CurrentUserId } }) 
+                                    }                                                         
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                }            
+        </div>   
+    </div>
+    <div class="col-md-3">
+        <a href="@Url.Action("AddTitle", new { id = Model.ID })" class="btn btn-primary-alt btn-lg btn-block"><i class="fa fa-plus fa-bold"></i> Başlık Ekle</a>
+    </div>
+</div>
+
+

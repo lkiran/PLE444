@@ -1,0 +1,6 @@
+﻿@model IEnumerable<PLE444.Models.Course>
+
+@foreach (var item in Model)
+{
+    <li><a href="@Url.Action("Index","Course", new { id = item.ID })">@item.Name.ToUpper()</a></li>
+}

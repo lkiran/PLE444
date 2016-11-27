@@ -8,8 +8,7 @@ using System.Web;
 namespace PLE444.Context
 {
 	public class PleDbContext : DbContext
-	{
-        
+	{        
         public DbSet <Friendship> Friendship { get; set; }
         public DbSet<Community> Communities { get; set; }
 		public DbSet<Course> Courses { get; set; }
@@ -27,5 +26,6 @@ namespace PLE444.Context
         public DbSet<Discussion> Discussions { get; set; }
         public DbSet<Message> Messages { get; set; }
         public DbSet<Chapter> Chapters { get; set; }
+        public DbSet<Material> Materials { get; set; }
     }
 }
