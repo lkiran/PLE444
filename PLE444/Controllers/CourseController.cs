@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using PLE444.Context;
 using PLE444.Models;
 using Microsoft.AspNet.Identity;
+using System.IO;
 
 namespace PLE444.Controllers
 {
@@ -181,7 +182,7 @@ namespace PLE444.Controllers
 
                 db.SaveChanges();
 
-                return RedirectToAction("ChapterList");
+                return RedirectToAction("Index", new { id = courseId });
             }
 
           
@@ -203,32 +204,51 @@ namespace PLE444.Controllers
         public ActionResult MeterialAdd(Guid? id)
         {
             if (id == null)
-                RedirectToAction("Index");
-            
+               return RedirectToAction("Index");
+
+            ViewBag.ChapterId = id;
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult MeterialAdd(Material material, Guid chapterId)
+        public ActionResult MeterialAdd(Material material, Guid chapterId, IEnumerable<HttpPostedFileBase> uploadFiles)
         {
             if (ModelState.IsValid)
-            {
+            {                
+                foreach (var item in uploadFiles)  //iterate in each file
+                {
+                    var fileName = "";
+
+                    if (item.ContentLength > 0) //check length of bytes are greater then zero or not
+                    {
+                        fileName = Guid.NewGuid().ToString() + Path.GetExtension(item.FileName);
+                        var imageFilePath = Path.Combine(Server.MapPath("~/Uploads"), fileName);
+                        item.SaveAs(imageFilePath);
+                        ViewBag.UploadSuccess = true;                        
+                    }
+
+                    //Add to DB
+                    var d = new Document();
+                    d.FilePath = "/ Uploads / " + fileName;
+                    d.Owner = User.Identity.GetUserId();
+                    d.DateUpload = DateTime.Now;
+
+                    var doc= db.Documents.Add(d);
+
+                    material.Documents.Add(doc);
+                }
+
+                material.DateAdded = DateTime.Now;                
+                
                 var c = db.Chapters.Find(chapterId);
-            //    c.DateAdded = DateTime.Now;
-            //    c.Title = chapter.Title;
-            //    c.Description = chapter.Description;
+                c.Materials.Add(material);
 
-            //    db.Chapters.Add(c);
+                db.Entry(c).State = EntityState.Modified;
 
-            //    var co = db.Courses.Find(courseId);
-            //    co.Chapters.Add(c);
+                db.SaveChanges();
 
-            //    db.Entry(co).State = EntityState.Modified;
-
-            //    db.SaveChanges();
-
-                return RedirectToAction("ChapterList");
+                return RedirectToAction("Chapters", new { id = c.CourseId });
             }
             return View(material);
         }

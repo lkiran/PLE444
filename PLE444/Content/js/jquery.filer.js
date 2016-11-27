@@ -500,12 +500,12 @@
                                         break;
                                     default:
                                         m[0] = "f-file f-file-ext-" + obj.extension;
-                                        m[1] = (obj.extension.length > 0 ? "." + obj.extension : "");
+                                        m[1] = (obj.extension.length > 0 ?  obj.extension.toUpperCase() : "");
                                         m[2] = 1
                                 }
                             } else {
                                 m[0] = "f-file";
-                                m[1] = (obj.extension && obj.extension.length > 0 ? "." + obj.extension : "");
+                                m[1] = (obj.extension && obj.extension.length > 0 ? obj.extension.toUpperCase() : "");
                                 m[2] = 1
                             }
                             var el = '<span class="jFiler-icon-file ' + m[0] + '">' + m[1] + '</span>';
@@ -1055,15 +1055,39 @@
         appendTo: null,
         theme: 'default',
         templates: {
-            box: '<ul class="jFiler-items-list jFiler-items-default"></ul>',
-            item: '<li class="jFiler-item"><div class="jFiler-item-container"><div class="jFiler-item-inner"><div class="jFiler-item-icon pull-left">{{fi-icon}}</div><div class="jFiler-item-info pull-left"><div class="jFiler-item-title" title="{{fi-name}}">{{fi-name | limitTo:30}}</div><div class="jFiler-item-others"><span>size: {{fi-size2}}</span><span>type: {{fi-extension}}</span><span class="jFiler-item-status">{{fi-progressBar}}</span></div><div class="jFiler-item-assets"><ul class="list-inline"><li><a class="icon-jfi-trash jFiler-item-trash-action"></a></li></ul></div></div></div></div></li>',
-            itemAppend: '<li class="jFiler-item"><div class="jFiler-item-container"><div class="jFiler-item-inner"><div class="jFiler-item-icon pull-left">{{fi-icon}}</div><div class="jFiler-item-info pull-left"><div class="jFiler-item-title">{{fi-name | limitTo:35}}</div><div class="jFiler-item-others"><span>size: {{fi-size2}}</span><span>type: {{fi-extension}}</span><span class="jFiler-item-status"></span></div><div class="jFiler-item-assets"><ul class="list-inline"><li><a class="icon-jfi-trash jFiler-item-trash-action"></a></li></ul></div></div></div></div></li>',
+            box: '<ul class="jFiler-items-default row"></ul>',
+            item: '<li class="jFiler-item col-xs-12 col-md-12 col-lg-6">\
+                       <div class="jFiler-item-container">\
+                           <div class="jFiler-item-inner">\
+                                <div class="jFiler-item-icon pull-left">\
+                                    {{fi-image}}\
+                                </div>\
+                                <div class="jFiler-item-info pull-left">\
+                                    <div class="jFiler-item-title" title="{{fi-name}}">\
+                                        {{fi-name | limitTo:30}}\
+                                    </div>\
+                                    <div class="jFiler-item-others">\
+                                        <span> {{fi-size2}}</span>\
+                                        <span class="jFiler-item-status">{{fi-progressBar}}</span>\
+                                    </div>\
+                                    <div class="jFiler-item-assets">\
+                                        <ul class="list-inline">\
+                                            <li>\
+                                                <a class="icon-jfi-trash jFiler-item-trash-action"></a>\
+                                            </li>\
+                                        </ul>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                        </div>\
+                    </li>',
+            itemAppend: '<li class="jFiler-item"><div class="jFiler-item-container"><div class="jFiler-item-inner"><div class="jFiler-item-icon pull-left">{{fi-icon}}</div><div class="jFiler-item-info pull-left"><div class="jFiler-item-title">{{fi-name | limitTo:35}}</div><div class="jFiler-item-others"><span> {{fi-size2}}</span><span> {{fi-extension}}</span><span class="jFiler-item-status"></span></div><div class="jFiler-item-assets"><ul class="list-inline"><li><a class="icon-jfi-trash jFiler-item-trash-action"></a></li></ul></div></div></div></div></li>',
             progressBar: '<div class="bar"></div>',
             itemAppendToEnd: false,
             removeConfirmation: true,
             canvasImage: true,
             _selectors: {
-                list: '.jFiler-items-list',
+                list: '.row',
                 item: '.jFiler-item',
                 progressBar: '.bar',
                 remove: '.jFiler-item-trash-action'

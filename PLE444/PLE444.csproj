@@ -2472,6 +2472,7 @@
     <Content Include="Views\Course\SendMessage.cshtml" />
     <Content Include="Views\Layout\Courses.cshtml" />
     <Content Include="Views\Layout\Communities.cshtml" />
+    <Content Include="Views\Course\MeterialAdd.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

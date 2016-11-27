@@ -20,9 +20,11 @@ namespace PLE444.Models
         public Guid Id { get; private set; }
 
         public Guid CourseId { get; set; }
+
         [Required]
         [DisplayName("Başlık")]
         public String Title { get; set; }
+
         [Required]
         [AllowHtml]
         [DisplayName("İçerik")]
@@ -31,7 +33,7 @@ namespace PLE444.Models
         
         public DateTime DateAdded { get; set; }
 
-        public ICollection<Material> Materials { get; set; }
+        public virtual ICollection<Material> Materials { get; set; }
         
     }
 }
