@@ -24,6 +24,7 @@ namespace PLE444.Controllers
             return RedirectToAction("Chapters", new { id = id });
         }
 
+        [Authorize]
         public ActionResult Assignments(Guid? id)
         {
             if (id == null)
@@ -35,6 +36,8 @@ namespace PLE444.Controllers
             ViewBag.CourseId = c.ID;
             return View(assignment);
         }
+
+        [Authorize]
         public ActionResult AssignmentCreate(Guid id)
         {
 
@@ -43,6 +46,7 @@ namespace PLE444.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult AssignmentCreate([Bind(Include = "Id,Title,Description,Deadline,DateAdded")] Assignment assignment)
         {
@@ -72,7 +76,8 @@ namespace PLE444.Controllers
             }
             return View(course);
         }
-                
+
+        [Authorize]
         public ActionResult CourseEdit(Guid? id)
         {
             if (id == null)
@@ -88,6 +93,7 @@ namespace PLE444.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult CourseEdit([Bind(Include = "ID,Name,Description,CourseStart")] Course course)
         {
@@ -99,13 +105,15 @@ namespace PLE444.Controllers
             }
             return View(course);
         }
-       
+
+        [Authorize]
         public ActionResult CourseCreate()
         {
             return View();
         }
      
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult CourseCreate([Bind(Include = "ID,Name,Description,CourseStart")] Course course)
         {
@@ -120,6 +128,7 @@ namespace PLE444.Controllers
             return View(course);
         }
 
+        [Authorize]
         public ActionResult CourseDelete(Guid? id)
         {
             if (id == null)
@@ -163,6 +172,7 @@ namespace PLE444.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult ChapterCreate( Chapter chapter, Guid courseId)
         {
@@ -189,7 +199,8 @@ namespace PLE444.Controllers
 
             return View(chapter);
         }
-        
+
+        [Authorize]
         public ActionResult Materials(Guid? id)
         {
             if (id == null)
@@ -201,6 +212,7 @@ namespace PLE444.Controllers
             return View();
         }
 
+        [Authorize]
         public ActionResult MeterialAdd(Guid? id)
         {
             if (id == null)
@@ -211,6 +223,7 @@ namespace PLE444.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult MeterialAdd(Material material, Guid chapterId, IEnumerable<HttpPostedFileBase> uploadFiles)
         {
@@ -253,7 +266,7 @@ namespace PLE444.Controllers
             return View(material);
         }
 
-
+        [Authorize]
         public ActionResult Grades(Guid? id)
         {
             if (id == null)
@@ -275,6 +288,7 @@ namespace PLE444.Controllers
             base.Dispose(disposing);
         }
 
+        [Authorize]
         public ActionResult Discussion(Guid? id)
         {
             var c = db.Courses.Find(id);
@@ -287,6 +301,7 @@ namespace PLE444.Controllers
             return View(m);
         }
 
+        [Authorize]
         public ActionResult AddTitle(string id)
         {
             ViewBag.CourseId = id;
@@ -294,6 +309,7 @@ namespace PLE444.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult AddTitle(Discussion discussion, Guid courseId)
         {
@@ -320,6 +336,7 @@ namespace PLE444.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult SendMessage(Message message, Guid courseId, Guid discussionId)
         {

@@ -1,4 +1,5 @@
-﻿using PLE444.Context;
+﻿using Microsoft.AspNet.Identity;
+using PLE444.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace PLE444.Controllers
 
         [ChildActionOnly]
         public ActionResult Courses()
-        {           
+        {
             return PartialView(db.Courses.ToList());
         }
 
@@ -21,6 +22,20 @@ namespace PLE444.Controllers
         public ActionResult Communities()
         {
             return PartialView(db.Communities.ToList());
+        }
+
+        public ActionResult LogedInUser()
+        {
+            string userId = "";
+            try
+            {
+                userId = User.Identity.GetUserId();
+            }catch(Exception e)
+            {
+                return PartialView("LogedInUser", userId);
+            }
+
+            return PartialView("LogedInUser", userId);
         }
     }
 }

@@ -8,7 +8,7 @@
         <span class="pull-right">@ViewBag.CourseName</span>
         <h2>
             <ul class="nav nav-tabs">
-                <li ><a href="#">Bölümler</a></li>
+                <li ><a href="@Url.Action("Chapters","Course",new { id = Model.ID })">Bölümler</a></li>
                 <li><a href="@Url.Action("Assignments","Course",new { id = Model.ID })"> Ödevler</a></li>
                 <li><a href="@Url.Action("Materials","Course",new { id = Model.ID })">Materyaller</a></li>
                 <li><a href="@Url.Action("Grades","Course",new { id = Model.ID })">Notlar</a></li>
@@ -48,7 +48,7 @@
                                             }
                                             else
                                             {
-                                                <img class="img-circle" style="width:40px" src="/Uploads/@h.GetUserPhotoFromID(message.SenderId)" />                                 
+                                                <img class="img-circle" style="width:40px" src="@h.GetUserPhotoFromID(message.SenderId)" />                                 
                                             }
 
                                             <strong style="margin-left:10px;">@h.GetUserFullNameFromID(message.SenderId)</strong>

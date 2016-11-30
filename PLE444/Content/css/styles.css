@@ -12973,6 +12973,7 @@ fieldset[disabled] .btn.btn-social.btn-windows-alt.active {
 }
 .dropdown-menu > li > a,
 .tt-dropdown-menu > li > a,
+.tt-dropdown-menu > li > form > a,
 .tt-suggestion > p {
   padding: 6px 16px;
 }

@@ -19,7 +19,7 @@ namespace PLE444.Helpers
             double delta = Math.Abs(ts.TotalSeconds);
 
             if (delta < 1 * MINUTE)
-                return ts.Seconds == 1 ? "Şimdi" : ts.Seconds + " saniye önce";
+                return "Şimdi";
 
             if (delta < 2 * MINUTE)
                 return "1 dakika önce";
