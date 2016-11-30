@@ -2474,6 +2474,7 @@
     <Content Include="Views\Layout\Communities.cshtml" />
     <Content Include="Views\Course\MeterialAdd.cshtml" />
     <Content Include="Views\Layout\LogedInUser.cshtml" />
+    <Content Include="Views\Community\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

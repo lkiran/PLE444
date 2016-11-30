@@ -15,7 +15,7 @@ namespace PLE444.Models
         }
 
         [Required]
-        public Guid Id { get; private set; }
+        public Guid Id { get; set; }
         public Course Course { get; set; }
         [Required]
         [DisplayName("Başlık")]

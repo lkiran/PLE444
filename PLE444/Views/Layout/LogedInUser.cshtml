@@ -1,6 +1,6 @@
-﻿@model string
+﻿@model PLE444.Models.ApplicationUser
 
-@if (Model == null || Model == "")
+@if (Model == null)
 {
     <li>@Html.ActionLink("Kayıt Ol", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
     <li>@Html.ActionLink("Giriş", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
@@ -173,10 +173,9 @@ else
         </div>
     </li>
 
-     var h = new PLE444.Helpers.UserHelper();
     
     <li class="dropdown">
-        <a href="#" class="dropdown-toggle " data-toggle="dropdown">@h.GetUserFullNameFromID(Model)</a>
+        <a href="#" class="dropdown-toggle " data-toggle="dropdown">@Model.FirstName  @Model.LastName</a>
 
         <ul class="dropdown-menu userinfo arrow">
             <li><a href="@Url.Action("Profil","User")"><i class="ti ti-user"></i><span>Profil</span>@*<span class="badge badge-info pull-right">80%</span>*@</a></li>
@@ -195,7 +194,7 @@ else
 
     <li class="dropdown toolbar-icon-bg">
         <a href="#" class="dropdown-toggle username" data-toggle="dropdown">
-            <img class="img-circle" src="@h.GetUserPhotoFromID(Model)" alt="Profil Resmi" />            
+            <img class="img-circle" src="@Model.ProfilePicture" alt="Profil Resmi" />            
         </a>
        
     </li>

@@ -14,7 +14,7 @@ namespace PLE444.Models
 		}
 
 		[Required]
-		public Guid Id { get; private set; }
+		public Guid Id { get; set; }
 		public String UserId { get; set; }
 		public String Content { get; set; }
 		public virtual IList<Tag> Tags { get; set; }

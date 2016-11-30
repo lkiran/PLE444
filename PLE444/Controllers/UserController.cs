@@ -15,6 +15,8 @@ namespace PLE444.Controllers
     public class UserController : Controller
     {
 
+        private ApplicationDbContext userdb = new ApplicationDbContext();
+        private PleDbContext db = new PleDbContext();
         
         [Authorize]
         public ActionResult Profil()
@@ -23,11 +25,8 @@ namespace PLE444.Controllers
             var userDetail = userdb.Users.Find(currentuserId);
             return View(userDetail);
         }
-        //
-        private ApplicationDbContext userdb = new ApplicationDbContext();
-        private PleDbContext db = new PleDbContext();
-        [Authorize]
-      
+
+        [Authorize]  
         public ActionResult MyFriends()
         {
             var activeUserId = User.Identity.GetUserId();
@@ -35,6 +34,7 @@ namespace PLE444.Controllers
 
             return View(myfriends);
         }
+
         public ActionResult AddFriend(String id)
         {
            var currentuserId = User.Identity.GetUserId();
@@ -57,12 +57,14 @@ namespace PLE444.Controllers
             db.SaveChanges();
             return RedirectToAction("MyFriends");
         }
+
         public ActionResult ListUsers ()
         {
              var friends = userdb.Users.ToList();
             return View(friends);
             
         }
+
         public ActionResult ProfilEdit()
         {
             var currentuserId = User.Identity.GetUserId();
@@ -70,8 +72,6 @@ namespace PLE444.Controllers
             return View(userDetail);
         }
 
-        //
-        // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]

@@ -5,8 +5,10 @@
  *
  */
 
+/* Switchery defaults. */
+
 .switchery {
-  background-color: #e6e6e6;
+  background-color: #fff;
   border: 1px solid #dfdfdf;
   border-radius: 20px;
   cursor: pointer;
@@ -16,9 +18,13 @@
   vertical-align: middle;
   width: 50px;
 
-  -webkit-box-sizing: content-box;
-  -moz-box-sizing: content-box;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   box-sizing: content-box;
+  background-clip: content-box;
 }
 
 .switchery > small {
@@ -30,3 +36,29 @@
   top: 0;
   width: 30px;
 }
+
+/* Switchery sizes. */
+
+.switchery-small {
+  border-radius: 20px;
+  height: 10px;
+  width: 16px;
+}
+
+.switchery-small > small {
+  height: 10px;
+  width: 10px;
+}
+
+.switchery-large {
+  border-radius: 40px;
+  height: 40px;
+  width: 66px;
+}
+
+.switchery-large > small {
+  height: 40px;
+  width: 40px;
+}
+
+

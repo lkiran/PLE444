@@ -14,7 +14,7 @@ namespace PLE444.Models
         }
 
         [Required]
-        public Guid Id { get; private set; }
+        public Guid Id { get; set; }
         public String userID { get; set; }
         public String FriendID { get; set; }
         public Boolean isApproved { get; set; }

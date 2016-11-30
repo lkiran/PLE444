@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using PLE444.Context;
+using PLE444.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace PLE444.Controllers
     public class LayoutController : Controller
     {
         private PleDbContext db = new PleDbContext();
+        private ApplicationDbContext UserDB = new ApplicationDbContext();
 
         [ChildActionOnly]
         public ActionResult Courses()
@@ -26,16 +28,8 @@ namespace PLE444.Controllers
 
         public ActionResult LogedInUser()
         {
-            string userId = "";
-            try
-            {
-                userId = User.Identity.GetUserId();
-            }catch(Exception e)
-            {
-                return PartialView("LogedInUser", userId);
-            }
-
-            return PartialView("LogedInUser", userId);
+            var userID = User.Identity.GetUserId();
+            return PartialView(UserDB.Users.FirstOrDefault(i => i.Id == userID));
         }
     }
 }

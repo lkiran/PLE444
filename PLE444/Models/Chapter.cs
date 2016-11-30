@@ -17,7 +17,7 @@ namespace PLE444.Models
         }
 
         [Required]
-        public Guid Id { get; private set; }
+        public Guid Id { get; set; }
 
         public Guid CourseId { get; set; }
 

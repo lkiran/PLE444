@@ -14,7 +14,7 @@ namespace PLE444.Models
 		}
 
 		[Required]
-		public Guid ID { get; private set; }
+		public Guid ID { get; set; }
 		public String Name { get; set; }
 		public String Description { get; set; }
 	}

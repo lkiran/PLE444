@@ -1,6 +1,7 @@
-﻿@model PLE444.Models.Community
+﻿
+@model PLE444.Models.Community
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -9,50 +10,103 @@
         <span class="pull-right">@Model.Name</span>
         <h2>
             <ul class="nav nav-tabs">
-                <li class="active"><a href="@Url.Action("Index", "Community")" >Grup</a></li>
-                <li><a href="@Url.Action("Events", "Community")" >Etkinlik</a></li>
-                <li><a href="@Url.Action("Discussion", "Community", new { id= Model.ID })" >Tartışma</a></li>
-                <li><a href="@Url.Action("Archive", "Community")" >Arşiv</a></li>
+                <li class="active"><a href="@Url.Action("Index", "Community")">Grup</a></li>
+                <li><a href="@Url.Action("Events", "Community")">Etkinlik</a></li>
+                <li><a href="@Url.Action("Discussion", "Community", new { id= Model.ID })">Tartışma</a></li>
+                <li><a href="@Url.Action("Archive", "Community")">Arşiv</a></li>
             </ul>
         </h2>
     </div>
 </div>
 
+@using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
 
-<div class="row">
-    <div class="col-sm-12">
-        <div class="panel panel-profile">
-            <div class="panel-heading">
-            </div>
-            <div class="panel-body">
-                <a style="float:right" href="@Url.Action("Edit", new { id = Model.ID })"><i class="fa fa-pencil"></i></a>
-                <div class="col-sm-3">
-                    @if (Model.GroupPhoto == null)
-                    {
-                        <img src="~/Content/img/pp.jpg" class="img-circle">
-                    }
-                    else
-                    {
-                        <img src="@Model.GroupPhoto" class="img-circle">
-                    }
-                    <p>Grup İsmi</p>
-                    <div class="name">@Model.Name </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-profile">
+                <div class="panel-body">
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.ID)
+
+                    <div class="col-sm-3">
+                        @if (Model.GroupPhoto == null)
+                        {
+                            <img src="~/Content/img/pp.jpg" class="img-circle">
+                        }
+                        else
+                        {
+                            <img src="@Model.GroupPhoto" class="img-circle">
+                        }
+
+                        <input name="uploadFile" type="file" id="filer_input" />
+
+                        <div class="name">
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                         </div>
+                    </div>
+                    <div class="col-sm-9 text-left">   
+                        <div class="row">
+                            <div class="col-md-3 text-right">
+                                <p>Açıklama</p>
+                            </div>
+                            <div class="col-md-9">
+                                @Html.TextAreaFor(model => model.Description, new { @class = "form-control", @style = "width:100%;" })
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3 text-right">
+                                <p>Herkes Katılabilir</p>
+                            </div>
+
+                            <div class="col-md-9">
+                                @Html.CheckBoxFor(model => model.isOpen,  new { @class = "switchery switchery-xs" })
+                                @Html.ValidationMessageFor(model => model.isOpen, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3 text-right">
+                                <p>Gizli Grup</p>
+                            </div>
+
+                            <div class="col-md-9">
+                                @Html.CheckBoxFor(model => model.isHiden, new { @class = "switchery switchery-xs" })
+                                @Html.ValidationMessageFor(model => model.isHiden, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3 text-right">
+                                <p>Üyeler Etkinlik Oluşturabilir</p>
+                            </div>
+
+                            <div class="col-md-9">
+                                @Html.CheckBoxFor(model => model.canCreateEvents, new { @class = "switchery switchery-xs" })
+                                @Html.ValidationMessageFor(model => model.canCreateEvents, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+
+                       
+                    </div>
                 </div>
-                <div class="col-sm-9 text-left">
-                    <p class="lead">@Model.Description</p>
-                    @if (Model.isOpen)
-                    { 
-                         <p>Açık Grup</p>
-                    }
-                    else
-                    {
-                        <p>Kapalı Grup</p>
-                    }                   
+            <div class="panel-footer">
+                <a class="btn btn-default-alt" href="@Url.Action("Index", new { id = Model.ID })"><i class="fa fa-times"></i> İptal</a>
+               
+                 <div class=" pull-right">
+                    <input type="submit" value="Kaydet" class="btn btn-success" />
                 </div>
             </div>
-        </div><!-- panel -->
+            </div><!-- panel -->
+        </div>
     </div>
-</div>
+}
 
 <div class="row">
     <div class="col-sm-12">
@@ -99,9 +153,7 @@
                                     </div>
                                     <div class="timeline-content">
                                         <h4>Consectetur Adipisicing Elit</h4>
-                                        <ul class="list-inline">
-                                            <li><img src="http://placehold.it/300&amp;text=Placeholder" alt="" class="pull-left img-thumbnail img-responsive clearfix" width="200"></li>
-                                            <li><img src="http://placehold.it/300&amp;text=Placeholder" alt="" class="pull-left img-thumbnail img-responsive clearfix" width="200"></li>
+                                        <ul class="list-inline">                                           
                                         </ul>
                                     </div>
                                 </div>
@@ -127,5 +179,15 @@
     </div><!-- col-sm-8 -->
 </div>
 
+<script src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
+<link rel="stylesheet" href="~/Content/plugins/switchery/switchery.css" />
+<script src="~/Content/plugins/switchery/switchery.js"></script>
+<script>
+    $(document).ready(function () {
+        $('.switchery').each(function(i, obj) {
+            Switchery(obj, { className: "switchery" });
+            console.log(i + ": " + obj);
+        });
 
-
+    });
+</script>

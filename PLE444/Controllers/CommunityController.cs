@@ -56,6 +56,8 @@ namespace PLE444.Controllers
             return View(community);
         }
 
+
+
         public ActionResult Index(Guid? id)
         {
             if(id== null)
@@ -145,5 +147,45 @@ namespace PLE444.Controllers
             return View();
         }
 
+        public ActionResult Edit(Guid id)
+        {
+            return View(db.Communities.Find(id));
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Community model, HttpPostedFileBase uploadFile)
+        {
+            if (ModelState.IsValid)
+            {
+                var imageFilePath = "";
+                var fileName = "";
+
+                if (uploadFile != null && uploadFile.ContentLength > 0) 
+                {
+                    if (Path.GetExtension(uploadFile.FileName).ToLower() == ".jpg"
+                        || Path.GetExtension(uploadFile.FileName).ToLower() == ".png"
+                        || Path.GetExtension(uploadFile.FileName).ToLower() == ".gif"
+                        || Path.GetExtension(uploadFile.FileName).ToLower() == ".jpeg")
+                    {
+                        fileName = Guid.NewGuid().ToString() + Path.GetExtension(uploadFile.FileName);
+                        imageFilePath = Path.Combine(Server.MapPath("~/Uploads"), fileName);
+                        uploadFile.SaveAs(imageFilePath);
+                        ViewBag.UploadSuccess = true;
+
+                        model.GroupPhoto = "/Uploads/" + fileName;
+                    }
+                }
+
+
+                db.Entry(model).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return RedirectToAction("Index", new { id = model.ID });
+            }
+
+            return View(model);
+        }
     }
 }
