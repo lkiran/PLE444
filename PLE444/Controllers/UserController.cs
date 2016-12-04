@@ -4,6 +4,7 @@ using PLE444.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using System.IO;
 using System.Linq;
 using System.Web;
@@ -38,23 +39,33 @@ namespace PLE444.Controllers
         public ActionResult AddFriend(String id)
         {
            var currentuserId = User.Identity.GetUserId();
-           var friends = userdb.Users.ToList();
-           var fs = new Friendship();
-            fs.FriendID = id;
-            fs.userID = currentuserId;
-            fs.isApproved = true;
-           db.Friendship.Add(fs);
-           db.SaveChanges();
-           
+           var fs = db.Friendship.Where(u => u.userID == currentuserId).FirstOrDefault(f => f.FriendID == id);
+
+            if (fs == null)
+            {
+                var friends = userdb.Users.ToList();
+                fs = new Friendship();
+
+                fs.FriendID = id;
+                fs.userID = currentuserId;
+                fs.isApproved = true;
+
+                db.Friendship.Add(fs);
+
+                db.SaveChanges();
+            }
+                      
             return RedirectToAction("ListUsers");
         }
 
         public ActionResult RemoveFriends(Guid id)
         {
-            var f = db.Friendship.Find(id);
-            
-            db.Friendship.Remove(f);
-            db.SaveChanges();
+            var f = db.Friendship.FirstOrDefault(i => i.Id == id);
+            if(f != null)
+            {
+                db.Friendship.Remove(f);
+                db.SaveChanges();
+            }            
             return RedirectToAction("MyFriends");
         }
 
@@ -79,12 +90,14 @@ namespace PLE444.Controllers
         {
             if (ModelState.IsValid)
             {
-                var imageFilePath = "";
-                var fileName = "";
+                var currentuserId = User.Identity.GetUserId();
+                var userDetail = userdb.Users.Find(currentuserId);
 
-                if (uploadFile.ContentLength > 0) //check length of bytes are greater then zero or not
+                if (uploadFile != null && uploadFile.ContentLength > 0) 
                 {
-                    //for checking uploaded file is image or not
+                    var imageFilePath = "";
+                    var fileName = "";
+                                     
                     if (Path.GetExtension(uploadFile.FileName).ToLower() == ".jpg"
                         || Path.GetExtension(uploadFile.FileName).ToLower() == ".png"
                         || Path.GetExtension(uploadFile.FileName).ToLower() == ".gif"
@@ -94,25 +107,22 @@ namespace PLE444.Controllers
                         imageFilePath = Path.Combine(Server.MapPath("~/Uploads"), fileName);
                         uploadFile.SaveAs(imageFilePath);
                         ViewBag.UploadSuccess = true;
+                        userDetail.ProfilePicture = "/Uploads/" + fileName;
                     }
                 }
 
-                var currentuserId = User.Identity.GetUserId();
-                var userDetail = userdb.Users.Find(currentuserId);
                 userDetail.FirstName = model.FirstName;
                 userDetail.LastName = model.LastName;
                 userDetail.Gender = model.Gender;
                 userDetail.Vision = model.Vision;
                 userDetail.Mission = model.Mission;
                 userDetail.PhoneNo = model.PhoneNo;
-                userDetail.ProfilePicture = "/Uploads/" + fileName;
 
                 userdb.Entry(userDetail).State = EntityState.Modified;
                 userdb.SaveChanges();
                 return RedirectToAction("Profil");
             }
 
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
     }

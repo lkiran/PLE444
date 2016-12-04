@@ -16,6 +16,7 @@ namespace PLE444.Controllers
     {
         // GET: Community 
         private PleDbContext db = new PleDbContext();
+        private ApplicationDbContext UserDB = new ApplicationDbContext();
 
         public ActionResult Create()
         {
@@ -56,15 +57,14 @@ namespace PLE444.Controllers
             return View(community);
         }
 
-
-
         public ActionResult Index(Guid? id)
         {
-            if(id== null)
-            {
+            if (id == null)
+            {                
                 var com = db.Communities.ToList();
-                return View("List",com);
+                return View("List", com);
             }
+            ViewBag.CurrentUserId = User.Identity.GetUserId();
             var c = db.Communities.Find(id);
             return View(c);
         }
@@ -73,6 +73,7 @@ namespace PLE444.Controllers
         {
             return View();
         }
+
         public ActionResult Discussion(Guid? id)
         {    
             var community = db.Communities.Find(id);                  
@@ -84,7 +85,52 @@ namespace PLE444.Controllers
             return View(m);
         }
 
-        public  ActionResult AddTitle(string id)
+        public ActionResult Members(Guid? id)
+        {
+            var currentuserId = User.Identity.GetUserId();
+            var c = db.Communities.Find(id);
+            var m = db.UserCommunities.Where(i => i.Community.ID == id);
+            var data = new CommunityMembersViewModel();
+            data.CommunityInfo = c;
+            data.Users = new List<UserViewModel>();
+            var friends = db.Friendship.Where(o => o.userID == currentuserId).ToList();
+            foreach (var item in m)
+            {                
+                var dbUser = UserDB.Users.Find(item.UserId);
+                var userInfo = new UserViewModel();
+
+                userInfo.UserID = dbUser.Id;
+                userInfo.Name = dbUser.FirstName;
+                userInfo.Surname = dbUser.LastName;
+                userInfo.ProfilePhoto = dbUser.ProfilePicture;
+                if(dbUser.Id != currentuserId)
+                    userInfo.isFriend = friends.Any(o => o.FriendID == dbUser.Id);               
+                    
+                data.Users.Add(userInfo);
+            }
+            return View(data);
+        }
+        public ActionResult Join(Guid? id)
+        {
+            var userId = User.Identity.GetUserId();
+            var uc = db.UserCommunities.Where(u => u.UserId == userId).FirstOrDefault(c => c.Community.ID == id);
+
+            if(uc == null)
+            {
+                uc = new UserCommunity();
+                uc.Community = db.Communities.Find(id);                
+                uc.UserId = userId;
+                uc.DateJoined = DateTime.Now;
+
+                db.UserCommunities.Add(uc);
+
+                db.SaveChanges();               
+            }
+
+            return RedirectToAction("Index", new { id = id });
+        }
+
+        public ActionResult AddTitle(string id)
         {
             ViewBag.CommunityId = id;           
             return View();
@@ -149,7 +195,13 @@ namespace PLE444.Controllers
 
         public ActionResult Edit(Guid id)
         {
-            return View(db.Communities.Find(id));
+            var currentuserId = User.Identity.GetUserId();
+            var c = db.Communities.Find(id);
+
+            if (c.AdminId == currentuserId)
+                return View(c);         
+
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -157,7 +209,7 @@ namespace PLE444.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Community model, HttpPostedFileBase uploadFile)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid )
             {
                 var imageFilePath = "";
                 var fileName = "";

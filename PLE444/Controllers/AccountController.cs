@@ -10,6 +10,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using PLE444.Models;
 using System.Data.Entity;
+using System.IO;
 
 namespace PLE444.Controllers
 {
@@ -154,12 +155,30 @@ namespace PLE444.Controllers
                 var user = new ApplicationUser { UserName = model.Email,
                                                 Email = model.Email,
                                                 FirstName =model.FirstName,
-                                                LastName =model.LastName,
-                                                ProfilePicture =model.ProfilePicture,
+                                                LastName =model.LastName,                                                
                                                 PhoneNo =model.PhoneNo,Mission=model.Mission,
                                                 Vision =model.Vision,
                                                 Gender =model.Gender
                 };
+
+                if (model.uploadFile != null && model.uploadFile.ContentLength > 0)
+                {
+                    var imageFilePath = "";
+                    var fileName = "";
+
+                    if (Path.GetExtension(model.uploadFile.FileName).ToLower() == ".jpg"
+                        || Path.GetExtension(model.uploadFile.FileName).ToLower() == ".png"
+                        || Path.GetExtension(model.uploadFile.FileName).ToLower() == ".gif"
+                        || Path.GetExtension(model.uploadFile.FileName).ToLower() == ".jpeg")
+                    {
+                        fileName = Guid.NewGuid().ToString() + Path.GetExtension(model.uploadFile.FileName);
+                        imageFilePath = Path.Combine(Server.MapPath("~/Uploads"), fileName);
+                        model.uploadFile.SaveAs(imageFilePath);
+
+                        user.ProfilePicture = "/Uploads/" + fileName;
+                    }
+                }
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

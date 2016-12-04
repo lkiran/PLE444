@@ -3,98 +3,109 @@
     ViewBag.Title = "Register";
 }
 
-<h2>@ViewBag.Title.</h2>
 
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2>Yeni Kayıt</h2>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
 
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                <div class= "col-md-4">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                </div>
+            </div>
 
-@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    @Html.AntiForgeryToken()
-    <h4>Create a new account.</h4>
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-        </div>
-    </div>
+            <div class="form-group">
+                <div class="row m-n">
+                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-3">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
-        </div>
-    </div>
+                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-3">
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>           
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
-        </div>
-    </div>
+            <hr />
 
-    <div class="form-group">
-        @Html.LabelFor(m=>m.Gender, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.DropDownList("Gender", EnumHelper.GetSelectList(typeof(PLE444.Models.GenderType)), new { @class = "form-control" })
-        </div>
-    </div>
+            <div class="form-group">
+                <div class="row m-n">
+                    @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-3">
+                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.PhoneNo, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.PhoneNo, new { @class = "form-control" })
-        </div>
-    </div>
+                    @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-3">
+                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
 
-    <div class="form-group">
-        @Html.LabelFor(m => m.Vision, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Vision, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Mission, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Mission, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
-        </div>
-    </div>
-}
+            <div class="form-group">
+                @Html.LabelFor(m => m.Gender, new { @class = "col-md-2 control-label" })
+                <div class="col-md-3">
+                    @Html.DropDownList("Gender", EnumHelper.GetSelectList(typeof(PLE444.Models.GenderType), PLE444.Models.GenderType.Belirtilmedi), new { @class = "form-control" })
+                </div>
+            </div>
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+            <div class="form-group">
+                @Html.LabelFor(model => model.uploadFile, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-3">
+                    <input name="uploadFile" type="file" id="filer_input" />
+                </div>
+            </div> 
+                            
+            <div class="form-group">
+                @Html.LabelFor(m => m.PhoneNo, new { @class = "col-md-2 control-label" })
+                <div class="col-md-4">
+                    @Html.TextBoxFor(m => m.PhoneNo, new { @class = "form-control" })
+                </div>
+            </div>
+           
+             <hr />
 
+            <div class="form-group">
+                @Html.LabelFor(m => m.Vision, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.TextAreaFor(m => m.Vision, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Mission, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.TextAreaFor(m => m.Mission, new { @class = "form-control" })
+                </div>
+            </div>
+           
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-8">
+                    <input type="submit" value="Kayıt Ol" class="btn btn-success" />
+                </div>
+            </div>
+          
+        }
+    </div>
+</div>
+
+<script src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
 <script>
     $(document).ready(function () {
-        $("#datepicker").datepicker({ todayHighlight: true });
+        $('#filer_input').filer({
+            limit: 1,
+            mamdize: 3,
+            extensions: ['jpg', 'jpeg', 'png', 'gif'],
+            changeInput: true,
+            showThumbs: false
+        });
     });
 </script>
-
-@Scripts.Render("~/Content/plugins/bootstrap-datepicker/bootstrap-datepicker.js")
-@Scripts.Render("~/Content/plugins/form-daterangepicker/daterangepicker.js")
-@Scripts.Render("~/Content/plugins/bootstrap-timepicker/bootstrap-timepicker.js")
-@Scripts.Render("~/Content/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js")
-
-<script type="text/javascript" src="assets/plugins/form-daterangepicker/daterangepicker.js"></script>     				<!-- Date Range Picker -->
-     			<!-- Datepicker -->
-<script type="text/javascript" src="assets/plugins/bootstrap-timepicker/bootstrap-timepicker.js"></script>      			<!-- Timepicker -->
-<script type="text/javascript" src="assets/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script> <!-- DateTime Picker -->

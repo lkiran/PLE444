@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * jQuery.filer
  * Copyright (c) 2016 CreativeDream
  * Website: https://github.com/CreativeDream/jquery.filer
@@ -505,7 +505,7 @@
                                 }
                             } else {
                                 m[0] = "f-file";
-                                m[1] = (obj.extension && obj.extension.length > 0 ? obj.extension.toUpperCase() : "");
+                                m[1] = (obj.extension && obj.extension.length > 0 ? + obj.extension.toUpperCase() : "");
                                 m[2] = 1
                             }
                             var el = '<span class="jFiler-icon-file ' + m[0] + '">' + m[1] + '</span>';

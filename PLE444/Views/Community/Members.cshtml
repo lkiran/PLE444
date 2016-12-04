@@ -1,0 +1,77 @@
+﻿@model PLE444.Models.CommunityMembersViewModel
+
+@{
+    ViewBag.Title = "Members";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-bluegray" data-widget='{"draggable": "false"}'>
+    <div class="panel-heading">
+        <span class="pull-right">@Model.CommunityInfo.Name</span>
+        <h2>
+            <ul class="nav nav-tabs">
+                <li><a href="@Url.Action("Index", new { id = Model.CommunityInfo.ID })">Grup</a></li>
+                <li><a href="@Url.Action("Events")">Etkinlik</a></li>
+                <li><a href="@Url.Action("Discussion", new { id = Model.CommunityInfo.ID })">Tartışma</a></li>
+                <li><a href="@Url.Action("Archive")">Arşiv</a></li>
+                <li class="active"><a href="#">Üyeler</a></li>
+            </ul>
+        </h2>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="panel panel-default" data-widget='{"draggable": "false"}'>
+            <div class="panel-heading">
+                <h2>Üyeler</h2>
+                <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+                <div class="options">
+
+                </div>
+            </div>
+            <div class="panel-body">
+                @*<p>For basic styling—light padding and only horizontal dividers—add the base class <code>.table</code> to any <code>&lt;table&gt;</code>.</p>*@
+                <table class="table m-n " >
+                    <thead>
+
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model.Users)
+                        {
+                            <tr>
+                                <td>
+                                    @if (user.ProfilePhoto == null)
+                                    {
+                                        <img src="~/Content/img/pp.jpg" class="img-circle" style="height:60px;">
+                                    }
+                                    else
+                                    {
+                                        <img src="@user.ProfilePhoto" class="img-circle" style="height:60px;">
+                                    }
+                                </td>
+
+                                <td style = "vertical-align: middle;" >
+                                    <span >@user.FullName()</span>
+                                </td>                                
+                                
+                                <td style = "vertical-align: middle;">
+                                    @if (user.isFriend != null)
+                                    {
+                                        if(user.isFriend == false)
+                                        {
+                                            <a href="@Url.Action("AddFriend", "User", new { id = user.UserID })" class="btn btn-info-alt">Arkadaş Ekle</a>
+                                        }
+                                    }        
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

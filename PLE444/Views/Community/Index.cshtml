@@ -25,7 +25,10 @@
             <div class="panel-heading">
             </div>
             <div class="panel-body">
-                <a style="float:right" href="@Url.Action("Edit", new { id = Model.ID })"><i class="fa fa-pencil"></i></a>
+                @if (ViewBag.CurrentUserId != null && ViewBag.CurrentUserId == Model.AdminId)
+                {
+                    <a style="float:right" href="@Url.Action("Edit", new { id = Model.ID })"><i class="fa fa-pencil"></i></a>
+                }
                 <div class="col-sm-3">
                     @if (Model.GroupPhoto == null)
                     {
@@ -47,7 +50,8 @@
                     else
                     {
                         <p>Kapalı Grup</p>
-                    }                   
+                    }    
+                    @Html.ActionLink("Katıl", "Join", new { id= Model.ID })               
                 </div>
             </div>
         </div><!-- panel -->

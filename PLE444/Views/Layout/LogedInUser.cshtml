@@ -194,8 +194,14 @@ else
 
     <li class="dropdown toolbar-icon-bg">
         <a href="#" class="dropdown-toggle username" data-toggle="dropdown">
-            <img class="img-circle" src="@Model.ProfilePicture" alt="Profil Resmi" />            
-        </a>
-       
+            @if(@Model.ProfilePicture == null)
+            {
+                <img src="~/Content/img/pp.jpg" class="img-circle" alt="Profil Resmi" />
+            }
+            else
+            {
+                <img class="img-circle" src="@Model.ProfilePicture" alt="Profil Resmi" />
+            }                       
+        </a>       
     </li>
 }

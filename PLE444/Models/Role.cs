@@ -9,6 +9,6 @@ namespace PLE444.Models
 	public class Role
 	{
 		[Key]
-		public String Name { get; set; }
+        public String Name { get; set; }
 	}
 }
