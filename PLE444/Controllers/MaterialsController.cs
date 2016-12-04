@@ -11,108 +11,108 @@ using PLE444.Models;
 
 namespace PLE444.Controllers
 {
-    public class ChaptersController : Controller
+    public class MaterialsController : Controller
     {
         private PleDbContext db = new PleDbContext();
 
-        // GET: Chapters
+        // GET: Materials
         public ActionResult Index()
         {
-            return View(db.Chapters.ToList());
+            return View(db.Materials.ToList());
         }
 
-        // GET: Chapters/Details/5
+        // GET: Materials/Details/5
         public ActionResult Details(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Chapter chapter = db.Chapters.Find(id);
-            if (chapter == null)
+            Material material = db.Materials.Find(id);
+            if (material == null)
             {
                 return HttpNotFound();
             }
-            return View(chapter);
+            return View(material);
         }
 
-        // GET: Chapters/Create
+        // GET: Materials/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Chapters/Create
+        // POST: Materials/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,CourseId,Title,Description,DateAdded")] Chapter chapter)
+        public ActionResult Create([Bind(Include = "Id,Title,Description,DateAdded")] Material material)
         {
             if (ModelState.IsValid)
             {
-                chapter.Id = Guid.NewGuid();
-                db.Chapters.Add(chapter);
+                material.Id = Guid.NewGuid();
+                db.Materials.Add(material);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(chapter);
+            return View(material);
         }
 
-        // GET: Chapters/Edit/5
+        // GET: Materials/Edit/5
         public ActionResult Edit(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Chapter chapter = db.Chapters.Find(id);
-            if (chapter == null)
+            Material material = db.Materials.Find(id);
+            if (material == null)
             {
                 return HttpNotFound();
             }
-            return View(chapter);
+            return View(material);
         }
 
-        // POST: Chapters/Edit/5
+        // POST: Materials/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,CourseId,Title,Description,DateAdded")] Chapter chapter)
+        public ActionResult Edit([Bind(Include = "Id,Title,Description,DateAdded")] Material material)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(chapter).State = EntityState.Modified;
+                db.Entry(material).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(chapter);
+            return View(material);
         }
 
-        // GET: Chapters/Delete/5
+        // GET: Materials/Delete/5
         public ActionResult Delete(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Chapter chapter = db.Chapters.Find(id);
-            if (chapter == null)
+            Material material = db.Materials.Find(id);
+            if (material == null)
             {
                 return HttpNotFound();
             }
-            return View(chapter);
+            return View(material);
         }
 
-        // POST: Chapters/Delete/5
+        // POST: Materials/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            Chapter chapter = db.Chapters.Find(id);
-            db.Chapters.Remove(chapter);
+            Material material = db.Materials.Find(id);
+            db.Materials.Remove(material);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

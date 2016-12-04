@@ -1,27 +1,14 @@
-﻿@model IEnumerable<PLE444.Models.Chapter>
+﻿@model IEnumerable<PLE444.Models.Assignment>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="panel panel-bluegray" data-widget='{"draggable": "false"}'>
-    <div class="panel-heading">
-        <span class="pull-right">@ViewBag.CourseName</span>
-        <h2>
-            <ul class="nav nav-tabs">
-                <li><a href="@Url.Action("Index","Course")">Bölümler</a></li>
-                <li class="active"><a href="@Url.Action("Assignments","Course")"> Ödevler</a></li>
-                <li><a href="@Url.Action("Materials","Course")">Materyaller</a></li>
-                <li><a href="@Url.Action("Grades","Course")">Notlar</a></li>
-                <li><a href="#Communities">Tartışmalar</a></li>
-            </ul>
-        </h2>
-    </div>
-</div>
+<h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Yeni Bölüm Ekle", "Create")
+    @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
@@ -30,6 +17,9 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Deadline)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.DateAdded)
@@ -44,6 +34,9 @@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Deadline)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.DateAdded)

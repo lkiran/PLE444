@@ -11,108 +11,108 @@ using PLE444.Models;
 
 namespace PLE444.Controllers
 {
-    public class ChaptersController : Controller
+    public class AssignmentsController : Controller
     {
         private PleDbContext db = new PleDbContext();
 
-        // GET: Chapters
+        // GET: Assignments
         public ActionResult Index()
         {
-            return View(db.Chapters.ToList());
+            return View(db.Assignments.ToList());
         }
 
-        // GET: Chapters/Details/5
+        // GET: Assignments/Details/5
         public ActionResult Details(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Chapter chapter = db.Chapters.Find(id);
-            if (chapter == null)
+            Assignment assignment = db.Assignments.Find(id);
+            if (assignment == null)
             {
                 return HttpNotFound();
             }
-            return View(chapter);
+            return View(assignment);
         }
 
-        // GET: Chapters/Create
+        // GET: Assignments/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Chapters/Create
+        // POST: Assignments/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,CourseId,Title,Description,DateAdded")] Chapter chapter)
+        public ActionResult Create([Bind(Include = "Id,Title,Description,Deadline,DateAdded")] Assignment assignment)
         {
             if (ModelState.IsValid)
             {
-                chapter.Id = Guid.NewGuid();
-                db.Chapters.Add(chapter);
+                assignment.Id = Guid.NewGuid();
+                db.Assignments.Add(assignment);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(chapter);
+            return View(assignment);
         }
 
-        // GET: Chapters/Edit/5
+        // GET: Assignments/Edit/5
         public ActionResult Edit(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Chapter chapter = db.Chapters.Find(id);
-            if (chapter == null)
+            Assignment assignment = db.Assignments.Find(id);
+            if (assignment == null)
             {
                 return HttpNotFound();
             }
-            return View(chapter);
+            return View(assignment);
         }
 
-        // POST: Chapters/Edit/5
+        // POST: Assignments/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,CourseId,Title,Description,DateAdded")] Chapter chapter)
+        public ActionResult Edit([Bind(Include = "Id,Title,Description,Deadline,DateAdded")] Assignment assignment)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(chapter).State = EntityState.Modified;
+                db.Entry(assignment).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(chapter);
+            return View(assignment);
         }
 
-        // GET: Chapters/Delete/5
+        // GET: Assignments/Delete/5
         public ActionResult Delete(Guid? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Chapter chapter = db.Chapters.Find(id);
-            if (chapter == null)
+            Assignment assignment = db.Assignments.Find(id);
+            if (assignment == null)
             {
                 return HttpNotFound();
             }
-            return View(chapter);
+            return View(assignment);
         }
 
-        // POST: Chapters/Delete/5
+        // POST: Assignments/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(Guid id)
         {
-            Chapter chapter = db.Chapters.Find(id);
-            db.Chapters.Remove(chapter);
+            Assignment assignment = db.Assignments.Find(id);
+            db.Assignments.Remove(assignment);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

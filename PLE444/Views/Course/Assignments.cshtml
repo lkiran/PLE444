@@ -33,9 +33,9 @@
             <p>
                 @Html.DisplayFor(modelItem => item.Description)            </p>
             <p>
-                <a href="#" class="btn btn-primary" id="dyna">Düzenle</a>
-                <a href="#" class="btn btn-primary" id="dyna-del">Sil</a>
-                <a href="#" class="btn btn-primary" id="dyna-del">Yükle</a>
+                <a href="@Url.Action("AssignmentEdit","Course",new { id = ViewBag.CourseId })" class="btn btn-primary" id="dyna">Düzenle</a>
+                <a href="@Url.Action("AssignmentDelete","Course",new { id = ViewBag.CourseId })" class="btn btn-primary" id="dyna-del">Sil</a>
+                <a href="#" class="btn btn-primary" id="dyna-del">Ödev Yükle</a>
               
             </p>
 
