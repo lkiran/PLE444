@@ -32,7 +32,6 @@ namespace PLE444.Models
         [Required]
         
         public DateTime DateAdded { get; set; }
-
         public virtual ICollection<Material> Materials { get; set; }
         
     }

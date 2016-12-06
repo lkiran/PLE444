@@ -38,29 +38,96 @@ namespace PLE444.Controllers
         }
 
         [Authorize]
-        public ActionResult AssignmentCreate(Guid id)
+        public ActionResult AssignmentCreate(string id)
         {
-
-            ViewBag.CourseID = db.Courses.Find(id);
+            ViewBag.CourseId = id;
             return View();
         }
 
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult AssignmentCreate([Bind(Include = "Id,Title,Description,Deadline,DateAdded")] Assignment assignment)
+        public ActionResult AssignmentCreate( Assignment assignment, Guid courseId)
         {
             if (ModelState.IsValid)
             {
-                assignment.Course = ViewBag.CourseID;
-                assignment.DateAdded = DateTime.Now;
-                db.Assignments.Add(assignment);
+                var c = new Assignment();
+                c.DateAdded = DateTime.Now;
+                c.Title = assignment.Title;
+                c.Description = assignment.Description;
+                c.Deadline = assignment.Deadline;
+                db.Assignments.Add(c);
+
+                var co = db.Courses.Find(courseId);
+                co.Assignments.Add(c);
+
+                db.Entry(co).State = EntityState.Modified;
+
                 db.SaveChanges();
-                return RedirectToAction("Index");
+
+                return RedirectToAction("Index", new { id = courseId });
             }
+
+
 
             return View(assignment);
         }
+        // GET: Assignments/Edit/5
+        public ActionResult AssignmentEdit(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Assignment assignment = db.Assignments.Find(id);
+            if (assignment == null)
+            {
+                return HttpNotFound();
+            }
+            return View(assignment);
+        }
+        // GET: Assignments/Delete/5
+        public ActionResult AssignmentDelete(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Assignment assignment = db.Assignments.Find(id);
+            if (assignment == null)
+            {
+                return HttpNotFound();
+            }
+            return View(assignment);
+        }
+
+        // POST: Assignments/Delete/5
+        [HttpPost, ActionName("AssignmentDelete")]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConfirmed2(Guid id)
+        {
+            Assignment assignment = db.Assignments.Find(id);
+            db.Assignments.Remove(assignment);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        // POST: Assignments/Edit/5
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AssignmentEdit([Bind(Include = "Id,Title,Description,Deadline,DateAdded")] Assignment assignment)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(assignment).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(assignment);
+        }
+
 
 
         public ActionResult CourseDetails(Guid? id)
@@ -164,6 +231,19 @@ namespace PLE444.Controllers
                 return View(c);                 
             }           
         }
+        public ActionResult ChapterDetails(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Chapter chapter = db.Chapters.Find(id);
+            if (chapter == null)
+            {
+                return HttpNotFound();
+            }
+            return View(chapter);
+        }
 
         public ActionResult ChapterCreate(string id)
         {
@@ -222,6 +302,7 @@ namespace PLE444.Controllers
             return View();
         }
 
+
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
@@ -276,7 +357,7 @@ namespace PLE444.Controllers
             ViewBag.CourseName = c.Name.ToUpper() + " - " + c.Description;
             ViewBag.CourseId = c.ID;
             return View();
-            return View();
+          
         }
         
         protected override void Dispose(bool disposing)

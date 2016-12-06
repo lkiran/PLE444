@@ -15,10 +15,14 @@ namespace PLE444.Models
 
         [Required]
         public Guid ID { get; set; }
+        [Display(Name = "Dersin İsmi")]
         public String Name { get; set; }
+        [Display(Name = "Dersin Tanımı")]
         public String Description { get; set; }
+        [Display(Name = "Başlama Tarihi")]
         public DateTime CourseStart { get; set; }
         public virtual ICollection<Chapter> Chapters { get; set; }
+        public virtual ICollection<Assignment> Assignments { get; set; }
         public virtual ICollection<Discussion> Discussion { get; set; }
     }
 }
