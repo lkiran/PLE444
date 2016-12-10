@@ -25,11 +25,40 @@
          <div class="panel-group panel-default" id="accordionA">    
                 @{var orderedDiscussions = Model.Discussion.OrderBy(o => o.Topic); }
                 @foreach (var discussion in orderedDiscussions)
+                {
+                    var readings = discussion.Readings.FirstOrDefault(u => u.UserId == ViewBag.CurrentUserId);
+                    DateTime? lastRead = null;
+                    if (readings != null)
                     {
+                        lastRead = readings.Date;
+                    }
+                    var unreads = new List<PLE444.Models.Message>();
+                    if (lastRead != null)
+                    {  unreads = discussion.Messages.Where(d => d.DateSent > lastRead).ToList(); }
+                    else
+                    {  unreads = discussion.Messages.ToList(); }
+                    unreads = unreads.Except(discussion.Messages.Where(u => u.SenderId == ViewBag.CurrentUserId).ToList()).ToList();
+
+
                     <div class="panel panel-default">
-                        <a data-toggle="collapse" data-parent="#accordionA" href="#@discussion.ID"><div class="panel-heading"><h2>@discussion.Topic</h2></div></a>
+                        <a data-toggle="collapse" data-parent="#accordionA" DiscussionId="@discussion.ID" class="Discussion" href="#@discussion.ID">
+                            <div class="panel-heading">
+                                <h2>@discussion.Topic</h2>
+                                <div class="pull-right">
+                                    @if(discussion.Readings.Count != 0)
+                                    {
+                                        <span>@discussion.Readings.Count kişi okudu</span>
+                                    }
+
+                                    @if(unreads.Count != 0)
+                                    {
+                                        <span class="badge badge-warning">@unreads.Count okunmamış</span>
+                                    }
+                                </div>
+                            </div>                            
+                        </a>
           
-                        <div id="@discussion.ID" class="@("collapse " + (discussion.ID == ViewBag.Active ? "in" : ""))">  
+                        <div id="@discussion.ID" class="collapse">  
                             <div class="panel-body">
                                
                                 @{
@@ -59,7 +88,14 @@
                                             <small>@dh.GetDeltaDate(message.DateSent)</small>
                                         </div>
                                         
-                                        <p style="margin-left:50px;">@message.Content</p>
+                                        @if (unreads.FirstOrDefault(i => i.ID == message.ID) == null)
+                                        {
+                                            <p style="margin-left:50px;">@message.Content</p>
+                                        }
+                                        else
+                                        {
+                                            <p style="margin-left:50px; background: #ffecb3;">@message.Content</p>
+                                        }
                                         
                                     </div>
 
@@ -91,4 +127,27 @@
     </div>
 </div>
 
+<script src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
+
+<script>
+    var debugging = false;
+    $('.Discussion').click(function() {
+        $.ajax({
+            url: '/Community/Read',
+            dataType: 'json',
+            type: 'POST',
+            data: "DiscussionId=" + $(this).attr('DiscussionId') + "&CommunityId=" + "@Model.ID",
+            
+            
+            success: function (data) {
+                if (debugging)
+                    alert(data.success);
+            },
+            error: function () {
+                if (debugging)
+                    alert("error");
+            }
+        });
+    });
+</script>
 

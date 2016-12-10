@@ -75,14 +75,46 @@ namespace PLE444.Controllers
         }
 
         public ActionResult Discussion(Guid? id)
-        {    
+        {
+            var data = new DiscussionViewModel();
+            var t = new DiscussionViewModel.Topic();
             var community = db.Communities.Find(id);                  
-            var m = db.Communities.Include("Discussion").Include("Discussion.Messages").FirstOrDefault(i => i.ID == id);
+            var m = db.Communities.Include("Discussion").Include("Discussion.Messages").Include("Discussion.Readings").FirstOrDefault(i => i.ID == id);
 
-                ViewBag.Active = TempData["Active"];
             ViewBag.CurrentUserId = User.Identity.GetUserId();
             
             return View(m);
+        }
+
+        [HttpPost]
+        public ActionResult Read(Guid? DiscussionId, Guid? CommunityId)
+        {
+            var c = db.Communities.Include("Discussion").Include("Discussion.Readings").FirstOrDefault(i => i.ID == CommunityId);
+            if(c == null)
+                return Json(new { success = false });
+
+            var d = c.Discussion.FirstOrDefault(i => i.ID == DiscussionId);
+            if (d == null)
+                return Json(new { success = false });
+
+            var currentUser = User.Identity.GetUserId();
+            var r = d.Readings.FirstOrDefault(u => u.UserId == currentUser);
+            if(r == null)
+            {
+                r = new Discussion.Reading();
+                r.UserId = currentUser;
+                r.Date = DateTime.Now;
+                d.Readings.Add(r);
+            }
+            else
+            {
+                r.Date = DateTime.Now;                
+            }
+
+            db.Entry(c).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return Json(new { success = true });
         }
 
         public ActionResult Members(Guid? id)
