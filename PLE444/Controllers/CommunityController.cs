@@ -76,8 +76,6 @@ namespace PLE444.Controllers
 
         public ActionResult Discussion(Guid? id)
         {
-            var data = new DiscussionViewModel();
-            var t = new DiscussionViewModel.Topic();
             var community = db.Communities.Find(id);                  
             var m = db.Communities.Include("Discussion").Include("Discussion.Messages").Include("Discussion.Readings").FirstOrDefault(i => i.ID == id);
 
