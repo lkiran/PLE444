@@ -21,24 +21,28 @@
                     <th>İsim</th>                 
                     <th>Açıklama</th>
                     <th>Açılma Tarihi</th>
-                    <th>Puan</th>
                     <th>
                 </tr>
             </thead>
+            @{ int i = 0; }
             @foreach (var item in Model)
-            {       
+            {
                 <tbody>
                     <tr>
                   
-                        <td> <a href="@Url.Action("Chapters","Course", new { id = item.ID })"> @item.Name</a></td>
+                        <td> <a href="@Url.Action("Chapters", "Course", new { id = item.ID })"> @item.Name</a></td>
                         <td>@Html.DisplayFor(modelItem => item.Description)</td>
                         <td>@Html.DisplayFor(modelItem => item.CourseStart)</td>
-                        <td>16</td>
-                        <td>
-                        @Html.ActionLink("Chapter Ekle", "ChapterCreate", new { id = item.ID }) |
-                        @Html.ActionLink("Düzenle", "CourseEdit", new { id = item.ID }) |
-                        @Html.ActionLink("Detaylar", "CourseDetails", new { id = item.ID }) |
-                        @Html.ActionLink("Sil", "CourseDelete", new { id = item.ID })</td>
+                        
+                        @if (!ViewBag.JoinList[i])
+                        {
+                            <td>@Html.ActionLink("Ekle", "Join", new { id = item.ID })</td>
+                        }
+                        else
+                        {
+                            <td>@Html.ActionLink("Kaldır", "Leave", new { id = item.ID })</td>
+                        }
+                        @{i++; }
                     </tr>
                 </tbody>
             }

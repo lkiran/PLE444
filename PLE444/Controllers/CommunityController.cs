@@ -85,6 +85,7 @@ namespace PLE444.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult Read(Guid? DiscussionId, Guid? CommunityId)
         {
             var c = db.Communities.Include("Discussion").Include("Discussion.Readings").FirstOrDefault(i => i.ID == CommunityId);

@@ -1,18 +1,19 @@
-﻿
+﻿@model  PLE444.Models.CourseMembersViewModel
+
 @{
     ViewBag.Title = "Grades";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="panel panel-bluegray" data-widget='{"draggable": "false"}'>
     <div class="panel-heading">
-        <span class="pull-right">@ViewBag.CourseName</span>
+        <span class="pull-right">@Model.CourseInfo.Name - @Model.CourseInfo.Description</span>
         <h2>
             <ul class="nav nav-tabs">
-                <li><a href="@Url.Action("Chapters","Course",new { id = ViewBag.CourseId })">Bölümler</a></li>
-                <li><a href="@Url.Action("Assignments","Course",new { id = ViewBag.CourseId })"> Ödevler</a></li>
-                <li><a href="@Url.Action("Materials","Course",new { id = ViewBag.CourseId })">Materyaller</a></li>
-                <li class="active"><a href="#">Notlar</a></liclass="active">
-                <li><a href="@Url.Action("Discussion","Course",new { id = ViewBag.CourseId })">Tartışmalar</a></li>
+                <li><a href="@Url.Action("Chapters","Course",new { id = @Model.CourseInfo.ID })">Bölümler</a></li>
+                <li><a href="@Url.Action("Assignments","Course",new { id = @Model.CourseInfo.ID })"> Ödevler</a></li>
+                <li><a href="@Url.Action("Materials","Course",new { id = @Model.CourseInfo.ID })">Materyaller</a></li>
+                <li class="active"><a href="#">Notlar</a></li>
+                <li><a href="@Url.Action("Discussion","Course",new { id = @Model.CourseInfo.ID })">Tartışmalar</a></li>
             </ul>
         </h2>
     </div>
@@ -26,23 +27,38 @@
     <div class="panel-body">
         <table class="table table-hover m-n">
             <thead>
-                <tr>
-                   
-                    <th>Başlık</th>
-                    <th>Not</th>
-                    <th>Yüzdelik Etkisi</th>
-                                      <th>Sonuç</th>
+                <tr>                   
+                    <th>Kullanıcı</th>
+                    @foreach (var item in Model.GradeTypes)
+                    {
+                        <th>@item.Name</th>
+                    }
+                    <th>Toplam</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr class="warning">
-                    <td>Midterm1</td> 
-                    <td>80</td> 
-                    <td>20</td> 
-                    <td>16</td>
+            <tbody>                
+                @foreach (var user in Model.Users)
+                {
+                    var gradesOfUser = Model.UserGrades.Where(u => u.UserID == user.Id).ToList();
+                    
+                    <tr>
+                        <td>@user.FirstName @user.LastName</td>
+                        @foreach (var gradeType in Model.GradeTypes)
+                        {
+                            var gu = gradesOfUser.FirstOrDefault(g => g.GradeType == gradeType);
 
-                </tr>
-                
+                            if (gu == null)
+                            {
+                                 <td> - </td>
+                            }
+                            else
+                            {
+                                 <td>@gu.Grade </td>
+                            }
+                        }
+                        <td>-</td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>

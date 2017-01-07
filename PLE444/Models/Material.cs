@@ -17,7 +17,7 @@ namespace PLE444.Models
             Documents = new Collection<Document>();
         }
 
-        [Required]
+        [Key]
         public Guid Id { get; set; }
 
         [Required]

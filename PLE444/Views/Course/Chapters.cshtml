@@ -35,16 +35,32 @@
             </div>
             <div class="panel-body" style="height: 148px">
                 @(new HtmlString(item.Description))
+
+                <ul style="list-style-type: none" ;>
+                    @foreach (var doc in item.Materials)
+                    {
+                        <li>
+                            <a href="@Url.Action("Materials", new { id= Model.ID })">     
+                                @doc.Title                          
+                            </a>
+                        </li>
+                    }
+                </ul>
             </div>
-            <div class="panel-footer">
-                <a href="@Url.Action("MeterialAdd", "Course",new { id = item.Id })" class="btn btn-primary-alt" id="dyna-del"> Materyal Ekle</a>
-                <a href="@Url.Action("AssignmentCreate","Course",new { id = Model.ID })" class="btn btn-primary-alt" id="dyna-del"> Ödev Oluştur</a>
-                <a href="@Url.Action("ChapterDetails","Course",new { id = Model.ID })" class="text-gray pull-right">Detay <i class="ti ti-angle-right"></i></a>
-             
-            </div>
+            @if(ViewBag.CurrentUser == Model.CreatorId)
+            {
+                <div class="panel-footer">
+                    <a href="@Url.Action("MeterialAdd", "Course",new { id = item.Id })" class="btn btn-primary-alt pull-right" id="dyna-del"> Materyal Ekle</a>                       
+                </div>
+            }
            
         </div>
     }
+}
+
+@if(ViewBag.CurrentUser == Model.CreatorId)
+{
+    <a href="@Url.Action("ChapterCreate",new { id = Model.ID })" class="btn btn-primary-alt" id="dyna-del">Yeni Bölüm Ekle</a>
 }
 
 

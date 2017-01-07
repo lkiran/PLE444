@@ -15,6 +15,7 @@ namespace PLE444.Models
 
         [Required]
         public Guid ID { get; set; }
+        public string CreatorId { get; set; }
         [Display(Name = "Dersin İsmi")]
         public String Name { get; set; }
         [Display(Name = "Dersin Tanımı")]

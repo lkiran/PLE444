@@ -8,9 +8,13 @@ namespace PLE444.Models
 {
 	public class Document
 	{
-		public String Owner { get; set; }
-		[Key]
+        [Key]
+        public int Id { get; set; }
+
+        public String Owner { get; set; }	
+
 		public String FilePath { get; set; }
+
 		public String Description { get; set; }
 
         public DateTime DateUpload { get; set; }

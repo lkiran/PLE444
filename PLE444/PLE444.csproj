@@ -200,6 +200,7 @@
     <Compile Include="Controllers\ChaptersController.cs" />
     <Compile Include="Controllers\CommunityController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
+    <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LayoutController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -209,6 +210,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\DataManipulationHelper.cs" />
+    <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\UserHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -216,8 +218,10 @@
     <Compile Include="Models\Chapter.cs" />
     <Compile Include="Models\Community.cs" />
     <Compile Include="Models\CommunityMembersViewModel.cs" />
+    <Compile Include="Models\CourseMembersViewModel.cs" />
     <Compile Include="Models\Discussion.cs" />
     <Compile Include="Models\Friendship.cs" />
+    <Compile Include="Models\GradeType.cs" />
     <Compile Include="Models\Interest.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Document.cs" />
@@ -230,8 +234,8 @@
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Tag.cs" />
-    <Compile Include="Models\UserAssignment.cs" />
     <Compile Include="Models\UserCommunity.cs" />
+    <Compile Include="Models\UserGrade.cs" />
     <Compile Include="Models\UserInterest.cs" />
     <Compile Include="Models\UserCourse.cs" />
     <Compile Include="Models\UserViewModel.cs" />
@@ -650,6 +654,55 @@
     <Content Include="Content\fonts\themify-icons\SVG\zoom-in.svg" />
     <Content Include="Content\fonts\themify-icons\SVG\zoom-out.svg" />
     <Content Include="Content\fonts\themify-icons\themify-icons.css" />
+    <Content Include="Content\img\FileIcons\3gp.png" />
+    <Content Include="Content\img\FileIcons\7z.png" />
+    <Content Include="Content\img\FileIcons\ae.png" />
+    <Content Include="Content\img\FileIcons\ai.png" />
+    <Content Include="Content\img\FileIcons\apk.png" />
+    <Content Include="Content\img\FileIcons\asf.png" />
+    <Content Include="Content\img\FileIcons\avi.png" />
+    <Content Include="Content\img\FileIcons\bak.png" />
+    <Content Include="Content\img\FileIcons\bmp.png" />
+    <Content Include="Content\img\FileIcons\cdr.png" />
+    <Content Include="Content\img\FileIcons\css.png" />
+    <Content Include="Content\img\FileIcons\csv.png" />
+    <Content Include="Content\img\FileIcons\divx.png" />
+    <Content Include="Content\img\FileIcons\dll.png" />
+    <Content Include="Content\img\FileIcons\doc.png" />
+    <Content Include="Content\img\FileIcons\docx.png" />
+    <Content Include="Content\img\FileIcons\dw.png" />
+    <Content Include="Content\img\FileIcons\dwg.png" />
+    <Content Include="Content\img\FileIcons\eps.png" />
+    <Content Include="Content\img\FileIcons\exe.png" />
+    <Content Include="Content\img\FileIcons\flv.png" />
+    <Content Include="Content\img\FileIcons\fw.png" />
+    <Content Include="Content\img\FileIcons\gif.png" />
+    <Content Include="Content\img\FileIcons\gz.png" />
+    <Content Include="Content\img\FileIcons\html.png" />
+    <Content Include="Content\img\FileIcons\ico.png" />
+    <Content Include="Content\img\FileIcons\iso.png" />
+    <Content Include="Content\img\FileIcons\jar.png" />
+    <Content Include="Content\img\FileIcons\jpg.png" />
+    <Content Include="Content\img\FileIcons\js.png" />
+    <Content Include="Content\img\FileIcons\mov.png" />
+    <Content Include="Content\img\FileIcons\mp3.png" />
+    <Content Include="Content\img\FileIcons\mp4.png" />
+    <Content Include="Content\img\FileIcons\mpeg.png" />
+    <Content Include="Content\img\FileIcons\pdf.png" />
+    <Content Include="Content\img\FileIcons\php.png" />
+    <Content Include="Content\img\FileIcons\png.png" />
+    <Content Include="Content\img\FileIcons\ppt.png" />
+    <Content Include="Content\img\FileIcons\ps.png" />
+    <Content Include="Content\img\FileIcons\psd.png" />
+    <Content Include="Content\img\FileIcons\rar.png" />
+    <Content Include="Content\img\FileIcons\svg.png" />
+    <Content Include="Content\img\FileIcons\swf.png" />
+    <Content Include="Content\img\FileIcons\sys.png" />
+    <Content Include="Content\img\FileIcons\tar.png" />
+    <Content Include="Content\img\FileIcons\tiff.png" />
+    <Content Include="Content\img\FileIcons\txt.png" />
+    <Content Include="Content\img\FileIcons\wav.png" />
+    <Content Include="Content\img\FileIcons\zip.png" />
     <Content Include="Content\img\logo.png" />
     <Content Include="Content\img\pp.jpg" />
     <Content Include="Content\js\application.js" />
@@ -2069,6 +2122,8 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\" />
+    <Folder Include="Views\File\" />
+    <Folder Include="Views\GradeTypes\" />
     <Folder Include="Views\Group\" />
   </ItemGroup>
   <PropertyGroup>

@@ -21,23 +21,52 @@
 <div class="row">
     <div class="col-md-9">
         <h2>@ViewBag.Action</h2>
-         <div class="panel-group panel-default" id="accordionA">    
-                @{var orderedDiscussions = Model.Discussion.OrderBy(o => o.Topic); }
-                @foreach (var discussion in orderedDiscussions)
-                    {
-                    <div class="panel panel-default">
-                        <a data-toggle="collapse" data-parent="#accordionA" href="#@discussion.ID"><div class="panel-heading"><h2>@discussion.Topic</h2></div></a>
-          
-                        <div id="@discussion.ID" class="@("collapse " + (discussion.ID == ViewBag.Active ? "in" : ""))">  
-                            <div class="panel-body">
-                               
-                                @{
-                                    string PrevUserId = "";
-                                    var orderedMessages = discussion.Messages.OrderBy(o=> o.DateSent);
-                                    foreach (var message in orderedMessages)
-                                    {
-                                        var h = new PLE444.Helpers.UserHelper();
-                                        var dh = new PLE444.Helpers.DataManipulationHelper();
+        <div class="panel-group panel-default" id="accordionA">
+            @{var orderedDiscussions = Model.Discussion.OrderBy(o => o.Topic); }
+            @foreach (var discussion in orderedDiscussions)
+            {
+                var readings = discussion.Readings.FirstOrDefault(u => u.UserId == ViewBag.CurrentUserId);
+                DateTime? lastRead = null;
+                if (readings != null)
+                {
+                    lastRead = readings.Date;
+                }
+                var unreads = new List<PLE444.Models.Message>();
+                if (lastRead != null)
+                { unreads = discussion.Messages.Where(d => d.DateSent > lastRead).ToList(); }
+                else
+                { unreads = discussion.Messages.ToList(); }
+                unreads = unreads.Except(discussion.Messages.Where(u => u.SenderId == ViewBag.CurrentUserId).ToList()).ToList();
+
+
+                <div class="panel panel-default">
+                    <a data-toggle="collapse" data-parent="#accordionA" DiscussionId="@discussion.ID" class="Discussion" href="#@discussion.ID">
+                        <div class="panel-heading">
+                            <h2>@discussion.Topic</h2>
+                            <div class="pull-right">
+                                @if (discussion.Readings.Count != 0)
+                                {
+                                    <span>@discussion.Readings.Count kişi okudu</span>
+                                }
+
+                                @if (unreads.Count != 0)
+                                {
+                                    <span class="badge badge-warning">@unreads.Count okunmamış</span>
+                                }
+                            </div>
+                        </div>
+                    </a>
+
+                    <div id="@discussion.ID" class="collapse">
+                        <div class="panel-body">
+
+                            @{
+                                string PrevUserId = "";
+                                var orderedMessages = discussion.Messages.OrderBy(o => o.DateSent);
+                                foreach (var message in orderedMessages)
+                                {
+                                    var h = new PLE444.Helpers.UserHelper();
+                                    var dh = new PLE444.Helpers.DataManipulationHelper();
 
                                     <div class="message">
                                         @if (message.SenderId != PrevUserId)
@@ -48,7 +77,7 @@
                                             }
                                             else
                                             {
-                                                <img class="img-circle" style="width:40px" src="@h.GetUserPhotoFromID(message.SenderId)" />                                 
+                                                <img class="img-circle" style="width:40px" src="@h.GetUserPhotoFromID(message.SenderId)" />
                                             }
 
                                             <strong style="margin-left:10px;">@h.GetUserFullNameFromID(message.SenderId)</strong>
@@ -57,37 +86,67 @@
                                         <div class="pull-right">
                                             <small>@dh.GetDeltaDate(message.DateSent)</small>
                                         </div>
-                                        
-                                        <p style="margin-left:50px;">@message.Content</p>
-                                        
+
+                                        @if (unreads.FirstOrDefault(i => i.ID == message.ID) == null)
+                                        {
+                                            <p style="margin-left:50px;">@message.Content</p>
+                                        }
+                                        else
+                                        {
+                                            <p style="margin-left:50px; background: #ffecb3; box-shadow: 0 0 5px 5px rgba(255,236,179,1); border-radius: 2px; ">@message.Content</p>
+                                        }
+
                                     </div>
 
-                                        PrevUserId = message.SenderId;
-                                    }
-                                    
+                                    PrevUserId = message.SenderId;
                                 }
-                                <hr>
-                                <div class="message">  
-                                    @if(ViewBag.CurrentUserId==null)
-                                    {
-                                        <p>Mesaj yollamak için yapın</p>
-                                    }
-                                    else
-                                    {
-                                        @Html.Partial("SendMessage", new PLE444.Models.Message(), new ViewDataDictionary { { "DiscussionId", discussion.ID } ,
+
+                            }
+                            <hr>
+                            <div class="message">
+                                @if (ViewBag.CurrentUserId == null)
+                                {
+                                    <p>Mesaj yollamak için yapın</p>
+                                }
+                                else
+                                {
+                                    @Html.Partial("SendMessage", new PLE444.Models.Message(), new ViewDataDictionary { { "DiscussionId", discussion.ID } ,
                                                                                                                            { "CourseId", Model.ID } ,
-                                                                                                                           { "CurrentUserId", ViewBag.CurrentUserId } }) 
-                                    }                                                         
-                                </div> 
+                                                                                                                           { "CurrentUserId", ViewBag.CurrentUserId } })
+                                }
                             </div>
                         </div>
                     </div>
-                }            
-        </div>   
+                </div>
+                                }
+        </div>
     </div>
     <div class="col-md-3">
         <a href="@Url.Action("AddTitle", new { id = Model.ID })" class="btn btn-primary-alt btn-lg btn-block"><i class="fa fa-plus fa-bold"></i> Başlık Ekle</a>
     </div>
 </div>
 
+<script src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
+
+<script>
+    var debugging = false;
+    $('.Discussion').click(function() {
+        $.ajax({
+            url: '/Course/Read',
+            dataType: 'json',
+            type: 'POST',
+            data: "DiscussionId=" + $(this).attr('DiscussionId') + "&CourseId=" + "@Model.ID",
+
+
+            success: function (data) {
+                if (debugging)
+                    alert(data.success);
+            },
+            error: function () {
+                if (debugging)
+                    alert("error");
+            }
+        });
+    });
+</script>
 

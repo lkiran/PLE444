@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PLE444.Models.Community>
+﻿@model List<PLE444.Models.Community>
 @foreach (var item in Model)
 {
     <li><a href="@Url.Action("Index","Community", new { id = item.ID })">@item.Name</a></li>

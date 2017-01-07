@@ -1,67 +1,57 @@
 ﻿@model IEnumerable<PLE444.Models.Material>
 
-
 @{
     ViewBag.Title = "Materials";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div class="panel panel-bluegray" data-widget='{"draggable": "false"}'>
     <div class="panel-heading">
         <span class="pull-right">@ViewBag.CourseName</span>
         <h2>
             <ul class="nav nav-tabs">
-                <li><a href="@Url.Action("Chapters","Course",new { id = ViewBag.CourseId })">Bölümler</a></li>
-                <li><a href="@Url.Action("Assignments","Course",new { id = ViewBag.CourseId })"> Ödevler</a></li>
-                <li class="active"><a href="@Url.Action("Materials","Course",new { id = ViewBag.CourseId })">Materyaller</a></li>
-                <li><a href="@Url.Action("Grades","Course",new { id = ViewBag.CourseId })">Notlar</a></li>
+                <li><a href="@Url.Action("Chapters","Course",new { id =  ViewBag.CourseId })">Bölümler</a></li>
+                <li><a href="@Url.Action("Assignments","Course",new { id =  ViewBag.CourseId })"> Ödevler</a></li>
+                <li class="active"><a href="#">Materyaller</a></li>
+                <li><a href="@Url.Action("Grades","Course",new { id =  ViewBag.CourseId })">Notlar</a></li>
                 <li><a href="@Url.Action("Discussion","Course",new { id = ViewBag.CourseId })">Tartışmalar</a></li>
             </ul>
         </h2>
     </div>
 </div>
 
-<div class="panel panel-info" data-widget='{"draggable": "false"}'>
-    
-    <div class="panel-body no-padding">
-        <p>
-            @Html.ActionLink("Create New", "Create")
-        </p>
-        <table class="table">
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Title)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.DateAdded)
-                </th>
-                <th></th>
-            </tr>
+@if (Model != null)
+{
+    var fh = new PLE444.Helpers.FileHelper();
+    var h = new PLE444.Helpers.DataManipulationHelper();
+    foreach (var item in Model)
+    {
+        <div class="panel panel-default" data-widget='{"draggable";: "false"}' data-widget-static="" style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);">
+            <div class="panel-heading">
 
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.DateAdded)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                        @Html.ActionLink("Details", "Details", new { id = item.Id }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                    </td>
-                </tr>
-            }
+                <h2>@Html.DisplayFor(modelItem => item.Title)</h2>
+                <div class="pull-right">
+                    @Html.DisplayFor(modelItem => item.DateAdded), @h.GetDeltaDate(item.DateAdded)
+                </div>
+            </div>
+            <div class="panel-body" style="height: 148px">
+                @(new HtmlString(item.Description))
+            </div>
 
-        </table>
 
-    </div>
-</div>
+            <ul style="list-style-type: none";>
+                @foreach (var doc in item.Documents)
+                {
+                    <li>
+                        <a href="@Url.Action("Download" , "File" , new { path=doc.FilePath, name=doc.Description })">
+                            <img src="@fh.GetFileIcon(doc.FilePath)" style="height:40px;">
+                            <span>@doc.Description</span>
+                        </a>                       
+                    </li>
+                }
+            </ul>          
+
+        </div>
+    }
+}
 

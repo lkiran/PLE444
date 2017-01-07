@@ -16,11 +16,27 @@ namespace PLE444.Controllers
     public class CourseController : Controller
     {
         private PleDbContext db = new PleDbContext();
-        
+        private ApplicationDbContext userDb = new ApplicationDbContext();
+
         public ActionResult Index(Guid? id)
         {
             if (id == null)
-                return View(db.Courses.ToList());
+            {
+                 var c = db.Courses.ToList();
+                var ui = User.Identity.GetUserId();
+                var uc = db.UserCourses.Where(i => i.UserId == ui);
+                var joinList = new List<bool>();
+                foreach (var item in c)
+                {
+                    var r = uc.FirstOrDefault(i => i.Course.ID == item.ID);
+                    if (r == null)
+                        joinList.Add(false);
+                    else
+                        joinList.Add(true);
+                }
+                ViewBag.JoinList = joinList;
+                return View(c);
+            }
             return RedirectToAction("Chapters", new { id = id });
         }
 
@@ -34,6 +50,7 @@ namespace PLE444.Controllers
             var assignment = db.Assignments.Include("Course").Where(a => a.Course.ID == id).ToList();
             ViewBag.CourseName = c.Name.ToUpper() + " - " + c.Description;
             ViewBag.CourseId = c.ID;
+            ViewBag.CurrentUser = User.Identity.GetUserId();
             return View(assignment);
         }
 
@@ -47,8 +64,11 @@ namespace PLE444.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult AssignmentCreate( Assignment assignment, Guid courseId)
+        public ActionResult AssignmentCreate(Assignment assignment, Guid courseId)
         {
+            if(!isCourseCreator(courseId))
+                return RedirectToAction("Index");
+
             if (ModelState.IsValid)
             {
                 var c = new Assignment();
@@ -65,14 +85,12 @@ namespace PLE444.Controllers
 
                 db.SaveChanges();
 
-                return RedirectToAction("Index", new { id = courseId });
+                return RedirectToAction("Assignments", new { id = courseId });
             }
-
-
-
+            ViewBag.CourseId = courseId;
             return View(assignment);
         }
-        // GET: Assignments/Edit/5
+        
         public ActionResult AssignmentEdit(Guid? id)
         {
             if (id == null)
@@ -86,7 +104,7 @@ namespace PLE444.Controllers
             }
             return View(assignment);
         }
-        // GET: Assignments/Delete/5
+        
         public ActionResult AssignmentDelete(Guid? id)
         {
             if (id == null)
@@ -101,7 +119,6 @@ namespace PLE444.Controllers
             return View(assignment);
         }
 
-        // POST: Assignments/Delete/5
         [HttpPost, ActionName("AssignmentDelete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed2(Guid id)
@@ -112,9 +129,6 @@ namespace PLE444.Controllers
             return RedirectToAction("Index");
         }
 
-        // POST: Assignments/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult AssignmentEdit([Bind(Include = "Id,Title,Description,Deadline,DateAdded")] Assignment assignment)
@@ -128,6 +142,58 @@ namespace PLE444.Controllers
             return View(assignment);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AssingmentUpload(Guid assignmentId, HttpPostedFileBase uploadFile)
+        {
+            var a = db.Assignments.Include("Course").FirstOrDefault(i => i.Id == assignmentId);
+
+            if (!isMember(a.Course.ID)) 
+                return RedirectToAction("Index");
+
+            if (ModelState.IsValid)
+            {
+                var currentuserId = User.Identity.GetUserId();
+
+                if (uploadFile != null && uploadFile.ContentLength > 0)
+                {
+                    var filePath = "";
+                    var fileName = "";
+
+                    fileName = Guid.NewGuid().ToString() + Path.GetExtension(uploadFile.FileName);
+                    filePath = Path.Combine(Server.MapPath("~/Uploads"), fileName);
+                    uploadFile.SaveAs(filePath);
+                    ViewBag.UploadSuccess = true;
+
+                    var uploaded = a.Uploads.FirstOrDefault(u => u.Owner == currentuserId);
+                    if(uploaded ==null)
+                    {
+                        var d = new Document();
+                        d.DateUpload = DateTime.Now;
+                        d.Description = uploadFile.FileName;
+                        d.Owner = currentuserId;
+                        d.FilePath = filePath;
+
+                        db.Documents.Add(d);
+                        a.Uploads.Add(d);
+                    }
+                    else
+                    {
+                        uploaded.DateUpload = DateTime.Now; ;
+                        uploaded.Description = uploadFile.FileName;
+                        uploaded.FilePath = filePath;
+                        uploaded.Owner = currentuserId;
+
+                        db.Entry(uploaded).State = EntityState.Modified;
+                    }
+                    
+                    db.Entry(a).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+            
+            return RedirectToAction("Assignments", new { id = a.Course.ID });
+        }
 
 
         public ActionResult CourseDetails(Guid? id)
@@ -178,7 +244,7 @@ namespace PLE444.Controllers
         {
             return View();
         }
-     
+
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
@@ -186,7 +252,7 @@ namespace PLE444.Controllers
         {
             if (ModelState.IsValid)
             {
-              
+                course.CreatorId = User.Identity.GetUserId();
                 db.Courses.Add(course);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -226,10 +292,11 @@ namespace PLE444.Controllers
                 return RedirectToAction("Index");
             else
             {
-                var c = db.Courses.Include("Chapters").Where(a => a.ID == id).FirstOrDefault();
-                ViewBag.CourseName = c.Name.ToUpper() + " - " + c.Description;                     
-                return View(c);                 
-            }           
+                var c = db.Courses.Include("Chapters").Include("Chapters.Materials").Where(a => a.ID == id).FirstOrDefault();
+                ViewBag.CourseName = c.Name.ToUpper() + " - " + c.Description;
+                ViewBag.CurrentUser = User.Identity.GetUserId();
+                return View(c);
+            }
         }
         public ActionResult ChapterDetails(Guid? id)
         {
@@ -247,6 +314,9 @@ namespace PLE444.Controllers
 
         public ActionResult ChapterCreate(string id)
         {
+            if (!isCourseCreator(Guid.Parse(id)))
+                return RedirectToAction("Index");
+
             ViewBag.CourseId = id;
             return View();
         }
@@ -254,8 +324,11 @@ namespace PLE444.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult ChapterCreate( Chapter chapter, Guid courseId)
+        public ActionResult ChapterCreate(Chapter chapter, Guid courseId)
         {
+            if (!isCourseCreator(courseId))
+                return RedirectToAction("Index");
+
             if (ModelState.IsValid)
             {
                 var c = new Chapter();
@@ -275,7 +348,7 @@ namespace PLE444.Controllers
                 return RedirectToAction("Index", new { id = courseId });
             }
 
-          
+
 
             return View(chapter);
         }
@@ -283,20 +356,29 @@ namespace PLE444.Controllers
         [Authorize]
         public ActionResult Materials(Guid? id)
         {
+            var course = db.Courses.Find(id);
             if (id == null)
                 return RedirectToAction("Index");
 
-            var c = db.Courses.Find(id);
-            ViewBag.CourseName = c.Name.ToUpper() + " - " + c.Description;
-            ViewBag.CourseId = c.ID;
-            return View();
+            var c = db.Chapters.Include("Materials").Include("Materials.Documents").Where(i => i.CourseId == id).ToList();
+
+            var materials = new List<Material>();
+
+            foreach (var item in c)
+                materials.AddRange(item.Materials);
+
+
+            ViewBag.CourseName = course.Name.ToUpper() + " - " + course.Description;
+            ViewBag.CourseId = course.ID;
+            return View(materials);
         }
 
         [Authorize]
         public ActionResult MeterialAdd(Guid? id)
         {
-            if (id == null)
-               return RedirectToAction("Index");
+            var c = db.Chapters.Find(id).CourseId;
+            if (!isCourseCreator(c))
+                return RedirectToAction("Index");
 
             ViewBag.ChapterId = id;
             return View();
@@ -308,33 +390,39 @@ namespace PLE444.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult MeterialAdd(Material material, Guid chapterId, IEnumerable<HttpPostedFileBase> uploadFiles)
         {
+            var co = db.Chapters.Find(chapterId).CourseId;
+            if (!isCourseCreator(co))
+                return RedirectToAction("Index");
+
             if (ModelState.IsValid)
-            {                
+            {
                 foreach (var item in uploadFiles)  //iterate in each file
                 {
                     var fileName = "";
 
-                    if (item.ContentLength > 0) //check length of bytes are greater then zero or not
+                    if (item != null && item.ContentLength > 0) //check length of bytes are greater then zero or not
                     {
                         fileName = Guid.NewGuid().ToString() + Path.GetExtension(item.FileName);
                         var imageFilePath = Path.Combine(Server.MapPath("~/Uploads"), fileName);
                         item.SaveAs(imageFilePath);
-                        ViewBag.UploadSuccess = true;                        
+                        ViewBag.UploadSuccess = true;
+
+                        //Add to DB
+                        var d = new Document();
+                        d.FilePath = "/ Uploads / " + fileName;
+                        d.Owner = User.Identity.GetUserId();
+                        d.DateUpload = DateTime.Now;
+                        d.Description = item.FileName;
+
+                        var doc = db.Documents.Add(d);
+
+                        material.Documents.Add(doc);
                     }
-
-                    //Add to DB
-                    var d = new Document();
-                    d.FilePath = "/ Uploads / " + fileName;
-                    d.Owner = User.Identity.GetUserId();
-                    d.DateUpload = DateTime.Now;
-
-                    var doc= db.Documents.Add(d);
-
-                    material.Documents.Add(doc);
                 }
 
-                material.DateAdded = DateTime.Now;                
-                
+                material.Id = Guid.NewGuid();
+                material.DateAdded = DateTime.Now;
+
                 var c = db.Chapters.Find(chapterId);
                 c.Materials.Add(material);
 
@@ -353,13 +441,27 @@ namespace PLE444.Controllers
             if (id == null)
                 return RedirectToAction("Index");
 
-            var c = db.Courses.Find(id);
-            ViewBag.CourseName = c.Name.ToUpper() + " - " + c.Description;
-            ViewBag.CourseId = c.ID;
-            return View();
-          
+            var viewData = new CourseMembersViewModel();
+
+            var course = db.Courses.Find(id);
+            viewData.CourseInfo = course;
+
+            var gradeTypes = db.GradeTypes.Where(g => g.Course.ID == course.ID).ToList();
+            viewData.GradeTypes = gradeTypes;
+
+            viewData.UserGrades = db.UserGrades.Include("GradeType").Where(c=>c.GradeType.Course.ID==course.ID).ToList();
+
+            var courseUsers = db.UserCourses.Where(c => c.Course.ID == course.ID).ToList();
+            // var userIds= (from p in courseUsers select p.UserId).ToList();
+            viewData.Users = new List<ApplicationUser>();
+            foreach (var item in courseUsers)
+            {
+                viewData.Users.Add(userDb.Users.Find(item.UserId));
+            }            
+
+            return View(viewData);
         }
-        
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -369,17 +471,46 @@ namespace PLE444.Controllers
             base.Dispose(disposing);
         }
 
-        [Authorize]
         public ActionResult Discussion(Guid? id)
         {
             var c = db.Courses.Find(id);
-            var m = db.Courses.Include("Discussion").Include("Discussion.Messages").FirstOrDefault(i => i.ID == id);
+            var m = db.Courses.Include("Discussion").Include("Discussion.Messages").Include("Discussion.Readings").FirstOrDefault(i => i.ID == id);
 
-            ViewBag.Active = TempData["Active"];
             ViewBag.CourseName = c.Name.ToUpper() + " - " + c.Description;
             ViewBag.CurrentUserId = User.Identity.GetUserId();
-
             return View(m);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult Read(Guid? DiscussionId, Guid? CourseId)
+        {
+            var c = db.Courses.Include("Discussion").Include("Discussion.Readings").FirstOrDefault(i => i.ID == CourseId);
+            if (c == null)
+                return Json(new { success = false });
+
+            var d = c.Discussion.FirstOrDefault(i => i.ID == DiscussionId);
+            if (d == null)
+                return Json(new { success = false });
+
+            var currentUser = User.Identity.GetUserId();
+            var r = d.Readings.FirstOrDefault(u => u.UserId == currentUser);
+            if (r == null)
+            {
+                r = new Discussion.Reading();
+                r.UserId = currentUser;
+                r.Date = DateTime.Now;
+                d.Readings.Add(r);
+            }
+            else
+            {
+                r.Date = DateTime.Now;
+            }
+
+            db.Entry(c).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return Json(new { success = true });
         }
 
         [Authorize]
@@ -443,6 +574,63 @@ namespace PLE444.Controllers
             return View();
         }
 
+        [Authorize]
+        public ActionResult Join(Guid Id)
+        {
+            var userID = User.Identity.GetUserId(); ;
+            var c = db.Courses.FirstOrDefault(i => i.ID == Id);
 
+            var uc = db.UserCourses.Where(u => u.UserId == userID).FirstOrDefault(i => i.Course.ID == Id);
+
+            if (uc == null)
+            {
+                uc = new UserCourse();
+                uc.UserId = userID;
+
+                uc.Course = c;
+                uc.ApprovalDate = null;
+
+                db.UserCourses.Add(uc);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        [Authorize]
+        public ActionResult Leave(Guid Id)
+        {
+            var userID = User.Identity.GetUserId(); 
+            var c = db.Courses.FirstOrDefault(i => i.ID == Id);
+
+            var uc = db.UserCourses.Where(u => u.UserId == userID).FirstOrDefault(i => i.Course.ID == Id);
+
+            if (uc != null)
+            {
+                db.UserCourses.Remove(uc);
+                db.SaveChanges();
+            }
+
+            ViewBag.UserId = userID;
+            return RedirectToAction("Index");
+        }
+
+        public bool isCourseCreator(Guid courseId)
+        {
+            var c = db.Courses.Find(courseId);
+            if (c.CreatorId != User.Identity.GetUserId())
+                return false;
+            return true;
+        }
+
+        private bool isMember(Guid courseId)
+        {
+            var userId = User.Identity.GetUserId();
+            var user = db.UserCourses.Where(c => c.Course.ID == courseId).FirstOrDefault(u => u.UserId == userId);
+
+            if (user == null)
+                return false;
+            return true;
+        }
     }
 }

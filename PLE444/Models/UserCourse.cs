@@ -9,9 +9,9 @@ namespace PLE444.Models
 	public class UserCourse
 	{
 		[Key]
-		public String UserId { get; set; }
-		[Key]
+        public int Id { get; set; }
+        public String UserId { get; set; }    
 		public Course Course { get; set; }
-		public DateTime ApprovalDate { get; set; }
+		public DateTime? ApprovalDate { get; set; }
 	}
 }

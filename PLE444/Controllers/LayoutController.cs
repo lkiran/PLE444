@@ -17,13 +17,19 @@ namespace PLE444.Controllers
         [ChildActionOnly]
         public ActionResult Courses()
         {
-            return PartialView(db.Courses.ToList());
+            var userID = User.Identity.GetUserId();
+            var uc = (from p in db.UserCourses select p.Course).ToList();
+
+            return PartialView(uc);
         }
 
         [ChildActionOnly]
         public ActionResult Communities()
         {
-            return PartialView(db.Communities.ToList());
+            var userID = User.Identity.GetUserId();
+            var uc = (from p in db.UserCommunities select p.Community).ToList();
+
+            return PartialView(uc);
         }
 
         public ActionResult LogedInUser()

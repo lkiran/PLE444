@@ -27,5 +27,7 @@ namespace PLE444.Context
         public DbSet<Message> Messages { get; set; }
         public DbSet<Chapter> Chapters { get; set; }
         public DbSet<Material> Materials { get; set; }
+        public DbSet<GradeType> GradeTypes { get; set; }
+        public DbSet<UserGrade> UserGrades { get; set; }
     }
 }
