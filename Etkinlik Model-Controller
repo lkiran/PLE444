@@ -1,0 +1,407 @@
+AÇIKLAMA
+ETKINLIK İÇİN OLUŞTURULACAK CONTROLLER VE MODEL ICERİKLERİ VAR BURADA, BU BENİM HAZIRLADIĞIM TASLAK, PROJEYE BİR TÜRLÜ GİRİŞ
+YAPAMADIĞIM İÇİN YAPTIĞIM HALİYLE YOLLUYORUM. UFAK BİR KAÇ OYNAMAYLA PROJEYE ENTEGRE EDİLEBİLİR. BENİM YAPTIĞIM ŞEKLİYLE ETKİNLİKTE
+ETKİNLİK SAATİ-TARİHİ-ADI-ÖZETİ-ACIKLAMASI-RESMİ-TÜRÜ OLMAK UZERE 7 ADET DEĞİŞKEN BULUNUYOR(ID AYRICA OTOMATIK ATANIYOR).  
+RESİMLER PROJE İÇERİSİNDE IMG İSMİNDE BİR KLASÖRDE TUTULUYOR, SİSTEMİN KAYDETTİĞİ İSE SADECE RESMİN YOLU. BUNU AYNI ŞEKİLDE 
+RESİM İHTİYAÇ DUYULAN HER YERE ALABİLİRİZ. 
+
+VIEWLERİ İSE EN ALTA KOYDUM, BENİM PROJEDE BAŞKA BİR TASARIM OLDUĞU İÇİN COPY PASTE İŞE YARAMAYACAKTIR. 
+
+
+
+
+CONTROLLER-----------------------------------------------------------------------------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+using BogaziciEtkinlik.ViewModel;
+using BogaziciEtkinlik.Models;
+
+namespace BogaziciEtkinlik.Controllers
+{
+    public class EtkinlikController : Controller
+    {
+        //
+        // GET: /Etkinlik/
+        [Authorize]
+        public ActionResult Create()
+        {
+
+            EtkinlikCreateModel model = GetModel();
+
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult Create(EtkinlikCreateModel model)
+        {
+            BogaziciEtkinlik.Models.MyDatabaseEtkinlikEntities db = new Models.MyDatabaseEtkinlikEntities();
+            Etkinlik etkinlikModel = new Etkinlik();
+            ViewBag.EtkinlikAdi = model.EtkinlikAdi;
+            etkinlikModel.EtkinlikAdi = model.EtkinlikAdi;
+            if (model.Resim  != null && model.Resim.ContentLength > 0 )
+            {
+                model.Resim.SaveAs(Server.MapPath("~/img/" + model.Resim.FileName));
+                etkinlikModel.Resim = model.Resim.FileName;
+            }
+            etkinlikModel.Ozet = model.Ozet;
+            etkinlikModel.Detay = model.Detay;
+            etkinlikModel.Tarih = model.Tarih;
+            etkinlikModel.Saat = model.Saat;
+            etkinlikModel.EtkinlikTuru = model.EtkinlikTuru;
+            //etkinlikModel.Resim = model.Resim;
+            db.Etkinliks.Add(etkinlikModel);
+            db.SaveChanges();
+            ModelState.Clear();
+            model = GetModel();
+            model.UserMessage = "isimli etkinlik başarıyla kaydedildi!";
+
+
+            return View(model);
+        }
+
+        private EtkinlikCreateModel GetModel() 
+        {
+            EtkinlikCreateModel model = new EtkinlikCreateModel();
+
+            BogaziciEtkinlik.Models.MyDatabaseEtkinlikEntities db = new Models.MyDatabaseEtkinlikEntities();
+
+            model.EtkinlikTuruListesi = (from tur in db.EtkinlikTurus.ToList()
+                                        select new SelectListItem
+
+                                            {
+                                                Selected = false,
+                                                Text = tur.EtkinlikTuru1,
+                                                Value = tur.Id.ToString()            
+                                            }).ToList();
+            model.EtkinlikTuruListesi.Insert(0, new SelectListItem
+            {
+                Selected=true,
+                Value="",
+                Text="--Lütfen Etkinliğin Kategorisini Seçiniz--"
+            });
+
+            return model;
+        }
+
+    }
+}
+
+ETKINLIK MODEL--------------------------------------------------------------------------------------------------------------
+
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace BogaziciEtkinlik.ViewModel
+{
+    public class EtkinlikCreateModel
+    {
+        [Required(ErrorMessage="Etkinlik adını girmelisiniz")]
+        [StringLength(80, ErrorMessage="Etkinlik adı en fazla 80 karakter olabilir")]
+        public string EtkinlikAdi { get; set; }
+
+        [Required(ErrorMessage = "Etkinlik tarihini seçmelisiniz")]
+        public string Tarih { get; set; }
+
+        [Required(ErrorMessage = "Etkinlik saatini belirtmelisiniz")]
+        public string Saat { get; set; }
+
+        [Required(ErrorMessage = "Etkinlik özetini girmelisiniz")]
+        [StringLength(200, ErrorMessage = "Etkinlik özeti en fazla 200 karakter olabilir")]
+        public string Ozet { get; set; }
+
+        [Required(ErrorMessage = "Etkinlik detayını girmelisiniz")]
+        [StringLength(500, ErrorMessage = "Etkinlik detayı en fazla 500 karakter olabilir")]
+        public string Detay { get; set; }
+
+        [Required(ErrorMessage = "Etkinlik türünü seçmelisiniz")]
+        public int EtkinlikTuru { get; set; }
+
+        public HttpPostedFileBase Resim { get; set; }
+        [Required(ErrorMessage = "Etkinlik türünü seçmelisiniz")]
+        public List<SelectListItem> EtkinlikTuruListesi { get; set; }
+
+        public string UserMessage { get; set; }
+    }
+}
+
+ETKINLIKLERDEN SON 3 TANESINI LISTELEMEK ICIN GOSTERILMESI GEREKEN VIEW'IN CONTROLLER'INDA(BURADA UC TANE CEKTIRDIM BEN, FAZLASI ICIN Take(3)
+yerine kaç adet çekilmek isteniyorsa o kadar çekilebilir.--------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------
+
+
+  public ActionResult Index()
+        {
+            
+            var etkinlikler = new List<Etkinlik>();
+            using (MyDatabaseEtkinlikEntities db = new MyDatabaseEtkinlikEntities())
+            {
+                etkinlikler = db.Etkinliks.OrderByDescending(f=>f.Id).Take(3).ToList();
+                
+            }
+
+            return View(etkinlikler);
+        }
+        
+ ETKINLIK DETAYINI GORUNTULEMEK ICIN----------------------------------------------------------------------------------------------------------
+ 
+ public ActionResult EtkinlikDetay(int id = 0)
+        {
+            MyDatabaseEtkinlikEntities db = new MyDatabaseEtkinlikEntities();
+            Etkinlik etkinlik = db.Etkinliks.Find(id);
+            var etkinlikturu = new EtkinlikTuru();
+            int nokta = etkinlik.EtkinlikTuru;
+            EtkinlikTuru etkinlikturull = db.EtkinlikTurus.Find(nokta);
+            ViewBag.EtkinlikTuru = etkinlikturull.EtkinlikTuru1;
+            if (etkinlik == null)
+            {
+                return HttpNotFound();
+            }
+            return View(etkinlik);
+        }
+        
+        
+
+
+ETKİNLİK CREATE VIEW--------------------------------------------------------------------------------------------------------------
+
+
+@model BogaziciEtkinlik.ViewModel.EtkinlikCreateModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<link type="text/css" href="~/Content/DatePickerSheet.css" rel="stylesheet" />
+<br />
+<br />
+<br />
+
+
+<section id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8">
+                <div class="contact_form wow fadeInLeft">
+                    <h2>Hemen Etkinliğinizi Oluşturun</h2>
+                    <h3 class="singCourse_title"><a href="#">--- @ViewBag.EtkinlikAdi--- @Model.UserMessage</a></h3>
+
+                    @using (Html.BeginForm("Create", "Etkinlik", FormMethod.Post, new { enctype="multipart/form-data" }))
+                    {
+                                               
+                        <div class="editor-field">
+                            @Html.DropDownListFor(a => a.EtkinlikTuru, Model.EtkinlikTuruListesi, new { @class = "wp-form-control wpcf7-text" })
+                            @Html.ValidationMessageFor(a => a.EtkinlikTuru)
+                        </div>
+                        
+                        <div class="editor-field">
+                            @Html.TextBoxFor(a => a.EtkinlikAdi, new { @class = "wp-form-control wpcf7-text", placeholder = "Etkinlik Adı" })
+                            @Html.ValidationMessageFor(a => a.EtkinlikAdi)
+                        </div>
+                        
+                        <div class="editor-field">
+                            @Html.TextBoxFor(a => a.Ozet, new { @class = "wp-form-control wpcf7-text", placeholder = "Etkinliğin kısa bir özetini giriniz" })
+                            @Html.ValidationMessageFor(a => a.Ozet)
+                        </div>
+                        
+                        <div class="editor-field">
+                            @Html.TextAreaFor(a => a.Detay, new { @class = "wp-form-control wpcf7-text", placeholder = "Etkinlik Detayı" })
+                            @Html.ValidationMessageFor(a => a.Detay)
+                        </div>
+                        
+                        <div class="editor-field">
+                            @Html.TextBoxFor(a => a.Tarih, new { @class = "wp-form-control wpcf7-text", placeholder = "Tarihi Seçiniz", id = "Tarih" })
+                            @Html.ValidationMessageFor(a => a.Tarih)
+                        </div>
+                        
+                        <div class="editor-field">
+                            @Html.TextBoxFor(a => a.Saat, new { @class = "wp-form-control wpcf7-text", placeholder = "Saati Giriniz" })
+                            @Html.ValidationMessageFor(a => a.Saat)
+                        </div>
+                            @Html.LabelFor(a => a.Resim)
+                        <div class="editor-field">
+                            @Html.TextBoxFor(a => a.Resim, new { @class = "wp-form-control wpcf7-text", type = "file", value = "Resim Seç" })
+                        </div>   
+                        
+                        <input class="slider_btn" type="submit" value="Kaydet" />
+                    }
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script type="text/javascript" src="~/Scripts/DatePicker.js"></script>
+<script type="text/javascript">
+    new datepickr('Tarih');
+
+    new datepickr('datepick2', {
+        'dateFormat': 'm/d/y'
+    });
+
+    new datepickr('datepick3', {
+        'fullCurrentMonth': false,
+        'dateFormat': 'l, F j'
+    });
+</script>
+
+
+ETKİNLİK DETAY VIEW------------------------------------------------------------------------------------------------------------------------------------
+
+
+@model BogaziciEtkinlik.Models.Etkinlik
+
+@{
+    ViewBag.Title = "EtkinlikDetay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    ViewBag.oncekiId = Model.Id - 1;
+    ViewBag.sonrakiId = Model.Id + 1;
+    
+}
+<br />
+<br />
+
+
+<section id="courseArchive">
+    <div class="container">
+        <div class="row">
+            <!-- start course content -->
+            <div class="col-lg-8 col-md-8 col-sm-8">
+                <div class="courseArchive_content">
+                    <!-- start blog archive  -->
+                    <div class="row">
+                        <!-- start single blog -->
+                        <div class="col-lg-12 col-12 col-sm-12">
+                            <div class="single_blog">
+                                <!-- start events slider -->
+                                <div class="events_slider_area">
+                                    <div class="events_slider">
+                                        <div>
+                                            <img src="~/img/@Model.Resim" alt="img">
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End events slider -->
+                                <h2 class="blog_title"><a href="blog-single.html">@Model.EtkinlikAdi</a></h2>
+                                <div class="blog_commentbox">
+                                    <p><i class="fa fa-clock-o"></i>Tarih: @Model.Tarih, @Model.Saat</p>
+                                    <p><i class="fa fa-map-marker"></i>Yer: Istanbul,TR</p>
+                                </div>
+                                <p>@Model.Ozet</p>
+
+                                <p>@Model.Detay</p>
+                                                                
+                                <blockquote>
+                                    <span class="fa fa-quote-left"></span>
+                                    @ViewBag.EtkinlikTuru
+                                </blockquote>
+
+                                <h3></h3>
+
+                                <div class="single_blog_prevnext">
+                                    <a class="prev_post wow fadeInLeft" href="~/home/etkinlikdetay/@ViewBag.oncekiId"><i class="fa fa-angle-left"></i>Önceki Etkinlik</a>
+                                    <a class="next_post wow fadeInRight" href="~/home/etkinlikdetay/@ViewBag.sonrakiId">Sonraki Etkinlik<i class="fa fa-angle-right"></i></a>
+
+                  @*                  @Html.ActionLink("Önceki Etkinlik", "EtkinlikDetay", new { id = ViewBag.oncekiId }, new { @class ="blog_readmore" })
+                                    @Html.ActionLink("Sonraki Etkinlik", "EtkinlikDetay", new { id = ViewBag.sonrakiId }, new { @class ="blog_readmore" })*@
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- End course content -->
+
+            <!-- start course archive sidebar -->
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <div class="courseArchive_sidebar">
+                    <!-- start single sidebar -->
+                    @Html.Action("SonEtkinlikler", "Partials")
+                    <!-- End single sidebar -->
+                </div>
+            </div>
+            <!-- start course archive sidebar -->
+        </div>
+    </div>
+</section>
+
+
+ETKİNLİKLER --------------------------------------------------------------------------------------------------------------------------------------
+
+
+@model List<BogaziciEtkinlik.Models.Etkinlik> 
+
+
+<section id="courseArchive">
+      <div class="container">
+        <div class="row">
+          <!-- start course content -->
+          <div class="col-lg-8 col-md-8 col-sm-8">
+            <div class="courseArchive_content">
+              <!-- start blog archive  -->
+              <div class="row">
+                <!-- start single blog archive -->
+                <div class="col-lg-12 col-12 col-sm-12">
+
+                    @foreach (var item in Model)
+                    {
+                  <div class="single_blog_archive wow fadeInUp">
+                    <div class="blogimg_container">
+                      <a href="~/home/etkinlikdetay/@item.Id" class="blog_img">
+                        @{
+                        if (item.Resim!=null)
+                        {
+                            <img alt="~/img/noimage.png" src="~/img/@item.Resim">
+                        }
+                        else
+                        {
+                            <img alt="~/img/noimage.png" src="~/img/noimage.png">
+                        }
+                        }
+                      </a>
+                    </div>
+                    <h2 class="blog_title"><a href="~/home/etkinlikdetay/@item.Id"> @item.EtkinlikAdi</a></h2>
+                    <div class="blog_commentbox">
+                      <p><i class="fa fa-clock-o"></i>Saati: @item.Saat, @item.Tarih</p>
+                      <p><i class="fa fa-map-marker"></i>Etkinlik Türü: @item.EtkinlikTuru</p>                      
+                    </div>
+                    <p class="blog_summary">@item.Ozet</p>
+                    @*<a class="blog_readmore" href="events-single.html">Read More</a>*@
+                      @*@Html.ActionLink("Ayrıntılar", "EtkinlikDetay", "Home", new { @class = "blog_readmore", id = item.Id })*@
+                      @Html.ActionLink("Detaylar", "EtkinlikDetay", new { id = item.Id }, new { @class ="blog_readmore" })
+                      
+                  </div>
+                        
+                    }
+
+
+                </div>
+                <!-- End single blog archive -->
+              </div>
+              <!-- end blog archive  -->
+              <!-- start previous & next button -->
+              <div class="single_blog_prevnext">
+                <a href="#" class="prev_post wow fadeInLeft animated" style="visibility: visible; animation-name: fadeInLeft;"><i class="fa fa-angle-left"></i>Previous</a>
+                <a href="#" class="next_post wow fadeInRight animated" style="visibility: visible; animation-name: fadeInRight;">Next<i class="fa fa-angle-right"></i></a>
+              </div>
+            </div>
+          </div>
+          <!-- End course content -->
+        </div>
+      </div>
+    </section>
+ 
