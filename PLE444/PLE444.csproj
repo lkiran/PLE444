@@ -2108,7 +2108,7 @@
     <Content Include="Views\Chapters\Create.cshtml" />
     <Content Include="Views\Course\AssignmentEdit.cshtml" />
     <Content Include="Views\Course\AssignmentDelete.cshtml" />
-    <Content Include="Views\Course\MeterialEdit.cshtml" />
+    <Content Include="Views\Course\MaterialEdit.cshtml" />
     <Content Include="Views\Course\CreateGradeType.cshtml" />
     <Content Include="Views\User\MailBox.cshtml" />
     <Content Include="Views\User\MailDetail.cshtml" />

@@ -366,6 +366,7 @@ namespace PLE444.Controllers
         [Authorize]
         public ActionResult Materials(Guid? id)
         {
+            ViewBag.isCrator = false;
             var course = db.Courses.Find(id);
             if (id == null)
                 return RedirectToAction("Index");
@@ -377,7 +378,9 @@ namespace PLE444.Controllers
             foreach (var item in c)
                 materials.AddRange(item.Materials);
 
-            ViewBag.isCrator = course.CreatorId.Equals(User.Identity.GetUserId());
+            if (User.Identity.GetUserId() == course.CreatorId)
+                ViewBag.isCrator = true;
+
             ViewBag.CourseName = course.Name.ToUpper() + " - " + course.Description;
             ViewBag.CourseId = course.ID;
             return View(materials);
