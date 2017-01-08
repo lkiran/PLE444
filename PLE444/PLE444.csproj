@@ -205,6 +205,7 @@
     <Compile Include="Controllers\LayoutController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PrivateMessagesController.cs" />
+    <Compile Include="Controllers\SpacesController.cs" />
     <Compile Include="Controllers\UploaderTestController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -235,6 +236,8 @@
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\PrivateMessage.cs" />
     <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\Space.cs" />
+    <Compile Include="Models\SpaceViewModel.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Models\UserCommunity.cs" />
     <Compile Include="Models\UserGrade.cs" />
@@ -2111,6 +2114,8 @@
     <Content Include="Views\User\MailDetail.cshtml" />
     <Content Include="Views\User\SendMail.cshtml" />
     <Content Include="Views\User\Files.cshtml" />
+    <Content Include="Views\Spaces\Index.cshtml" />
+    <Content Include="Views\Layout\Spaces.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

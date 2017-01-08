@@ -23,6 +23,6 @@ namespace PLE444.Models
         public string GroupPhoto { get; set; }
         public string AdminId { get; set; }
         public virtual ICollection<Discussion> Discussion { get; set; }
-
+        public int SpaceId { get; set; }
     }
 }

@@ -10,7 +10,7 @@
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         
         <hr />
@@ -38,6 +38,14 @@
             <div class="col-md-10">
                 @Html.EditorFor(model => model.CourseStart, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.CourseStart, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="control-label col-md-2" for="Space">Kategori</label>
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.SpaceId, new SelectList(ViewBag.Sapces, "Id", "Name"), new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SpaceId, "", new { @class = "text-danger" })
             </div>
         </div>
 

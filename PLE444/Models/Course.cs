@@ -25,5 +25,7 @@ namespace PLE444.Models
         public virtual ICollection<Chapter> Chapters { get; set; }
         public virtual ICollection<Assignment> Assignments { get; set; }
         public virtual ICollection<Discussion> Discussion { get; set; }
+
+        public int SpaceId { get; set; }
     }
 }

@@ -102,7 +102,7 @@ namespace PLE444.Controllers
             {
                 return HttpNotFound();
             }
-            
+           
             return View(assignment);
         }
 
@@ -121,6 +121,7 @@ namespace PLE444.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            
             return View(assignment);
         }
 
@@ -228,13 +229,14 @@ namespace PLE444.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.Sapces = db.Spaces.ToList();
             return View(course);
         }
 
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult CourseEdit([Bind(Include = "ID,Name,Description,CourseStart")] Course course)
+        public ActionResult CourseEdit([Bind(Include = "ID,Name,Description,CourseStart,SpaceId")] Course course)
         {
             if (ModelState.IsValid)
             {
@@ -242,19 +244,21 @@ namespace PLE444.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            ViewBag.Sapces = db.Spaces.ToList();
             return View(course);
         }
 
         [Authorize]
         public ActionResult CourseCreate()
         {
+            ViewBag.Sapces = db.Spaces.ToList();
             return View();
         }
 
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult CourseCreate([Bind(Include = "ID,Name,Description,CourseStart")] Course course)
+        public ActionResult CourseCreate([Bind(Include = "ID,Name,Description,CourseStart,SpaceId")] Course course)
         {
             if (ModelState.IsValid)
             {
@@ -263,7 +267,7 @@ namespace PLE444.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
+            ViewBag.Sapces = db.Spaces.ToList();
             return View(course);
         }
 
@@ -672,5 +676,6 @@ namespace PLE444.Controllers
                 return false;
             return true;
         }
+
     }
 }

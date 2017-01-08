@@ -1,0 +1,5 @@
+﻿@model List<PLE444.Models.Space>
+@foreach (var item in Model)
+{
+    <li><a href="@Url.Action("Index","Spaces", new { id = item.Id })">@item.Name</a></li>
+}

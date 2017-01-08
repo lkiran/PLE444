@@ -39,5 +39,12 @@ namespace PLE444.Controllers
             var userID = User.Identity.GetUserId();
             return PartialView(UserDB.Users.FirstOrDefault(i => i.Id == userID));
         }
+
+        [ChildActionOnly]
+        public ActionResult Spaces()
+        {
+            var s = db.Spaces.ToList();
+            return PartialView(s);
+        }
     }
 }

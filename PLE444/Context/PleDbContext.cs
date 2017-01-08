@@ -30,5 +30,6 @@ namespace PLE444.Context
         public DbSet<GradeType> GradeTypes { get; set; }
         public DbSet<UserGrade> UserGrades { get; set; }
         public DbSet<PrivateMessage> PrivateMessages { get; set; }
+        public DbSet<Space> Spaces { get; set; }
     }
 }

@@ -61,6 +61,16 @@
 
                         <div class="row">
                             <div class="col-md-3 text-right">
+                                <p>Kategori</p>
+                            </div>
+                            <div class="col-md-9">
+                                @Html.EditorFor(model => model.SpaceId, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.SpaceId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-3 text-right">
                                 <p>Herkes Katılabilir</p>
                             </div>
 

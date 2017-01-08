@@ -1,0 +1,55 @@
+﻿@model PLE444.Models.SpaceViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-default">
+
+    <div class="panel-heading">Dersler</div>
+
+    <div class="panel-body">
+        <table class="table table-hover m-n">
+            <thead>
+                <tr>
+                    <th>İsim</th>                    
+                    <th>Açılama</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Courses)
+                {
+                    <tr>
+                        <td><a href="@Url.Action("Index","Course", new { id=item.ID })">@item.Name</a></td>
+                        <td>@item.Description</td>
+                    </tr>
+                }                                
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Gruplar</div>
+
+    <div class="panel-body">
+        <table class="table table-hover m-n">
+            <thead>
+                <tr>
+                    <th>İsim</th>
+                    <th>Açılama</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Communities)
+                {
+                    <tr>
+                        <td><a href="@Url.Action("Index","Community", new { id=item.ID })">@item.Name</a></td>
+                        <td>@item.Description</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
