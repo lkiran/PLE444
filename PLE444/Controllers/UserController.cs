@@ -175,13 +175,11 @@ namespace PLE444.Controllers
         {
             var pm = db.PrivateMessages.FirstOrDefault(i => i.Id == id);
 
-            if (pm.isRead == false)
-            {
-                pm.isRead = true;
+            pm.isRead = true;
 
-                db.Entry(pm).State = EntityState.Modified;
-                userdb.SaveChanges();
-            }
+            db.Entry(pm).State = EntityState.Modified;
+            db.SaveChanges();
+            
 
             return View(pm);
         }

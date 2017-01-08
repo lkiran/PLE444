@@ -32,7 +32,7 @@
                         @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                
+                    @Html.HiddenFor(model=>model.ReceiverId)
                  <input type="submit" value="Gönder" class="btn btn-success-alt pull-right" />           
             </div>
         }
