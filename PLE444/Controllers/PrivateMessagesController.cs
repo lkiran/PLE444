@@ -11,108 +11,107 @@ using PLE444.Models;
 
 namespace PLE444.Controllers
 {
-    public class MaterialsController : Controller
+    public class PrivateMessagesController : Controller
     {
         private PleDbContext db = new PleDbContext();
 
-        // GET: Materials
+        // GET: PrivateMessages
         public ActionResult Index()
         {
-            return View(db.Materials.ToList());
+            return View(db.PrivateMessages.ToList());
         }
 
-        // GET: Materials/Details/5
-        public ActionResult Details(Guid? id)
+        // GET: PrivateMessages/Details/5
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Material material = db.Materials.Find(id);
-            if (material == null)
+            PrivateMessage privateMessage = db.PrivateMessages.Find(id);
+            if (privateMessage == null)
             {
                 return HttpNotFound();
             }
-            return View(material);
+            return View(privateMessage);
         }
 
-        // GET: Materials/Create
+        // GET: PrivateMessages/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Materials/Create
+        // POST: PrivateMessages/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Title,Description,DateAdded")] Material material)
+        public ActionResult Create([Bind(Include = "Id,SenderId,ReceiverId,Content,DateSent,isRead")] PrivateMessage privateMessage)
         {
             if (ModelState.IsValid)
             {
-                material.Id = Guid.NewGuid();
-                db.Materials.Add(material);
+                db.PrivateMessages.Add(privateMessage);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
-            return View(material);
+            return View(privateMessage);
         }
 
-        // GET: Materials/Edit/5
-        public ActionResult Edit(Guid? id)
+        // GET: PrivateMessages/Edit/5
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Material material = db.Materials.Find(id);
-            if (material == null)
+            PrivateMessage privateMessage = db.PrivateMessages.Find(id);
+            if (privateMessage == null)
             {
                 return HttpNotFound();
             }
-            return View(material);
+            return View(privateMessage);
         }
 
-        // POST: Materials/Edit/5
+        // POST: PrivateMessages/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Description,DateAdded")] Material material)
+        public ActionResult Edit([Bind(Include = "Id,SenderId,ReceiverId,Content,DateSent,isRead")] PrivateMessage privateMessage)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(material).State = EntityState.Modified;
+                db.Entry(privateMessage).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            return View(material);
+            return View(privateMessage);
         }
 
-        // GET: Materials/Delete/5
-        public ActionResult Delete(Guid? id)
+        // GET: PrivateMessages/Delete/5
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Material material = db.Materials.Find(id);
-            if (material == null)
+            PrivateMessage privateMessage = db.PrivateMessages.Find(id);
+            if (privateMessage == null)
             {
                 return HttpNotFound();
             }
-            return View(material);
+            return View(privateMessage);
         }
 
-        // POST: Materials/Delete/5
+        // POST: PrivateMessages/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(Guid id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            Material material = db.Materials.Find(id);
-            db.Materials.Remove(material);
+            PrivateMessage privateMessage = db.PrivateMessages.Find(id);
+            db.PrivateMessages.Remove(privateMessage);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

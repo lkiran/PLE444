@@ -64,8 +64,15 @@ namespace PLE444.Controllers
                 var com = db.Communities.ToList();
                 return View("List", com);
             }
-            ViewBag.CurrentUserId = User.Identity.GetUserId();
+            var curr = User.Identity.GetUserId();
+            ViewBag.CurrentUserId = curr;
             var c = db.Communities.Find(id);
+
+            var cu = db.UserCommunities.Where(u => u.Community.ID == id).FirstOrDefault(i => i.UserId == curr);
+            ViewBag.isJoined = true;
+            if (cu == null)
+                ViewBag.isJoined = false;
+
             return View(c);
         }
        
@@ -156,6 +163,19 @@ namespace PLE444.Controllers
                 db.UserCommunities.Add(uc);
 
                 db.SaveChanges();               
+            }
+
+            return RedirectToAction("Index", new { id = id });
+        }
+        public ActionResult Leave(Guid? id)
+        {
+            var userId = User.Identity.GetUserId();
+            var uc = db.UserCommunities.Where(u => u.UserId == userId).FirstOrDefault(c => c.Community.ID == id);
+
+            if(uc != null)
+            {
+                db.UserCommunities.Remove(uc);
+                db.SaveChanges();
             }
 
             return RedirectToAction("Index", new { id = id });
@@ -270,5 +290,7 @@ namespace PLE444.Controllers
 
             return View(model);
         }
+
+
     }
 }

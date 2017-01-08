@@ -42,8 +42,8 @@
            
                 @if (item.Course.CreatorId == ViewBag.CurrentUser)
                 {
-                    <a href="@Url.Action("AssignmentEdit", "Course", new { id = ViewBag.CourseId })" class="btn btn-primary">Düzenle</a>
-                    <a href="@Url.Action("AssignmentDelete", "Course", new { id = ViewBag.CourseId })" class="btn btn-primary">Sil</a>
+                    <a href="@Url.Action("AssignmentEdit", "Course", new { id = item.Id })" class="btn btn-primary">Düzenle</a>
+                    <a href="@Url.Action("AssignmentDelete", "Course", new { id = item.Id })" class="btn btn-primary">Sil</a>
                 }
                 else
                 {

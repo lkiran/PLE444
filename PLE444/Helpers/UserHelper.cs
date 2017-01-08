@@ -16,7 +16,11 @@ namespace PLE444.Helpers
         public string GetUserPhotoFromID(string id)
         {
             if (id != null)
+            {
+                if (UserDB.Users.Find(id).ProfilePicture == null)
+                    return "/Content/img/pp.jpg";
                 return UserDB.Users.Find(id).ProfilePicture;
+            }
             return "";
         }
 

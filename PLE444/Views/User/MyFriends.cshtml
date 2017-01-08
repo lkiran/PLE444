@@ -9,11 +9,9 @@
         <div class="panel-heading">
             <h2>
                 <ul class="nav nav-tabs">
-                    <li><a href="@Url.Action("Profil","Account")"  >Profil</a></li>
+                    <li><a href="@Url.Action("Profil","User")"  >Profil</a></li>
                     <li class="active"><a href="@Url.Action("ListUsers", "User")"  >Arkadaşlar</a></li>
-                    <li><a href="#Files"  >Dosyalar</a></li>
-                    <li><a href="#Events"  >Etkinlikler</a></li>
-                    <li><a href="#Communities"  >Topluluklar</a></li>
+                    <li><a href="@Url.Action("Files", "User")"  >Dosyalar</a></li>
                 </ul>
             </h2>
         </div>
@@ -56,10 +54,8 @@
                                     <td>@h.GetUserFullNameFromID(user.FriendID)<td>                                        
                                     
                                    <td>
-                                       <a href="@Url.Action("RemoveFriends", "User", new {id=user.Id })" class="btn btn-danger-alt"> Çıkar </a>
-                                      
-
-                                    <a href="" class="btn btn-primary-alt"> Mesaj Gönder </a>
+                                       <a href="@Url.Action("RemoveFriends", "User", new {id=user.FriendID })" class="btn btn-danger-alt"> Çıkar </a>                              
+                                       <a href="@Url.Action("SendMail", "User", new { id=user.FriendID })" class="btn btn-primary-alt"> Mesaj Gönder </a>
                                     </td>                                 
                                 </tr>
                             }
@@ -71,5 +67,4 @@
             </div>
         </div>
     </div>
-<a class="btn btn-info-alt" href="@Url.Action("ListUsers")"> Tüm Kullanıcılar</a>
 

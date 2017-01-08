@@ -1,0 +1,71 @@
+﻿@model IQueryable<PLE444.Models.PrivateMessage>
+@{
+    ViewBag.Title = "MailBox";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-10">
+    <div class="panel panel-inbox">
+        <div class="panel-body">
+            <div class="inbox-mail-heading">
+                <div class="clearfix">
+
+                    <div class="pull-right hidden-xs">
+
+                    </div>
+                </div>
+            </div>
+            <table class="table table-hover table-inbox table-vam">
+                @{ 
+                    var uh = new PLE444.Helpers.UserHelper();
+                    var dh = new PLE444.Helpers.DataManipulationHelper();
+                }
+                <tbody>
+                    @foreach (var mail in Model)
+                    {
+                        if (mail.isRead)
+                        {
+                            <tr>
+                                <a href="@Url.Action("MailDetail", new { id = mail.Id })">
+                                    <td><img class="img-circle" style="width:40px;"> src="@uh.GetUserPhotoFromID(mail.SenderId)"/></td>
+                                    <td class="inbox-msg-from"><div>@uh.GetUserFullNameFromID(mail.SenderId)</div></td>
+                                    <td class="inbox-msg-snip">@dh.ClearHTML(mail.Content).Substring(0, 50)...</td>
+                                    @*<td class="inbox-msg-attach"><i class="ti ti-paperclip"></i> </td>*@
+                                    <td class="inbox-msg-time" width="20%">@dh.GetDeltaDate(mail.DateSent)</td>
+                                </a>
+                            </tr>                                  
+                            }
+                            else
+                            {
+                            <tr class="unread clickable-row" data-href='@Url.Action("MailDetail", new { id = mail.Id })'>
+                                <td><img class="img-circle" style="width:40px;" src="@uh.GetUserPhotoFromID(mail.SenderId)" /></td>
+                                <td class="inbox-msg-from" width="20%"><div>@uh.GetUserFullNameFromID(mail.SenderId)</div></td>
+                                <td class="inbox-msg-snip">@dh.ClearHTML(mail.Content).Substring(0, 50)...</td>
+                                @*<td class="inbox-msg-attach"><i class="ti ti-paperclip" width="5%"></i> </td>*@
+                                <td class="inbox-msg-time" width="20%">@dh.GetDeltaDate(mail.DateSent)</td>                         
+                            </tr>
+                        }                   
+                    }
+
+                </tbody>
+            </table>
+            <div class="inbox-mail-footer">
+                <div class="clearfix">
+                    <div class="pull-right">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="~/Content/js/jquery-1.10.2.min.js"></script> 							
+
+<script>
+    jQuery(document).ready(function ($) {
+        $(".clickable-row").click(function () {
+            window.document.location = $(this).data("href");
+        });
+    });
+</script>

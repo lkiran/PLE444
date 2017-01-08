@@ -18,28 +18,40 @@ namespace PLE444.Controllers
 
         private ApplicationDbContext userdb = new ApplicationDbContext();
         private PleDbContext db = new PleDbContext();
-        
+
         [Authorize]
-        public ActionResult Profil()
+        public ActionResult Profil(string id)
         {
-            var currentuserId = User.Identity.GetUserId();
-            var userDetail = userdb.Users.Find(currentuserId);
+            var currentUser = User.Identity.GetUserId();
+            if (id == null)
+            {
+                id = currentUser;
+            }
+
+            ViewBag.isFriend = false;
+            var fs = db.Friendship.Where(u => u.userID == currentUser).FirstOrDefault(f => f.FriendID == id);
+            if (fs != null)
+                ViewBag.isFriend = true;
+
+            var userDetail = userdb.Users.Find(id);
+
+            ViewBag.CurrentUser = currentUser;
             return View(userDetail);
         }
 
-        [Authorize]  
+        [Authorize]
         public ActionResult MyFriends()
         {
             var activeUserId = User.Identity.GetUserId();
-            var myfriends = db.Friendship.Where(m =>m.userID == activeUserId).ToList();
+            var myfriends = db.Friendship.Where(m => m.userID == activeUserId).ToList();
 
             return View(myfriends);
         }
 
         public ActionResult AddFriend(String id)
         {
-           var currentuserId = User.Identity.GetUserId();
-           var fs = db.Friendship.Where(u => u.userID == currentuserId).FirstOrDefault(f => f.FriendID == id);
+            var currentuserId = User.Identity.GetUserId();
+            var fs = db.Friendship.Where(u => u.userID == currentuserId).FirstOrDefault(f => f.FriendID == id);
 
             if (fs == null)
             {
@@ -54,26 +66,26 @@ namespace PLE444.Controllers
 
                 db.SaveChanges();
             }
-                      
-            return RedirectToAction("ListUsers");
+
+            return RedirectToAction("MyFriends");
         }
 
         public ActionResult RemoveFriends(Guid id)
         {
             var f = db.Friendship.FirstOrDefault(i => i.Id == id);
-            if(f != null)
+            if (f != null)
             {
                 db.Friendship.Remove(f);
                 db.SaveChanges();
-            }            
+            }
             return RedirectToAction("MyFriends");
         }
 
-        public ActionResult ListUsers ()
+        public ActionResult ListUsers()
         {
-             var friends = userdb.Users.ToList();
+            var friends = userdb.Users.ToList();
             return View(friends);
-            
+
         }
 
         public ActionResult ProfilEdit()
@@ -93,11 +105,11 @@ namespace PLE444.Controllers
                 var currentuserId = User.Identity.GetUserId();
                 var userDetail = userdb.Users.Find(currentuserId);
 
-                if (uploadFile != null && uploadFile.ContentLength > 0) 
+                if (uploadFile != null && uploadFile.ContentLength > 0)
                 {
                     var imageFilePath = "";
                     var fileName = "";
-                                     
+
                     if (Path.GetExtension(uploadFile.FileName).ToLower() == ".jpg"
                         || Path.GetExtension(uploadFile.FileName).ToLower() == ".png"
                         || Path.GetExtension(uploadFile.FileName).ToLower() == ".gif"
@@ -124,6 +136,60 @@ namespace PLE444.Controllers
             }
 
             return View(model);
+        }
+
+        [Authorize]
+        public ActionResult MailBox()
+        {
+            var currentUser = User.Identity.GetUserId();
+            var viewData = db.PrivateMessages.Where(u => u.ReceiverId == currentUser);
+            return View(viewData);
+        }
+        public ActionResult SendMail(string id)
+        {
+            var pm = new PrivateMessage();
+            pm.SenderId = User.Identity.GetUserId();
+            pm.ReceiverId = id;
+
+            return View(pm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SendMail([Bind(Include = "SenderId,ReceiverId,Content,DateSent,isRead")] PrivateMessage privateMessage)
+        {
+            if (ModelState.IsValid)
+            {
+                privateMessage.isRead = false;
+                privateMessage.DateSent = DateTime.Now;
+                privateMessage.SenderId = User.Identity.GetUserId();
+
+                db.PrivateMessages.Add(privateMessage);
+                db.SaveChanges();
+                return RedirectToAction("MailBox");
+            }
+
+            return View(privateMessage);
+        }
+        public ActionResult MailDetail(int id)
+        {
+            var pm = db.PrivateMessages.FirstOrDefault(i => i.Id == id);
+
+            if (pm.isRead == false)
+            {
+                pm.isRead = true;
+
+                db.Entry(pm).State = EntityState.Modified;
+                userdb.SaveChanges();
+            }
+
+            return View(pm);
+        }
+
+        public ActionResult Files()
+        {
+            var curr = User.Identity.GetUserId();
+            return View(db.Documents.Where(u => u.Owner == curr));
         }
     }
 }

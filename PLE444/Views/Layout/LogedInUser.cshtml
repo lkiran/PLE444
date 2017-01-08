@@ -8,10 +8,10 @@
 else
 {
     <li class="dropdown toolbar-icon-bg">
-        <a href="#" class="hasnotifications dropdown-toggle" data-toggle='dropdown'>
-            <span class="icon-bg"><i class="ti ti-email"></i></span><span class="badge badge-deeporange">2</span>
+        <a href="@Url.Action("MailBox","User")" @*class="hasnotifications dropdown-toggle" data-toggle='dropdown'*@>
+            <span class="icon-bg"><i class="ti ti-email"></i></span>@*<span class="badge badge-deeporange">2</span>*@
         </a>
-        <div class="dropdown-menu notifications arrow">
+        @*<div class="dropdown-menu notifications arrow">
             <div class="topnav-dropdown-header">
                 <span>MESAJLAR</span>
             </div>
@@ -97,13 +97,13 @@ else
                 </ul>
             </div>
             <div class="topnav-dropdown-footer">
-                <a href="#">Tüm Mesajları Göster</a>
+                <a href="@Url.Action("MailBox","User")">Tüm Mesajları Göster</a>
             </div>
-        </div>
+        </div>*@
     </li>
 
     <li class="dropdown toolbar-icon-bg">
-        <a href="#" class="hasnotifications dropdown-toggle" data-toggle='dropdown'><span class="icon-bg"><i class="ti ti-bell"></i></span><span class="badge badge-deeporange">2</span></a>
+        <a href="#" class="hasnotifications dropdown-toggle" data-toggle='dropdown'><span class="icon-bg"><i class="ti ti-bell"></i></span>@*<span class="badge badge-deeporange">2</span>*@</a>
         <div class="dropdown-menu notifications arrow">
             <div class="topnav-dropdown-header">
                 <span>Bildirimler</span>

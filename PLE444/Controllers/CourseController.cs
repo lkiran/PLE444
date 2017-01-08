@@ -46,7 +46,7 @@ namespace PLE444.Controllers
             if (id == null)
                 return RedirectToAction("Index");
 
-            var c = db.Courses.Find(id);
+            var c = db.Courses.FirstOrDefault(i => i.ID == id);
             var assignment = db.Assignments.Include("Course").Where(a => a.Course.ID == id).ToList();
             ViewBag.CourseName = c.Name.ToUpper() + " - " + c.Description;
             ViewBag.CourseId = c.ID;
@@ -97,14 +97,33 @@ namespace PLE444.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Assignment assignment = db.Assignments.Find(id);
+            Assignment assignment = db.Assignments.Include("Course").FirstOrDefault(i => i.Id == id);
             if (assignment == null)
             {
                 return HttpNotFound();
             }
+            
             return View(assignment);
         }
-        
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AssignmentEdit(Assignment assignment, Guid courseId)
+        {
+            if (ModelState.IsValid)
+            {       
+                var co = db.Courses.Find(courseId);
+                assignment.Course = co;
+                assignment.DateAdded = DateTime.Now;
+
+                db.Entry(assignment).State = EntityState.Modified;
+
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(assignment);
+        }
+
         public ActionResult AssignmentDelete(Guid? id)
         {
             if (id == null)
@@ -127,19 +146,6 @@ namespace PLE444.Controllers
             db.Assignments.Remove(assignment);
             db.SaveChanges();
             return RedirectToAction("Index");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult AssignmentEdit([Bind(Include = "Id,Title,Description,Deadline,DateAdded")] Assignment assignment)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(assignment).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(assignment);
         }
 
         [HttpPost]
@@ -367,7 +373,7 @@ namespace PLE444.Controllers
             foreach (var item in c)
                 materials.AddRange(item.Materials);
 
-
+            ViewBag.isCrator = course.CreatorId.Equals(User.Identity.GetUserId());
             ViewBag.CourseName = course.Name.ToUpper() + " - " + course.Description;
             ViewBag.CourseId = course.ID;
             return View(materials);
@@ -435,6 +441,33 @@ namespace PLE444.Controllers
             return View(material);
         }
 
+        public ActionResult MaterialEdit(Guid? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Material material = db.Materials.Find(id);
+            if (material == null)
+            {
+                return HttpNotFound();
+            }
+            return View(material);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult MaterialEdit([Bind(Include = "Id,Title,Description,DateAdded")] Material material)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Entry(material).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(material);
+        }
+
         [Authorize]
         public ActionResult Grades(Guid? id)
         {
@@ -452,13 +485,14 @@ namespace PLE444.Controllers
             viewData.UserGrades = db.UserGrades.Include("GradeType").Where(c=>c.GradeType.Course.ID==course.ID).ToList();
 
             var courseUsers = db.UserCourses.Where(c => c.Course.ID == course.ID).ToList();
-            // var userIds= (from p in courseUsers select p.UserId).ToList();
+
             viewData.Users = new List<ApplicationUser>();
             foreach (var item in courseUsers)
             {
                 viewData.Users.Add(userDb.Users.Find(item.UserId));
-            }            
+            }
 
+            viewData.isCreator = isCourseCreator(id);
             return View(viewData);
         }
 
@@ -615,16 +649,22 @@ namespace PLE444.Controllers
             return RedirectToAction("Index");
         }
 
-        public bool isCourseCreator(Guid courseId)
+        public bool isCourseCreator(Guid? courseId)
         {
+            if (courseId == null)
+                return false;
+
             var c = db.Courses.Find(courseId);
             if (c.CreatorId != User.Identity.GetUserId())
                 return false;
             return true;
         }
 
-        private bool isMember(Guid courseId)
+        private bool isMember(Guid? courseId)
         {
+            if (courseId == null)
+                return false;
+
             var userId = User.Identity.GetUserId();
             var user = db.UserCourses.Where(c => c.Course.ID == courseId).FirstOrDefault(u => u.UserId == userId);
 

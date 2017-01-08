@@ -12,7 +12,11 @@ namespace PLE444.Models
         public Course CourseInfo { get; set; }
 
         public List<ApplicationUser> Users { get; set; }
+
         public List<GradeType> GradeTypes { get; set; }
+
         public List<UserGrade> UserGrades { get; set; }
+
+        public bool isCreator { get; set; }
     }
 }

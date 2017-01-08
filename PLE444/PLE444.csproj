@@ -204,6 +204,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LayoutController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PrivateMessagesController.cs" />
     <Compile Include="Controllers\UploaderTestController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -232,6 +233,7 @@
     <Compile Include="Models\Material.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Post.cs" />
+    <Compile Include="Models\PrivateMessage.cs" />
     <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Models\UserCommunity.cs" />
@@ -2069,8 +2071,6 @@
     <Content Include="Views\Community\Discussion.cshtml" />
     <Content Include="Views\Community\Events.cshtml" />
     <Content Include="Views\Community\Index.cshtml" />
-    <Content Include="Views\Courses\Create.cshtml" />
-    <Content Include="Views\Courses\Index.cshtml" />
     <Content Include="Views\UploaderTest\Index.cshtml" />
     <Content Include="Views\Community\List.cshtml" />
     <Content Include="Views\Course\AssignmentCreate.cshtml" />
@@ -2102,15 +2102,15 @@
     <Content Include="Views\Layout\LogedInUser.cshtml" />
     <Content Include="Views\Community\Edit.cshtml" />
     <Content Include="Views\Community\Members.cshtml" />
-    <Content Include="Views\Courses\CourseDelete.cshtml" />
-    <Content Include="Views\Courses\CourseDetails.cshtml" />
-    <Content Include="Views\Courses\CourseEdit.cshtml" />
     <Content Include="Views\Chapters\Create.cshtml" />
-    <Content Include="Views\Materials\Create.cshtml" />
-    <Content Include="Views\Materials\Delete.cshtml" />
-    <Content Include="Views\Materials\Details.cshtml" />
-    <Content Include="Views\Materials\Edit.cshtml" />
-    <Content Include="Views\Materials\Index.cshtml" />
+    <Content Include="Views\Course\AssignmentEdit.cshtml" />
+    <Content Include="Views\Course\AssignmentDelete.cshtml" />
+    <Content Include="Views\Course\MeterialEdit.cshtml" />
+    <Content Include="Views\Course\CreateGradeType.cshtml" />
+    <Content Include="Views\User\MailBox.cshtml" />
+    <Content Include="Views\User\MailDetail.cshtml" />
+    <Content Include="Views\User\SendMail.cshtml" />
+    <Content Include="Views\User\Files.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -2123,8 +2123,8 @@
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\" />
     <Folder Include="Views\File\" />
-    <Folder Include="Views\GradeTypes\" />
     <Folder Include="Views\Group\" />
+    <Folder Include="Views\PrivateMessages\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

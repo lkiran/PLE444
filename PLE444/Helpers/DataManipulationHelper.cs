@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace PLE444.Helpers
@@ -49,6 +50,11 @@ namespace PLE444.Helpers
                 int years = Convert.ToInt32(Math.Floor((double)ts.Days / 365));
                 return years <= 1 ? "1 yıl önce" : years + " yıl önce";
             }
+        }
+
+        public string ClearHTML(string txt)
+        {
+            return Regex.Replace(txt, "<.*?>", String.Empty);
         }
     }
 }

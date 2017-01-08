@@ -42,7 +42,7 @@
                     var gradesOfUser = Model.UserGrades.Where(u => u.UserID == user.Id).ToList();
                     
                     <tr>
-                        <td>@user.FirstName @user.LastName</td>
+                        <td><a href="@Url.Action("Profil", "User", new { id= user.Id })">@user.FirstName @user.LastName</a></td>
                         @foreach (var gradeType in Model.GradeTypes)
                         {
                             var gu = gradesOfUser.FirstOrDefault(g => g.GradeType == gradeType);
@@ -61,6 +61,12 @@
                 }
             </tbody>
         </table>
+    
+        
     </div>
 </div>
 
+@if (Model.isCreator)
+{
+    <a href="@Url.Action("CreateGradeType",new { id = Model.CourseInfo.ID })" class="btn btn-primary-alt" id="dyna-del">Not Türü Ekle</a>
+}

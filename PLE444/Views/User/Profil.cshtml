@@ -5,16 +5,13 @@
 }
 
 
-
 <div class="panel panel-bluegray" data-widget='{"draggable": "false"}'>
     <div class="panel-heading">
         <h2>
             <ul class="nav nav-tabs">
                 <li class="active"><a href="#Profile">Profil</a></li>
                 <li><a href="@Url.Action("MyFriends", "User")">Arkadaşlar</a></li>
-                <li><a href="#Files">Dosyalar</a></li>
-                <li><a href="#Events">Etkinlikler</a></li>
-                <li><a href="#Communities">Topluluklar</a></li>
+                <li><a href="@Url.Action("Files", "User")">Dosyalar</a></li>
             </ul>
         </h2>
     </div>
@@ -25,14 +22,22 @@
         <div class="col-sm-3">
             <div class="panel panel-profile">
                 <div class="panel-body">
-                    @if(@Model.ProfilePicture==""){
-                        <img src="~/Content/img/pp.jpg" class="img-circle">
-                    }
-                    else{
-                    <img src="@Model.ProfilePicture" class="img-circle">
-                    }
+                   @{var h = new PLE444.Helpers.UserHelper();}
+                    <img src="@h.GetUserPhotoFromID(Model.Id)" class="img-circle">
+                    
                     <div class="name">@Model.FirstName    @Model.LastName</div>
-                    <div class="info">Öğrenci</div>
+
+                    @if (ViewBag.CurrentUser != Model.Id)
+                    {
+                        if(!ViewBag.isFriend)
+                        {
+                            <a href="@Url.Action("AddFriend", new { id=Model.Id })">Arkadaş Ekle</a>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("RemoveFriends", new { id=Model.Id })">Arkadaşlıktan Çıkar</a>
+                        }
+                    }
                     <ul class="list-inline text-center">
                         <li><a href="#" class="profile-facebook-icon"><i class="ti ti-facebook"></i></a></li>
                         <li><a href="#" class="profile-twitter-icon"><i class="ti ti-twitter"></i></a></li>
@@ -47,8 +52,11 @@
                 <div class="panel-heading">
                     <h2>Hakkında</h2>
                     <div class="pull-right">
-                        <a href="@Url.Action("ProfilEdit")"><i class="fa fa-pencil"></i></a>
-                       
+                        @if (ViewBag.CurrentUser == Model.Id)
+                        {
+                            <a href="@Url.Action("ProfilEdit")"><i class="fa fa-pencil"></i></a>
+                        }
+
                     </div>
 
                 </div>
@@ -73,11 +81,6 @@
                                         <th>Telefon</th>
                                         <td>@Model.PhoneNo</td>
                                     </tr>
-                                    <tr>
-                                        <th>Pozisyon</th>
-                                        <td>Designer</td>
-                                    </tr>
-
                                   
                                 </tbody>
                             </table>
@@ -90,11 +93,7 @@
                                 <tbody>
                                     <tr>
                                         <th>İsim</th>
-                                        <td>@Model.FirstName    @Model.LastName</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Doğum Tarihi</th>
-                                        <td>19 Mart 1919</td>
+                                        <td>@Model.FirstName  @Model.LastName</td>
                                     </tr>
 
                                     <tr>

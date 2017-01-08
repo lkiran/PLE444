@@ -1,0 +1,36 @@
+﻿@model IEnumerable<PLE444.Models.Document>
+
+<div class="panel panel-bluegray" data-widget='{"draggable": "false"}'>
+    <div class="panel-heading">
+        <h2>
+            <ul class="nav nav-tabs">
+                <li><a href="@Url.Action("Profil","User")">Profil</a></li>
+                <li ><a href="@Url.Action("MyFriends", "User")">Arkadaşlar</a></li>
+                <li class="active"><a href="#">Dosyalar</a></li>
+            </ul>
+        </h2>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <table class="table">
+        <tr>
+            <th>Dosya</th>
+            <th>Yükleme Tarihi</th>
+        </tr>
+        @{ var h = new PLE444.Helpers.FileHelper();
+        }
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <a href="@Url.Action("Download" , "File" , new { path=item.FilePath, name=item.Description })">
+                        <img src="@h.GetFileIcon(item.FilePath)" style="height:40px;" />
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </a>
+                </td>
+                <td>@Html.DisplayFor(modelItem => item.DateUpload)</td>
+            </tr>
+        }
+    </table>
+</div>

@@ -18,18 +18,20 @@ namespace PLE444.Controllers
         public ActionResult Courses()
         {
             var userID = User.Identity.GetUserId();
-            var uc = (from p in db.UserCourses select p.Course).ToList();
+            var uc = db.UserCourses.Where(u => u.UserId == userID);
+            var data = (from p in uc select p.Course).ToList();
 
-            return PartialView(uc);
+            return PartialView(data);
         }
 
         [ChildActionOnly]
         public ActionResult Communities()
         {
             var userID = User.Identity.GetUserId();
-            var uc = (from p in db.UserCommunities select p.Community).ToList();
+            var uc = db.UserCommunities.Where(u => u.UserId == userID);
+            var data = (from p in uc select p.Community).ToList();
 
-            return PartialView(uc);
+            return PartialView(data);
         }
 
         public ActionResult LogedInUser()

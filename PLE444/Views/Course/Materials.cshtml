@@ -28,6 +28,10 @@
     {
         <div class="panel panel-default" data-widget='{"draggable";: "false"}' data-widget-static="" style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);">
             <div class="panel-heading">
+                @if(@ViewBag.isCrator)
+                {
+                    <a class="ml-sm" href="@Url.Action("MaterialEdit",new { id= item.Id })"><i class="ti ti-pencil"></i></a>
+                }
 
                 <h2>@Html.DisplayFor(modelItem => item.Title)</h2>
                 <div class="pull-right">

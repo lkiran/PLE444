@@ -20,8 +20,7 @@
                 <tr>
                     <th>İsim</th>
                     <th>Açıklama</th>
-                    <th>Durum</th>
-                    <th></th>       
+                    <th>Durum</th>                          
                 </tr>
             </thead>
             @foreach (var item in Model)
@@ -33,12 +32,6 @@
                         <td>
                             @if (item.isOpen) { @Html.Raw("Açık") }
                             else {@Html.Raw("Kapalı")  }
-                        </td>
-                        <td>
-                            <div class="btn-group">
-                                @Html.ActionLink("Düzenle", "CourseEdit", new { id = item.ID }, new { @class = "btn btn-default-alt btn-sm" })
-                                @Html.ActionLink("Sil", "CourseDelete", new { id = item.ID }, new { @class = "btn btn-danger-alt btn-sm" })
-                            </div>
                         </td>
                     </tr>
                 </tbody>

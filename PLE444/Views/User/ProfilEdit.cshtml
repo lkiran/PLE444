@@ -10,11 +10,9 @@
     <div class="panel-heading">
         <h2>
             <ul class="nav nav-tabs">
-                <li class="active"><a href="#Profile">Profil</a></li>
-                <li><a href="@Url.Action("ListUsers", "User")">Arkadaşlar</a></li>
-                <li><a href="#Files">Dosyalar</a></li>
-                <li><a href="#Events">Etkinlikler</a></li>
-                <li><a href="#Communities">Topluluklar</a></li>
+                <li class="active"><a href="@Url.Action("Profil", "User")">Profil</a></li>
+                <li><a href="@Url.Action("MyFriends", "User")">Arkadaşlar</a></li>
+                <li><a href="@Url.Action("Files", "User")">Dosyalar</a></li>
             </ul>
         </h2>
     </div>
@@ -28,21 +26,14 @@
         <div class="col-sm-3">
             <div class="panel panel-profile">
                 <div class="panel-body">
-                    @if (@Model.ProfilePicture == "")
-                    {
-                        <img src="~/Content/img/pp.jpg" class="img-circle">
-                    }
-                    else
-                    {
-                        <img src="@Model.ProfilePicture" class="img-circle">
-                    }                    <div class="form-group">
-                       
-                        
-                         <input name="uploadFile" type="file" id="filer_input" />
-                       
+                    @{var h = new PLE444.Helpers.UserHelper();}
+                    <img src="@h.GetUserPhotoFromID(Model.Id)" class="img-circle">
+
+                     <div class="form-group">                      
+                        <input name="uploadFile" type="file" id="filer_input" />                       
                     </div>
+
                     <div class="name"></div>
-                    <div class="info">Öğrenci</div>
                     <ul class="list-inline text-center">
                         <li><a href="#" class="profile-facebook-icon"><i class="ti ti-facebook"></i></a></li>
                         <li><a href="#" class="profile-twitter-icon"><i class="ti ti-twitter"></i></a></li>
@@ -85,12 +76,7 @@
                                         <th>Telefon</th>
                                         <td>@Html.TextBoxFor(m => m.PhoneNo, new { @class = "form-control" })</td>
                                     </tr>
-                                    <tr>
-                                        <th>Pozisyon</th>
-                                        <td>Designer</td>
-                                    </tr>
-
-                                  
+                                 
                                 </tbody>
                             </table>
                         </div>
@@ -104,10 +90,6 @@
                                         <th>İsim</th>
                                         <td>@Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
                                         @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Doğum Tarihi</th>
-                                        <td>19 Mart 1919</td>
                                     </tr>
 
                                     <tr>
