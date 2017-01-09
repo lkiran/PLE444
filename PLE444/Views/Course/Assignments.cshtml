@@ -3,6 +3,8 @@
     ViewBag.Title = "Assignments";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var h = new PLE444.Helpers.DataManipulationHelper();
+    var uh = new PLE444.Helpers.UserHelper();
+    var fh = new PLE444.Helpers.FileHelper();
 }
 
 
@@ -35,7 +37,35 @@
             <p>
                 @Html.DisplayFor(modelItem => item.Description)            
             </p>
+            @if (item.Course.CreatorId == ViewBag.CurrentUser)
+            {
+                <hr />
+                <table class="table m-n ">
+                    <thead>
 
+                    </thead>
+                    <tbody>
+                        @foreach (var upload in item.Uploads)
+                    {
+                            <tr>
+                                <td>
+                                    <img class="img-circle" src="@uh.GetUserPhotoFromID(upload.Owner)" style="height:30px;" />
+                                    <span> @uh.GetUserFullNameFromID(upload.Owner)</span>
+                                </td>
+
+                                <td @*style="vertical-align: middle;"*@>
+                                    <a href="@Url.Action("Download" , "File" , new { path=upload.FilePath, name=upload.Description })">
+                                        <img src="@fh.GetFileIcon(upload.FilePath)" style="height:30px;" />
+                                        <span>@upload.Description</span>
+                                    </a>
+                                </td>
+
+                                <td> @upload.DateUpload, @h.GetDeltaDate(upload.DateUpload)</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
         </div>
 
         <div class="panel-footer">
@@ -43,7 +73,7 @@
                 @if (item.Course.CreatorId == ViewBag.CurrentUser)
                 {
                     <a href="@Url.Action("AssignmentEdit", "Course", new { id = item.Id })" class="btn btn-primary">Düzenle</a>
-                    <a href="@Url.Action("AssignmentDelete", "Course", new { id = item.Id })" class="btn btn-primary">Sil</a>
+
                 }
                 else
                 {
@@ -68,7 +98,7 @@
                     }
                 }
 
-                Teslim Tarihi: @item.Deadline
+                <span class="pull-right">Teslim Tarihi: @item.Deadline</span>
         </div>
     </div>
 }

@@ -11,9 +11,7 @@
         <h2>
             <ul class="nav nav-tabs">
                 <li><a href="@Url.Action("Index", new { id = Model.CommunityInfo.ID })">Grup</a></li>
-                <li><a href="@Url.Action("Events")">Etkinlik</a></li>
                 <li><a href="@Url.Action("Discussion", new { id = Model.CommunityInfo.ID })">Tartışma</a></li>
-                <li><a href="@Url.Action("Archive")">Arşiv</a></li>
                 <li class="active"><a href="#">Üyeler</a></li>
             </ul>
         </h2>
@@ -41,19 +39,18 @@
                         {
                             <tr>
                                 <td>
-                                    @if (user.ProfilePhoto == null)
-                                    {
-                                        <img src="~/Content/img/pp.jpg" class="img-circle" style="height:60px;">
-                                    }
-                                    else
-                                    {
-                                        <img src="@user.ProfilePhoto" class="img-circle" style="height:60px;">
-                                    }
-                                </td>
-
-                                <td style = "vertical-align: middle;" >
-                                    <span >@user.FullName()</span>
-                                </td>                                
+                                    <a href="@Url.Action("Profil", "User", new { id= user.UserID})">
+                                        @if (user.ProfilePhoto == null)
+                                        {
+                                            <img src="~/Content/img/pp.jpg" class="img-circle" style="height:40px;">
+                                        }
+                                        else
+                                        {
+                                            <img src="@user.ProfilePhoto" class="img-circle" style="height:40px;">
+                                        }
+                                        <span>@user.FullName()</span>
+                                    </a>
+                                </td>                               
                                 
                                 <td style = "vertical-align: middle;">
                                     @if (user.isFriend != null)

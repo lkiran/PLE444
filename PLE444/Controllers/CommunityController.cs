@@ -20,6 +20,7 @@ namespace PLE444.Controllers
 
         public ActionResult Create()
         {
+            ViewBag.Sapces = db.Spaces.ToList();
             return View();
         }
 
@@ -53,7 +54,7 @@ namespace PLE444.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-
+            ViewBag.Sapces = db.Spaces.ToList();
             return View(community);
         }
 
@@ -246,6 +247,7 @@ namespace PLE444.Controllers
 
         public ActionResult Edit(Guid id)
         {
+            ViewBag.Sapces = db.Spaces.ToList();
             var currentuserId = User.Identity.GetUserId();
             var c = db.Communities.Find(id);
 
@@ -287,7 +289,7 @@ namespace PLE444.Controllers
 
                 return RedirectToAction("Index", new { id = model.ID });
             }
-
+            ViewBag.Sapces = db.Spaces.ToList();
             return View(model);
         }
 

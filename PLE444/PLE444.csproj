@@ -2116,6 +2116,7 @@
     <Content Include="Views\User\Files.cshtml" />
     <Content Include="Views\Spaces\Index.cshtml" />
     <Content Include="Views\Layout\Spaces.cshtml" />
+    <Content Include="Views\Course\GiveGrade.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

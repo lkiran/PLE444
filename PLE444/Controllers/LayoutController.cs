@@ -37,7 +37,8 @@ namespace PLE444.Controllers
         public ActionResult LogedInUser()
         {
             var userID = User.Identity.GetUserId();
-            return PartialView(UserDB.Users.FirstOrDefault(i => i.Id == userID));
+            var user = UserDB.Users.FirstOrDefault(i => i.Id == userID);
+            return PartialView(user);
         }
 
         [ChildActionOnly]

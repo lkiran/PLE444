@@ -10,10 +10,8 @@
         <h2>
             <ul class="nav nav-tabs">
                 <li ><a href="@Url.Action("Index", new { id = Model.ID })" >Grup</a></li>
-                <li><a href="@Url.Action("Events")" >Etkinlik</a></li>
-                <li class="active"><a href="@Url.Action("Discussion")" >Tartışma</a></li>
-                <li><a href="@Url.Action("Archive")" >Arşiv</a></li>
-
+                <li class="active"><a href="@Url.Action("Discussion", new { id = Model.ID })" >Tartışma</a></li>
+                <li><a href="@Url.Action("Members", new { id = Model.ID })">Üyeler</a></li>
             </ul>
         </h2>
     </div>

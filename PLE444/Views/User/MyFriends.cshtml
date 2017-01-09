@@ -54,7 +54,7 @@
                                     <td>@h.GetUserFullNameFromID(user.FriendID)<td>                                        
                                     
                                    <td>
-                                       <a href="@Url.Action("RemoveFriends", "User", new {id=user.FriendID })" class="btn btn-danger-alt"> Çıkar </a>                              
+                                       <a href="@Url.Action("RemoveFriends", "User", new { id=user.Id })" class="btn btn-danger-alt"> Çıkar </a>                              
                                        <a href="@Url.Action("SendMail", "User", new { id=user.FriendID })" class="btn btn-primary-alt"> Mesaj Gönder </a>
                                     </td>                                 
                                 </tr>

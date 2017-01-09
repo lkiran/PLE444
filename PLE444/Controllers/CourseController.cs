@@ -47,7 +47,8 @@ namespace PLE444.Controllers
                 return RedirectToAction("Index");
 
             var c = db.Courses.FirstOrDefault(i => i.ID == id);
-            var assignment = db.Assignments.Include("Course").Where(a => a.Course.ID == id).ToList();
+            var assignment = db.Assignments.Include("Course").Include("Uploads").Where(a => a.Course.ID == id).ToList();
+
             ViewBag.CourseName = c.Name.ToUpper() + " - " + c.Description;
             ViewBag.CourseId = c.ID;
             ViewBag.CurrentUser = User.Identity.GetUserId();
@@ -119,7 +120,7 @@ namespace PLE444.Controllers
                 db.Entry(assignment).State = EntityState.Modified;
 
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Assignments");
             }
             
             return View(assignment);
@@ -501,6 +502,72 @@ namespace PLE444.Controllers
 
             viewData.isCreator = isCourseCreator(id);
             return View(viewData);
+        }
+
+        public  ActionResult CreateGradeType(Guid? Id)
+        {
+            if (Id == null)
+                RedirectToAction("Index");
+            ViewBag.CourseId = Id;
+            return View(new GradeType());
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateGradeType(GradeType model, Guid? courseId)
+        {
+            if (model != null || courseId !=null )
+            {
+                var course = db.Courses.FirstOrDefault(i => i.ID == courseId);
+                model.Course = course;
+
+                db.GradeTypes.Add(model);
+                db.SaveChanges();
+
+                return RedirectToAction("Grades", new { id = model.Course.ID });
+            }
+
+            return View();
+        }
+
+
+        public ActionResult GiveGrade(string userId, int? gradeTypeId)
+        {
+            if (userId == null || gradeTypeId == null)
+                RedirectToAction("Index");
+
+            ViewBag.Grade = 0;
+            var gr = db.UserGrades.Where(g => g.GradeType.Id == gradeTypeId).FirstOrDefault(u => u.UserID == userId);
+            if(gr!=null)
+                ViewBag.Grade = gr.Grade;
+            ViewBag.UserId = userId;
+            ViewBag.GradeTypeId = gradeTypeId;
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult GiveGrade(string userId, int? gradeTypeId, float grade)
+        {
+            if (userId != null && gradeTypeId != null)
+            {
+                var g = new UserGrade();
+                g.UserID = userId;
+                g.Grade = grade;
+                g.GradeType = db.GradeTypes.FirstOrDefault(i => i.Id == gradeTypeId);
+
+                db.UserGrades.Add(g);
+                db.SaveChanges();
+
+                return RedirectToAction("Grades", new { id = g.GradeType.Course.ID });
+            }
+
+            ViewBag.Grade = grade;
+            ViewBag.UserId = userId;
+            ViewBag.GradeTypeId = gradeTypeId;
+            return View();
         }
 
         protected override void Dispose(bool disposing)

@@ -31,7 +31,9 @@
                     <th>Kullanıcı</th>
                     @foreach (var item in Model.GradeTypes)
                     {
-                        <th>@item.Name</th>
+                        <th title="@item.Description
+Ağırlık: @(item.Effect*100)%
+Max Score: @item.MaxScore">@item.Name</th>
                     }
                     <th>Toplam</th>
                 </tr>
@@ -53,7 +55,7 @@
                             }
                             else
                             {
-                                 <td>@gu.Grade </td>
+                                 <td>@gu.Grade</td>
                             }
                         }
                         <td>-</td>
