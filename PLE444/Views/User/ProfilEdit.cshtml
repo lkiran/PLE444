@@ -30,7 +30,7 @@
                     <img src="@h.GetUserPhotoFromID(Model.Id)" class="img-circle">
 
                      <div class="form-group">                      
-                        <input name="uploadFile" type="file" id="filer_input" />                       
+                        <input name="uploadFile" type="file" class="filer_input" />                       
                     </div>
 
                     <div class="name"></div>
@@ -50,7 +50,7 @@
                 <div class="panel-heading">
                     <h2>Hakkında</h2>
                     <div class="pull-right">
-                        <a><i class="fa fa-pencil"></i></a>
+                        <a><i class="ti ti-pencil"></i></a>
                        
                     </div>
 
@@ -108,6 +108,17 @@
 </div>
 }
 
-
-
-
+@section scripts
+{
+    <script>
+        $(document).ready(function() {
+            $('.filer_input').filer({
+                captions: {
+                    button: "Seç",
+                    feedback: "Hiç dosya seçilmedi",
+                    feedback2: "dosya seçildi"
+                }
+            });
+        });
+    </script>
+}

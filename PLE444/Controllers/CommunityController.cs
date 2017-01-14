@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNet.Identity;
-using PLE444.Context;
 using PLE444.Models;
 using System;
 using System.Collections.Generic;
@@ -16,7 +15,6 @@ namespace PLE444.Controllers
     {
         // GET: Community 
         private PleDbContext db = new PleDbContext();
-        private ApplicationDbContext UserDB = new ApplicationDbContext();
 
         public ActionResult Create()
         {
@@ -135,7 +133,7 @@ namespace PLE444.Controllers
             var friends = db.Friendship.Where(o => o.userID == currentuserId).ToList();
             foreach (var item in m)
             {                
-                var dbUser = UserDB.Users.Find(item.UserId);
+                var dbUser = db.Users.Find(item.UserId);
                 var userInfo = new UserViewModel();
 
                 userInfo.UserID = dbUser.Id;

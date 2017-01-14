@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace PLE444.Models
 {
@@ -14,18 +16,23 @@ namespace PLE444.Models
             Id = Guid.NewGuid();
         }
 
-        [Required]
+        [Key]
         public Guid Id { get; set; }
 
         public Course Course { get; set; }
 
         [Required]
-        [DisplayName("Başlık")]
-        public String Title { get; set; }
+        [ForeignKey("Course")]
+        public Guid CourseId { get; set; }
 
         [Required]
+        [DisplayName("Başlık")]
+        public string Title { get; set; }
+
+        [Required]
+        [AllowHtml]
         [DisplayName("İçerik")]
-        public String Description { get; set; }
+        public string Description { get; set; }
 
         [Required]
         [DisplayName("Teslim Tarihi")]

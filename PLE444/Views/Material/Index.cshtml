@@ -1,0 +1,53 @@
+﻿@model PLE444.ViewModels.CourseMaterials
+
+@{
+    ViewBag.Title = "Materyaller";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{ Html.RenderAction("Navigation", "Course", new { id = Model.CourseId }); }
+
+@if (Model != null)
+{
+    var fh = new PLE444.Helpers.FileHelper();
+    var h = new PLE444.Helpers.DataManipulationHelper();
+
+    foreach (var chapter in Model.ChapterList)
+    {
+        foreach (var material in chapter.Materials)
+        {
+            <div class="panel panel-default">
+                
+                <div class="panel-heading">
+                    @if (@Model.CanEdit)
+                    {
+                        <a class="ml-sm" href="@Url.Action("Update", "Material", new {chapterId = chapter.Id, id = material.Id})"><i class="ti ti-pencil"></i></a>
+                    }
+                    <h2>@material.Title <em>(@chapter.Title)</em>
+                    </h2>
+
+                    <div class="pull-right">
+                        @material.DateAdded, @h.GetDeltaDate(material.DateAdded)
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    @(new HtmlString(material.Description))
+                </div>
+
+                <ul style="list-style-type: none";>
+                    @foreach (var doc in material.Documents)
+                    {
+                        <li>
+                            <a href="@Url.Action("Download", "File", new {path = doc.FilePath, name = doc.Description})">
+                                <img alt="Icon" src="@fh.GetFileIcon(doc.FilePath)" style="height: 40px;">
+                                <span>@doc.Description</span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    }
+}
+

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNet.Identity;
-using PLE444.Context;
 using PLE444.Models;
 using System;
 using System.Collections.Generic;
@@ -15,8 +14,6 @@ namespace PLE444.Controllers
 {
     public class UserController : Controller
     {
-
-        private ApplicationDbContext userdb = new ApplicationDbContext();
         private PleDbContext db = new PleDbContext();
 
         [Authorize]
@@ -33,7 +30,7 @@ namespace PLE444.Controllers
             if (fs != null)
                 ViewBag.isFriend = true;
 
-            var userDetail = userdb.Users.Find(id);
+            var userDetail = db.Users.Find(id);
 
             ViewBag.CurrentUser = currentUser;
             return View(userDetail);
@@ -55,7 +52,7 @@ namespace PLE444.Controllers
 
             if (fs == null)
             {
-                var friends = userdb.Users.ToList();
+                var friends = db.Users.ToList();
                 fs = new Friendship();
 
                 fs.FriendID = id;
@@ -83,7 +80,7 @@ namespace PLE444.Controllers
 
         public ActionResult ListUsers()
         {
-            var friends = userdb.Users.ToList();
+            var friends = db.Users.ToList();
             return View(friends);
 
         }
@@ -91,7 +88,7 @@ namespace PLE444.Controllers
         public ActionResult ProfilEdit()
         {
             var currentuserId = User.Identity.GetUserId();
-            var userDetail = userdb.Users.Find(currentuserId);
+            var userDetail = db.Users.Find(currentuserId);
             return View(userDetail);
         }
 
@@ -103,7 +100,7 @@ namespace PLE444.Controllers
             if (ModelState.IsValid)
             {
                 var currentuserId = User.Identity.GetUserId();
-                var userDetail = userdb.Users.Find(currentuserId);
+                var userDetail = db.Users.Find(currentuserId);
 
                 if (uploadFile != null && uploadFile.ContentLength > 0)
                 {
@@ -130,8 +127,8 @@ namespace PLE444.Controllers
                 userDetail.Mission = model.Mission;
                 userDetail.PhoneNo = model.PhoneNo;
 
-                userdb.Entry(userDetail).State = EntityState.Modified;
-                userdb.SaveChanges();
+                db.Entry(userDetail).State = EntityState.Modified;
+                db.SaveChanges();
                 return RedirectToAction("Profil");
             }
 

@@ -27,5 +27,7 @@ namespace PLE444.Models
         public virtual ICollection<Discussion> Discussion { get; set; }
 
         public int SpaceId { get; set; }
+
+        public string Heading { get { return Name + " - " + Description; } }
     }
 }

@@ -195,10 +195,11 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Context\PleDbContext.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\ChaptersController.cs" />
+    <Compile Include="Controllers\AssignmentController.cs" />
+    <Compile Include="Controllers\ChapterController.cs" />
     <Compile Include="Controllers\CommunityController.cs" />
+    <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -220,7 +221,6 @@
     <Compile Include="Models\Chapter.cs" />
     <Compile Include="Models\Community.cs" />
     <Compile Include="Models\CommunityMembersViewModel.cs" />
-    <Compile Include="Models\CourseMembersViewModel.cs" />
     <Compile Include="Models\Discussion.cs" />
     <Compile Include="Models\Friendship.cs" />
     <Compile Include="Models\GradeType.cs" />
@@ -246,6 +246,12 @@
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\AssignmentForm.cs" />
+    <Compile Include="ViewModels\CourseAssignments.cs" />
+    <Compile Include="ViewModels\Chapters.cs" />
+    <Compile Include="ViewModels\CourseGrades.cs" />
+    <Compile Include="ViewModels\CourseMaterials.cs" />
+    <Compile Include="ViewModels\MaterialForm.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -2076,20 +2082,15 @@
     <Content Include="Views\Community\Index.cshtml" />
     <Content Include="Views\UploaderTest\Index.cshtml" />
     <Content Include="Views\Community\List.cshtml" />
-    <Content Include="Views\Course\AssignmentCreate.cshtml" />
-    <Content Include="Views\Course\Assignments.cshtml" />
-    <Content Include="Views\Course\ChapterCreate.cshtml" />
-    <Content Include="Views\Course\Chapters.cshtml" />
+    <Content Include="Views\Assignment\Create.cshtml" />
+    <Content Include="Views\Assignment\Index.cshtml" />
+    <Content Include="Views\Chapter\Create.cshtml" />
+    <Content Include="Views\Chapter\Index.cshtml" />
     <Content Include="Views\Course\CourseCreate.cshtml" />
     <Content Include="Views\Course\CourseDelete.cshtml" />
-    <Content Include="Views\Course\CourseDetails.cshtml" />
     <Content Include="Views\Course\CourseEdit.cshtml" />
     <Content Include="Views\Course\Grades.cshtml" />
-    <Content Include="Views\Course\Materials.cshtml" />
-    <Content Include="Views\Chapters\Delete.cshtml" />
-    <Content Include="Views\Chapters\Details.cshtml" />
-    <Content Include="Views\Chapters\Edit.cshtml" />
-    <Content Include="Views\Chapters\Index.cshtml" />
+    <Content Include="Views\Material\Index.cshtml" />
     <Content Include="Views\Community\Create.cshtml" />
     <Content Include="Views\Community\AddTitle.cshtml" />
     <Content Include="Views\Community\SendMessage.cshtml" />
@@ -2101,14 +2102,10 @@
     <Content Include="Views\Course\SendMessage.cshtml" />
     <Content Include="Views\Layout\Courses.cshtml" />
     <Content Include="Views\Layout\Communities.cshtml" />
-    <Content Include="Views\Course\MeterialAdd.cshtml" />
+    <Content Include="Views\Material\Add.cshtml" />
     <Content Include="Views\Layout\LogedInUser.cshtml" />
     <Content Include="Views\Community\Edit.cshtml" />
     <Content Include="Views\Community\Members.cshtml" />
-    <Content Include="Views\Chapters\Create.cshtml" />
-    <Content Include="Views\Course\AssignmentEdit.cshtml" />
-    <Content Include="Views\Course\AssignmentDelete.cshtml" />
-    <Content Include="Views\Course\MaterialEdit.cshtml" />
     <Content Include="Views\Course\CreateGradeType.cshtml" />
     <Content Include="Views\User\MailBox.cshtml" />
     <Content Include="Views\User\MailDetail.cshtml" />
@@ -2116,7 +2113,13 @@
     <Content Include="Views\User\Files.cshtml" />
     <Content Include="Views\Spaces\Index.cshtml" />
     <Content Include="Views\Layout\Spaces.cshtml" />
-    <Content Include="Views\Course\GiveGrade.cshtml" />
+    <Content Include="Views\Course\Navigation.cshtml" />
+    <Content Include="Views\Material\Update.cshtml" />
+    <Content Include="Views\Assignment\Edit.cshtml" />
+    <Content Include="Views\Course\ChangeGrade.cshtml" />
+    <Content Include="Views\Course\AddGrade.cshtml" />
+    <Content Include="Views\Course\EditGradeType.cshtml" />
+    <Content Include="Views\Chapter\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

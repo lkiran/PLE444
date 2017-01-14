@@ -4,22 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Microsoft.AspNet.Identity;
-using PLE444.Context;
 using System.Web.Mvc;
 
 namespace PLE444.Helpers
 {
     public class UserHelper
     {
-        private ApplicationDbContext UserDB = new ApplicationDbContext();
+        private PleDbContext db = new PleDbContext();
 
         public string GetUserPhotoFromID(string id)
         {
             if (id != null)
             {
-                if (UserDB.Users.Find(id).ProfilePicture == null)
+                if (db.Users.Find(id).ProfilePicture == null)
                     return "/Content/img/pp.jpg";
-                return UserDB.Users.Find(id).ProfilePicture;
+                return db.Users.Find(id).ProfilePicture;
             }
             return "";
         }
@@ -27,7 +26,7 @@ namespace PLE444.Helpers
         public string GetUserFullNameFromID(string id)
         {
             if (id != null)
-                return UserDB.Users.Find(id).FirstName + " " + UserDB.Users.Find(id).LastName;
+                return db.Users.Find(id).FirstName + " " + db.Users.Find(id).LastName;
             return "";
         }
     }

@@ -1,0 +1,61 @@
+﻿@model PLE444.ViewModels.Chapters
+@{
+    ViewBag.Title = "Bölümler";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{ Html.RenderAction("Navigation", "Course", new {id = Model.CourseInfo.ID}); }
+
+@if (Model != null)
+{
+    foreach (var chapter in Model.ChapterList)
+    {
+        <div class="panel panel-default">
+            <div class="panel-heading"> 
+                    
+                <h2>@Html.DisplayFor(modelItem => chapter.Title)</h2>
+                @if (Model.canEdit)
+                {
+                    <a href="@Url.Action("Edit","Chapter", new {id = chapter.Id})">
+                        <small><i class="ti ti-pencil ml-md mr-sm"></i>Düzenle</small>
+                    </a>
+                }
+                <div class="pull-right">
+                    @Html.DisplayFor(modelItem => chapter.DateAdded), @{var h = new PLE444.Helpers.DataManipulationHelper(); }
+                    @h.GetDeltaDate(chapter.DateAdded)
+                </div>
+            </div>
+
+            <div class="panel-body">
+                @(new HtmlString(chapter.Description))
+
+                <ul style="list-style-type: none" ;>
+                    @foreach (var material in chapter.Materials)
+                    {
+                        <li>
+                            <a href="@Url.Action("Index", "Material", new { id= Model.CourseInfo.ID })">     
+                                @material.Title                          
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+            @if (Model.canEdit)
+            {               
+                <div class="panel-footer">
+                    <a href="@Url.Action("Add", "Material", new { chapterId = chapter.Id })" class="btn btn-primary-alt pull-right"> Materyal Ekle</a>                      
+                </div>
+            }
+        </div>
+    }
+}
+
+@if(Model.canEdit)
+{
+    <a href="@Url.Action("Create","Chapter",new { id = Model.CourseInfo.ID })" class="btn btn-primary-alt" id="dyna-del">Yeni Bölüm Ekle</a>
+}
+
+
+
+
+

@@ -6,24 +6,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using PLE444.Models;
 
-namespace PLE444.Models
+namespace PLE444.ViewModels
 {
-    public class Chapter
+    public class AssignmentForm
     {
-        public Chapter()
-        {
-            Id = Guid.NewGuid();
-        }
+        public Guid? Id { get; set; }
+
+        public Course Course { get; set; }
 
         [Required]
-        public Guid Id { get; set; }
-
         [HiddenInput]
+        [ForeignKey("Course")]
         public Guid CourseId { get; set; }
-
-        [ForeignKey("CourseId")]
-        public virtual Course Course { get; set; }
 
         [Required]
         [DisplayName("Başlık")]
@@ -34,9 +30,8 @@ namespace PLE444.Models
         [DisplayName("İçerik")]
         public string Description { get; set; }
 
-        [DisplayName("Eklenme Tarihi")]
-        public DateTime DateAdded { get; set; }
-
-        public virtual ICollection<Material> Materials { get; set; }
+        [Required]
+        [DisplayName("Teslim Tarihi")]
+        public DateTime Deadline { get; set; }
     }
 }

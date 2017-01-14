@@ -22,12 +22,12 @@ namespace PLE444.Models
 
         [Required]
         [DisplayName("Başlık")]
-        public String Title { get; set; }
+        public string Title { get; set; }
 
         [Required]
         [AllowHtml]
         [DisplayName("İçerik")]
-        public String Description { get; set; }
+        public string Description { get; set; }
 
         public DateTime DateAdded { get; set; }
 

@@ -1,0 +1,35 @@
+﻿@model PLE444.Models.Course
+
+<div class="panel panel-bluegray" data-widget='{"draggable": "false"}'>
+    <div class="panel-heading">
+        <span class="pull-right">@Model.Heading</span>
+        <h2>
+            <ul class="nav nav-tabs navigator">
+                <li><a href="@Url.Action("Index","Chapter",new { id = Model.ID })">Bölümler</a></li>
+
+                <li><a href="@Url.Action("Index","Assignment",new { id =  Model.ID })"> Ödevler</a></li>
+
+                <li><a href="@Url.Action("Index","Material",new { id =  Model.ID })">Materyaller</a></li>
+
+                <li><a href="@Url.Action("Grades","Course",new { courseId =  Model.ID })">Notlar</a></li>
+
+                <li><a href="@Url.Action("Discussion","Course",new { id = Model.ID })">Tartışmalar</a></li>
+            </ul>
+        </h2>
+    </div>
+</div>
+
+
+@Scripts.Render("~/Content/js/jquery-1.8.3.min.js")
+
+<script type="text/javascript">
+
+    $(function () {
+        $('.navigator a').each(function (index) {
+            console.log(index + ": " + $(this).attr("href"));
+            if ($(this).attr("href") === location.pathname)
+                $(this).parent("li").addClass("active");
+        });
+    });
+</script>
+

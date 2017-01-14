@@ -30,7 +30,7 @@
                 <tbody>
                     <tr>
                   
-                        <td> <a href="@Url.Action("Chapters", "Course", new { id = item.ID })"> @item.Name</a></td>
+                        <td> <a href="@Url.Action("Index", "Chapter", new { id = item.ID })"> @item.Name</a></td>
                         <td>@Html.DisplayFor(modelItem => item.Description)</td>
                         <td>@Html.DisplayFor(modelItem => item.CourseStart)</td>
                         

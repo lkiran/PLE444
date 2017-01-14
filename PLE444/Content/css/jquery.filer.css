@@ -140,15 +140,15 @@ span.jFiler-icon-file.f-audio {
 .jFiler-theme-default .jFiler-input {
     position: relative;
     display: block;
-    width: 400px;
-    height: 35px;
-    margin: 0 0 15px 0;
+    width: 200px;
+    height: 30px;
+    margin: 0 15px 0 15px;
     background: #fefefe;
-    border: 1px solid #cecece;
+    border: 1px solid  #03a9f4;
     font-size: 12px;
     font-family: sans-serif;
     color: #888;
-    border-radius: 4px;
+    border-radius: 2px;
     cursor: pointer;
     overflow: hidden;
     -webkit-box-shadow: rgba(0,0,0,.25) 0 4px 5px -5px inset;
@@ -189,7 +189,7 @@ span.jFiler-icon-file.f-audio {
     display: block;
     float: left;
     height: 100%;
-    padding-top: 8px;
+    padding-top: 6px;
     padding-left: 10px;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -199,18 +199,13 @@ span.jFiler-icon-file.f-audio {
     display: block;
     float: right;
     height: 100%;
-    padding-top: 8px;
+    padding-top: 6px;
     padding-left: 15px;
     padding-right: 15px;
-    border-left: 1px solid #ccc;
-    color: #666666;
+    border-left: 1px solid #03a9f4;
+    color: #03a9f4;
     text-align: center;
     background-color: #fefefe;
-    background-image: -webkit-gradient(linear,0 0,0 100%,from(#fefefe),to(#f1f1f1));
-    background-image: -webkit-linear-gradient(top,#fefefe,#f1f1f1);
-    background-image: -o-linear-gradient(top,#fefefe,#f1f1f1);
-    background-image: linear-gradient(to bottom,#fefefe,#f1f1f1);
-    background-image: -moz-linear-gradient(top,#fefefe,#f1f1f1);
     -webkit-transition: all .1s ease-out;
        -moz-transition: all .1s ease-out;
          -o-transition: all .1s ease-out;
@@ -218,6 +213,8 @@ span.jFiler-icon-file.f-audio {
 }
 
 .jFiler-theme-default .jFiler-input-button:hover {
+    background-color: #03a9f4;
+    color: #ffffff;
     -moz-box-shadow: inset 0 0 10px rgba(0,0,0,0.07);
     -webkit-box-shadow: inset 0 0 10px rgba(0,0,0,0.07);
     box-shadow: inset 0 0 10px rgba(0,0,0,0.07);

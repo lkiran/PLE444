@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.Ajax.Utilities;
 
 namespace PLE444.Models
 {
@@ -28,20 +29,53 @@ namespace PLE444.Models
         public string PhoneNo { get; set; }
         public string Vision { get; set; }
         public string Mission { get; set; }
+
+        public string FullName()
+        {
+            return FirstName + " " + LastName;
+        }
+
+        public string UserPhoto()
+        {
+            return ProfilePicture.IsNullOrWhiteSpace() ? "/Content/img/pp.jpg" : ProfilePicture;
+        }
+
         //public int RoleId { get; set; }
-       // public virtual Role Role { get; set; }
+        // public virtual Role Role { get; set; }
 
     }
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class PleDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext()
+        public DbSet<Friendship> Friendship { get; set; }
+        public DbSet<Community> Communities { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<Document> Documents { get; set; }
+        public DbSet<Event> Events { get; set; }
+        public DbSet<EventReponse> EventReponses { get; set; }
+        public DbSet<Interest> Interests { get; set; }
+        public DbSet<UserCommunity> UserCommunities { get; set; }
+        public DbSet<UserCourse> UserCourses { get; set; }
+        public DbSet<UserInterest> UserInterests { get; set; }
+        public DbSet<Tag> Tags { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Assignment> Assignments { get; set; }
+        public DbSet<Discussion> Discussions { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        public DbSet<Chapter> Chapters { get; set; }
+        public DbSet<Material> Materials { get; set; }
+        public DbSet<GradeType> GradeTypes { get; set; }
+        public DbSet<UserGrade> UserGrades { get; set; }
+        public DbSet<PrivateMessage> PrivateMessages { get; set; }
+        public DbSet<Space> Spaces { get; set; }
+
+        public PleDbContext()
             : base("PleDbContext", throwIfV1Schema: false)
         {
         }
 
-        public static ApplicationDbContext Create()
+        public static PleDbContext Create()
         {
-            return new ApplicationDbContext();
+            return new PleDbContext();
         }
     }
 }

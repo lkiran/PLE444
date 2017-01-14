@@ -1,17 +1,20 @@
-﻿@model PLE444.Models.Material
+﻿@model PLE444.ViewModels.MaterialForm
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h2>Yeni Materyal</h2>
+        <h2>Materyal</h2>
     </div>
     <div class="panel-body">
-        @using (Html.BeginForm("MeterialAdd", "Course", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm("Add", "Material", FormMethod.Post, new { encType = "multipart/form-data" }))
         {
             {
                 @Html.AntiForgeryToken()
 
                 <div class="form-horizontal">
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    @Html.HiddenFor(model => model.Id)
+
                     <div class="form-group">
                         @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
                         <div class="col-md-10">
@@ -31,15 +34,15 @@
                     <div class="form-group">
                         <div class="control-label col-md-2">Dosyalar</div>
                         <div class="col-md-10">
-                            <input  multiple="multiple" name="uploadFiles" type="file" id="filer_input" />
+                            <input  multiple="multiple" name="UploadedFiles" type="file" id="filer_input" />
                         </div>
                     </div>
 
-                    <input type="hidden" name="chapterId" id="chapterId" value="@ViewBag.ChapterId">
+                    @Html.HiddenFor(model => model.ChapterId)
 
                     <div class="form-group pull-right">
                         <div class="col-md-10">
-                            <input type="submit" value="Ekle" class="btn btn-success" />
+                            <input type="submit" value="Kaydet" class="btn btn-success" />
                         </div>
                     </div>
                 </div>

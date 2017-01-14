@@ -10,7 +10,7 @@
         <h2>Yeni Bölüm</h2>
     </div>
     <div class="panel-body">
-        @using (Html.BeginForm("ChapterCreate", "Course", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
     
@@ -31,7 +31,7 @@
                         @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                <input type="hidden" name="courseId" id ="courseId" value="@ViewBag.CourseId">
+                @Html.HiddenFor(model => model.CourseId)
                 <div class="pull-right">
                     <div class="col-md-10">
                         <input type="submit" value="Kaydet" class="btn btn-success" />
@@ -42,26 +42,25 @@
     </div>
 </div>
 
-<script src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#Description').summernote({
-            focus: true,
-            height: 150,
-            codemirror: {
-                theme: 'united'
-            },
-            toolbar: [
-                // [groupName, [list of button]]
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['font', ['strikethrough', 'superscript', 'subscript']],
-                ['fontsize', ['fontsize']],
-                ['color', ['color']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['height', ['height']]
-            ]
-
-        });        
-    });
-  
-</script>
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#Description').summernote({
+                focus: true,
+                codemirror: {
+                    theme: 'united'
+                },
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']]
+                ]
+            });        
+        });
+    </script>
+}
