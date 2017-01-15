@@ -19,15 +19,19 @@ namespace PLE444.Controllers
         public ActionResult Index(Guid? id)
         {
             if (id == null)
-                return RedirectToAction("Index", "Home");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             else
             {
                 var course = db.Courses.SingleOrDefault(i => i.ID == id);
-                var chapters = db.Chapters.Include("Materials").Where(i => i.CourseId == id).ToList();
+                if(course == null)
+                    return HttpNotFound();
+
+                var chapters = db.Chapters.Where(i => i.CourseId == id && i.IsActive)
+                                          .Include("Materials").ToList();
 
                 var model = new Chapters
                 {
-                    canEdit = User.Identity.GetUserId() == course.CreatorId ? true : false,
+                    canEdit = isCourseCreator(course),
                     CourseInfo = course,
                     ChapterList = chapters
                 };
@@ -72,10 +76,9 @@ namespace PLE444.Controllers
                 co.Chapters.Add(c);
 
                 db.Entry(co).State = EntityState.Modified;
-
                 db.SaveChanges();
 
-                return RedirectToAction("Index", new { id = chapter.CourseId });
+                return RedirectToAction("Index", new {id = chapter.CourseId});
             }
 
             return View(chapter);
@@ -110,27 +113,68 @@ namespace PLE444.Controllers
                 var chapterDb = db.Chapters.Find(model.Id);
                 chapterDb.Description = model.Description;
                 chapterDb.Title = model.Title;
-                
+
                 db.Entry(chapterDb).State = EntityState.Modified;
                 db.SaveChanges();
 
-                return RedirectToAction("Index", new { id = model.CourseId });
+                return RedirectToAction("Index", new {id = model.CourseId});
             }
 
             return View(model);
         }
 
-        public bool isCourseCreator(Guid? courseId)
+        [HttpPost]
+        [Authorize]
+        public JsonResult Delete(Guid? id)
+        {
+            if (id == null)
+                return Json(new {Success = false, Message = "BadRequest"}, JsonRequestBehavior.AllowGet);
+
+            var chapter = db.Chapters.Find(id);
+            if (chapter == null)
+                return Json(new {Success = false, Message = "HttpNotFound"}, JsonRequestBehavior.AllowGet);
+
+            else if (!isCourseCreator(chapter.CourseId))
+                return Json(new {Success = false, Message = "Unauthorized"}, JsonRequestBehavior.AllowGet);
+
+            chapter.IsActive = false;
+
+            db.Entry(chapter).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return Json(new {Success = true, Message = "OK"}, JsonRequestBehavior.AllowGet);
+        }
+
+        private bool isCourseCreator(Guid? courseId)
         {
             if (courseId == null)
                 return false;
 
-            var c = db.Courses.Find(courseId);
+            var course = db.Courses.Find(courseId);
+            return isCourseCreator(course);
+        }
 
-            if (c.CreatorId != User.Identity.GetUserId())
+        private bool isCourseCreator(Course course)
+        {
+            if (course == null)
+                return false;
+
+            else if (course.CreatorId != User.Identity.GetUserId())
                 return false;
             return true;
         }
 
+        private bool isMember(Guid? courseId)
+        {
+            if (courseId == null)
+                return false;
+
+            var userId = User.Identity.GetUserId();
+            var user = db.UserCourses.Where(c => c.Course.ID == courseId).FirstOrDefault(u => u.UserId == userId);
+
+            if (user == null)
+                return false;
+            return true;
+        }
     }
 }

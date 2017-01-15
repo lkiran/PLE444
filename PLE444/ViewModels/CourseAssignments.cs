@@ -16,6 +16,8 @@ namespace PLE444.ViewModels
 
         public bool CanEdit { get; set; }
 
+        public bool CanUpload { get; set; }
+
         public string CurrentUserId { get; set; }
 
         public IEnumerable<Assignment> AssignmentList { get; set; }

@@ -81,3 +81,5 @@ C:\Users\leven\OneDrive\Documents\GitHub\PLE444\PLE444\bin\Microsoft.Owin.Securi
 C:\Users\leven\OneDrive\Documents\GitHub\PLE444\PLE444\obj\Debug\PLE444.csprojResolveAssemblyReference.cache
 C:\Users\leven\OneDrive\Documents\GitHub\PLE444\PLE444\obj\Debug\PLE444.dll
 C:\Users\leven\OneDrive\Documents\GitHub\PLE444\PLE444\obj\Debug\PLE444.pdb
+C:\Users\leven\OneDrive\Documents\GitHub\PLE444\PLE444\bin\DotNetZip.dll
+C:\Users\leven\OneDrive\Documents\GitHub\PLE444\PLE444\bin\DotNetZip.xml

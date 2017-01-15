@@ -24,6 +24,5 @@ namespace PLE444.Models
         public GradeType GradeType { get; set; }
 
         public float Grade { get; set; }
-
     }
 }

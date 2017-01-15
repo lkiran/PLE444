@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using Ionic.Zip;
 using Microsoft.AspNet.Identity;
 using PLE444.Models;
 using PLE444.ViewModels;
@@ -20,7 +22,7 @@ namespace PLE444.Controllers
         public ActionResult Index(Guid? id)
         {
             if (id == null)
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Index", "Home");
 
             var course = db.Courses.SingleOrDefault(i => i.ID == id);
             if (course == null)
@@ -31,7 +33,8 @@ namespace PLE444.Controllers
             {
                 CourseInfo = course,
                 AssignmentList = assignments,
-                CanEdit = isCourseCreator(course.ID),
+                CanEdit = isCourseCreator(course),
+                CanUpload = isMember(course.ID),
                 CurrentUserId = User.Identity.GetUserId()
             };
 
@@ -41,7 +44,7 @@ namespace PLE444.Controllers
         public ActionResult Create(Guid id)
         {
             if (!isCourseCreator(id))
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("Index", "Home");
 
             var model = new AssignmentForm
             {
@@ -86,8 +89,8 @@ namespace PLE444.Controllers
         {
             if (!id.HasValue || !courseId.HasValue)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            
-            if(!isCourseCreator(courseId))
+
+            if (!isCourseCreator(courseId))
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
             var assignment = db.Assignments.Include("Course").FirstOrDefault(i => i.Id == id);
@@ -139,7 +142,7 @@ namespace PLE444.Controllers
             var a = db.Assignments.Include("Course").FirstOrDefault(i => i.Id == assignmentId);
 
             if (!isMember(a.Course.ID))
-                return RedirectToAction("Index");
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
             if (ModelState.IsValid)
             {
@@ -158,18 +161,21 @@ namespace PLE444.Controllers
                     var uploaded = a.Uploads.FirstOrDefault(u => u.Owner == currentuserId);
                     if (uploaded == null)
                     {
-                        var d = new Document();
-                        d.DateUpload = DateTime.Now;
-                        d.Description = uploadFile.FileName;
-                        d.Owner = currentuserId;
-                        d.FilePath = filePath;
+                        var d = new Document
+                        {
+                            DateUpload = DateTime.Now,
+                            Description = uploadFile.FileName,
+                            Owner = currentuserId,
+                            FilePath = filePath
+                        };
 
                         db.Documents.Add(d);
                         a.Uploads.Add(d);
                     }
                     else
                     {
-                        uploaded.DateUpload = DateTime.Now; ;
+                        uploaded.DateUpload = DateTime.Now;
+                        ;
                         uploaded.Description = uploadFile.FileName;
                         uploaded.FilePath = filePath;
                         uploaded.Owner = currentuserId;
@@ -182,7 +188,35 @@ namespace PLE444.Controllers
                 }
             }
 
-            return RedirectToAction("Index","Assignment", new { id = a.Course.ID });
+            return RedirectToAction("Index", "Assignment", new {id = a.Course.ID});
+        }
+
+        public ActionResult DownloadAssignment(Guid asssignmentId)
+        {
+            var assignment = db.Assignments.Find(asssignmentId);
+            if (assignment == null)
+                return HttpNotFound();
+            var documents = assignment.Uploads.ToList();
+
+            var memoryStream = new MemoryStream();
+
+            using (var zip = new ZipFile())
+            {
+                Debug.WriteLine(documents.Count);
+                foreach (var document in documents)
+                {
+                    var path = document.FilePath;
+
+                    if (System.IO.File.Exists(path))
+                    {
+                        var zipFileName = document.Owner + "_" + document.Description + Path.GetExtension(document.FilePath);
+                        zip.AddFile(path, "").FileName = zipFileName;
+                    }
+                }
+                zip.Save(memoryStream);
+            }
+            memoryStream.Seek(0, 0);
+            return File(memoryStream, "application/octet-stream", DateTime.Now + ".zip");
         }
 
         private bool isCourseCreator(Guid? courseId)

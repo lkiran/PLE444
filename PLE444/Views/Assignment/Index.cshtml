@@ -94,9 +94,9 @@
            
                 @if (Model.CanEdit)
                 {
-                    <a href="#" class="btn btn-default-alt pull-right">Hepsini İndir (.zip)</a>
+                    <a href="@Url.Action("DownloadAssignment","Assignment", new { asssignmentId = assignment.Id })" class="btn btn-default-alt pull-right">Hepsini İndir (.zip)</a>
                 }
-                else
+                else if(Model.CanUpload)
                 {
                     using (Html.BeginForm("Upload", "Assignment", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
                     {

@@ -14,6 +14,7 @@ namespace PLE444.Models
         public Chapter()
         {
             Id = Guid.NewGuid();
+            IsActive = true;
         }
 
         [Required]
@@ -36,6 +37,8 @@ namespace PLE444.Models
 
         [DisplayName("Eklenme Tarihi")]
         public DateTime DateAdded { get; set; }
+
+        public bool IsActive { get; set; }
 
         public virtual ICollection<Material> Materials { get; set; }
     }

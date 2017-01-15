@@ -26,7 +26,6 @@
 
     $(function () {
         $('.navigator a').each(function (index) {
-            console.log(index + ": " + $(this).attr("href"));
             if ($(this).attr("href") === location.pathname)
                 $(this).parent("li").addClass("active");
         });

@@ -360,7 +360,7 @@ span.jFiler-icon-file.f-audio {
 
 .jFiler-items-grid .jFiler-item .jFiler-item-container .jFiler-item-thumb:hover .jFiler-item-thumb-overlay {
     opacity: 1;
-    filter: aplpha(opacity(100));
+    filter: alpha(opacity=100);
 }
 
 .jFiler-items-grid .jFiler-item .jFiler-item-container .jFiler-item-info {
