@@ -151,8 +151,9 @@ namespace PLE444.Controllers
             if (course == null)
                 HttpNotFound();
 
-            var users = db.UserCourses.Where(i => i.Course.ID == courseId).Select(u => u.User).ToList();
-            var userIds = users.Select(u => u.Id).ToList();
+            var courseUsers = db.UserCourses.Where(i => i.Course.ID == courseId).Include("User").ToList();
+
+            var userIds = courseUsers.Select(u => u.UserId).ToList();
             var ug = db.UserGrades.Where(g=>userIds.Contains(g.UserId)).ToList();
 
             var model = new CourseGrades
@@ -161,7 +162,7 @@ namespace PLE444.Controllers
                 CanEdit = isCourseCreator(course),
                 UserGrades = ug,
                 GradeTypes = db.GradeTypes.Where(c => c.Course.ID == courseId).ToList(),
-                Users = users
+                CourseUsers = courseUsers
             };
 
             return View(model);
@@ -211,16 +212,37 @@ namespace PLE444.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult EditGradeType(GradeType model)
         {
-            if (model != null)
+            if (ModelState.IsValid)
             {
                 db.Entry(model).State = EntityState.Modified;
                 db.SaveChanges();
 
                 var course = db.Courses.FirstOrDefault(i => i.ID == model.CourseId);
-                return RedirectToAction("Grades", new { courseId = course.ID });
+                return RedirectToAction("Grades", new {courseId = course.ID});
             }
 
-            return View();
+            return View(model);
+        }
+
+        [Authorize]
+        public ActionResult RemoveGradeType(int? id)
+        {
+            if (!id.HasValue)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var gradeType = db.GradeTypes.Find(id);
+            if (gradeType == null)
+                return HttpNotFound();
+
+            else if(!isCourseCreator(gradeType.CourseId))
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            gradeType.IsActive = false;
+
+            db.Entry(gradeType).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("Grades", "Course", new { courseId = gradeType.CourseId});
         }
 
         [Authorize]
@@ -235,7 +257,7 @@ namespace PLE444.Controllers
 
             var course = model.GradeType.Course;
             if (!isCourseCreator(course))
-                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
             return View(model);
         }
@@ -290,6 +312,29 @@ namespace PLE444.Controllers
                 return RedirectToAction("Grades", "Course", new { courseId = courseId});
             }
             return View(model);
+        }
+
+        [Authorize]
+        public ActionResult DeleteGrade(int? id)
+        {
+            if (!id.HasValue)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var userGrade = db.UserGrades.Find(id);
+            if (userGrade == null)
+                return HttpNotFound();
+
+            var gradeType = db.GradeTypes.Find(userGrade.GradeTypeId);
+            if (gradeType == null)
+                return HttpNotFound();
+
+            else if (!isCourseCreator(gradeType.CourseId))
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            db.UserGrades.Remove(userGrade);
+            db.SaveChanges();
+
+            return RedirectToAction("Grades", "Course", new { courseId = gradeType.CourseId });
         }
 
         protected override void Dispose(bool disposing)
@@ -418,7 +463,6 @@ namespace PLE444.Controllers
                 uc.UserId = userID;
 
                 uc.Course = c;
-                uc.ApprovalDate = null;
 
                 db.UserCourses.Add(uc);
                 db.SaveChanges();
@@ -443,6 +487,28 @@ namespace PLE444.Controllers
 
             ViewBag.UserId = userID;
             return RedirectToAction("Index");
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult EjectUserFromCourse(string userId, Guid? courseId)
+        {
+            if(userId.IsNullOrWhiteSpace() || courseId == null)
+                return Json(new { Success = false, Message = "BadRequest" }, JsonRequestBehavior.AllowGet);
+
+            var uc = db.UserCourses.FirstOrDefault(c => c.CourseId == courseId && c.UserId == userId);
+            if (uc == null)
+                return Json(new { Success = false, Message = "HttpNotFound" }, JsonRequestBehavior.AllowGet);
+
+            if (!isCourseCreator(uc.CourseId))
+                return Json(new { Success = false, Message = "Unauthorized" }, JsonRequestBehavior.AllowGet);
+
+            uc.IsActive = false;
+
+            db.Entry(uc).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return Json(new { Success = true, Message = "OK" }, JsonRequestBehavior.AllowGet);
         }
 
         private bool isCourseCreator(Guid? courseId)

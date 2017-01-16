@@ -8,95 +8,168 @@
     
 }
 
+@section styles
+{
+    @Styles.Render("~/Content/plugins/datatables/dataTables.bootstrap.css",
+                    "~/Content/plugins/datatables/dataTables.themify.css")  
+}
+
 @{ Html.RenderAction("Navigation", "Course", new { id = Model.CourseInfo.ID }); }
 
 <div class="panel panel-default" data-widget='{"draggable": "false"}'>
-    <div class="panel-heading">
-   
-        <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
-    </div>
-    <div class="panel-body">
-        <table class="table table-hover m-n">
+
+        <table class="table table-hover m-n" id="gradeTbl">
             <thead>
                 <tr>                   
                     <th></th>
                     @foreach (var gradeType in Model.GradeTypes)
                     {
-                        <th class="text-center" title="@gradeType.Description
-Ağırlık: @(gradeType.Effect*100)%
+                        if (gradeType.IsActive)
+                        {
+                            <th class="text-center" title="@gradeType.Description
+Ağırlık: @gradeType.Effect%
 Max Score: @gradeType.MaxScore">
-                            
-                            @if (Model.CanEdit)
-                            {
-                                <a href="@Url.Action("EditGradeType", "Course", new {id = gradeType.Id})">@gradeType.Name</a>
-                            }
-                            else
-                            {
-                                <span>@gradeType.Name </span>
-                            }
-                        </th>
+
+                                @if (Model.CanEdit)
+                                {
+                                    <a href="@Url.Action("EditGradeType", "Course", new {id = gradeType.Id})">@gradeType.Name</a>
+                                }
+                                else
+                                {
+                                    <span>@gradeType.Name </span>
+                                }
+                            </th>
+                        }
                     }
                     <th class="text-center">Toplam</th>
                 </tr>
             </thead>
             <tbody>                
-                @foreach (var user in Model.Users)
+                @foreach (var cu in Model.CourseUsers)
                 {
+                    if (!cu.IsActive)
+                    {
+                        continue;
+                    }
+
                     var totalUserScore = 0f;
 
                     <tr>
-                        <td><a href="@Url.Action("Profil", "User", new {id = user.Id})">
-                                
-                                <img alt="Kullanıcı Resmi" src="@user.UserPhoto()" class="img-circle" style="height: 30px;"/>
-                                @user.FullName()
+                        <td>
+                            <a href="@Url.Action("Profil", "User", new {id = cu.UserId})">
+                                <img alt="Kullanıcı Resmi" src="@cu.User.UserPhoto()" class="img-circle" style="height: 30px;"/>
+                                @cu.User.FullName()
                             </a>
+
+                            @if (Model.CanEdit)
+                            {
+                                <a class="js-ejectUser ml-sm" data-user-id="@cu.UserId" data-course-id="@cu.CourseId">
+                                    <small class="text-danger"> <i class="fa fa-ban"></i> Çıkar </small>
+                                </a>
+                            }
                         </td>
                         
-                        @{ var gradesOfTheUser = Model.UserGrades.Where(u => u.UserId == user.Id).ToList(); }
+                        @{ var gradesOfTheUser = Model.UserGrades.Where(u => u.UserId == cu.UserId).ToList(); }
 
                         @foreach (var gradeType in Model.GradeTypes)
                         {
-                            var userGrade = gradesOfTheUser.FirstOrDefault(g => g.GradeTypeId == gradeType.Id);
+                            if (gradeType.IsActive)
+                            {
+                                var userGrade = gradesOfTheUser.FirstOrDefault(g => g.GradeTypeId == gradeType.Id);
 
-                            <td class="text-center">
-                                @if (userGrade == null)
-                                {
-                                    if (Model.CanEdit)
-                                     {
-                                        <a href="@Url.Action("AddGrade", "Course", new { gradeTypeId= gradeType.Id, userId = user.Id })"> - </a>
+                                <td class="text-center">
+                                    @if (userGrade == null)
+                                    {
+                                        if (Model.CanEdit)
+                                         {
+                                             <a href="@Url.Action("AddGrade", "Course", new {gradeTypeId = gradeType.Id, userId = cu.UserId})">
+                                                 <i class="fa fa-plus text-warning"></i>
+                                             </a>
+                                        }
+                                        else
+                                        {
+                                            <span> <i class="fa fa-minus"></i></span>
+                                        }
                                     }
                                     else
                                     {
-                                        <span> - </span>
-                                    }
-                                }
-                                else
-                                {
-                                    totalUserScore += (userGrade.Grade * gradeType.Effect / 100f);
+                                        totalUserScore += (userGrade.Grade * gradeType.Effect / 100f);
 
-                                    if (Model.CanEdit)
-                                    {
-                                        <a href="@Url.Action("ChangeGrade", "Course", new {gradeId = userGrade.Id})"> @userGrade.Grade </a>
+                                        if (Model.CanEdit)
+                                        {
+                                            <a href="@Url.Action("ChangeGrade", "Course", new {gradeId = userGrade.Id})"> @userGrade.Grade </a>
+                                        }
+                                        else
+                                        {
+                                            <span> @userGrade.Grade </span>
+                                        }
                                     }
-                                    else
-                                    {
-                                        <span> @userGrade.Grade </span>
-                                    }
-                                    
-                                }
-                            </td>
+                                </td>
+                            }
                         }
                         <td class="text-center">@(Math.Round((totalUserScore),2))</td>
                     </tr>
                 }
             </tbody>
         </table>
-    
-        
-    </div>
 </div>
 
 @if (Model.CanEdit)
 {
     <a href="@Url.Action("CreateGradeType",new { id = Model.CourseInfo.ID })" class="btn btn-primary-alt" id="dyna-del">Not Türü Ekle</a>
+}
+
+
+@section scripts
+{
+    @Scripts.Render("~/Content/plugins/datatables/dataTables.bootstrap.js",
+                    "~/Content/plugins/datatables/jquery.dataTables.js")
+
+    <script>
+        $(document).ready(function () {
+            $('#gradeTbl').dataTable({
+                "paging": false,
+                "dom" : '<"panel-heading"f><"panel-body"t>'
+            });
+     
+            $(".js-ejectUser").on("click", function () {
+
+                var object = $(this);
+
+                bootbox.confirm({
+                    title: "Onay",
+                    message: "Kullanıcıyı dersten çıkarmak istediğinize emin misiniz?",
+                    buttons: {
+                        confirm: {
+                            label: 'Evet, Çıkar',
+                            className: 'btn-danger-alt'
+                        },
+                        cancel: {
+                            label: 'Hayır',
+                            className: 'btn-info-alt'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            $.ajax({
+                                //EjectUserFromCourse(string userId, Guid? courseId)
+                                url: "/Course/EjectUserFromCourse/?userId=" + object.data('user-id') +
+                                    "&courseId=" + object.data('course-id'),
+                                method: "POST",
+                                dataType: 'json',
+                                success: function(response) {
+                                    object.closest("tr").slideUp();
+                                    console.log(response.Message);
+                                },
+                                error: function(response) {
+                                    console.log(response.Message);
+                                }
+                            });
+                        }
+
+                    }
+                });
+            });
+        });
+    </script>
 }

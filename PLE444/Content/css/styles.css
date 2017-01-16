@@ -1,3 +1,9 @@
+
+.input-validation-error {
+    background-color: #fde0dc;
+    border-color: #f69988 !important;
+}
+
 .m-n {
   margin: 0px   		   !important;
 }

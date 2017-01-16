@@ -9,6 +9,13 @@
 
 @{ Html.RenderAction("Navigation", "Course", new { id = Model.CourseInfo.ID }); }
 
+@if (!Model.AssignmentList.Any())
+{
+    <div class="alert alert-dismissable alert-info">
+        <i class="ti ti-info-alt lead"></i> Bu derse eklenmiş herhangi bir ödev henüz yok.
+    </div>
+}
+
 @foreach (var assignment in Model.AssignmentList)
 {
     var userUpload = assignment.Uploads.FirstOrDefault(u => u.Owner == Model.CurrentUserId);
@@ -42,8 +49,11 @@
             @if (Model.CanEdit)
             {
                 <a href="@Url.Action("Edit", "Assignment", new {id = assignment.Id, courseId = Model.CourseInfo.ID})">
-                    <small><i class="ti ti-pencil ml-md mr-sm"></i>Düzenle</small>
+                    <small><i class="fa fa-pencil-square-o ml-md mr-sm"></i>Düzenle</small>
                 </a>
+                <button data-assignment-id="@assignment.Id" class="btn-remove btn-link">
+                    <small class="text-danger"><i class="fa fa-trash-o ml-md mr-sm"></i>Kaldır</small>
+                </button>
             }
             else
             {
@@ -94,7 +104,10 @@
            
                 @if (Model.CanEdit)
                 {
-                    <a href="@Url.Action("DownloadAssignment","Assignment", new { asssignmentId = assignment.Id })" class="btn btn-default-alt pull-right">Hepsini İndir (.zip)</a>
+                    <a href="@Url.Action("DownloadAssignment", "Assignment", new {asssignmentId = assignment.Id})" class="pull-right">
+                        <img src="/Content/img/FileIcons/zip.png" alt="zip" style="height: 30px;"/>
+                        <span> Hepsini İndir</span>
+                    </a>
                 }
                 else if(Model.CanUpload)
                 {
@@ -115,13 +128,51 @@
 
 @if (Model.CanEdit)
 {
-    <a href="@Url.Action("Create", "Assignment", new { id = Model.CourseInfo.ID })" class="btn btn-primary-alt" id="dyna-del">Yeni Ödev Ekle</a>
+    <a href="@Url.Action("Create", "Assignment", new {id = Model.CourseInfo.ID})" class="btn btn-primary-alt center-block" id="dyna-del">
+        <i class="fa fa-plus"></i> Yeni Ödev Ekle
+    </a>
 }
 
 @section scripts
 {
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
+            $(".btn-remove").on("click", function () {
+
+                var object = $(this);
+
+                bootbox.confirm({
+                    title: "Onay",
+                    message: "Ödevi kaldırmak istediğinize emin misiniz?",
+                    buttons: {
+                        confirm: {
+                            label: 'Evet, Kaldır',
+                            className: 'btn-danger-alt'
+                        },
+                        cancel: {
+                            label: 'Hayır',
+                            className: 'btn-info-alt'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            $.ajax({
+                                url: "/Assignment/Delete/" + object.data('assignment-id'),
+                                method: "POST",
+                                dataType: 'json',
+                                success: function (response) {
+                                    object.parent("div").parent("div").slideUp();
+                                },
+                                error: function (response) {
+                                    console.log(response);
+                                }
+                            });
+                        }
+
+                    }
+                });
+            });
+
             $('.filer_input').each(function () {
                 $(this).filer({
                     captions: {

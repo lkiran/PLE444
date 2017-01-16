@@ -12,7 +12,7 @@ namespace PLE444.ViewModels
 
         public Course CourseInfo { get; set; }
 
-        public IEnumerable<ApplicationUser> Users { get; set; }
+        public IEnumerable<UserCourse> CourseUsers { get; set; }
 
         public IEnumerable<GradeType> GradeTypes { get; set; }
 

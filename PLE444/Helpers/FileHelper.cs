@@ -15,6 +15,8 @@ namespace PLE444.Helpers
             fileType = fileType.Replace(".", "");
             fileType = fileType.Trim();
             fileType = fileType.ToLower();
+            if (fileType == "")
+                fileType = "unknown";
 
             return "/Content/img/FileIcons/" + fileType + ".png";
         }

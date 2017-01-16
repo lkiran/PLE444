@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -14,11 +15,18 @@ namespace PLE444.Models
         public Material()
         {
             Id = Guid.NewGuid();
-            Documents = new Collection<Document>();
+            IsActive = true;
         }
 
         [Key]
         public Guid Id { get; set; }
+
+        public bool IsActive { get; set; }
+
+        public ApplicationUser Owner { get; set; }
+
+        [ForeignKey("Owner")]
+        public string OwnerId { get; set; }
 
         [Required]
         [DisplayName("Başlık")]

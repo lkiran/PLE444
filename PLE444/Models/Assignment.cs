@@ -14,10 +14,13 @@ namespace PLE444.Models
         public Assignment()
         {
             Id = Guid.NewGuid();
+            IsActive = true;
         }
 
         [Key]
         public Guid Id { get; set; }
+
+        public bool IsActive { get; set; }
 
         public Course Course { get; set; }
 

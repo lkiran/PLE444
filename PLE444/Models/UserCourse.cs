@@ -9,8 +9,15 @@ namespace PLE444.Models
 {
 	public class UserCourse
 	{
-		[Key]
+	    public UserCourse()
+	    {
+	        IsActive = true;
+	    }
+
+        [Key]
         public int Id { get; set; }
+
+        public bool IsActive { get; set; }
 
         [ForeignKey("User")]
         public string UserId { get; set; }
@@ -21,7 +28,5 @@ namespace PLE444.Models
         public Guid CourseId { get; set; }
 
         public Course Course { get; set; }
-
-		public DateTime? ApprovalDate { get; set; }
 	}
 }

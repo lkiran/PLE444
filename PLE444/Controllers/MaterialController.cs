@@ -53,7 +53,6 @@ namespace PLE444.Controllers
             return View(model);
         }
 
-
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
@@ -66,6 +65,7 @@ namespace PLE444.Controllers
 
             else if (ModelState.IsValid)
             {
+                var currentUserId = User.Identity.GetUserId();
                 foreach (var uploadedFile in model.UploadedFiles)  //iterate in each file
                 {
                     if (uploadedFile != null && uploadedFile.ContentLength > 0) //check length of bytes are greater then zero or not
@@ -80,12 +80,14 @@ namespace PLE444.Controllers
                         var d = new Document
                         {
                             FilePath = "/ Uploads / " + fileName,
-                            Owner = User.Identity.GetUserId(),
+                            Owner = currentUserId,
                             DateUpload = DateTime.Now,
                             Description = uploadedFile.FileName
                         };
 
                         var doc = db.Documents.Add(d);
+
+                        model.OwnerId = currentUserId;
 
                         model.Documents.Add(doc);
                     }
@@ -213,6 +215,30 @@ namespace PLE444.Controllers
             return View(material);
         }
 
+        [HttpPost]
+        public ActionResult RemoveFromChapter(Guid? chapterId, Guid? materialId)
+        {
+            if (chapterId == null || materialId == null)
+                return Json(new {Success = false, Message = "BadRequest"}, JsonRequestBehavior.AllowGet);
+
+            var chapter = db.Chapters.Find(chapterId);
+            if (chapter == null)
+                return Json(new { Success = false, Message = "HttpNotFound" }, JsonRequestBehavior.AllowGet);
+
+            else if (!isCourseCreator(chapter.CourseId))
+                return Json(new { Success = false, Message = "Unauthorized" }, JsonRequestBehavior.AllowGet);
+
+            var material = chapter.Materials.FirstOrDefault(m => m.Id == materialId);
+            if(material == null)
+                return Json(new { Success = false, Message = "HttpNotFound" }, JsonRequestBehavior.AllowGet);
+
+            chapter.Materials.Remove(material);
+
+            db.Entry(chapter).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return Json(new { Success = true, Message = "OK" }, JsonRequestBehavior.AllowGet);
+        }
 
         protected override void Dispose(bool disposing)
         {
@@ -246,6 +272,14 @@ namespace PLE444.Controllers
             if (user == null)
                 return false;
             return true;
+        }
+
+        private bool isOwner(string id)
+        {
+            var userId = User.Identity.GetUserId();
+            if (userId == id)
+                return true;
+            return false;
         }
     }
 }

@@ -24,6 +24,8 @@ namespace PLE444.ViewModels
 
         public string Title { get; set; }
 
+        public string OwnerId { get; set; }
+
         [AllowHtml]
         public string Description { get; set; }
 

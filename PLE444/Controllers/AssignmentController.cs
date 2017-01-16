@@ -22,13 +22,13 @@ namespace PLE444.Controllers
         public ActionResult Index(Guid? id)
         {
             if (id == null)
-                return RedirectToAction("Index", "Home");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var course = db.Courses.SingleOrDefault(i => i.ID == id);
+            var course = db.Courses.Find(id);
             if (course == null)
-                return RedirectToAction("Index", "Home");
+                return  HttpNotFound();
 
-            var assignments = db.Assignments.Include("Uploads").Where(a => a.Course.ID == id).ToList();
+            var assignments = db.Assignments.Include("Uploads").Where(a => a.Course.ID == id && a.IsActive).ToList();
             var model = new CourseAssignments
             {
                 CourseInfo = course,
@@ -133,6 +133,27 @@ namespace PLE444.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Delete(Guid? id)
+        {
+            if (id == null)
+                return Json(new { Success = false, Message = "BadRequest" }, JsonRequestBehavior.AllowGet);
+
+            var assignment = db.Assignments.Find(id);
+            if (assignment == null)
+                return Json(new { Success = false, Message = "HttpNotFound" }, JsonRequestBehavior.AllowGet);
+
+            else if (!isCourseCreator(assignment.CourseId))
+                return Json(new { Success = false, Message = "Unauthorized" }, JsonRequestBehavior.AllowGet);
+
+            assignment.IsActive = false;
+
+            db.Entry(assignment).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return Json(new { Success = true, Message = "OK" }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

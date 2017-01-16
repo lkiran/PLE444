@@ -14,7 +14,7 @@ $(document).ready(function() {
             "pdf",
             { "type": "print", "buttonText": "Print me!" }
         ],
-        "sSwfPath" : "assets/plugins/datatables/TableTools/swf/copy_csv_xls_pdf.swf"
+        "sSwfPath" : "Content/plugins/datatables/TableTools/swf/copy_csv_xls_pdf.swf"
     });
 
 

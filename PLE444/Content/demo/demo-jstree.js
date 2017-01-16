@@ -141,7 +141,7 @@ $(function(){
             "check_callback" : true,
             'data' : {
                 'url' : function (node) {
-                  return 'assets/plugins/jstree/docs/assets/ajax_nodes.html';
+                  return 'Content/plugins/jstree/docs/assets/ajax_nodes.html';
                 },
                 'data' : function (node) {
                   return { 'parent' : node.id };
