@@ -22,23 +22,27 @@ namespace PLE444.Controllers
         public ActionResult Index(Guid? id)
         {
             if (id == null)
+                return RedirectToAction("List");
+
+            return View();
+        }
+
+        public ActionResult List()
+        {
+            var c = db.Courses.ToList();
+            var ui = User.Identity.GetUserId();
+            var uc = db.UserCourses.Where(i => i.UserId == ui);
+            var joinList = new List<bool>();
+            foreach (var item in c)
             {
-                 var c = db.Courses.ToList();
-                var ui = User.Identity.GetUserId();
-                var uc = db.UserCourses.Where(i => i.UserId == ui);
-                var joinList = new List<bool>();
-                foreach (var item in c)
-                {
-                    var r = uc.FirstOrDefault(i => i.Course.ID == item.ID);
-                    if (r == null)
-                        joinList.Add(false);
-                    else
-                        joinList.Add(true);
-                }
-                ViewBag.JoinList = joinList;
-                return View(c);
+                var r = uc.FirstOrDefault(i => i.Course.ID == item.ID);
+                if (r == null)
+                    joinList.Add(false);
+                else
+                    joinList.Add(true);
             }
-            return RedirectToAction("Index","Chapter", new { id = id });
+            ViewBag.JoinList = joinList;
+            return View(c);
         }
 
         [ChildActionOnly]
@@ -312,6 +316,66 @@ namespace PLE444.Controllers
                 return RedirectToAction("Grades", "Course", new { courseId = courseId});
             }
             return View(model);
+        }
+
+        [Authorize]
+        public JsonResult AddOrUpdateGradeJson(int gradeTypeId, string userId, float grade)
+        {
+            if(userId.IsNullOrWhiteSpace())
+                return Json(new { Success = false, Message = "BadRequest" }, JsonRequestBehavior.AllowGet);
+
+            var gt = db.GradeTypes.Include("Course").FirstOrDefault(i => i.Id == gradeTypeId);
+            if(gt == null)
+                return Json(new { Success = false, Message = "HttpNotFound" }, JsonRequestBehavior.AllowGet);
+
+            if (!isCourseCreator(gt.Course))
+                return Json(new { Success = false, Message = "Unauthorized" }, JsonRequestBehavior.AllowGet);
+
+            var model = db.UserGrades.Where(u => u.UserId == userId).FirstOrDefault(t => t.GradeTypeId == gradeTypeId);
+            if (model == null)
+            {
+                model = new UserGrade
+                {
+                    UserId = userId,
+                    GradeTypeId = gradeTypeId,
+                    Grade = grade
+                };
+
+                model = db.UserGrades.Add(model);
+                db.SaveChanges();
+            }
+            else
+            {
+                model.Grade = grade;
+
+                db.Entry(model).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            return Json(new { Success = true, Message = "OK", ID = model.Id }, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        public JsonResult DeleteGradeJson(int? id)
+        {
+            if (!id.HasValue)
+                return Json(new { Success = false, Message = "BadRequest" }, JsonRequestBehavior.AllowGet);
+
+            var userGrade = db.UserGrades.Find(id);
+            if (userGrade == null)
+                return Json(new { Success = false, Message = "HttpNotFound" }, JsonRequestBehavior.AllowGet);
+
+            var gradeType = db.GradeTypes.Find(userGrade.GradeTypeId);
+            if (gradeType == null)
+                return Json(new { Success = false, Message = "HttpNotFound" }, JsonRequestBehavior.AllowGet);
+
+            else if (!isCourseCreator(gradeType.CourseId))
+                return Json(new { Success = false, Message = "Unauthorized" }, JsonRequestBehavior.AllowGet);
+
+            db.UserGrades.Remove(userGrade);
+            db.SaveChanges();
+
+            return Json(new { Success = true, Message = "OK" }, JsonRequestBehavior.AllowGet);
         }
 
         [Authorize]

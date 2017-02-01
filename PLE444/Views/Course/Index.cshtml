@@ -1,51 +1,20 @@
-﻿@model IEnumerable<PLE444.Models.Course>
-
-@{
+﻿@{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+<div class="panel panel-profile">
     <div class="panel-heading">
-        
-            @Html.ActionLink("Yeni Ders Oluştur", "CourseCreate")
-       
-        <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
     </div>
     <div class="panel-body">
-        <table class="table table-hover m-n">
-
-            <thead>
-                <tr>
-
-                    <th>İsim</th>                 
-                    <th>Açıklama</th>
-                    <th>Açılma Tarihi</th>
-                    <th>
-                </tr>
-            </thead>
-            @{ int i = 0; }
-            @foreach (var item in Model)
-            {
-                <tbody>
-                    <tr>
-                  
-                        <td> <a href="@Url.Action("Index", "Chapter", new { id = item.ID })"> @item.Name</a></td>
-                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                        <td>@Html.DisplayFor(modelItem => item.CourseStart)</td>
-                        
-                        @if (!ViewBag.JoinList[i])
-                        {
-                            <td>@Html.ActionLink("Ekle", "Join", new { id = item.ID })</td>
-                        }
-                        else
-                        {
-                            <td>@Html.ActionLink("Kaldır", "Leave", new { id = item.ID })</td>
-                        }
-                        @{i++; }
-                    </tr>
-                </tbody>
-            }
-        </table>
+        <a style="float:right" href="#"><i class="fa fa-pencil"></i></a>
+        <div class="col-sm-3">
+            <p>Grup İsmi</p>
+            <div class="name">Ders Adı </div>
+        </div>
+        <div class="col-sm-9 text-left">
+            <p class="lead">Açıklama</p>
+            <p>Kapalı Grup</p>
+            <a href="#">Katıl</a>
+        </div>
     </div>
 </div>

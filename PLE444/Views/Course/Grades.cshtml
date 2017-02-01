@@ -18,7 +18,7 @@
 
 <div class="panel panel-default" data-widget='{"draggable": "false"}'>
 
-        <table class="table table-hover m-n" id="gradeTbl">
+    <table class="table table-hover m-n" id="gradeTbl">
             <thead>
                 <tr>                   
                     <th></th>
@@ -45,6 +45,10 @@ Max Score: @gradeType.MaxScore">
                 </tr>
             </thead>
             <tbody>                
+                @{
+                    var row = 0;
+                    var column = 0;
+                }
                 @foreach (var cu in Model.CourseUsers)
                 {
                     if (!cu.IsActive)
@@ -68,7 +72,7 @@ Max Score: @gradeType.MaxScore">
                                 </a>
                             }
                         </td>
-                        
+
                         @{ var gradesOfTheUser = Model.UserGrades.Where(u => u.UserId == cu.UserId).ToList(); }
 
                         @foreach (var gradeType in Model.GradeTypes)
@@ -81,10 +85,11 @@ Max Score: @gradeType.MaxScore">
                                     @if (userGrade == null)
                                     {
                                         if (Model.CanEdit)
-                                         {
-                                             <a href="@Url.Action("AddGrade", "Course", new {gradeTypeId = gradeType.Id, userId = cu.UserId})">
-                                                 <i class="fa fa-plus text-warning"></i>
-                                             </a>
+                                        {
+                                            <a class="editable" href="#AddGrade" data-grade-type-id = "@gradeType.Id" data-user-id="@cu.UserId" >
+                                                <i class="fa fa-plus text-warning"></i>
+                                                <input type="text" style="display: none;" value="" data-x="@column" data-y="@row">
+                                            </a>
                                         }
                                         else
                                         {
@@ -93,11 +98,16 @@ Max Score: @gradeType.MaxScore">
                                     }
                                     else
                                     {
-                                        totalUserScore += (userGrade.Grade * gradeType.Effect / 100f);
+                                        totalUserScore += (userGrade.Grade*gradeType.Effect/100f);
 
                                         if (Model.CanEdit)
                                         {
-                                            <a href="@Url.Action("ChangeGrade", "Course", new {gradeId = userGrade.Id})"> @userGrade.Grade </a>
+                                            @*@Url.Action("ChangeGrade", "Course", new { gradeId = userGrade.Id })*@
+                                            <a class="editable" href="#EditGrade" data-id="@userGrade.Id" data-grade-type-id = "@gradeType.Id" data-user-id="@cu.UserId">
+                                                <span>@userGrade.Grade</span>
+                                                <input type="text" style="display: none;" value="@userGrade.Grade" data-x="@column" data-y="@row">
+                                            </a>
+                                          
                                         }
                                         else
                                         {
@@ -106,70 +116,270 @@ Max Score: @gradeType.MaxScore">
                                     }
                                 </td>
                             }
+                            column++;
                         }
-                        <td class="text-center">@(Math.Round((totalUserScore),2))</td>
+                        <td class="text-center">@(Math.Round((totalUserScore), 2))</td>
                     </tr>
+                    row++;
                 }
             </tbody>
         </table>
+   
 </div>
 
 @if (Model.CanEdit)
 {
-    <a href="@Url.Action("CreateGradeType",new { id = Model.CourseInfo.ID })" class="btn btn-primary-alt" id="dyna-del">Not Türü Ekle</a>
+    <a href="@Url.Action("CreateGradeType", new {id = Model.CourseInfo.ID})" class="btn btn-primary-alt" id="dyna-del">Not Türü Ekle</a>
 }
 
 
 @section scripts
 {
-    @Scripts.Render("~/Content/plugins/datatables/dataTables.bootstrap.js",
-                    "~/Content/plugins/datatables/jquery.dataTables.js")
+    @Scripts.Render("~/Content/plugins/datatables/jquery.dataTables.js")
 
     <script>
-        $(document).ready(function () {
-            $('#gradeTbl').dataTable({
-                "paging": false,
-                "dom" : '<"panel-heading"f><"panel-body"t>'
-            });
-     
-            $(".js-ejectUser").on("click", function () {
+        function AddGradeAjax(gradeCell) {
+            var isChanged = false;
+            var isDeleted = false;
+            var displaySpan = gradeCell.find('span');
+            var editedValue = gradeCell.find("input").val();
+            var currentValue;
+            if (displaySpan.length == 0) { //Add
+                if (editedValue != "") {
+                    currentValue = "<span>" + editedValue + "</span>";
+                    gradeCell.append(currentValue);
+                    gradeCell.find('i').remove();
+                    isChanged = true;
+                }
+            } else {//Change
+                currentValue = displaySpan.html();
+                if(editedValue === "")
+                    isDeleted = true;
+                else if (currentValue != editedValue) {
+                    displaySpan.html(editedValue);
+                    isChanged = true;
+                }
+            }
+            if (isChanged) {
+                displaySpan.addClass("text-warning");
+                displaySpan.append("<i class=\"fa fa-li fa-spinner fa-spin\"></i>")
 
-                var object = $(this);
+                $.ajax({
+                    //AddOrUpdateGradeJson(int gradeTypeId, string userId, float grade)
+                    url: "/Course/AddOrUpdateGradeJson" +
+                        "?gradeTypeId=" +
+                        gradeCell.data('grade-type-id') +
+                        "&userId=" +
+                        gradeCell.data('user-id') +
+                        "&grade=" +
+                        editedValue,
 
-                bootbox.confirm({
-                    title: "Onay",
-                    message: "Kullanıcıyı dersten çıkarmak istediğinize emin misiniz?",
-                    buttons: {
-                        confirm: {
-                            label: 'Evet, Çıkar',
-                            className: 'btn-danger-alt'
-                        },
-                        cancel: {
-                            label: 'Hayır',
-                            className: 'btn-info-alt'
+                    method: "GET",
+                    dataType: 'json',
+                    success: function(response) {
+                        console.log(response.Message);
+                        if (response.Message === "OK") {
+                            displaySpan.html(editedValue);
+                            displaySpan.removeClass("text-warning").addClass("text-success");
+                            gradeCell.data("id", response.ID);
+                        } else {
+                            displaySpan.removeClass("text-warning").addClass("text-danger");
+                            displaySpan.html(currentValue);
                         }
                     },
-                    callback: function (result) {
-                        if (result) {
-                            $.ajax({
-                                //EjectUserFromCourse(string userId, Guid? courseId)
-                                url: "/Course/EjectUserFromCourse/?userId=" + object.data('user-id') +
-                                    "&courseId=" + object.data('course-id'),
-                                method: "POST",
-                                dataType: 'json',
-                                success: function(response) {
-                                    object.closest("tr").slideUp();
-                                    console.log(response.Message);
-                                },
-                                error: function(response) {
-                                    console.log(response.Message);
-                                }
-                            });
-                        }
-
+                    error: function(response) {
+                        displaySpan.removeClass("text-warning").addClass("text-danger");
+                        displaySpan.html(currentValue);
                     }
                 });
+            }
+
+            if (isDeleted) {
+                $.ajax({
+                    // DeleteGradeJson(int? id)
+                    url: "/Course/DeleteGradeJson/" + gradeCell.data('id'),
+                    method: "GET",
+                    dataType: 'json',
+                    success: function (response) {
+                        console.log(response.Message);
+                        if (response.Message === "OK") {
+                            displaySpan.remove();
+                            gradeCell.append("<i class=\"fa fa-plus text-warning\"></i>");
+                        } else {
+                            displaySpan.removeClass("text-warning").addClass("text-danger");
+                            displaySpan.html(currentValue);
+                        }
+                    },
+                    error: function (response) {
+                        displaySpan.removeClass("text-warning").addClass("text-danger");
+                        displaySpan.html(currentValue);
+                    }
+                });
+            }
+        }
+
+
+        (function() {
+            (function($) {
+                return $.fn.tableNav = function() {
+                    var $tbody, max_x, max_y, y;
+
+                    $tbody = $(this).find('tbody');
+                    $tbody.find('input:enabled').off('keydown.tablenav click.tablenav');
+                    max_x = $tbody.find('tr:first-child').find('input:enabled').length - 1;
+                    max_y = $tbody.find('tr').length - 1;
+                    y = 0;
+                    $tbody.find('tr')
+                        .each(function() {
+                            var x;
+                            x = 0;
+                            $(this)
+                                .find('input:enabled')
+                                .each(function() {
+                                    $(this).attr('data-x', x).attr('data-y', y);
+                                    $(this)
+                                        .on('keydown.tablenav',
+                                            function(e) {
+                                                var new_x, new_y, old_x, old_y;
+                                                old_x = parseInt($(this).attr('data-x'), 10);
+                                                old_y = parseInt($(this).attr('data-y'), 10);
+                                                new_x = old_x;
+                                                new_y = old_y;
+                                                switch (e.which) {
+                                                case 37:
+                                                    new_x = old_x - 1;
+                                                    break;
+                                                case 38:
+                                                    new_y = old_y - 1;
+                                                    break;
+                                                case 39:
+                                                    new_x = old_x + 1;
+                                                    break;
+                                                case 40:
+                                                case 13:
+                                                    new_y = old_y + 1;
+                                                    break;
+                                                default:
+                                                    return;
+                                                }
+                                                e.preventDefault();
+                                                new_x = new_x < 0 ? max_x : new_x;
+                                                new_x = new_x > max_x ? 0 : new_x;
+                                                new_y = new_y < 0 ? max_y : new_y;
+                                                new_y = new_y > max_y ? 0 : new_y;
+
+                                                var oldInput = $tbody
+                                                    .find('input[data-x=' + old_x + '][data-y=' + old_y + ']');
+                                                var nextInput = $tbody
+                                                    .find('input[data-x=' + new_x + '][data-y=' + new_y + ']');
+
+                                                selectedGrade = nextInput;
+
+                                                oldInput.hide().focusout();
+                                                var oldCell = oldInput.parent("a");
+                                                oldCell.find("i, span").show();
+                                                nextInput.show();
+                                                nextInput.parent("a").find("i, span").hide();
+                                                nextInput.attr("value", nextInput.parent("a").find("span").html());
+
+                                                AddGradeAjax(oldCell);
+
+                                                return nextInput.click();
+                                            });
+                                    return x++;
+                                });
+                            return y++;
+                        });
+                    return $(this);
+                };
+            })(jQuery);
+
+        }).call(this);
+
+        var selectedGrade = null;
+
+        $(document)
+            .ready(function() {
+
+
+                $('#gradeTbl')
+                    .dataTable({
+                        "paging": false,
+                        "dom": '<"panel-heading"f><"panel-body"<"table-responsive"t>>'
+                    });
+
+                $('#gradeTbl').tableNav();
+
+                function stopEditing() {
+                    if (selectedGrade != null) {
+                        selectedGrade.hide();
+                        selectedGrade.parent("a").find('span').show();
+                        selectedGrade.parent("a").find('i').show();
+
+                        AddGradeAjax(selectedGrade.parent("a"));
+                    }
+                }
+
+                $("#gradeTbl")
+                    .on("click",
+                        ".editable",
+                        function(event) {
+                            stopEditing();
+
+                            $(this).find('span').hide();
+                            $(this).find('i').hide();
+                            $(this).find('input').select().show().focus();
+                            selectedGrade = $(this).find('input');
+                        });
+
+                $("#gradeTbl")
+                    .on("focusout",function() {
+                        stopEditing();
+                        selectedGrade = null;
+                    });
+
+                $(".js-ejectUser")
+                    .on("click",
+                        function() {
+
+                            var object = $(this);
+
+                            bootbox.confirm({
+                                title: "Onay",
+                                message: "Kullanıcıyı dersten çıkarmak istediğinize emin misiniz?",
+                                buttons: {
+                                    confirm: {
+                                        label: 'Evet, Çıkar',
+                                        className: 'btn-danger-alt'
+                                    },
+                                    cancel: {
+                                        label: 'Hayır',
+                                        className: 'btn-info-alt'
+                                    }
+                                },
+                                callback: function(result) {
+                                    if (result) {
+                                        $.ajax({
+                                            //EjectUserFromCourse(string userId, Guid? courseId)
+                                            url: "/Course/EjectUserFromCourse/?userId=" +
+                                                object.data('user-id') +
+                                                "&courseId=" +
+                                                object.data('course-id'),
+                                            method: "POST",
+                                            dataType: 'json',
+                                            success: function(response) {
+                                                object.closest("tr").slideUp();
+                                                console.log(response.Message);
+                                            },
+                                            error: function(response) {
+                                                console.log(response.Message);
+                                            }
+                                        });
+                                    }
+
+                                }
+                            });
+                        });
             });
-        });
     </script>
 }

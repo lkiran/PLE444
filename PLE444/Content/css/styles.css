@@ -20764,7 +20764,8 @@ body.sidebar-collapsed .sidebar nav.widget-body > ul.acc-menu li.hasChild:hover 
 .navbar-nav > li > a {
   padding-top: 10px;
   padding-bottom: 10px;
-  line-height: 20px;
+  line-height: 40px;
+  
 }
 @media (max-width: 767px) {
   .navbar-nav .open .dropdown-menu,

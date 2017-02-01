@@ -1535,6 +1535,9 @@
     <Content Include="Content\plugins\jQuery-Mapael\js\maps\world_countries.js" />
     <Content Include="Content\plugins\jQuery-Mapael\js\raphael\raphael-min.js" />
     <Content Include="Content\plugins\jquery-mousewheel\jquery.mousewheel.min.js" />
+    <Content Include="Content\plugins\jQuery.dotdotdot\jquery.dotdotdot.js" />
+    <Content Include="Content\plugins\jQuery.dotdotdot\jquery.dotdotdot.min.js" />
+    <Content Include="Content\plugins\jQuery.dotdotdot\jquery.dotdotdot.min.umd.js" />
     <Content Include="Content\plugins\jvectormap\jquery-jvectormap-2.0.2.css" />
     <Content Include="Content\plugins\jvectormap\jquery-jvectormap-2.0.2.min.js" />
     <Content Include="Content\plugins\jvectormap\jquery-jvectormap-cn-mill-en.js" />
@@ -2087,7 +2090,7 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Course\Index.cshtml" />
+    <Content Include="Views\Course\List.cshtml" />
     <Content Include="Views\User\ListUsers.cshtml" />
     <Content Include="Views\Community\Archive.cshtml" />
     <Content Include="Views\Community\Discussion.cshtml" />
@@ -2133,6 +2136,7 @@
     <Content Include="Views\Course\AddGrade.cshtml" />
     <Content Include="Views\Course\EditGradeType.cshtml" />
     <Content Include="Views\Chapter\Edit.cshtml" />
+    <Content Include="Views\Course\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

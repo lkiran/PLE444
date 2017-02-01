@@ -173,10 +173,19 @@ else
         </div>
     </li>
 
-    
-    <li class="dropdown">
-        <a href="#" class="dropdown-toggle " data-toggle="dropdown">@Model.FirstName  @Model.LastName</a>
+    <li class="dropdown toolbar-icon-bg">
 
+        <a href="#" class="dropdown-toggle username" data-toggle="dropdown">
+            <span class="m-sm  hidden-xs hidden-sm" >@Model.FirstName @Model.LastName</span>
+            @if (@Model.ProfilePicture == null)
+            {
+                <img src="~/Content/img/pp.jpg" class="img-circle" alt="Profil Resmi"/>
+            }
+            else
+            {
+                <img class="img-circle" src="@Model.ProfilePicture" alt="Profil Resmi"/>
+            }
+        </a>
         <ul class="dropdown-menu userinfo arrow">
             <li><a href="@Url.Action("Profil","User")"><i class="ti ti-user"></i><span>Profil</span>@*<span class="badge badge-info pull-right">80%</span>*@</a></li>
             <li><a href="#/"><i class="ti ti-panel"></i><span>Hesap</span></a></li>
@@ -190,18 +199,6 @@ else
                 }
             </li>
         </ul>
-    </li>
 
-    <li class="dropdown toolbar-icon-bg">
-        <a href="#" class="dropdown-toggle username" data-toggle="dropdown">
-            @if(@Model.ProfilePicture == null)
-            {
-                <img src="~/Content/img/pp.jpg" class="img-circle" alt="Profil Resmi" />
-            }
-            else
-            {
-                <img class="img-circle" src="@Model.ProfilePicture" alt="Profil Resmi" />
-            }                       
-        </a>       
     </li>
 }
