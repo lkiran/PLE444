@@ -14,7 +14,7 @@
                     "~/Content/plugins/datatables/dataTables.themify.css")  
 }
 
-@{ Html.RenderAction("Navigation", "Course", new { id = Model.CourseInfo.ID }); }
+@{ Html.RenderAction("Navigation", "Course", new { id = Model.CourseInfo.Id }); }
 
 <div class="panel panel-default" data-widget='{"draggable": "false"}'>
 
@@ -129,7 +129,7 @@ Max Score: @gradeType.MaxScore">
 
 @if (Model.CanEdit)
 {
-    <a href="@Url.Action("CreateGradeType", new {id = Model.CourseInfo.ID})" class="btn btn-primary-alt" id="dyna-del">Not Türü Ekle</a>
+    <a href="@Url.Action("CreateGradeType", new {id = Model.CourseInfo.Id})" class="btn btn-primary-alt" id="dyna-del">Not Türü Ekle</a>
 }
 
 

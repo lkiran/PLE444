@@ -7,7 +7,7 @@
     var fh = new PLE444.Helpers.FileHelper();
 }
 
-@{ Html.RenderAction("Navigation", "Course", new { id = Model.CourseInfo.ID }); }
+@{ Html.RenderAction("Navigation", "Course", new { id = Model.CourseInfo.Id }); }
 
 @if (!Model.AssignmentList.Any())
 {
@@ -48,7 +48,7 @@
             
             @if (Model.CanEdit)
             {
-                <a href="@Url.Action("Edit", "Assignment", new {id = assignment.Id, courseId = Model.CourseInfo.ID})">
+                <a href="@Url.Action("Edit", "Assignment", new {id = assignment.Id, courseId = Model.CourseInfo.Id})">
                     <small><i class="fa fa-pencil-square-o ml-md mr-sm"></i>Düzenle</small>
                 </a>
                 <button data-assignment-id="@assignment.Id" class="btn-remove btn-link">
@@ -128,7 +128,7 @@
 
 @if (Model.CanEdit)
 {
-    <a href="@Url.Action("Create", "Assignment", new {id = Model.CourseInfo.ID})" class="btn btn-primary-alt center-block" id="dyna-del">
+    <a href="@Url.Action("Create", "Assignment", new {id = Model.CourseInfo.Id})" class="btn btn-primary-alt center-block" id="dyna-del">
         <i class="fa fa-plus"></i> Yeni Ödev Ekle
     </a>
 }

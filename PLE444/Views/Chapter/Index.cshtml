@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@{ Html.RenderAction("Navigation", "Course", new {id = Model.CourseInfo.ID}); }
+@{ Html.RenderAction("Navigation", "Course", new {id = Model.CourseInfo.Id}); }
 
 @if (Model != null)
 {
@@ -23,13 +23,13 @@
                 @if (Model.canEdit)
                 {
                     <a href="@Url.Action("Edit","Chapter", new {id = chapter.Id})">
-                        <small><i class="fa fa-pencil-square-o ml-md mr-sm"></i>Düzenle</small>
+                        <small><i class="fa fa-pencil-square-o ml-lg mr-xs"></i><span class="visible-lg visible-md">Düzenle</span></small>
                     </a>
                     <button data-chapter-id="@chapter.Id" class="btn-remove btn-link">
-                        <small class="text-danger"><i class="fa fa-trash-o ml-md mr-sm"></i>Kaldır</small>
+                        <small class="text-danger"><i class="fa fa-trash-o ml-xs mr-xs"></i><span class="visible-lg visible-md">Kaldır</span></small>
                     </button>
                 }
-                <div class="pull-right">
+                <div class="not-pull-right-xs text-xs-center">
                     @Html.DisplayFor(modelItem => chapter.DateAdded), @{var h = new PLE444.Helpers.DataManipulationHelper(); }
                     @h.GetDeltaDate(chapter.DateAdded)
                 </div>
@@ -42,7 +42,7 @@
                     @foreach (var material in chapter.Materials)
                     {
                         <li>
-                            <a href="@Url.Action("Index", "Material", new { id= Model.CourseInfo.ID })">     
+                            <a href="@Url.Action("Index", "Material", new { id= Model.CourseInfo.Id })">     
                                 @material.Title                          
                             </a>
                         </li>
@@ -65,7 +65,7 @@
 
 @if(Model.canEdit)
 {
-    <a href="@Url.Action("Create", "Chapter", new {id = Model.CourseInfo.ID})" class="btn btn-primary-alt center-block" id="dyna-del">
+    <a href="@Url.Action("Create", "Chapter", new {id = Model.CourseInfo.Id})" class="btn btn-primary-alt center-block" id="dyna-del">
         <i class="fa fa-plus"></i> Yeni Bölüm Ekle
     </a>
 }

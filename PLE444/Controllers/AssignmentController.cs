@@ -28,13 +28,13 @@ namespace PLE444.Controllers
             if (course == null)
                 return  HttpNotFound();
 
-            var assignments = db.Assignments.Include("Uploads").Where(a => a.Course.ID == id && a.IsActive).ToList();
+            var assignments = db.Assignments.Include("Uploads").Where(a => a.Course.Id == id && a.IsActive).ToList();
             var model = new CourseAssignments
             {
                 CourseInfo = course,
                 AssignmentList = assignments,
                 CanEdit = isCourseCreator(course),
-                CanUpload = isMember(course.ID),
+                CanUpload = isMember(course.Id),
                 CurrentUserId = User.Identity.GetUserId()
             };
 
@@ -162,7 +162,7 @@ namespace PLE444.Controllers
         {
             var a = db.Assignments.Include("Course").FirstOrDefault(i => i.Id == assignmentId);
 
-            if (!isMember(a.Course.ID))
+            if (!isMember(a.Course.Id))
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
             if (ModelState.IsValid)
@@ -209,7 +209,7 @@ namespace PLE444.Controllers
                 }
             }
 
-            return RedirectToAction("Index", "Assignment", new {id = a.Course.ID});
+            return RedirectToAction("Index", "Assignment", new {id = a.Course.Id});
         }
 
         public ActionResult DownloadAssignment(Guid asssignmentId)
@@ -265,7 +265,7 @@ namespace PLE444.Controllers
                 return false;
 
             var userId = User.Identity.GetUserId();
-            var user = db.UserCourses.Where(c => c.Course.ID == courseId).FirstOrDefault(u => u.UserId == userId);
+            var user = db.UserCourses.Where(c => c.Course.Id == courseId).FirstOrDefault(u => u.UserId == userId);
 
             if (user == null)
                 return false;

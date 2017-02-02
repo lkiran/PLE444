@@ -22,7 +22,7 @@ namespace PLE444.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             else
             {
-                var course = db.Courses.SingleOrDefault(i => i.ID == id);
+                var course = db.Courses.SingleOrDefault(i => i.Id == id);
                 if(course == null)
                     return HttpNotFound();
 
@@ -170,7 +170,7 @@ namespace PLE444.Controllers
                 return false;
 
             var userId = User.Identity.GetUserId();
-            var user = db.UserCourses.Where(c => c.Course.ID == courseId).FirstOrDefault(u => u.UserId == userId);
+            var user = db.UserCourses.Where(c => c.Course.Id == courseId).FirstOrDefault(u => u.UserId == userId);
 
             if (user == null)
                 return false;

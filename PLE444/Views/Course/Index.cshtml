@@ -1,20 +1,89 @@
-﻿@{
-    ViewBag.Title = "Index";
+﻿@using Microsoft.Ajax.Utilities
+@using PLE444.Helpers
+@model PLE444.Models.Course
+
+@{
+    ViewBag.Title = @Model.Code;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+     var h = new DataManipulationHelper(); 
 }
+
+@{ Html.RenderAction("Navigation", "Course", new { id = Model.Id }); }
 
 <div class="panel panel-profile">
     <div class="panel-heading">
+        <h2 class="text-capitalize">@Model.Heading</h2>
+        <a class="pull-right" href="#"><i class="fa fa-pencil"></i> Düzenle</a>
     </div>
     <div class="panel-body">
-        <a style="float:right" href="#"><i class="fa fa-pencil"></i></a>
-        <div class="col-sm-3">
-            <p>Grup İsmi</p>
-            <div class="name">Ders Adı </div>
+        <div class="row">
+            <div class="col-sm-2 text-sm-center text-md-right text-lg-right"><p class="lead">Açıklama</p></div>
+            <div class="col-sm-10 text-justify">@(new HtmlString(Model.Description))</div>
         </div>
-        <div class="col-sm-9 text-left">
-            <p class="lead">Açıklama</p>
-            <p>Kapalı Grup</p>
-            <a href="#">Katıl</a>
+
+        <div class="row mt-md">
+            <div class="col-sm-2 text-sm-center text-md-right text-lg-right"><p class="lead">Katılım</p></div>
+            <div class="col-sm-10 text-left">
+                @if (Model.CanEveryoneJoin)
+                {
+                    <span>Herkes katılabilir</span>
+                }
+                else {
+                    <span>Katılım Kodu ile katılınabilir</span>
+                }
+
+            </div>
+        </div>
+
+        <div class="row mt-md">
+            <div class="col-sm-2 text-sm-center text-md-right text-lg-right">
+                <p class="lead">Katılım Kodu</p>
+            </div>
+            <div class="col-sm-10 text-left">
+                <a class="text-info" href="@Url.Action("Join", "Course", new {id = Model.Id})">
+                    @*Absolute URL for Course Join(id)*@
+                    @Url.Action("Join", "Course", routeValues: new {id = Model.Id}, protocol: Request.Url?.Scheme)
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="timeline">
+                    @foreach (var timelineEntry in Model.Timeline)
+                    {
+                        <li class="@timelineEntry.ColorClass">
+                            <div class="timeline-icon"><i class="@timelineEntry.IconClass"></i>
+                            </div>
+                            <div class="timeline-body">
+                                <div class="timeline-header">
+                                    <a href="@Url.Action("Profil","User",new { id = timelineEntry.CreatorId })">
+                                        <img alt="Kullanıcı Resmi" class="img-circle" style="height: 30px;" src="@timelineEntry.Creator.UserPhoto()"/>
+                                        <span class="">@timelineEntry.Creator.FullName()</span>
+                                    </a>
+                                    <span class="pull-right-lg pull-right-md">
+                                        @h.GetDeltaDate(@timelineEntry.DateCreated)
+                                    </span>
+                                </div>
+                                <div class="timeline-content">
+                                    @if(!timelineEntry.Heading.IsNullOrWhiteSpace())
+                                    {
+                                        <h4>@timelineEntry.Heading</h4>
+                                    }
+                                    @if (!timelineEntry.Content.IsNullOrWhiteSpace())
+                                    {
+                                        <div class="pb-lg"> @(new HtmlString(@timelineEntry.Content))</div>
+                                    }
+                                </div>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
         </div>
     </div>
 </div>

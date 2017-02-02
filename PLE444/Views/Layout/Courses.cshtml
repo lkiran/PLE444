@@ -2,5 +2,5 @@
 
 @foreach (var item in Model)
 {
-    <li><a href="@Url.Action("Index","Course", new { id = item.ID })">@item.Name.ToUpper()</a></li>
+    <li><a href="@Url.Action("Index","Course", new { id = item.Id })">@item.Code</a></li>
 }

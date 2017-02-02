@@ -1,22 +1,9 @@
 ﻿@model PLE444.Models.Course
 @{
-    ViewBag.Title = "Discussion";
+    ViewBag.Title = "Tartışmalar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div class="panel panel-bluegray" data-widget='{"draggable": "false"}'>
-    <div class="panel-heading">
-        <span class="pull-right">@ViewBag.CourseName</span>
-        <h2>
-            <ul class="nav nav-tabs">
-                <li ><a href="@Url.Action("Chapters","Course",new { id = Model.ID })">Bölümler</a></li>
-                <li><a href="@Url.Action("Assignments","Course",new { id = Model.ID })"> Ödevler</a></li>
-                <li><a href="@Url.Action("Materials","Course",new { id = Model.ID })">Materyaller</a></li>
-                <li><a href="@Url.Action("Grades","Course",new { id = Model.ID })">Notlar</a></li>
-                <li class="active"><a href="@Url.Action("Discussion","Course",new { id = Model.ID })">Tartışmalar</a></li>
-            </ul>
-        </h2>
-    </div>
-</div>
+@{ Html.RenderAction("Navigation", "Course", new { id = Model.Id }); }
 
 <div class="row">
     <div class="col-md-9">
@@ -111,7 +98,7 @@
                                 else
                                 {
                                     @Html.Partial("SendMessage", new PLE444.Models.Message(), new ViewDataDictionary { { "DiscussionId", discussion.ID } ,
-                                                                                                                           { "CourseId", Model.ID } ,
+                                                                                                                           { "CourseId", Model.Id } ,
                                                                                                                            { "CurrentUserId", ViewBag.CurrentUserId } })
                                 }
                             </div>
@@ -122,7 +109,7 @@
         </div>
     </div>
     <div class="col-md-3">
-        <a href="@Url.Action("AddTitle", new { id = Model.ID })" class="btn btn-primary-alt btn-lg btn-block"><i class="fa fa-plus fa-bold"></i> Başlık Ekle</a>
+        <a href="@Url.Action("AddTitle", new { id = Model.Id })" class="btn btn-primary-alt btn-lg btn-block"><i class="fa fa-plus fa-bold"></i> Başlık Ekle</a>
     </div>
 </div>
 
@@ -135,7 +122,7 @@
             url: '/Course/Read',
             dataType: 'json',
             type: 'POST',
-            data: "DiscussionId=" + $(this).attr('DiscussionId') + "&CourseId=" + "@Model.ID",
+            data: "DiscussionId=" + $(this).attr('DiscussionId') + "&CourseId=" + "@Model.Id",
 
 
             success: function (data) {

@@ -1,21 +1,23 @@
 ﻿@model PLE444.Models.Course
 
-<div class="panel panel-bluegray" data-widget='{"draggable": "false"}'>
+<div class="panel panel-bluegray" data-widget='{"draggable": "false"}' style="z-index: 5;">
     <div class="panel-heading">
         <div id="title" style="max-width:300px;" class="pull-right hidden-xs hidden-sm">
             <span>@Model.Heading</span>
         </div>
         <h2>
             <ul class="nav nav-tabs navigator">
-                <li><a href="@Url.Action("Index","Chapter",new { id = Model.ID })">Bölümler</a></li>
+                <li><a href="@Url.Action("Index","Course",new { id = Model.Id })">Ders</a></li>
 
-                <li><a href="@Url.Action("Index","Assignment",new { id =  Model.ID })"> Ödevler</a></li>
+                <li><a href="@Url.Action("Index","Assignment",new { id =  Model.Id })"> Ödevler</a></li>
+                
+                <li><a href="@Url.Action("Grades","Course",new { courseId =  Model.Id })">Notlar</a></li>
 
-                <li><a href="@Url.Action("Index","Material",new { id =  Model.ID })">Materyaller</a></li>
+                <li><a href="@Url.Action("Index","Chapter",new { id = Model.Id })">Bölümler</a></li>
 
-                <li><a href="@Url.Action("Grades","Course",new { courseId =  Model.ID })">Notlar</a></li>
+                <li><a href="@Url.Action("Index","Material",new { id =  Model.Id })">Materyaller</a></li>
 
-                <li><a href="@Url.Action("Discussion","Course",new { id = Model.ID })">Tartışmalar</a></li>
+                <li><a href="@Url.Action("Discussion","Course",new { id = Model.Id })">Tartışmalar</a></li>
             </ul>
         </h2>
     </div>

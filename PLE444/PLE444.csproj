@@ -243,6 +243,7 @@
     <Compile Include="Models\Space.cs" />
     <Compile Include="Models\SpaceViewModel.cs" />
     <Compile Include="Models\Tag.cs" />
+    <Compile Include="Models\TimelineEntry.cs" />
     <Compile Include="Models\UserCommunity.cs" />
     <Compile Include="Models\UserGrade.cs" />
     <Compile Include="Models\UserInterest.cs" />

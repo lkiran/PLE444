@@ -24,7 +24,12 @@ namespace PLE444.Controllers
             if (id == null)
                 return RedirectToAction("List");
 
-            return View();
+            var model = db.Courses.Include("Timeline").Include("Timeline.Creator").FirstOrDefault(c => c.Id == id);
+
+            if (model == null)
+                return HttpNotFound();
+
+            return View(model);
         }
 
         public ActionResult List()
@@ -32,15 +37,7 @@ namespace PLE444.Controllers
             var c = db.Courses.ToList();
             var ui = User.Identity.GetUserId();
             var uc = db.UserCourses.Where(i => i.UserId == ui);
-            var joinList = new List<bool>();
-            foreach (var item in c)
-            {
-                var r = uc.FirstOrDefault(i => i.Course.ID == item.ID);
-                if (r == null)
-                    joinList.Add(false);
-                else
-                    joinList.Add(true);
-            }
+            var joinList = c.Select(item => uc.FirstOrDefault(i => i.Course.Id == item.Id)).Select(r => r != null).ToList();
             ViewBag.JoinList = joinList;
             return View(c);
         }
@@ -48,7 +45,7 @@ namespace PLE444.Controllers
         [ChildActionOnly]
         public ActionResult Navigation(Guid? id)
         {
-            var model = db.Courses.SingleOrDefault(i => i.ID == id);
+            var model = db.Courses.SingleOrDefault(i => i.Id == id);
             return PartialView(model);
         }
 
@@ -151,11 +148,11 @@ namespace PLE444.Controllers
             if (courseId == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var course = db.Courses.SingleOrDefault(i => i.ID == courseId);
+            var course = db.Courses.SingleOrDefault(i => i.Id == courseId);
             if (course == null)
                 HttpNotFound();
 
-            var courseUsers = db.UserCourses.Where(i => i.Course.ID == courseId).Include("User").ToList();
+            var courseUsers = db.UserCourses.Where(i => i.Course.Id == courseId).Include("User").ToList();
 
             var userIds = courseUsers.Select(u => u.UserId).ToList();
             var ug = db.UserGrades.Where(g=>userIds.Contains(g.UserId)).ToList();
@@ -165,18 +162,18 @@ namespace PLE444.Controllers
                 CourseInfo = course,
                 CanEdit = isCourseCreator(course),
                 UserGrades = ug,
-                GradeTypes = db.GradeTypes.Where(c => c.Course.ID == courseId).ToList(),
+                GradeTypes = db.GradeTypes.Where(c => c.Course.Id == courseId).ToList(),
                 CourseUsers = courseUsers
             };
 
             return View(model);
         }
 
-        public  ActionResult CreateGradeType(Guid? Id)
+        public  ActionResult CreateGradeType(Guid? id)
         {
-            if (Id == null)
+            if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            ViewBag.CourseId = Id;
+            ViewBag.CourseId = id;
             return View(new GradeType());
         }
 
@@ -187,13 +184,13 @@ namespace PLE444.Controllers
         {
             if (model != null || courseId !=null )
             {
-                var course = db.Courses.FirstOrDefault(i => i.ID == courseId);
+                var course = db.Courses.FirstOrDefault(i => i.Id == courseId);
                 model.Course = course;
 
                 db.GradeTypes.Add(model);
                 db.SaveChanges();
 
-                return RedirectToAction("Grades", new { courseId = model.Course.ID });
+                return RedirectToAction("Grades", new { courseId = model.Course.Id });
             }
 
             return View();
@@ -221,8 +218,8 @@ namespace PLE444.Controllers
                 db.Entry(model).State = EntityState.Modified;
                 db.SaveChanges();
 
-                var course = db.Courses.FirstOrDefault(i => i.ID == model.CourseId);
-                return RedirectToAction("Grades", new {courseId = course.ID});
+                var course = db.Courses.FirstOrDefault(i => i.Id == model.CourseId);
+                return RedirectToAction("Grades", new {courseId = course.Id});
             }
 
             return View(model);
@@ -413,7 +410,7 @@ namespace PLE444.Controllers
         public ActionResult Discussion(Guid? id)
         {
             var c = db.Courses.Find(id);
-            var m = db.Courses.Include("Discussion").Include("Discussion.Messages").Include("Discussion.Readings").FirstOrDefault(i => i.ID == id);
+            var m = db.Courses.Include("Discussion").Include("Discussion.Messages").Include("Discussion.Readings").FirstOrDefault(i => i.Id == id);
 
             ViewBag.CourseName = c.Name.ToUpper() + " - " + c.Description;
             ViewBag.CurrentUserId = User.Identity.GetUserId();
@@ -422,13 +419,13 @@ namespace PLE444.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult Read(Guid? DiscussionId, Guid? CourseId)
+        public ActionResult Read(Guid? discussionId, Guid? courseId)
         {
-            var c = db.Courses.Include("Discussion").Include("Discussion.Readings").FirstOrDefault(i => i.ID == CourseId);
+            var c = db.Courses.Include("Discussion").Include("Discussion.Readings").FirstOrDefault(i => i.Id == courseId);
             if (c == null)
                 return Json(new { success = false });
 
-            var d = c.Discussion.FirstOrDefault(i => i.ID == DiscussionId);
+            var d = c.Discussion.FirstOrDefault(i => i.ID == discussionId);
             if (d == null)
                 return Json(new { success = false });
 
@@ -436,9 +433,11 @@ namespace PLE444.Controllers
             var r = d.Readings.FirstOrDefault(u => u.UserId == currentUser);
             if (r == null)
             {
-                r = new Discussion.Reading();
-                r.UserId = currentUser;
-                r.Date = DateTime.Now;
+                r = new Discussion.Reading
+                {
+                    UserId = currentUser,
+                    Date = DateTime.Now
+                };
                 d.Readings.Add(r);
             }
             else
@@ -514,12 +513,12 @@ namespace PLE444.Controllers
         }
 
         [Authorize]
-        public ActionResult Join(Guid Id)
+        public ActionResult Join(Guid id)
         {
             var userID = User.Identity.GetUserId(); ;
-            var c = db.Courses.FirstOrDefault(i => i.ID == Id);
+            var c = db.Courses.FirstOrDefault(i => i.Id == id);
 
-            var uc = db.UserCourses.Where(u => u.UserId == userID).FirstOrDefault(i => i.Course.ID == Id);
+            var uc = db.UserCourses.Where(u => u.UserId == userID).FirstOrDefault(i => i.Course.Id == id);
 
             if (uc == null)
             {
@@ -536,12 +535,12 @@ namespace PLE444.Controllers
         }
 
         [Authorize]
-        public ActionResult Leave(Guid Id)
+        public ActionResult Leave(Guid id)
         {
             var userID = User.Identity.GetUserId(); 
-            var c = db.Courses.FirstOrDefault(i => i.ID == Id);
+            var c = db.Courses.FirstOrDefault(i => i.Id == id);
 
-            var uc = db.UserCourses.Where(u => u.UserId == userID).FirstOrDefault(i => i.Course.ID == Id);
+            var uc = db.UserCourses.Where(u => u.UserId == userID).FirstOrDefault(i => i.Course.Id == id);
 
             if (uc != null)
             {
@@ -600,7 +599,7 @@ namespace PLE444.Controllers
                 return false;
 
             var userId = User.Identity.GetUserId();
-            var user = db.UserCourses.Where(c => c.Course.ID == courseId).FirstOrDefault(u => u.UserId == userId);
+            var user = db.UserCourses.Where(c => c.Course.Id == courseId).FirstOrDefault(u => u.UserId == userId);
 
             if (user == null)
                 return false;

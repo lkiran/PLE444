@@ -50,14 +50,8 @@ namespace PLE444.Models
         public DbSet<Community> Communities { get; set; }
         public DbSet<Course> Courses { get; set; }
         public DbSet<Document> Documents { get; set; }
-        public DbSet<Event> Events { get; set; }
-        public DbSet<EventReponse> EventReponses { get; set; }
-        public DbSet<Interest> Interests { get; set; }
         public DbSet<UserCommunity> UserCommunities { get; set; }
         public DbSet<UserCourse> UserCourses { get; set; }
-        public DbSet<UserInterest> UserInterests { get; set; }
-        public DbSet<Tag> Tags { get; set; }
-        public DbSet<Post> Posts { get; set; }
         public DbSet<Assignment> Assignments { get; set; }
         public DbSet<Discussion> Discussions { get; set; }
         public DbSet<Message> Messages { get; set; }
@@ -67,6 +61,7 @@ namespace PLE444.Models
         public DbSet<UserGrade> UserGrades { get; set; }
         public DbSet<PrivateMessage> PrivateMessages { get; set; }
         public DbSet<Space> Spaces { get; set; }
+        public DbSet<TimelineEntry> TimelineEntries { get; set; }
 
         public PleDbContext()
             : base("PleDbContext", throwIfV1Schema: false)

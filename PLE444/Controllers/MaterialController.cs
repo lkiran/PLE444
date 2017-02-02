@@ -24,7 +24,7 @@ namespace PLE444.Controllers
             if (id == null)
                 return RedirectToAction("Index", "Home");
 
-            var chapters = db.Chapters.Where(c => c.Course.ID == id).Include("Materials").Include("Materials.Documents");
+            var chapters = db.Chapters.Where(c => c.Course.Id == id).Include("Materials").Include("Materials.Documents");
 
             var model = new CourseMaterials
             {
@@ -267,7 +267,7 @@ namespace PLE444.Controllers
                 return false;
 
             var userId = User.Identity.GetUserId();
-            var user = db.UserCourses.Where(c => c.Course.ID == courseId).FirstOrDefault(u => u.UserId == userId);
+            var user = db.UserCourses.Where(c => c.Course.Id == courseId).FirstOrDefault(u => u.UserId == userId);
 
             if (user == null)
                 return false;

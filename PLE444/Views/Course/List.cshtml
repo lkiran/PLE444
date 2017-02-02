@@ -18,8 +18,8 @@
             <thead>
                 <tr>
 
-                    <th>İsim</th>                 
-                    <th>Açıklama</th>
+                    <th>Kod</th>                 
+                    <th>İsim</th>
                     <th>Açılma Tarihi</th>
                     <th>
                 </tr>
@@ -30,17 +30,17 @@
                 <tbody>
                     <tr>
                   
-                        <td> <a href="@Url.Action("Index", "Chapter", new { id = item.ID })"> @item.Name</a></td>
-                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                        <td>@Html.DisplayFor(modelItem => item.CourseStart)</td>
+                        <td> <a href="@Url.Action("Index", "Chapter", new { id = item.Id })"> @item.Code</a></td>
+                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.DateCreated)</td>
                         
                         @if (!ViewBag.JoinList[i])
                         {
-                            <td>@Html.ActionLink("Ekle", "Join", new { id = item.ID })</td>
+                            <td>@Html.ActionLink("Ekle", "Join", new { id = item.Id })</td>
                         }
                         else
                         {
-                            <td>@Html.ActionLink("Kaldır", "Leave", new { id = item.ID })</td>
+                            <td>@Html.ActionLink("Kaldır", "Leave", new { id = item.Id })</td>
                         }
                         @{i++; }
                     </tr>

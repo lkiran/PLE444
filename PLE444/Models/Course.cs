@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace PLE444.Models
 {
@@ -10,24 +12,42 @@ namespace PLE444.Models
     {
         public Course()
         {
-            ID = Guid.NewGuid();
+            Id = Guid.NewGuid();
+            CanEveryoneJoin = false;
         }
 
         [Required]
-        public Guid ID { get; set; }
+        public Guid Id { get; set; }
+
+        [ForeignKey("Creator")]
         public string CreatorId { get; set; }
+
+        public ApplicationUser Creator { get; set; }
+
+        [Display(Name = "Dersin Kodu")]
+        public string Code { get; set; }
+
         [Display(Name = "Dersin İsmi")]
-        public String Name { get; set; }
-        [Display(Name = "Dersin Tanımı")]
-        public String Description { get; set; }
-        [Display(Name = "Başlama Tarihi")]
-        public DateTime CourseStart { get; set; }
-        public virtual ICollection<Chapter> Chapters { get; set; }
-        public virtual ICollection<Assignment> Assignments { get; set; }
-        public virtual ICollection<Discussion> Discussion { get; set; }
+        public string Name { get; set; }
+
+        [AllowHtml]
+        [Display(Name = "Açıklama")]
+        public string Description { get; set; }
+
+        public DateTime DateCreated { get; set; }
+
+        public bool CanEveryoneJoin { get; set; }
 
         public int SpaceId { get; set; }
 
-        public string Heading { get { return Name + " - " + Description; } }
+        public virtual ICollection<Chapter> Chapters { get; set; }
+
+        public virtual ICollection<Assignment> Assignments { get; set; }
+
+        public virtual ICollection<Discussion> Discussion { get; set; }
+
+        public virtual ICollection<TimelineEntry> Timeline { get; set; }
+
+        public string Heading => Code + " - " + Name;
     }
 }
