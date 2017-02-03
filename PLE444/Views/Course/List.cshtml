@@ -1,51 +1,52 @@
 ﻿@model IEnumerable<PLE444.Models.Course>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Ders Listesi";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="panel panel-default" data-widget='{"draggable": "false"}'>
     <div class="panel-heading">
-        
-            @Html.ActionLink("Yeni Ders Oluştur", "CourseCreate")
+        <h2>Ders Listesi</h2>
        
         <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
     </div>
     <div class="panel-body">
         <table class="table table-hover m-n">
-
             <thead>
-                <tr>
-
-                    <th>Kod</th>                 
-                    <th>İsim</th>
-                    <th>Açılma Tarihi</th>
-                    <th>
-                </tr>
+            <tr>
+                <th>Kod</th>                 
+                <th>İsim</th>
+                <th>Açılma Tarihi</th>
+                <th>
+            </tr>
             </thead>
             @{ int i = 0; }
             @foreach (var item in Model)
             {
                 <tbody>
-                    <tr>
+                <tr>
                   
-                        <td> <a href="@Url.Action("Index", "Chapter", new { id = item.Id })"> @item.Code</a></td>
-                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                        <td>@Html.DisplayFor(modelItem => item.DateCreated)</td>
+                    <td> <a href="@Url.Action("Index", "Chapter", new { id = item.Id })"> @item.Code</a></td>
+                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => item.DateCreated)</td>
                         
-                        @if (!ViewBag.JoinList[i])
-                        {
-                            <td>@Html.ActionLink("Ekle", "Join", new { id = item.Id })</td>
-                        }
-                        else
-                        {
-                            <td>@Html.ActionLink("Kaldır", "Leave", new { id = item.Id })</td>
-                        }
-                        @{i++; }
-                    </tr>
+                    @if (!ViewBag.JoinList[i])
+                    {
+                        <td>@Html.ActionLink("Ekle", "Join", new { id = item.Id })</td>
+                    }
+                    else
+                    {
+                        <td>@Html.ActionLink("Kaldır", "Leave", new { id = item.Id })</td>
+                    }
+                    @{i++; }
+                </tr>
                 </tbody>
             }
         </table>
     </div>
 </div>
+
+<a href="@Url.Action("Create","Course")" class="btn btn-primary-alt center-block">
+    <i class="fa fa-plus"></i> Yeni Ders Ekle
+</a>

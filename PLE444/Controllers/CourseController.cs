@@ -49,6 +49,41 @@ namespace PLE444.Controllers
             return PartialView(model);
         }
 
+        [Authorize]
+        public ActionResult Create()
+        {
+            ViewBag.Sapces = db.Spaces.ToList();
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(Course course)
+        {
+            if (ModelState.IsValid)
+            {
+                course.CreatorId = User.Identity.GetUserId();
+                course.DateCreated= DateTime.Now;
+                course.Timeline = new List<TimelineEntry>
+                {
+                    new TimelineEntry
+                    {
+                        Heading = "Ders oluşturuldu",
+                        CreatorId = User.Identity.GetUserId(),
+                        DateCreated = DateTime.Now,
+                        IconClass = "ti ti-plus"
+                    }
+                };
+
+                course = db.Courses.Add(course);
+                db.SaveChanges();
+                return RedirectToAction("Index", new {id = course.Id});
+            }
+            ViewBag.Sapces = db.Spaces.ToList();
+            return View(course);
+        }
+
         public ActionResult CourseDetails(Guid? id)
         {
             if (id == null)
@@ -94,28 +129,6 @@ namespace PLE444.Controllers
             return View(course);
         }
 
-        [Authorize]
-        public ActionResult CourseCreate()
-        {
-            ViewBag.Sapces = db.Spaces.ToList();
-            return View();
-        }
-
-        [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public ActionResult CourseCreate([Bind(Include = "ID,Name,Description,CourseStart,SpaceId")] Course course)
-        {
-            if (ModelState.IsValid)
-            {
-                course.CreatorId = User.Identity.GetUserId();
-                db.Courses.Add(course);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.Sapces = db.Spaces.ToList();
-            return View(course);
-        }
 
         [Authorize]
         public ActionResult CourseDelete(Guid? id)

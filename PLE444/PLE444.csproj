@@ -2103,7 +2103,7 @@
     <Content Include="Views\Assignment\Index.cshtml" />
     <Content Include="Views\Chapter\Create.cshtml" />
     <Content Include="Views\Chapter\Index.cshtml" />
-    <Content Include="Views\Course\CourseCreate.cshtml" />
+    <Content Include="Views\Course\Create.cshtml" />
     <Content Include="Views\Course\CourseDelete.cshtml" />
     <Content Include="Views\Course\CourseEdit.cshtml" />
     <Content Include="Views\Course\Grades.cshtml" />

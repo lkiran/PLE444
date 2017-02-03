@@ -1,0 +1,100 @@
+﻿@model PLE444.Models.Course
+
+@{
+    ViewBag.Title = "Ders Oluştur";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h2>Yeni Ders</h2>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.TextAreaFor(model => model.Description, new {  @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-2" for="Space">Kategori</label>
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.SpaceId, new SelectList(ViewBag.Sapces, "Id", "Name"), new {@class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.SpaceId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="control-label col-md-2">Katılım</label>
+                    <div class="col-md-10">
+                        <div class="col-md-3 text-right">
+                            <small>Sadece davet edilenler</small>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="demo-switches">
+                                @Html.CheckBoxFor(model => model.CanEveryoneJoin, htmlAttributes: new { @class = "bootstrap-switch", data_size = "mini", data_on_color = "warning", data_off_color = "success", data_on_text = "&nbsp;", data_off_text = "&nbsp" })
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <small>Herkes</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Oluştur" class="btn btn-success  pull-right" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#Description').summernote({
+                focus: true,
+                codemirror: {
+                    theme: 'united'
+                },
+                toolbar: [
+                    // [groupName, [list of button]]
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['height', ['height']]
+                ]
+            });
+        });
+    </script>
+}
+
