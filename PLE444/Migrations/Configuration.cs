@@ -9,7 +9,7 @@ namespace PLE444.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(PLE444.Models.PleDbContext context)

@@ -175,7 +175,7 @@ namespace PLE444.Controllers
                         imageFilePath = Path.Combine(Server.MapPath("~/Uploads"), fileName);
                         model.uploadFile.SaveAs(imageFilePath);
 
-                        user.ProfilePicture = "/Uploads/" + fileName;
+                        user.ProfilePicture = "~/Uploads/" + fileName;
                     }
                 }
 

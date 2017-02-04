@@ -34,11 +34,11 @@
                     <div class="col-sm-3">
                         @if (Model.GroupPhoto == null)
                         {
-                            <img src="~/Content/img/pp.jpg" class="img-circle">
+                            <img src="@Url.Content("~/Content/img/pp.jpg")" class="img-circle">
                         }
                         else
                         {
-                            <img src="@Model.GroupPhoto" class="img-circle">
+                            <img src="@Url.Content(Model.GroupPhoto)" class="img-circle">
                         }
 
                         <input name="uploadFile" type="file" id="filer_input" />

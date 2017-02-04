@@ -60,11 +60,11 @@
                                         {
                                             if (h.GetUserPhotoFromID(message.SenderId) == null || h.GetUserPhotoFromID(message.SenderId) == "")
                                             {
-                                                <img class="img-circle" style="width:40px" src="~/Content/img/pp.jpg" />
+                                                <img class="img-circle" style="width:40px" src="@Url.Content("~/Content/img/pp.jpg")" />
                                             }
                                             else
                                             {
-                                                <img class="img-circle" style="width:40px" src="@h.GetUserPhotoFromID(message.SenderId)" />
+                                                <img class="img-circle" style="width:40px" src="@Url.Content(h.GetUserPhotoFromID(message.SenderId))" />
                                             }
 
                                             <strong style="margin-left:10px;">@h.GetUserFullNameFromID(message.SenderId)</strong>

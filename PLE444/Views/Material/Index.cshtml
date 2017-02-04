@@ -47,8 +47,8 @@
                         @foreach (var doc in material.Documents)
                         {
                             <li>
-                                <a href="@Url.Action("Download", "File", new {path = doc.FilePath, name = doc.Description})">
-                                    <img alt="Icon" src="@fh.GetFileIcon(doc.FilePath)" style="height: 40px;">
+                                <a href="@Url.Action("Download", "File", new {path = Url.Content(doc.FilePath), name = doc.Description})">
+                                    <img alt="Icon" src="@Url.Content(fh.GetFileIcon(doc.FilePath))" style="height: 40px;">
                                     <span>@doc.Description</span>
                                 </a>
                             </li>

@@ -79,8 +79,8 @@ namespace PLE444.Controllers
                         //Add to DB
                         var d = new Document
                         {
-                            FilePath = "/ Uploads / " + fileName,
-                            Owner = currentUserId,
+                            FilePath = "/Uploads/" + fileName,
+                            OwnerId = currentUserId,
                             DateUpload = DateTime.Now,
                             Description = uploadedFile.FileName
                         };
@@ -162,8 +162,8 @@ namespace PLE444.Controllers
                         //Add to DB
                         var d = new Document
                         {
-                            FilePath = "/ Uploads / " + fileName,
-                            Owner = User.Identity.GetUserId(),
+                            FilePath = "~/Uploads/" + fileName,
+                            OwnerId = User.Identity.GetUserId(),
                             DateUpload = DateTime.Now,
                             Description = uploadedFile.FileName
                         };

@@ -42,11 +42,11 @@
                                     <a href="@Url.Action("Profil", "User", new { id= user.UserID})">
                                         @if (user.ProfilePhoto == null)
                                         {
-                                            <img src="~/Content/img/pp.jpg" class="img-circle" style="height:40px;">
+                                            <img src="@Url.Content("~/Content/img/pp.jpg")" class="img-circle" style="height:40px;">
                                         }
                                         else
                                         {
-                                            <img src="@user.ProfilePhoto" class="img-circle" style="height:40px;">
+                                            <img src="@Url.Content(user.ProfilePhoto)" class="img-circle" style="height:40px;">
                                         }
                                         <span>@user.FullName()</span>
                                     </a>

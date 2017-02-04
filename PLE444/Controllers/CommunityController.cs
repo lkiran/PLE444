@@ -44,7 +44,7 @@ namespace PLE444.Controllers
                         uploadFile.SaveAs(imageFilePath);
                         ViewBag.UploadSuccess = true;
                     }
-                    community.GroupPhoto = "/Uploads/" + uploadFile.FileName;
+                    community.GroupPhoto = "~/Uploads/" + uploadFile.FileName;
                 }
 
                 community.AdminId = currentuserId;               
@@ -277,7 +277,7 @@ namespace PLE444.Controllers
                         uploadFile.SaveAs(imageFilePath);
                         ViewBag.UploadSuccess = true;
 
-                        model.GroupPhoto = "/Uploads/" + fileName;
+                        model.GroupPhoto = "~/Uploads/" + fileName;
                     }
                 }
 

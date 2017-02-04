@@ -31,11 +31,11 @@
                 <div class="col-sm-3">
                     @if (Model.GroupPhoto == null)
                     {
-                        <img src="~/Content/img/pp.jpg" class="img-circle">
+                        <img src="@Url.Content("~/Content/img/pp.jpg")" class="img-circle">
                     }
                     else
                     {
-                        <img src="@Model.GroupPhoto" class="img-circle">
+                        <img src="@Url.Content(Model.GroupPhoto)" class="img-circle">
                     }
                     <p>Grup İsmi</p>
                     <div class="name">@Model.Name </div>

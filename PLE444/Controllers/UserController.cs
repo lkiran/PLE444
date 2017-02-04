@@ -116,7 +116,7 @@ namespace PLE444.Controllers
                         imageFilePath = Path.Combine(Server.MapPath("~/Uploads"), fileName);
                         uploadFile.SaveAs(imageFilePath);
                         ViewBag.UploadSuccess = true;
-                        userDetail.ProfilePicture = "/Uploads/" + fileName;
+                        userDetail.ProfilePicture = "~/Uploads/" + fileName;
                     }
                 }
 
@@ -184,7 +184,7 @@ namespace PLE444.Controllers
         public ActionResult Files()
         {
             var curr = User.Identity.GetUserId();
-            return View(db.Documents.Where(u => u.Owner == curr));
+            return View(db.Documents.Where(u => u.OwnerId == curr));
         }
     }
 }

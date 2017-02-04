@@ -26,8 +26,7 @@
         <div class="col-sm-3">
             <div class="panel panel-profile">
                 <div class="panel-body">
-                    @{var h = new PLE444.Helpers.UserHelper();}
-                    <img src="@h.GetUserPhotoFromID(Model.Id)" class="img-circle">
+                    <img src="@Url.Content(Model.UserPhoto())" class="img-circle">
 
                      <div class="form-group">                      
                         <input name="uploadFile" type="file" class="filer_input" />                       

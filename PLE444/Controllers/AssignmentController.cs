@@ -179,15 +179,15 @@ namespace PLE444.Controllers
                     uploadFile.SaveAs(filePath);
                     ViewBag.UploadSuccess = true;
 
-                    var uploaded = a.Uploads.FirstOrDefault(u => u.Owner == currentuserId);
+                    var uploaded = a.Uploads.FirstOrDefault(u => u.OwnerId == currentuserId);
                     if (uploaded == null)
                     {
                         var d = new Document
                         {
                             DateUpload = DateTime.Now,
                             Description = uploadFile.FileName,
-                            Owner = currentuserId,
-                            FilePath = filePath
+                            OwnerId = currentuserId,
+                            FilePath = "~/Uploads/" + fileName
                         };
 
                         db.Documents.Add(d);
@@ -199,7 +199,7 @@ namespace PLE444.Controllers
                         ;
                         uploaded.Description = uploadFile.FileName;
                         uploaded.FilePath = filePath;
-                        uploaded.Owner = currentuserId;
+                        uploaded.OwnerId = currentuserId;
 
                         db.Entry(uploaded).State = EntityState.Modified;
                     }
@@ -214,23 +214,27 @@ namespace PLE444.Controllers
 
         public ActionResult DownloadAssignment(Guid asssignmentId)
         {
-            var assignment = db.Assignments.Find(asssignmentId);
+            var assignment = db.Assignments.Include("Uploads").Include("Uploads.Owner").FirstOrDefault(a => a.Id == asssignmentId);
+            
             if (assignment == null)
                 return HttpNotFound();
+
+            if(!isCourseCreator(assignment.CourseId))
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
             var documents = assignment.Uploads.ToList();
 
             var memoryStream = new MemoryStream();
 
             using (var zip = new ZipFile())
             {
-                Debug.WriteLine(documents.Count);
                 foreach (var document in documents)
                 {
-                    var path = document.FilePath;
+                    var path = Server.MapPath(document.FilePath);
 
                     if (System.IO.File.Exists(path))
                     {
-                        var zipFileName = document.Owner + "_" + document.Description + Path.GetExtension(document.FilePath);
+                        var zipFileName = document.Owner.FullName() + "_" + document.Description;
                         zip.AddFile(path, "").FileName = zipFileName;
                     }
                 }

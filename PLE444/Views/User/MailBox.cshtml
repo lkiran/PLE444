@@ -26,27 +26,34 @@
                         if (mail.isRead)
                         {
                             <tr>
-                                <a href="@Url.Action("MailDetail", new { id = mail.Id })">
-                                    <td><img class="img-circle" style="width:40px;"> src="@uh.GetUserPhotoFromID(mail.SenderId)"/></td>
-                                    <td class="inbox-msg-from"><div>@uh.GetUserFullNameFromID(mail.SenderId)</div></td>
+                                <a href="@Url.Action("MailDetail", new {id = mail.Id})">
+                                    <td>
+                                        <img class="img-circle" style="width: 40px;"> src="@Url.Content(uh.GetUserPhotoFromID(mail.SenderId))"/>
+                                    </td>
+
+                                    <td class="inbox-msg-from">
+                                        <div>@uh.GetUserFullNameFromID(mail.SenderId)</div>
+                                    </td>
+
                                     @if (dh.ClearHTML(mail.Content).Length < 50)
-                                    {
-                                        <td class="inbox-msg-snip">@dh.ClearHTML(mail.Content)</td>
-                                    }
-                                    else
-                                    {
-                                        <td class="inbox-msg-snip">@dh.ClearHTML(mail.Content).Substring(0, 50)...</td>
-                                    }
-                                    @*<td class="inbox-msg-attach"><i class="ti ti-paperclip"></i> </td>*@
+                                     {
+                                         <td class="inbox-msg-snip">@dh.ClearHTML(mail.Content)</td>
+                                     }
+                                     else
+                                     {
+                                         <td class="inbox-msg-snip">@dh.ClearHTML(mail.Content).Substring(0, 50)...</td>
+                                     }
+                                            @*<td class="inbox-msg-attach"><i class="ti ti-paperclip"></i> </td>*@
                                     <td class="inbox-msg-time" width="20%">@dh.GetDeltaDate(mail.DateSent)</td>
                                 </a>
-                            </tr>                                  
-                            }
-                            else
-                            {
-                            <tr class="unread clickable-row" data-href='@Url.Action("MailDetail", new { id = mail.Id })'>
-                                <td><img class="img-circle" style="width:40px;" src="@uh.GetUserPhotoFromID(mail.SenderId)" /></td>
-                                <td class="inbox-msg-from" width="20%"><div>@uh.GetUserFullNameFromID(mail.SenderId)</div></td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr class="unread clickable-row" data-href='@Url.Action("MailDetail", new {id = mail.Id})'>
+                                <td><img class="img-circle" style="width: 40px;" src="@uh.GetUserPhotoFromID(mail.SenderId)"/></td>
+                                <td class="inbox-msg-from" width="20%">
+                                    <div>@uh.GetUserFullNameFromID(mail.SenderId)</div></td>
                                 @if (dh.ClearHTML(mail.Content).Length < 50)
                                 {
                                     <td class="inbox-msg-snip">@dh.ClearHTML(mail.Content)</td>
@@ -56,9 +63,9 @@
                                     <td class="inbox-msg-snip">@dh.ClearHTML(mail.Content).Substring(0, 50)...</td>
                                 }
                                 @*<td class="inbox-msg-attach"><i class="ti ti-paperclip" width="5%"></i> </td>*@
-                                <td class="inbox-msg-time" width="20%">@dh.GetDeltaDate(mail.DateSent)</td>                         
+                                <td class="inbox-msg-time" width="20%">@dh.GetDeltaDate(mail.DateSent)</td>
                             </tr>
-                        }                   
+                        }
                     }
 
                 </tbody>

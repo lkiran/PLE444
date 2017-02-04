@@ -25,7 +25,7 @@
             <tr>
                 <td>
                     <a href="@Url.Action("Download" , "File" , new { path=item.FilePath, name=item.Description })">
-                        <img src="@h.GetFileIcon(item.FilePath)" style="height:40px;" />
+                        <img src="@Url.Content(h.GetFileIcon(item.FilePath))" style="height:40px;" />
                         @Html.DisplayFor(modelItem => item.Description)
                     </a>
                 </td>

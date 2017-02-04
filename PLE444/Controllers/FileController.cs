@@ -20,7 +20,7 @@ namespace PLE444.Controllers
         {
             path = path.Replace(" ", "");
 
-            if (!System.IO.File.Exists(path))
+            if (!System.IO.File.Exists(Server.MapPath(path)))
                 return HttpNotFound();
 
             var fileBytes = System.IO.File.ReadAllBytes(Server.MapPath(path));

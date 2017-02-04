@@ -1,4 +1,5 @@
-﻿@model PLE444.Models.ApplicationUser
+﻿@using Microsoft.Ajax.Utilities
+@model PLE444.Models.ApplicationUser
 @{
     ViewBag.Title = "Profil";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -23,7 +24,7 @@
             <div class="panel panel-profile">
                 <div class="panel-body">
                    @{var h = new PLE444.Helpers.UserHelper();}
-                    <img src="@h.GetUserPhotoFromID(Model.Id)" class="img-circle">
+                    <img src="@Url.Content(h.GetUserPhotoFromID(Model.Id))" class="img-circle">
                     
                     <div class="name">@Model.FirstName    @Model.LastName</div>
 
@@ -38,11 +39,11 @@
                             <a href="@Url.Action("RemoveFriends", new { id=Model.Id })">Arkadaşlıktan Çıkar</a>
                         }
                     }
-                    <ul class="list-inline text-center">
+                    @*<ul class="list-inline text-center">
                         <li><a href="#" class="profile-facebook-icon"><i class="ti ti-facebook"></i></a></li>
                         <li><a href="#" class="profile-twitter-icon"><i class="ti ti-twitter"></i></a></li>
                         <li><a href="#" class="profile-dribbble-icon"><i class="ti ti-dribbble"></i></a></li>
-                    </ul>
+                    </ul>*@
                 </div>
             </div><!-- panel -->
 
@@ -62,21 +63,28 @@
                 </div>
                 <div class="panel-body">
                     <div class="about-area">
-                        <h4>Vizyon</h4>
-                       <p>@Model.Vision</p>
-                        <h4>Misyon</h4>
-                        <p>@Model.Mission</p>
+                        @if (!Model.Vision.IsNullOrWhiteSpace())
+                        {
+                            <h4>Vizyon</h4>
+                            <p>@Model.Vision</p>
+                        }
+
+                        @if (!Model.Mission.IsNullOrWhiteSpace())
+                        {
+                            <h4>Misyon</h4>
+                            <p>@Model.Mission</p>
+                        }
                     </div>
                     <div class="about-area">
                         <h4>İletişim bilgileri</h4>
                         <div class="table-responsive">
                             <table class="table">
                                 <tbody>
-
                                     <tr>
                                         <th>Mail</th>
                                         <td><a href="#">@Model.Email</a></td>
                                     </tr>
+                                
                                     <tr>
                                         <th>Telefon</th>
                                         <td>@Model.PhoneNo</td>

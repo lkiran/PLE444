@@ -61,7 +61,7 @@ Max Score: @gradeType.MaxScore">
                     <tr>
                         <td>
                             <a href="@Url.Action("Profil", "User", new {id = cu.UserId})">
-                                <img alt="Kullanıcı Resmi" src="@cu.User.UserPhoto()" class="img-circle" style="height: 30px;"/>
+                                <img alt="Kullanıcı Resmi" src="@Url.Content(cu.User.UserPhoto())" class="img-circle" style="height: 30px;"/>
                                 @cu.User.FullName()
                             </a>
 
@@ -166,7 +166,7 @@ Max Score: @gradeType.MaxScore">
 
                 $.ajax({
                     //AddOrUpdateGradeJson(int gradeTypeId, string userId, float grade)
-                    url: "/Course/AddOrUpdateGradeJson" +
+                    url: "@Url.Action("AddOrUpdateGradeJson", "Course")" +
                         "?gradeTypeId=" +
                         gradeCell.data('grade-type-id') +
                         "&userId=" +
@@ -197,7 +197,7 @@ Max Score: @gradeType.MaxScore">
             if (isDeleted) {
                 $.ajax({
                     // DeleteGradeJson(int? id)
-                    url: "/Course/DeleteGradeJson/" + gradeCell.data('id'),
+                    url: "@Url.Action("DeleteGradeJson", "Course")/" + gradeCell.data('id'),
                     method: "GET",
                     dataType: 'json',
                     success: function (response) {
@@ -361,7 +361,7 @@ Max Score: @gradeType.MaxScore">
                                     if (result) {
                                         $.ajax({
                                             //EjectUserFromCourse(string userId, Guid? courseId)
-                                            url: "/Course/EjectUserFromCourse/?userId=" +
+                                            url: "@Url.Action("EjectUserFromCourse","Course")" + "/?userId=" +
                                                 object.data('user-id') +
                                                 "&courseId=" +
                                                 object.data('course-id'),

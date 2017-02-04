@@ -18,7 +18,7 @@ namespace PLE444.Helpers
             if (fileType == "")
                 fileType = "unknown";
 
-            return "/Content/img/FileIcons/" + fileType + ".png";
+            return "~/Content/img/FileIcons/" + fileType + ".png";
         }
     }
 }

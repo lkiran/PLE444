@@ -37,7 +37,7 @@ namespace PLE444.Models
 
         public string UserPhoto()
         {
-            return ProfilePicture.IsNullOrWhiteSpace() ? "/Content/img/pp.jpg" : ProfilePicture;
+            return ProfilePicture.IsNullOrWhiteSpace() ? "~/Content/img/pp.jpg" : ProfilePicture;
         }
 
         //public int RoleId { get; set; }

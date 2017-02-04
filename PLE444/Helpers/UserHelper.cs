@@ -17,7 +17,7 @@ namespace PLE444.Helpers
             if (id != null)
             {
                 if (db.Users.Find(id).ProfilePicture == null)
-                    return "/Content/img/pp.jpg";
+                    return "~/Content/img/pp.jpg";
                 return db.Users.Find(id).ProfilePicture;
             }
             return "";

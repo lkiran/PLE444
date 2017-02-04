@@ -219,6 +219,10 @@
     <Compile Include="Helpers\DataManipulationHelper.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\UserHelper.cs" />
+    <Compile Include="Migrations\201702032247416_doc.cs" />
+    <Compile Include="Migrations\201702032247416_doc.Designer.cs">
+      <DependentUpon>201702032247416_doc.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -2039,6 +2043,7 @@
     <Content Include="Content\plugins\switchery\README.md" />
     <Content Include="Content\plugins\wijets\.DS_Store" />
     <None Include="Properties\PublishProfiles\PLE.pubxml" />
+    <None Include="Properties\PublishProfiles\PLE444.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.1.1.js" />
     <Content Include="Scripts\jquery-3.1.1.min.js" />
@@ -2152,6 +2157,14 @@
     <Folder Include="Views\File\" />
     <Folder Include="Views\Group\" />
     <Folder Include="Views\PrivateMessages\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201702032247416_doc.resx">
+      <DependentUpon>201702032247416_doc.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

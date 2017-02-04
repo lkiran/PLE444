@@ -30,8 +30,7 @@
                         <td> <a href="@Url.Action("Index",new { id = item.ID })"> @item.Name</a></td>
                         <td>@Html.DisplayFor(modelItem => item.Description)</td>
                         <td>
-                            @if (item.isOpen) { @Html.Raw("Açık") }
-                            else {@Html.Raw("Kapalı")  }
+                            @(item.isOpen ? Html.Raw("Açık") : Html.Raw("Kapalı"))
                         </td>
                     </tr>
                 </tbody>

@@ -21,7 +21,7 @@
                 <div class="form-group">                   
                     <div class="col-md-12">
                         @{ var h = new PLE444.Helpers.UserHelper();}
-                        <img class="img-circle" style="height:30px;" src="@h.GetUserPhotoFromID(Model.ReceiverId)"/>
+                        <img class="img-circle" style="height:30px;" src="@Url.Content(h.GetUserPhotoFromID(Model.ReceiverId))"/>
                         <span class="lead">@h.GetUserFullNameFromID(Model.ReceiverId)</span>
                     </div>
                 </div>

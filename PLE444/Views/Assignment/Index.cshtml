@@ -3,7 +3,6 @@
     ViewBag.Title = "Ödevler";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var h = new PLE444.Helpers.DataManipulationHelper();
-    var uh = new PLE444.Helpers.UserHelper();
     var fh = new PLE444.Helpers.FileHelper();
 }
 
@@ -18,7 +17,7 @@
 
 @foreach (var assignment in Model.AssignmentList)
 {
-    var userUpload = assignment.Uploads.FirstOrDefault(u => u.Owner == Model.CurrentUserId);
+    var userUpload = assignment.Uploads.FirstOrDefault(u => u.OwnerId == Model.CurrentUserId);
     var isUploded = userUpload != null;
 
     var panelColor = "default";
@@ -81,13 +80,13 @@
                     {
                         <tr>
                             <td>
-                                <img class="img-circle" src="@uh.GetUserPhotoFromID(upload.Owner)" style="height: 30px;"/>
-                                <span> @uh.GetUserFullNameFromID(upload.Owner)</span>
+                                <img class="img-circle" src="@Url.Content(upload.Owner.UserPhoto())" style="height: 30px;"/>
+                                <span>@upload.Owner.FullName()</span>
                             </td>
 
                             <td>
-                                <a href="@Url.Action("Download", "File", new {path = upload.FilePath, name = upload.Description})">
-                                    <img src="@fh.GetFileIcon(upload.FilePath)" style="height: 30px;"/>
+                                <a href="@Url.Action("Download", "File", new {path = Url.Content(upload.FilePath), name = Url.Content(upload.Description) })">
+                                    <img src="@Url.Content(fh.GetFileIcon(upload.FilePath))" style="height: 30px;"/>
                                     <span>@upload.Description</span>
                                 </a>
                             </td>
@@ -105,7 +104,7 @@
                 @if (Model.CanEdit)
                 {
                     <a href="@Url.Action("DownloadAssignment", "Assignment", new {asssignmentId = assignment.Id})" class="pull-right">
-                        <img src="/Content/img/FileIcons/zip.png" alt="zip" style="height: 30px;"/>
+                        <img src="@Url.Content("~/Content/img/FileIcons/zip.png")" alt="zip" style="height: 30px;"/>
                         <span> Hepsini İndir</span>
                     </a>
                 }
@@ -128,7 +127,7 @@
 
 @if (Model.CanEdit)
 {
-    <a href="@Url.Action("Create", "Assignment", new {id = Model.CourseInfo.Id})" class="btn btn-primary-alt center-block" id="dyna-del">
+    <a href="@Url.Action("Create", "Assignment", new {id = Model.CourseInfo.Id})" class="btn btn-primary-alt center-block">
         <i class="fa fa-plus"></i> Yeni Ödev Ekle
     </a>
 }

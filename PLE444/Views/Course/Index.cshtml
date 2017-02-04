@@ -62,7 +62,7 @@
                             <div class="timeline-body">
                                 <div class="timeline-header">
                                     <a href="@Url.Action("Profil","User",new { id = timelineEntry.CreatorId })">
-                                        <img alt="Kullanıcı Resmi" class="img-circle" style="height: 30px;" src="@timelineEntry.Creator.UserPhoto()"/>
+                                        <img alt="Kullanıcı Resmi" class="img-circle" style="height: 30px;" src="@Url.Content(timelineEntry.Creator.UserPhoto())"/>
                                         <span class="">@timelineEntry.Creator.FullName()</span>
                                     </a>
                                     <span class="pull-right-lg pull-right-md">

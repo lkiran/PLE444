@@ -14,7 +14,7 @@
     <div class="panel-body">
         @{ var h = new PLE444.Helpers.UserHelper(); }
         <a href="@Url.Action("Profil", new { id= @Model.SenderId })">
-            <img class="img-circle pull-left" style="height:40px;" src="@h.GetUserPhotoFromID(Model.SenderId)">
+            <img class="img-circle pull-left" style="height:40px;" src="@Url.Content(h.GetUserPhotoFromID(Model.SenderId))">
             <span class="ml-md lead">@h.GetUserFullNameFromID(Model.SenderId)</span>
         </a>
 
