@@ -219,10 +219,6 @@
     <Compile Include="Helpers\DataManipulationHelper.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\UserHelper.cs" />
-    <Compile Include="Migrations\201702032247416_doc.cs" />
-    <Compile Include="Migrations\201702032247416_doc.Designer.cs">
-      <DependentUpon>201702032247416_doc.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -750,6 +746,7 @@
     <Content Include="Content\js\images\ui-icons_ffffff_256x240.png" />
     <Content Include="Content\js\jquery-1.10.2.min.js" />
     <Content Include="Content\js\jquery-1.8.3.min.js" />
+    <Content Include="Content\js\jquery-3.1.0.min.js" />
     <Content Include="Content\js\jquery.filer.js" />
     <Content Include="Content\js\jquery.filer.min.js" />
     <Content Include="Content\js\jquery.layout.min.js" />
@@ -947,6 +944,20 @@
     <Content Include="Content\plugins\codeprettifier\prettify.min.css" />
     <Content Include="Content\plugins\codeprettifier\prettify.min.js" />
     <Content Include="Content\plugins\countdown\countdown.js" />
+    <Content Include="Content\plugins\cropit-master\dist\jquery.cropit.js" />
+    <Content Include="Content\plugins\cropit-master\src\constants.js" />
+    <Content Include="Content\plugins\cropit-master\src\cropit.js" />
+    <Content Include="Content\plugins\cropit-master\src\options.js" />
+    <Content Include="Content\plugins\cropit-master\src\plugin.js" />
+    <Content Include="Content\plugins\cropit-master\src\utils.js" />
+    <Content Include="Content\plugins\cropit-master\src\zoomer.js" />
+    <Content Include="Content\plugins\cropit-master\test\cropit.spec.js" />
+    <Content Include="Content\plugins\cropit-master\test\cropit_view.spec.js" />
+    <Content Include="Content\plugins\cropit-master\test\fixtures\basic.html" />
+    <Content Include="Content\plugins\cropit-master\test\fixtures\image-background.html" />
+    <Content Include="Content\plugins\cropit-master\test\zoomer.spec.js" />
+    <Content Include="Content\plugins\cropit-master\update_version.js" />
+    <Content Include="Content\plugins\cropit-master\webpack.config.js" />
     <Content Include="Content\plugins\datatables\ColReorder\css\dataTables.colReorder.css" />
     <Content Include="Content\plugins\datatables\ColReorder\css\dataTables.colReorder.min.css" />
     <Content Include="Content\plugins\datatables\ColReorder\examples\alt_insert.html" />
@@ -2159,11 +2170,6 @@
     <Folder Include="Views\PrivateMessages\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201702032247416_doc.resx">
-      <DependentUpon>201702032247416_doc.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <PropertyGroup>
@@ -2184,7 +2190,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>15795</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:15795/</IISUrl>
+          <IISUrl>http://localhost:50033/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

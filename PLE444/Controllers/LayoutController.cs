@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Ajax.Utilities;
 
 namespace PLE444.Controllers
 {
@@ -16,11 +17,17 @@ namespace PLE444.Controllers
         [ChildActionOnly]
         public ActionResult Courses()
         {
-            var userID = User.Identity.GetUserId();
-            var uc = db.UserCourses.Where(u => u.UserId == userID);
-            var data = (from p in uc select p.Course).ToList();
+            var userId = User.Identity.GetUserId();
 
-            return PartialView(data);
+            if (userId.IsNullOrWhiteSpace())
+                return PartialView(new List<Course>());
+
+            var userCourses = db.UserCourses.Where(u => u.UserId == userId);
+            var courses = db.Courses.Where(c => c.CreatorId == userId); 
+            var data = (from p in userCourses select p.Course).Union(courses);
+
+            ViewBag.CurrentUser = userId;
+            return PartialView(data.ToList());
         }
 
         [ChildActionOnly]

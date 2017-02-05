@@ -1,6 +1,27 @@
 ﻿@model List<PLE444.Models.Course>
 
-@foreach (var item in Model)
+@if (Model==null || !Model.Any())
 {
-    <li><a href="@Url.Action("Index","Course", new { id = item.Id })">@item.Code</a></li>
+    <li><a href="@Url.Action("List","Course")">Hiç Ders Yok</a></li>
 }
+else
+{
+    foreach (var item in Model)
+    {
+        <li title="@item.Heading">
+            <a href="@Url.Action("Index", "Course", new {id = item.Id})">
+                @item.Code
+
+                @if (@item.CreatorId == ViewBag.CurrentUser)
+                {
+                    <i class="ti ti-key"></i>
+                }
+                else
+                {
+                    <i class="ti ti-user"></i>
+                }
+            </a>
+        </li>
+    }
+}
+

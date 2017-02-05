@@ -38,7 +38,7 @@
 </head>
 <body class="animated-content">
 
-	<header id="topnav" class="navbar navbar-default navbar-fixed-top" role="banner">
+	<header id="topnav" class="navbar navbar-default navbar-fixed-top navbar-indigo" role="banner">
 		<div class="logo-area">
 			<span id="trigger-sidebar" class="toolbar-trigger toolbar-icon-bg">
 				<a data-toggle="tooltips" data-placement="right" title="Toggle Sidebar">
@@ -48,7 +48,7 @@
 				</a>
 			</span>
 
-			<a class="navbar-brand" href="#">PLE 444</a>
+		    <a title="Ana Sayfa" class="toolbar-icon-bg" href="@Url.Action("Index","Home")"><h3 style="color: white; line-height: 25px;">PLE</h3></a>
 			<div class="toolbar-icon-bg hidden-xs" id="toolbar-search">
 				<div class="input-group">
 					<span class="input-group-btn"><button class="btn" type="button"><i class="ti ti-search"></i></button></span>
@@ -71,7 +71,7 @@
 	</header>
 	<div id="wrapper">
 		<div id="layout-static">
-			<div class="static-sidebar-wrapper sidebar-default">
+			<div class="static-sidebar-wrapper sidebar-midnightblue">
 				<div class="static-sidebar">
 					<div class="sidebar">
 						<div class="widget">
@@ -79,14 +79,14 @@
 						<div class="widget" id="widget-sidebar">
 							<nav role="navigation" class="widget-body">
 								<ul class="acc-menu">
-									<li class="nav-separator"><span>İçerik</span></li>
-									<li>
-										<a href="@Url.Action("Index","Course", new { id = "" })"><i class="ti ti-direction"></i><span>Dersler</span></a>
-										<ul class="" style="display: block;">
-                                            @{ Html.RenderAction("Courses", "Layout"); }
+								    <li>
+								        <a href="@Url.Action("List","Course")"><i class="ti ti-direction"></i><span>Dersler</span></a> 
+								        <ul class="" style="display: block;">
+								            @{ Html.RenderAction("Courses", "Layout"); }
 											
-										</ul>
-									</li><li>
+								        </ul>
+								    </li>
+                                    <li>
 										<a href="#_"><i class="ti ti-direction"></i><span>Alanlar</span></a>
 										<ul class="" style="display: block;">
                                             @{ Html.RenderAction("Spaces", "Layout"); }
@@ -116,7 +116,7 @@
                                 <div class="col-md-9">                                
                                     @RenderBody()
                                 </div>
-                                <div class="col-md-3">
+                                @*<div class="col-md-3">
                                     <div class="panel panel-default" data-widget='{"draggable": "false"}'>
                                         <div class="panel-heading">
                                             <h2>Panel</h2>
@@ -126,7 +126,7 @@
                                             Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.
                                         </div>
                                     </div>
-                                </div>
+                                </div>*@
                             </div>
                         </div>
 					</div> <!-- #page-content -->
@@ -134,7 +134,7 @@
 				<footer role="contentinfo">
 					<div class="clearfix">
 						<ul class="list-unstyled list-inline pull-left">
-							<li><h6 style="margin: 0;">&copy; @DateTime.Now.Year</h6></li>
+						    <li><small><em>Boğaziçi University - CET <span style="margin: 0;">&copy; @DateTime.Now.Year</span></em></small></li>
 						</ul>
 						<button class="pull-right btn btn-link btn-xs hidden-print" id="back-to-top"><i class="ti ti-arrow-up"></i></button>
 					</div>
@@ -143,87 +143,6 @@
 		</div>
 	</div>
 
-	<!-- Switcher -->
-	<div class="demo-options">
-		<div class="demo-options-icon"><i class="ti ti-paint-bucket"></i></div>
-		<div class="demo-heading">Demo Settings</div>
-		<div class="demo-body">
-			<div class="tabular">
-				<div class="tabular-row">
-					<div class="tabular-cell">Fixed Header</div>
-					<div class="tabular-cell demo-switches"><input class="bootstrap-switch" type="checkbox" checked data-size="mini" data-on-color="success" data-off-color="default" name="demo-fixedheader" data-on-text="&nbsp;" data-off-text="&nbsp;"></div>
-				</div>
-				<div class="tabular-row">
-					<div class="tabular-cell">Boxed Layout</div>
-					<div class="tabular-cell demo-switches"><input class="bootstrap-switch" type="checkbox" data-size="mini" data-on-color="success" data-off-color="default" name="demo-boxedlayout" data-on-text="&nbsp;" data-off-text="&nbsp;"></div>
-				</div>
-				<div class="tabular-row">
-					<div class="tabular-cell">Collapse Leftbar</div>
-					<div class="tabular-cell demo-switches"><input class="bootstrap-switch" type="checkbox" data-size="mini" data-on-color="success" data-off-color="warning" name="demo-collapseleftbar" data-on-text="&nbsp;" data-off-text="&nbsp;"></div>
-				</div>
-			</div>
-		</div>
-		<div class="demo-body">
-			<div class="option-title">Topnav</div>
-			<ul id="demo-header-color" class="demo-color-list">
-				<li><span class="demo-cyan"></span></li>
-				<li><span class="demo-light-blue"></span></li>
-				<li><span class="demo-blue"></span></li>
-				<li><span class="demo-indigo"></span></li>
-				<li><span class="demo-deep-purple"></span></li>
-				<li><span class="demo-purple"></span></li>
-				<li><span class="demo-pink"></span></li>
-				<li><span class="demo-red"></span></li>
-				<li><span class="demo-teal"></span></li>
-				<li><span class="demo-green"></span></li>
-				<li><span class="demo-light-green"></span></li>
-				<li><span class="demo-lime"></span></li>
-				<li><span class="demo-yellow"></span></li>
-				<li><span class="demo-amber"></span></li>
-				<li><span class="demo-orange"></span></li>
-				<li><span class="demo-deep-orange"></span></li>
-				<li><span class="demo-midnightblue"></span></li>
-				<li><span class="demo-bluegray"></span></li>
-				<li><span class="demo-bluegraylight"></span></li>
-				<li><span class="demo-black"></span></li>
-				<li><span class="demo-gray"></span></li>
-				<li><span class="demo-graylight"></span></li>
-				<li><span class="demo-default"></span></li>
-				<li><span class="demo-brown"></span></li>
-			</ul>
-		</div>
-		<div class="demo-body">
-			<div class="option-title">Sidebar</div>
-			<ul id="demo-sidebar-color" class="demo-color-list">
-				<li><span class="demo-cyan"></span></li>
-				<li><span class="demo-light-blue"></span></li>
-				<li><span class="demo-blue"></span></li>
-				<li><span class="demo-indigo"></span></li>
-				<li><span class="demo-deep-purple"></span></li>
-				<li><span class="demo-purple"></span></li>
-				<li><span class="demo-pink"></span></li>
-				<li><span class="demo-red"></span></li>
-				<li><span class="demo-teal"></span></li>
-				<li><span class="demo-green"></span></li>
-				<li><span class="demo-light-green"></span></li>
-				<li><span class="demo-lime"></span></li>
-				<li><span class="demo-yellow"></span></li>
-				<li><span class="demo-amber"></span></li>
-				<li><span class="demo-orange"></span></li>
-				<li><span class="demo-deep-orange"></span></li>
-				<li><span class="demo-midnightblue"></span></li>
-				<li><span class="demo-bluegray"></span></li>
-				<li><span class="demo-bluegraylight"></span></li>
-				<li><span class="demo-black"></span></li>
-				<li><span class="demo-gray"></span></li>
-				<li><span class="demo-graylight"></span></li>
-				<li><span class="demo-default"></span></li>
-				<li><span class="demo-brown"></span></li>
-			</ul>
-		</div>
-
-	</div>
-	<!-- /Switcher -->
 	<!-- Load site level scripts -->
 	<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script> -->

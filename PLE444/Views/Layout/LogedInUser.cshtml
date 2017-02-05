@@ -2,8 +2,16 @@
 
 @if (Model == null)
 {
-    <li>@Html.ActionLink("Kayıt Ol", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-    <li>@Html.ActionLink("Giriş", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
+    <li>
+        <a id="registerLink" href="@Url.Action("Register", "Account")">
+            <i class="ti ti-shift-right mr-sm"></i>Kayıt
+        </a>
+    </li>
+    <li>
+        <a id="loginLink" href="@Url.Action("Login", "Account")">
+            <i class="ti ti-user mr-sm"></i>Giriş
+        </a>
+    </li>
 }
 else
 {
@@ -184,11 +192,11 @@ else
         </a>
         <ul class="dropdown-menu userinfo arrow">
             <li><a href="@Url.Action("Profil","User")"><i class="ti ti-user"></i><span>Profil</span>@*<span class="badge badge-info pull-right">80%</span>*@</a></li>
-            <li><a href="#/"><i class="ti ti-panel"></i><span>Hesap</span></a></li>
-            <li><a href="#/"><i class="ti ti-settings"></i><span>Ayarlar</span></a></li>
+            @*<li><a href="#/"><i class="ti ti-panel"></i><span>Hesap</span></a></li>
+            <li><a href="#/"><i class="ti ti-settings"></i><span>Ayarlar</span></a></li>*@
             <li class="divider"></li>
             <li>
-                <a href="javascript:document.getElementById('logoutForm').submit()"><i class="ti ti-shift-right"></i><span>Çıkış</span></a>
+                <a href="javascript:document.getElementById('logoutForm').submit()"><i class="ti ti-shift-left-alt"></i><span>Çıkış</span></a>
                 @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
                 {
                     @Html.AntiForgeryToken()

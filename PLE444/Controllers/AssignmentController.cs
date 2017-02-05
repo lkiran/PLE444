@@ -28,7 +28,7 @@ namespace PLE444.Controllers
             if (course == null)
                 return  HttpNotFound();
 
-            var assignments = db.Assignments.Include("Uploads").Where(a => a.Course.Id == id && a.IsActive).ToList();
+            var assignments = db.Assignments.Include("Uploads").Include("Uploads.Owner").Where(a => a.Course.Id == id && a.IsActive).ToList();
             var model = new CourseAssignments
             {
                 CourseInfo = course,
