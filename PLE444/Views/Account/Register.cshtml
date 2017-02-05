@@ -1,8 +1,49 @@
 ﻿@model PLE444.Models.RegisterViewModel
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Kayıt";
 }
 
+@section styles
+{
+<style>
+      .cropit-preview {
+        background-image: url(@Url.Content("~/Content/img/pp.jpg"));
+        background-size: cover;
+        border: 1px solid #ccc;
+        margin-top: 7px;
+        border-radius: 50%;
+        width: 250px;
+        height: 250px;
+        margin: 0 auto;
+      }
+
+      .cropit-preview-image-container {
+        cursor: move;
+      }
+
+      .image-size-label {
+        margin-top: 10px;
+      }
+
+      input {
+        display: block;
+      }
+
+      .cropit-image-input {
+          visibility: hidden;
+        }
+
+    .image-editor table {
+        margin: 0 auto;
+    }
+
+    .image-editor table tr td > i {
+        font-size: 16px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+</style>
+}
 
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -16,7 +57,7 @@
             @Html.ValidationSummary("", new { @class = "text-danger" })
             <div class="form-group">
                 @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                <div class= "col-md-4">
+                <div class="col-md-4">
                     @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
                 </div>
             </div>
@@ -33,7 +74,7 @@
                         @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
                     </div>
                 </div>
-            </div>           
+            </div>
 
             <hr />
 
@@ -60,19 +101,42 @@
 
             <div class="form-group">
                 @Html.LabelFor(model => model.uploadFile, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-3">
-                    <input name="uploadFile" type="file" id="filer_input" />
+                <div class="col-md-5">
+                    <a class="btn btn-primary-alt" id="selectImage"><i class="fa fa-file-image-o"></i> Seç</a>
+                    <div class="image-editor ">
+                        <input type="file" class="cropit-image-input">
+
+                        <div class="cropit-preview"></div>
+
+                        <table>
+                            <tr>
+                                <td class="text-center" title="Saat yönünün tersinde çevir" style="width: 10%;">
+                                    <i class="fa fa-rotate-left rotate-ccw-btn"></i>
+                                </td>
+
+                                <td class="text-center" style="width: 10%;"><i class="fa fa-search-minus"></i></td>
+                                <td><input type="range" class="cropit-image-zoom-input form-control slider" id="zoomSlider"></td>
+                                <td class="text-center" style="width: 10%;"><i class="fa  fa-search-plus"></i></td>
+
+                                <td class="text-center" title="Saat yönünde çevir" style="width: 10%;">
+                                    <i class="fa fa-rotate-right rotate-cw-btn"></i>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <input type="hidden" name="image-data" class="hidden-image-data"/>
+                    </div>
                 </div>
-            </div> 
-                            
+            </div>
+
             <div class="form-group">
                 @Html.LabelFor(m => m.PhoneNo, new { @class = "col-md-2 control-label" })
                 <div class="col-md-4">
                     @Html.TextBoxFor(m => m.PhoneNo, new { @class = "form-control" })
                 </div>
             </div>
-           
-             <hr />
+
+            <hr />
 
             <div class="form-group">
                 @Html.LabelFor(m => m.Vision, new { @class = "col-md-2 control-label" })
@@ -86,26 +150,47 @@
                     @Html.TextAreaFor(m => m.Mission, new { @class = "form-control" })
                 </div>
             </div>
-           
+            
+            <input type="hidden" name="photoBase64" value=""/>
+
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-8">
                     <input type="submit" value="Kayıt Ol" class="btn btn-success" />
                 </div>
             </div>
-          
+
         }
     </div>
 </div>
 
-<script src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
+@section scripts
+{
+@Scripts.Render("~/Content/plugins/cropit-master/dist/jquery.cropit.js")
+
 <script>
-    $(document).ready(function () {
-        $('#filer_input').filer({
-            limit: 1,
-            mamdize: 3,
-            extensions: ['jpg', 'jpeg', 'png', 'gif'],
-            changeInput: true,
-            showThumbs: false
+    $(function () {
+        $('.image-editor').cropit();
+
+        $('form').submit(function (e) {
+            // Move cropped image data to hidden input
+            var imageData = $('.image-editor').cropit('export');
+            $("form").find('input[name="photoBase64"]').val(imageData);
+        });
+
+        $('.rotate-cw-btn').click(function () {
+            console.log("cw");
+            $('.image-editor').cropit('rotateCW');
+        });
+        $('.rotate-ccw-btn').click(function () {
+            console.log("ccw");
+            $('.image-editor').cropit('rotateCCW');
+        });
+
+        $('#selectImage').click(function () {
+            $('.cropit-image-input').click();
         });
     });
-</script>
+</script>   
+}
+   
+

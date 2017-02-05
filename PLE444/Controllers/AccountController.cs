@@ -10,7 +10,10 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using PLE444.Models;
 using System.Data.Entity;
+using System.Drawing;
 using System.IO;
+using Microsoft.Ajax.Utilities;
+using System.Collections.Generic;
 
 namespace PLE444.Controllers
 {
@@ -160,6 +163,19 @@ namespace PLE444.Controllers
                                                 Vision =model.Vision,
                                                 Gender =model.Gender
                 };
+                if (!model.photoBase64.IsNullOrWhiteSpace())
+                {
+                    IList<string> data = model.photoBase64.Split(',').ToList<string>();
+                    System.Diagnostics.Debug.WriteLine(data[1]);
+                    byte[] bytes = Convert.FromBase64String(data[1]);
+                    var fileName = Guid.NewGuid() + "." + data[0].Split('/')[1].Split(';')[0];
+                    using (var imageFile = new FileStream(Path.Combine(Server.MapPath("~/Uploads"), fileName), FileMode.Create))
+                    {
+                        imageFile.Write(bytes, 0, bytes.Length);
+                        imageFile.Flush();
+                    }
+                    user.ProfilePicture = "~/Uploads/" + fileName;
+                }
 
                 if (model.uploadFile != null && model.uploadFile.ContentLength > 0)
                 {

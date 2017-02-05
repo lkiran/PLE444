@@ -5,6 +5,47 @@
 }
 
 
+@section styles
+{
+    <style>
+      .cropit-preview {
+        background-image: url("@Url.Content(Model.UserPhoto())");
+        background-size: cover;
+        border: 1px solid #ccc;
+        margin-top: 7px;
+        border-radius: 50%;
+        width: 150px;
+        height: 150px;
+        margin: 0 auto;
+      }
+
+      .cropit-preview-image-container {
+        cursor: move;
+      }
+
+      .image-size-label {
+        margin-top: 10px;
+      }
+
+      input {
+        display: block;
+      }
+
+      .cropit-image-input {
+          visibility: hidden;
+        }
+
+    .image-editor table {
+        margin: 0 auto;
+    }
+
+    .image-editor table tr td > i {
+        font-size: 16px;
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+    </style>
+}
 
 <div class="panel panel-bluegray" data-widget='{"draggable": "false"}'>
     <div class="panel-heading">
@@ -25,24 +66,39 @@
     <div class="row">
         <div class="col-sm-3">
             <div class="panel panel-profile">
+                
+                <div class="image-editor ">
+                    <input type="file" class="cropit-image-input">
+
+                    <div class="cropit-preview" id="cropit-preview"></div>
+
+                    <table>
+                        <tr>
+                            <td class="text-center" title="Saat yönünün tersinde çevir" style="width: 10%;">
+                                <i class="fa fa-rotate-left rotate-ccw-btn"></i>
+                            </td>
+
+                            <td class="text-center" style="width: 10%;"><i class="fa fa-search-minus zoomOut"></i></td>
+                            <td><input type="range" class="cropit-image-zoom-input form-control slider" id="zoomSlider"></td>
+                            <td class="text-center" style="width: 10%;"><i class="fa  fa-search-plus"></i></td>
+
+                            <td class="text-center" title="Saat yönünde çevir" style="width: 10%;">
+                                <i class="fa fa-rotate-right rotate-cw-btn"></i>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <input type="hidden" name="image-data" class="hidden-image-data" />
+                </div>
                 <div class="panel-body">
-                    <img src="@Url.Content(Model.UserPhoto())" class="img-circle">
-
-                     <div class="form-group">                      
-                        <input name="uploadFile" type="file" class="filer_input" />                       
-                    </div>
-
-                    <div class="name"></div>
-                    <ul class="list-inline text-center">
-                        <li><a href="#" class="profile-facebook-icon"><i class="ti ti-facebook"></i></a></li>
-                        <li><a href="#" class="profile-twitter-icon"><i class="ti ti-twitter"></i></a></li>
-                        <li><a href="#" class="profile-dribbble-icon"><i class="ti ti-dribbble"></i></a></li>
-                    </ul>
+                    <a class="btn btn-primary-alt" id="selectImage"><i class="fa fa-file-image-o"></i> Seç</a>
+                    
                 </div>
             </div><!-- panel -->
 
         </div><!-- col-sm-3 -->
-
+        
+        <input type="hidden" name="photoBase64" value="" />
 
         <div class="col-sm-9">
             <div class="panel panel-default">
@@ -109,15 +165,30 @@
 
 @section scripts
 {
-    <script>
-        $(document).ready(function() {
-            $('.filer_input').filer({
-                captions: {
-                    button: "Seç",
-                    feedback: "Hiç dosya seçilmedi",
-                    feedback2: "dosya seçildi"
-                }
-            });
+@Scripts.Render("~/Content/plugins/cropit-master/dist/jquery.cropit.js")
+
+<script>
+    $(function () {
+        $('.image-editor').cropit();
+
+        $('form').submit(function (e) {
+            // Move cropped image data to hidden input
+            var imageData = $('.image-editor').cropit('export');
+            $("form").find('input[name="photoBase64"]').val(imageData);
         });
-    </script>
+
+        $('.rotate-cw-btn').click(function () {
+            console.log("cw");
+            $('.image-editor').cropit('rotateCW');
+        });
+        $('.rotate-ccw-btn').click(function () {
+            console.log("ccw");
+            $('.image-editor').cropit('rotateCCW');
+        });
+
+        $('#selectImage').click(function () {
+            $('.cropit-image-input').click();
+        });
+    });
+</script>
 }

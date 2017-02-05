@@ -14,7 +14,7 @@
 	<meta name="description" content="Description Here">
 	<meta name="author" content="Author Name Here">
 	<link type='text/css' href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600' rel='stylesheet'>
-	@Styles.Render("~/Content/fonts/font-awesome/css/font-awesome.min.css") <!-- Font Awesome -->
+    @Styles.Render("~/Content/fonts/font-awesome/css/font-awesome.min.css") <!-- Font Awesome -->
 	@Styles.Render("~/Content/fonts/themify-icons/themify-icons.css") <!-- Themify Icons -->
 	@Styles.Render("~/Content/css/styles.css") <!-- Core CSS with all styles -->
 	@Styles.Render("~/Content/plugins/codeprettifier/prettify.css") <!-- Code Prettifier -->
@@ -49,18 +49,18 @@
 			</span>
 
 		    <a title="Ana Sayfa" class="toolbar-icon-bg" href="@Url.Action("Index","Home")"><h3 style="color: white; line-height: 25px;">PLE</h3></a>
-			<div class="toolbar-icon-bg hidden-xs" id="toolbar-search">
+			@*<div class="toolbar-icon-bg hidden-xs" id="toolbar-search">
 				<div class="input-group">
 					<span class="input-group-btn"><button class="btn" type="button"><i class="ti ti-search"></i></button></span>
 					<input type="text" class="form-control" placeholder="Grup, Soru veya Ders ara...">
 					<span class="input-group-btn"><button class="btn" type="button"><i class="ti ti-close"></i></button></span>
 				</div>
-			</div>
+			</div>*@
 		</div><!-- logo-area -->
 		<ul class="nav navbar-nav toolbar pull-right">
-			<li class="toolbar-icon-bg visible-xs-block" id="trigger-toolbar-search">
+			@*<li class="toolbar-icon-bg visible-xs-block" id="trigger-toolbar-search">
 				<a href="#"><span class="icon-bg"><i class="ti ti-search"></i></span></a>
-			</li>
+			</li>*@
 
 			<li class="toolbar-icon-bg hidden-xs" id="trigger-fullscreen">
 				<a href="#" alt="Tam Ekran" class="toggle-fullscreen"><span class="icon-bg"><i class="ti ti-fullscreen"></i></span></a>

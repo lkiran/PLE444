@@ -21,25 +21,13 @@
                 <th>
             </tr>
             </thead>
-            @{ int i = 0; }
             @foreach (var item in Model)
             {
                 <tbody>
                 <tr>
-                  
-                    <td> <a href="@Url.Action("Index", "Chapter", new { id = item.Id })"> @item.Code</a></td>
+                    <td> <a href="@Url.Action("Index", "Course", new { id = item.Id })"> @item.Code</a></td>
                     <td>@Html.DisplayFor(modelItem => item.Name)</td>
                     <td>@Html.DisplayFor(modelItem => item.DateCreated)</td>
-                        
-                    @if (!ViewBag.JoinList[i])
-                    {
-                        <td>@Html.ActionLink("Ekle", "Join", new { id = item.Id })</td>
-                    }
-                    else
-                    {
-                        <td>@Html.ActionLink("Kaldır", "Leave", new { id = item.Id })</td>
-                    }
-                    @{i++; }
                 </tr>
                 </tbody>
             }

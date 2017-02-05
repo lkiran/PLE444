@@ -225,6 +225,7 @@
     <Compile Include="Models\Chapter.cs" />
     <Compile Include="Models\Community.cs" />
     <Compile Include="Models\CommunityMembersViewModel.cs" />
+    <Compile Include="ViewModels\CourseViewModel.cs" />
     <Compile Include="Models\Discussion.cs" />
     <Compile Include="Models\Friendship.cs" />
     <Compile Include="Models\GradeType.cs" />
@@ -2121,7 +2122,7 @@
     <Content Include="Views\Chapter\Index.cshtml" />
     <Content Include="Views\Course\Create.cshtml" />
     <Content Include="Views\Course\CourseDelete.cshtml" />
-    <Content Include="Views\Course\CourseEdit.cshtml" />
+    <Content Include="Views\Course\Edit.cshtml" />
     <Content Include="Views\Course\Grades.cshtml" />
     <Content Include="Views\Material\Index.cshtml" />
     <Content Include="Views\Community\Create.cshtml" />

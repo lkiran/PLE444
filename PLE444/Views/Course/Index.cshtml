@@ -1,51 +1,69 @@
 ﻿@using Microsoft.Ajax.Utilities
 @using PLE444.Helpers
-@model PLE444.Models.Course
-
+@model PLE444.ViewModels.CourseViewModel
 @{
-    ViewBag.Title = @Model.Code;
+    ViewBag.Title = @Model.Course.Code;
     Layout = "~/Views/Shared/_Layout.cshtml";
      var h = new DataManipulationHelper(); 
 }
 
-@{ Html.RenderAction("Navigation", "Course", new { id = Model.Id }); }
+@{ Html.RenderAction("Navigation", "Course", new { id = Model.Course.Id }); }
 
 <div class="panel panel-profile">
     <div class="panel-heading">
-        <h2 class="text-capitalize">@Model.Heading</h2>
-        @*<a class="pull-right" href="#"><i class="fa fa-pencil"></i> Düzenle</a>*@
+        <h2 class="text-capitalize">@Model.Course.Heading</h2>
+        
+        @if (Model.IsMember)
+        {
+            <a class="pull-right text-danger" href="@Url.Action("Leave", "Course", new {id = Model.Course.Id})">
+                <small><i class="ti ti-angle-double-left"></i> Dersten Ayrıl</small> 
+            </a>
+        }
+        else
+        {
+            <a class="pull-right" href="@Url.Action("Join", "Course", new {id = Model.Course.Id})">
+                <span><i class="ti ti-angle-double-right"></i>  Derse Katıl</span> 
+            </a>
+        }
+        
+        @if (Model.IsCourseCreator)
+        {
+            <a class="pull-right mr-md" href="@Url.Action("Edit", "Course", new {id = Model.Course.Id})">
+                <small><i class="ti ti-pencil-alt"></i> Düzenle</small>
+            </a>
+        }
     </div>
     <div class="panel-body">
         <div class="row">
+            <div class="col-sm-2 text-sm-center text-md-right text-lg-right"><p class="lead">Ders Kodu</p> </div>
+            <div class="col-sm-10 text-left"><span>@Model.Course.Code</span></div>
+        </div>
+        <div class="row">
+            <div class="col-sm-2 text-sm-center text-md-right text-lg-right"><p class="lead">Ders İsmi</p></div>
+            <div class="col-sm-10 text-left"><span>@Model.Course.Name</span></div>
+        </div>
+        
+        <div class="row">
             <div class="col-sm-2 text-sm-center text-md-right text-lg-right"><p class="lead">Açıklama</p></div>
-            <div class="col-sm-10 text-justify">@(new HtmlString(Model.Description))</div>
+            <div class="col-sm-10 text-justify">@(new HtmlString(Model.Course.Description))</div>
         </div>
 
-        <div class="row mt-md">
-            <div class="col-sm-2 text-sm-center text-md-right text-lg-right"><p class="lead">Katılım</p></div>
-            <div class="col-sm-10 text-left">
-                @if (Model.CanEveryoneJoin)
-                {
-                    <span>Herkes katılabilir</span>
-                }
-                else {
-                    <span>Katılım Kodu ile katılınabilir</span>
-                }
-
+        @if (!Model.Course.CanEveryoneJoin && Model.IsCourseCreator)
+        {
+            <div class="row mt-md">
+                <div class="col-sm-2 text-sm-center text-md-right text-lg-right">
+                    <p class="lead">Katılım Linki</p>
+                </div>
+                <div class="col-sm-10 text-left">
+                    <span class="text-info" >
+                        @*Absolute URL for Course Join(id)*@
+                        @Url.Action("Join", "Course", routeValues: new {id = Model.Course.Id }, protocol: Request.Url?.Scheme)
+                    </span>
+                    <br/>
+                    <small class="text-right">Üyelerin katılabilmesi için bu linki onlarla paylaşın.</small>
+                </div>
             </div>
-        </div>
-
-        <div class="row mt-md">
-            <div class="col-sm-2 text-sm-center text-md-right text-lg-right">
-                <p class="lead">Katılım Kodu</p>
-            </div>
-            <div class="col-sm-10 text-left">
-                <a class="text-info" href="@Url.Action("Join", "Course", new {id = Model.Id})">
-                    @*Absolute URL for Course Join(id)*@
-                    @Url.Action("Join", "Course", routeValues: new {id = Model.Id}, protocol: Request.Url?.Scheme)
-                </a>
-            </div>
-        </div>
+        }
     </div>
 </div>
 
@@ -54,7 +72,7 @@
         <div class="row">
             <div class="col-md-12">
                 <ul class="timeline">
-                    @foreach (var timelineEntry in Model.Timeline)
+                    @foreach (var timelineEntry in Model.Course.Timeline)
                     {
                         <li class="@timelineEntry.ColorClass">
                             <div class="timeline-icon"><i class="@timelineEntry.IconClass"></i>
@@ -65,9 +83,10 @@
                                         <img alt="Kullanıcı Resmi" class="img-circle" style="height: 30px;" src="@Url.Content(timelineEntry.Creator.UserPhoto())"/>
                                         <span class="">@timelineEntry.Creator.FullName()</span>
                                     </a>
-                                    <span class="pull-right-lg pull-right-md">
+                                    <small class="ml-sm">
                                         @h.GetDeltaDate(@timelineEntry.DateCreated)
-                                    </span>
+                                    </small>
+                                    
                                 </div>
                                 <div class="timeline-content">
                                     @if(!timelineEntry.Heading.IsNullOrWhiteSpace())

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using Microsoft.Ajax.Utilities;
+using Microsoft.AspNet.Identity;
 using PLE444.Models;
 using System;
 using System.Collections.Generic;
@@ -95,29 +96,31 @@ namespace PLE444.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult ProfilEdit(ApplicationUser model, HttpPostedFileBase uploadFile)
+        public ActionResult ProfilEdit(ApplicationUser model, string photoBase64)
         {
             if (ModelState.IsValid)
             {
                 var currentuserId = User.Identity.GetUserId();
                 var userDetail = db.Users.Find(currentuserId);
 
-                if (uploadFile != null && uploadFile.ContentLength > 0)
+                if (!photoBase64.IsNullOrWhiteSpace())
                 {
-                    var imageFilePath = "";
-                    var fileName = "";
+                    IList<string> data = photoBase64.Split(',').ToList<string>();
+                    byte[] imageInBytes = Convert.FromBase64String(data[1]);
+                    var newPhotoName = Guid.NewGuid() + "." + data[0].Split('/')[1].Split(';')[0];
 
-                    if (Path.GetExtension(uploadFile.FileName).ToLower() == ".jpg"
-                        || Path.GetExtension(uploadFile.FileName).ToLower() == ".png"
-                        || Path.GetExtension(uploadFile.FileName).ToLower() == ".gif"
-                        || Path.GetExtension(uploadFile.FileName).ToLower() == ".jpeg")
+                    using (var imageFile = new FileStream(Path.Combine(Server.MapPath("~/Uploads"), newPhotoName), FileMode.Create))
                     {
-                        fileName = Guid.NewGuid().ToString() + Path.GetExtension(uploadFile.FileName);
-                        imageFilePath = Path.Combine(Server.MapPath("~/Uploads"), fileName);
-                        uploadFile.SaveAs(imageFilePath);
-                        ViewBag.UploadSuccess = true;
-                        userDetail.ProfilePicture = "~/Uploads/" + fileName;
+                        imageFile.Write(imageInBytes, 0, imageInBytes.Length);
+                        imageFile.Flush();
                     }
+
+                    //Delete previous profile picture from /Uploads folder
+                    var prevPath = Server.MapPath(userDetail.ProfilePicture);
+                    var prevPhoto = new FileInfo(prevPath);
+                    prevPhoto.Delete();
+
+                    model.ProfilePicture = "~/Uploads/" + newPhotoName;
                 }
 
                 userDetail.FirstName = model.FirstName;
@@ -126,6 +129,7 @@ namespace PLE444.Controllers
                 userDetail.Vision = model.Vision;
                 userDetail.Mission = model.Mission;
                 userDetail.PhoneNo = model.PhoneNo;
+                userDetail.ProfilePicture = model.ProfilePicture;
 
                 db.Entry(userDetail).State = EntityState.Modified;
                 db.SaveChanges();

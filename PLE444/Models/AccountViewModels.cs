@@ -90,6 +90,8 @@ namespace PLE444.Models
         [Display(Name = "Profil Resmi")]
         public HttpPostedFileBase uploadFile { get; set; }
 
+        public string photoBase64 { get; set; }
+
         [Display(Name = "İsim")]
         public string FirstName { get; set; }
 
