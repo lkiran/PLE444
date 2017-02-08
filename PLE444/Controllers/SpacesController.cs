@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -13,16 +14,17 @@ namespace PLE444.Controllers
         
         public ActionResult Index(int? id)
         {
-            if(id!=null)
+            if (!id.HasValue)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            
+            var viewData = new SpaceViewModel
             {
-                var viewData = new SpaceViewModel();
-                viewData.SpaceInfo = db.Spaces.Find(id);
-                viewData.Courses = db.Courses.Where(s => s.SpaceId == id).ToList();
-                viewData.Communities = db.Communities.Where(s => s.SpaceId == id).ToList();
+                SpaceInfo = db.Spaces.Find(id),
+                Courses = db.Courses.Where(s => s.SpaceId == id && s.CanEveryoneJoin).ToList(),
+                Communities = db.Communities.Where(s => s.SpaceId == id && !s.isHiden).ToList()
+            };
 
-                return View(viewData);
-            }
-            return RedirectToAction("Profil", "User");
+            return View(viewData);
         }
     }
 }

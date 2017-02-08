@@ -219,6 +219,10 @@
     <Compile Include="Helpers\DataManipulationHelper.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\UserHelper.cs" />
+    <Compile Include="Migrations\201702071613141_recreate.cs" />
+    <Compile Include="Migrations\201702071613141_recreate.Designer.cs">
+      <DependentUpon>201702071613141_recreate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -2172,6 +2176,11 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201702071613141_recreate.resx">
+      <DependentUpon>201702071613141_recreate.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

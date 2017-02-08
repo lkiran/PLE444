@@ -83,3 +83,5 @@ C:\Users\leven\OneDrive\Documents\GitHub\PLE444\PLE444\obj\Debug\PLE444.dll
 C:\Users\leven\OneDrive\Documents\GitHub\PLE444\PLE444\obj\Debug\PLE444.pdb
 C:\Users\leven\OneDrive\Documents\GitHub\PLE444\PLE444\bin\DotNetZip.dll
 C:\Users\leven\OneDrive\Documents\GitHub\PLE444\PLE444\bin\DotNetZip.xml
+C:\Users\leven\OneDrive\Documents\GitHub\PLE444\PLE444\obj\Debug\PLE444.Migrations.recreate.resources
+C:\Users\leven\OneDrive\Documents\GitHub\PLE444\PLE444\obj\Debug\PLE444.csproj.GenerateResource.Cache

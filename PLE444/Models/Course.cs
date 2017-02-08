@@ -38,6 +38,9 @@ namespace PLE444.Models
 
         public bool CanEveryoneJoin { get; set; }
 
+        public Space Space { get; set; }
+
+        [ForeignKey("Space")]
         public int SpaceId { get; set; }
 
         public virtual ICollection<Chapter> Chapters { get; set; }
