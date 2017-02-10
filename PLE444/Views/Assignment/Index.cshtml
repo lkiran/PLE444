@@ -47,16 +47,28 @@
             
             @if (Model.CanEdit)
             {
-                <a href="@Url.Action("Edit", "Assignment", new {id = assignment.Id, courseId = Model.CourseInfo.Id})">
-                    <small><i class="fa fa-pencil-square-o ml-md mr-sm"></i>Düzenle</small>
-                </a>
-                <button data-assignment-id="@assignment.Id" class="btn-remove btn-link">
-                    <small class="text-danger"><i class="fa fa-trash-o ml-md mr-sm"></i>Kaldır</small>
-                </button>
+                <div class="panel-ctrls" style="float:left">
+                    <a class="button-icon ml-sm" title="Düzenle" href="@Url.Action("Edit", "Assignment", new {id = assignment.Id, courseId = Model.CourseInfo.Id})">
+                        <i class="ti ti-pencil"></i>
+                    </a>
+                    
+                    <a title="Kaldır" data-assignment-id="@assignment.Id" class="btn-remove button-icon ml-sm">
+                        <i class="ti ti-trash"></i>
+                    </a>
+                </div>
             }
             else
             {
                 <small class="ml-md">@message</small>
+
+                if (userUpload != null)
+                {
+                    <div class="panel-ctrls" style="float:left">
+                        <a class="button-icon ml-sm" title="Yükenen Ödevi İndir" href="@Url.Action("Download", "File", new {path = userUpload.FilePath, name = userUpload.Description})">
+                            <i class="ti ti-download"></i>
+                        </a>
+                    </div>
+                }
             }
 
             <div class="pull-right">
@@ -156,11 +168,11 @@
                     callback: function (result) {
                         if (result) {
                             $.ajax({
-                                url: "/Assignment/Delete/" + object.data('assignment-id'),
+                                url: "@Url.Action("Delete", "Assignment")" + "/" + object.data('assignment-id'),
                                 method: "POST",
                                 dataType: 'json',
                                 success: function (response) {
-                                    object.parent("div").parent("div").slideUp();
+                                    object.parent("div").parent("div").parent("div").slideUp();
                                 },
                                 error: function (response) {
                                     console.log(response);
@@ -178,9 +190,9 @@
                         button: "Seç",
                         feedback: "Hiç dosya seçilmedi",
                         feedback2: "dosya seçildi"
-                        }
-                    });
+                    }
                 });
+            });
            
             $('.jFiler-input').each(function () {
                 $(this).addClass("pull-right");

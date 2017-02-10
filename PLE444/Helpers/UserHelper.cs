@@ -12,6 +12,7 @@ namespace PLE444.Helpers
     {
         private PleDbContext db = new PleDbContext();
 
+        //OLD WAY OF RETRIEVING PHOTO AND NAME. REPLACE THE PLACES WHERE THIS HELPER USED WITH ApplicatationUser
         public string GetUserPhotoFromID(string id)
         {
             if (id != null)

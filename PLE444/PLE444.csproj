@@ -211,7 +211,6 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PrivateMessagesController.cs" />
     <Compile Include="Controllers\SpacesController.cs" />
-    <Compile Include="Controllers\UploaderTestController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -222,6 +221,10 @@
     <Compile Include="Migrations\201702071613141_recreate.cs" />
     <Compile Include="Migrations\201702071613141_recreate.Designer.cs">
       <DependentUpon>201702071613141_recreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702101459094_message.cs" />
+    <Compile Include="Migrations\201702101459094_message.Designer.cs">
+      <DependentUpon>201702101459094_message.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -2118,7 +2121,6 @@
     <Content Include="Views\Community\Discussion.cshtml" />
     <Content Include="Views\Community\Events.cshtml" />
     <Content Include="Views\Community\Index.cshtml" />
-    <Content Include="Views\UploaderTest\Index.cshtml" />
     <Content Include="Views\Community\List.cshtml" />
     <Content Include="Views\Assignment\Create.cshtml" />
     <Content Include="Views\Assignment\Index.cshtml" />
@@ -2127,7 +2129,7 @@
     <Content Include="Views\Course\Create.cshtml" />
     <Content Include="Views\Course\CourseDelete.cshtml" />
     <Content Include="Views\Course\Edit.cshtml" />
-    <Content Include="Views\Course\Grades.cshtml" />
+    <Content Include="Views\Course\GradesForMember.cshtml" />
     <Content Include="Views\Material\Index.cshtml" />
     <Content Include="Views\Community\Create.cshtml" />
     <Content Include="Views\Community\AddTitle.cshtml" />
@@ -2159,6 +2161,8 @@
     <Content Include="Views\Course\EditGradeType.cshtml" />
     <Content Include="Views\Chapter\Edit.cshtml" />
     <Content Include="Views\Course\Index.cshtml" />
+    <Content Include="Views\Material\Detail.cshtml" />
+    <Content Include="Views\Course\GradesForEditor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -2170,6 +2174,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\" />
+    <Folder Include="Views\ErrorPages\" />
     <Folder Include="Views\File\" />
     <Folder Include="Views\Group\" />
     <Folder Include="Views\PrivateMessages\" />
@@ -2180,6 +2185,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201702071613141_recreate.resx">
       <DependentUpon>201702071613141_recreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702101459094_message.resx">
+      <DependentUpon>201702101459094_message.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

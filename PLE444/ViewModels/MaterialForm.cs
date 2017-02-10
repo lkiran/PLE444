@@ -22,11 +22,13 @@ namespace PLE444.ViewModels
 
         public Guid? Id { get; set; }
 
+        [DisplayName("Başlık")]
         public string Title { get; set; }
 
         public string OwnerId { get; set; }
 
         [AllowHtml]
+        [DisplayName("Açıklama")]
         public string Description { get; set; }
 
         public List<Document> Documents { get; set; }

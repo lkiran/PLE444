@@ -1,0 +1,89 @@
+﻿@model PLE444.Models.Material
+@{
+    var fh = new PLE444.Helpers.FileHelper();
+    var h = new PLE444.Helpers.DataManipulationHelper();
+}
+
+@if (Model != null)
+{
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="lead">@Model.Title</span>
+
+            <small class="ml-sm">
+                @Model.DateAdded, @h.GetDeltaDate(Model.DateAdded) eklendi
+            </small>
+        </div>
+
+        <div class="modal-body">
+            <div class="panel-body">
+                @(new HtmlString(Model.Description))
+            </div>
+
+            <table class="table table-hover">
+                @foreach (var document in Model.Documents)
+                {
+                    <tr>
+                        <td style="width: 35px;">
+                            <img alt="Icon" src="@Url.Content(fh.GetFileIcon(document.FilePath))" style="height: 35px;">
+                        </td>
+                        <td style="vertical-align: middle;">
+                            <a href="@Url.Action("Download", "File", new {path = Url.Content(document.FilePath), name = document.Description})">
+                                <span>@document.Description</span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-sm btn-default-alt" data-dismiss="modal"><i class="ti ti-close"></i> <span>Kapat</span></button>
+        </div>
+    </div>
+}
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $(".btn-remove").on("click", function () {
+
+                var object = $(this);
+
+                bootbox.confirm({
+                    title: "Onay",
+                    message: "Materyali, bu bölümden, kaldırmak istediğinize emin misiniz?",
+                    buttons: {
+                        confirm: {
+                            label: 'Evet, Kaldır',
+                            className: 'btn-danger-alt'
+                        },
+                        cancel: {
+                            label: 'Hayır',
+                            className: 'btn-info-alt'
+                        }
+                    },
+                    callback: function (result) {
+                        if (result) {
+                            $.ajax({
+                                //RemoveFromChapter(Guid? chapterId, Guid? materialId)
+                                url: "/Material/RemoveFromChapter/?materialId=" + object.data('material-id') +
+                                                                  "&chapterId=" + object.data('chapter-id'),
+                                method: "POST",
+                                dataType: 'json',
+                                success: function(response) {
+                                    object.parent("div").parent("div").slideUp();
+                                },
+                                error: function(response) {
+                                    console.log(response);
+                                }
+                            });
+                        }
+
+                    }
+                });
+            });
+        });
+    </script>
+}

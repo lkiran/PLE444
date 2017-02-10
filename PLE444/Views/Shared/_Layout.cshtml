@@ -23,6 +23,7 @@
     @Styles.Render("~/Content/css/jquery.filer-dragdropbox-theme.css")
     @Styles.Render("~/Content/plugins/summernote/dist/summernote.css") 
     @Styles.Render("~/Content/plugins/switchery/switchery.css")
+    @Styles.Render("~/Content/plugins/malihu-custom-scrollbar/jquery.mCustomScrollbar.css")
     @RenderSection("styles", required: false)
     
    
@@ -69,54 +70,54 @@
 			@{ Html.RenderAction("LogedInUser", "Layout"); }
 		</ul>
 	</header>
-	<div id="wrapper">
-		<div id="layout-static">
-			<div class="static-sidebar-wrapper sidebar-midnightblue">
-				<div class="static-sidebar">
-					<div class="sidebar">
-						<div class="widget">
-						</div>
-						<div class="widget" id="widget-sidebar">
-							<nav role="navigation" class="widget-body">
-								<ul class="acc-menu">
-								    <li>
-								        <a href="@Url.Action("List","Course")"><i class="ti ti-direction"></i><span>Dersler</span></a> 
-								        <ul class="" style="display: block;">
-								            @{ Html.RenderAction("Courses", "Layout"); }
+<div id="wrapper">
+    <div id="layout-static">
+        <div class="static-sidebar-wrapper sidebar-midnightblue">
+            <div class="static-sidebar">
+                <div class="sidebar" id="SidebarDiv"  style="height: calc(100vh - 60px)">
+                    <div class="widget">
+                    </div>
+                    <div class="widget" id="widget-sidebar">
+                        <nav role="navigation" class="widget-body">
+                            <ul class="acc-menu">
+                                <li>
+                                    <a href="@Url.Action("List","Course")"><i class="ti ti-direction"></i><span>Dersler</span></a> 
+                                    <ul class="" style="display: block;">
+                                        @{ Html.RenderAction("Courses", "Layout"); }
 											
-								        </ul>
-								    </li>
-                                    <li>
-										<a href="#_"><i class="ti ti-direction"></i><span>Alanlar</span></a>
-										<ul class="" style="display: block;">
-                                            @{ Html.RenderAction("Spaces", "Layout"); }
-										</ul>
-									</li>
-									<li>
-										<a href="@Url.Action("Index","Community", new { id = "" })"><i class="ti ti-direction"></i><span>Gruplar</span></a>
-										<ul class="" style="display: block;">
-                                            @{ Html.RenderAction("Communities", "Layout"); }
-										</ul>
-									</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#_"><i class="ti ti-direction"></i><span>Alanlar</span></a>
+                                    <ul class="" style="display: block;">
+                                        @{ Html.RenderAction("Spaces", "Layout"); }
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="@Url.Action("Index","Community", new { id = "" })"><i class="ti ti-direction"></i><span>Gruplar</span></a>
+                                    <ul class="" style="display: block;">
+                                        @{ Html.RenderAction("Communities", "Layout"); }
+                                    </ul>
+                                </li>
 									
-								</ul>
-							</nav>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="static-content-wrapper">
-				<div class="static-content">
-					<div class="page-content">
-                        <ol class="breadcrumb">
-                            <li class="active"><a href="#"></a></li>
-                        </ol>
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-md-9">                                
-                                    @RenderBody()
-                                </div>
-                                @*<div class="col-md-3">
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="static-content-wrapper">
+            <div class="static-content">
+                <div class="page-content">
+                    <ol class="breadcrumb">
+                        <li class="active"><a href="#"></a></li>
+                    </ol>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-9 full-page" id="BodyDiv" style="height: calc(100vh - 130px)">                                
+                                @RenderBody()
+                            </div>
+                            @*<div class="col-md-3">
                                     <div class="panel panel-default" data-widget='{"draggable": "false"}'>
                                         <div class="panel-heading">
                                             <h2>Panel</h2>
@@ -127,21 +128,21 @@
                                         </div>
                                     </div>
                                 </div>*@
-                            </div>
                         </div>
-					</div> <!-- #page-content -->
-				</div>
-				<footer role="contentinfo">
-					<div class="clearfix">
-						<ul class="list-unstyled list-inline pull-left">
-						    <li><small><em>Boğaziçi University - CET <span style="margin: 0;">&copy; @DateTime.Now.Year</span></em></small></li>
-						</ul>
-						<button class="pull-right btn btn-link btn-xs hidden-print" id="back-to-top"><i class="ti ti-arrow-up"></i></button>
-					</div>
-				</footer>
-			</div>
-		</div>
-	</div>
+                    </div>
+                </div> <!-- #page-content -->
+            </div>
+            <footer role="contentinfo">
+                <div class="clearfix">
+                    <ul class="list-unstyled list-inline pull-left">
+                        <li><small><em>Boğaziçi University - CET <span style="margin: 0;">&copy; @DateTime.Now.Year</span></em></small></li>
+                    </ul>
+                </div>
+            </footer>
+        </div>
+    </div>
+</div>
+
 
 	<!-- Load site level scripts -->
 	<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
@@ -162,10 +163,31 @@
 	@Scripts.Render("~/Content/demo/demo.js")
 	@Scripts.Render("~/Content/demo/demo-switcher.js")
     @Scripts.Render("~/Content/js/jquery.filer.js")
-    @Scripts.Render("~/Content/plugins/summernote/dist/summernote.min.js")
+    @Scripts.Render("~/Content/plugins/summernote/dist/summernote.js")
     @Scripts.Render("~/Content/plugins/switchery/switchery.js")
     @Scripts.Render("~/Scripts/bootbox.js")
-	<!-- End loading site level scripts -->
+    @Scripts.Render("~/Content/plugins/malihu-custom-scrollbar/jquery.mCustomScrollbar.concat.min.js")
+    
+
+<script>
+    (function ($) {
+		    $(window).on("load", function () {
+		        $("#BodyDiv").mCustomScrollbar({
+		            theme: "rounded-dark",
+		            autoHideScrollbar: true,
+		            mouseWheelPixels: 200
+		        });
+		        $("#SidebarDiv").mCustomScrollbar({
+		            theme: "minimal",
+		            autoHideScrollbar: true,
+		            mouseWheelPixels: 200
+		        });
+		    });
+		})(jQuery);
+</script>
+
+
+<!-- End loading site level scripts -->
 	<!-- Load page level scripts-->
 	<!-- End loading page level scripts-->
 	@RenderSection("scripts", required: false)

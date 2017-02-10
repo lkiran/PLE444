@@ -1,4 +1,5 @@
-﻿@model IEnumerable<PLE444.Models.Course>
+﻿@using PLE444.Models
+@model IEnumerable<PLE444.Models.Course>
 
 @{
     ViewBag.Title = "Ders Listesi";
@@ -18,19 +19,23 @@
                 <th>Kod</th>                 
                 <th>İsim</th>
                 <th>Açılma Tarihi</th>
-                <th>
+                <th></th>
             </tr>
             </thead>
-            @foreach (var item in Model)
+            @foreach (var course in Model)
             {
                 <tbody>
                 <tr>
-                    <td> <a href="@Url.Action("Index", "Course", new { id = item.Id })"> @item.Code</a></td>
-                    <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                    <td>@Html.DisplayFor(modelItem => item.DateCreated)</td>
+                    <td><a href="@Url.Action("Index", "Course", new { id = course.Id })"> @course.Code</a></td>
+                    <td>@Html.DisplayFor(modelItem => course.Name)</td>
+                    <td>@Html.DisplayFor(modelItem => course.DateCreated)</td>
+                    <td>
+                        @{ PleDbContext db = new PleDbContext(); }
+                        @db.UserCourses.Count(uc=> uc.CourseId == course.Id && uc.IsActive) Katılımcı
+                    </td>
                 </tr>
                 </tbody>
-            }
+                            }
         </table>
     </div>
 </div>

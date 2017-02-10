@@ -14,5 +14,6 @@ namespace PLE444.ViewModels
 
         public bool IsMember { get; set; }
 
+        public int MemberCount { get; set; }
     }
 }

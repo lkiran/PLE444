@@ -3305,7 +3305,7 @@
           value: '{"backColor":"yellow"}'
         });
 
-        var dropdown = '<ul class="dropdown-menu">' +
+        var dropdown = '<ul class="dropdown-menu" style="left: 100% !important; top: -400% !important;">' +
                          '<li>' +
                            '<div class="btn-group">' +
                              '<div class="note-palette-title">' + lang.color.background + '</div>' +

@@ -48,6 +48,11 @@
             <div class="col-sm-10 text-justify">@(new HtmlString(Model.Course.Description))</div>
         </div>
 
+        <div class="row">
+            <div class="col-sm-2 text-sm-center text-md-right text-lg-right"></div>
+            <div class="col-sm-10 text-justify">@Model.MemberCount Katılımcı</div>
+        </div>
+
         @if (!Model.Course.CanEveryoneJoin && Model.IsCourseCreator)
         {
             <div class="row mt-md">

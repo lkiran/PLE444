@@ -1,0 +1,109 @@
+﻿@using Microsoft.Ajax.Utilities
+@using PLE444.Models
+@model  PLE444.ViewModels.CourseGrades
+
+@{
+    ViewBag.Title = "Notlar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles
+{
+    @Styles.Render("~/Content/plugins/datatables/dataTables.bootstrap.css",
+                    "~/Content/plugins/datatables/dataTables.themify.css")  
+}
+
+@{ Html.RenderAction("Navigation", "Course", new { id = Model.CourseInfo.Id }); }
+
+<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+
+    <table class="table table-hover m-n" id="gradeTbl">
+            <thead>
+                <tr>                   
+                    <th></th>
+                    @foreach (var gradeType in Model.GradeTypes)
+                    {
+                        if (gradeType.IsActive)
+                        {
+                            <th class="text-center" title="@gradeType.Description
+Ağırlık: @gradeType.Effect%
+Max Score: @gradeType.MaxScore">
+                                <span>@gradeType.Name </span>
+                            </th>
+                        }
+                    }
+                    <th class="text-center">Toplam</th>
+                </tr>
+            </thead>
+            <tbody>                
+                @{
+                    var row = 0;
+                    var column = 0;
+                }
+                @foreach (var cu in Model.CourseUsers)
+                {
+                    if (!cu.IsActive)
+                    {
+                        continue;
+                    }
+
+                    var totalUserScore = 0f;
+                    var classCurrentUser = @Model.CurrentUserId == cu.UserId ? "success" : "";
+
+                    <tr class="@classCurrentUser">
+                        <td>
+                            @if (cu.UserId == Model.CurrentUserId)
+                            {
+                                <a href="@Url.Action("Profil", "User", new {id = cu.UserId})">
+                                    <img alt="Kullanıcı Resmi" src="@Url.Content(cu.User.UserPhoto())" class="img-circle" style="height: 30px;" />
+                                    @cu.User.FullName()
+                                </a>
+                            }
+                        </td>
+
+                        @{ var gradesOfTheUser = Model.UserGrades.Where(u => u.UserId == cu.UserId).ToList(); }
+
+                        @foreach (var gradeType in Model.GradeTypes)
+                        {
+                            if (gradeType.IsActive)
+                            {
+                                var userGrade = gradesOfTheUser.FirstOrDefault(g => g.GradeTypeId == gradeType.Id);
+
+                                <td class="text-center">
+                                    @if (userGrade == null)
+                                    {
+                                        <span> <i class="fa fa-minus"></i></span>
+                                    }
+                                    else
+                                    {
+                                        totalUserScore += (userGrade.Grade*gradeType.Effect/100f);
+                                        <span> @userGrade.Grade </span>
+                                    }
+                                </td>
+                            }
+                            column++;
+                        }
+                        <td class="text-center">@(Math.Round((totalUserScore), 2))</td>
+                    </tr>
+                    row++;
+                }
+            </tbody>
+        </table>
+</div>
+
+
+@section scripts
+{
+@Scripts.Render("~/Content/plugins/datatables/jquery.dataTables.js")
+
+<script>
+    $(document)
+        .ready(function() {
+            $('#gradeTbl')
+                .dataTable({
+                    "paging": false,
+                    "dom": '<"panel-heading"f><"panel-body"<"table-responsive"t>>'
+                });
+        });
+</script>
+}

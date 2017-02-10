@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace PLE444.Helpers
 {
@@ -18,7 +19,9 @@ namespace PLE444.Helpers
             if (fileType == "")
                 fileType = "unknown";
 
-            return "~/Content/img/FileIcons/" + fileType + ".png";
+            var iconPath = "~/Content/img/FileIcons/" + fileType + ".png";
+
+            return File.Exists(System.Web.HttpContext.Current.Server.MapPath(iconPath)) ? iconPath : "~/Content/img/FileIcons/unknown.png";
         }
     }
 }

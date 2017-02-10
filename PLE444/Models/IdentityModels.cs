@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity;
 using System;
+using System.ComponentModel;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
@@ -20,16 +21,26 @@ namespace PLE444.Models
             // Add custom user claims here
             return userIdentity;
         }
-        
+        [DisplayName("Ad")]
         public string FirstName { get; set; }
+
+        [DisplayName("Soyad")]
         public string LastName { get; set; }
+
+        [DisplayName("Cinsiyet")]
         public GenderType Gender { get; set; }
         public string ProfilePicture { get; set; }
 
+        [DisplayName("Telefon")]
         public string PhoneNo { get; set; }
+
+        [DisplayName("Vizyon")]
         public string Vision { get; set; }
+
+        [DisplayName("Misyon")]
         public string Mission { get; set; }
 
+        [DisplayName("İsim")]
         public string FullName()
         {
             return FirstName + " " + LastName;

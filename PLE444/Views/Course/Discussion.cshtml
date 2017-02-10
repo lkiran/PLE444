@@ -5,6 +5,14 @@
 }
 @{ Html.RenderAction("Navigation", "Course", new { id = Model.Id }); }
 
+<style>
+    .unreadMessage {
+        background: #ffecb3; 
+        box-shadow: 0 0 5px 5px rgba(255,236,179,1);
+        border-radius: 2px;
+    }
+</style>
+
 <div class="row">
     <div class="col-md-9">
         <h2>@ViewBag.Action</h2>
@@ -58,16 +66,10 @@
                                     <div class="message">
                                         @if (message.SenderId != PrevUserId)
                                         {
-                                            if (h.GetUserPhotoFromID(message.SenderId) == null || h.GetUserPhotoFromID(message.SenderId) == "")
-                                            {
-                                                <img class="img-circle" style="width:40px" src="@Url.Content("~/Content/img/pp.jpg")" />
-                                            }
-                                            else
-                                            {
-                                                <img class="img-circle" style="width:40px" src="@Url.Content(h.GetUserPhotoFromID(message.SenderId))" />
-                                            }
-
-                                            <strong style="margin-left:10px;">@h.GetUserFullNameFromID(message.SenderId)</strong>
+                                            <a href="@Url.Action("Profil","User", new {id = message.SenderId})">
+                                                <img class="img-circle" style="width:40px" src="@Url.Content(message.Sender.UserPhoto())" />
+                                                <strong style="margin-left:10px;">@message.Sender.FullName()</strong>
+                                            </a>
                                             <br>
                                         }
                                         <div class="pull-right">
@@ -76,11 +78,11 @@
 
                                         @if (unreads.FirstOrDefault(i => i.ID == message.ID) == null)
                                         {
-                                            <p style="margin-left:50px;">@message.Content</p>
+                                            <div style="margin-left:50px;">@(new HtmlString(message.Content))</div>
                                         }
                                         else
                                         {
-                                            <p style="margin-left:50px; background: #ffecb3; box-shadow: 0 0 5px 5px rgba(255,236,179,1); border-radius: 2px; ">@message.Content</p>
+                                            <div class="unreadMessage" style="margin-left:50px;">@(new HtmlString(message.Content))</div>
                                         }
 
                                     </div>
@@ -119,7 +121,7 @@
     var debugging = false;
     $('.Discussion').click(function() {
         $.ajax({
-            url: '/Course/Read',
+            url: '@Url.Action("Read","Course")',
             dataType: 'json',
             type: 'POST',
             data: "DiscussionId=" + $(this).attr('DiscussionId') + "&CourseId=" + "@Model.Id",

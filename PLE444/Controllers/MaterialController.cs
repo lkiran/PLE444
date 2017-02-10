@@ -24,7 +24,11 @@ namespace PLE444.Controllers
             if (id == null)
                 return RedirectToAction("Index", "Home");
 
-            var chapters = db.Chapters.Where(c => c.Course.Id == id).Include("Materials").Include("Materials.Documents");
+            var chapters =
+                db.Chapters.Where(c => c.Course.Id == id).Select(e => new
+                {
+                    e, Materials = e.Materials.Where(m => m.IsActive)
+                }).AsEnumerable().Select(e => e.e).ToList();
 
             var model = new CourseMaterials
             {
@@ -79,16 +83,14 @@ namespace PLE444.Controllers
                         //Add to DB
                         var d = new Document
                         {
-                            FilePath = "/Uploads/" + fileName,
+                            FilePath = "~/Uploads/" + fileName,
                             OwnerId = currentUserId,
                             DateUpload = DateTime.Now,
                             Description = uploadedFile.FileName
                         };
 
                         var doc = db.Documents.Add(d);
-
                         model.OwnerId = currentUserId;
-
                         model.Documents.Add(doc);
                     }
                 }
@@ -112,6 +114,7 @@ namespace PLE444.Controllers
             return View(model);
         }
 
+        [Authorize]
         public ActionResult Update(Guid? chapterId, Guid? Id)
         {
             if (Id == null || chapterId == null)
@@ -155,7 +158,7 @@ namespace PLE444.Controllers
                     {
                         var fileName = "";
                         fileName = Guid.NewGuid().ToString() + Path.GetExtension(uploadedFile.FileName);
-                        var imageFilePath = Path.Combine(Server.MapPath("~/Uploads"), fileName);
+                        var imageFilePath = Path.Combine(Server.MapPath("~/Uploads/"), fileName);
                         uploadedFile.SaveAs(imageFilePath);
                         ViewBag.UploadSuccess = true;
 
@@ -188,32 +191,19 @@ namespace PLE444.Controllers
             return View(model);
         }
 
-        public ActionResult Edit(Guid? id)
+        public ActionResult Detail(Guid? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Material material = db.Materials.Find(id);
+            
+            var material = db.Materials.Include(d => d.Documents).FirstOrDefault(m => m.Id == id);
+
             if (material == null)
-            {
                 return HttpNotFound();
-            }
-            return View(material);
+
+            return PartialView(material);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Title,Description,DateAdded")] Material material)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(material).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(material);
-        }
 
         [HttpPost]
         public ActionResult RemoveFromChapter(Guid? chapterId, Guid? materialId)

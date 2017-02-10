@@ -28,6 +28,9 @@ namespace PLE444.Controllers
             if (course == null)
                 return  HttpNotFound();
 
+            if (!isMember(id) && !isCourseCreator(course))
+                return RedirectToAction("Index", "Course", new { id = id });
+
             var assignments = db.Assignments.Include("Uploads").Include("Uploads.Owner").Where(a => a.Course.Id == id && a.IsActive).ToList();
             var model = new CourseAssignments
             {
@@ -162,7 +165,7 @@ namespace PLE444.Controllers
         {
             var a = db.Assignments.Include("Course").FirstOrDefault(i => i.Id == assignmentId);
 
-            if (!isMember(a.Course.Id))
+            if (a == null || !isMember(a.Course.Id))
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
             if (ModelState.IsValid)
@@ -196,9 +199,8 @@ namespace PLE444.Controllers
                     else
                     {
                         uploaded.DateUpload = DateTime.Now;
-                        ;
                         uploaded.Description = uploadFile.FileName;
-                        uploaded.FilePath = filePath;
+                        uploaded.FilePath = "~/Uploads/" + filePath;
                         uploaded.OwnerId = currentuserId;
 
                         db.Entry(uploaded).State = EntityState.Modified;
@@ -269,7 +271,7 @@ namespace PLE444.Controllers
                 return false;
 
             var userId = User.Identity.GetUserId();
-            var user = db.UserCourses.Where(c => c.Course.Id == courseId).FirstOrDefault(u => u.UserId == userId);
+            var user = db.UserCourses.Where(c => c.Course.Id == courseId).FirstOrDefault(u => u.UserId == userId && u.IsActive);
 
             if (user == null)
                 return false;

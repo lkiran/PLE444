@@ -23,8 +23,8 @@
 
         <div class="form-group ml-xxl">
             <div class="col-sm-12">
-                <textarea class="form-control autosize" style="overflow: hidden; word-wrap: break-word; resize: horizontal;" name="Content"></textarea>
-                @Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+                @Html.TextAreaFor(m=> m.Content, new { @class="form-control" })
+                @Html.ValidationMessageFor(model => model.Content, "", new {@class = "text-danger"})
             </div>
         </div>
         <input type="hidden" name="discussionId" id="discussionId" value="@ViewBag.DiscussionId" />
@@ -37,10 +37,20 @@
     </div>
 }
 
-<script src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
-
 <script>
     $(document).ready(function () {
-        $('textarea.autosize').autosize()
+        $('#Content').summernote({
+            focus: true,
+            codemirror: {
+                theme: 'united'
+            },
+            toolbar: [
+                // [groupName, [list of button]]
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['color', ['color']]
+            ]
+        });
     });
 </script>
+
+

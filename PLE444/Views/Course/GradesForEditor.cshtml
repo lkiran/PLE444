@@ -29,15 +29,8 @@
                             <th class="text-center" title="@gradeType.Description
 Ağırlık: @gradeType.Effect%
 Max Score: @gradeType.MaxScore">
-
-                                @if (Model.CanEdit)
-                                {
-                                    <a href="@Url.Action("EditGradeType", "Course", new {id = gradeType.Id})">@gradeType.Name</a>
-                                }
-                                else
-                                {
-                                    <span>@gradeType.Name </span>
-                                }
+                                
+                            <a href="@Url.Action("EditGradeType", "Course", new {id = gradeType.Id})">@gradeType.Name</a>
                             </th>
                         }
                     }
@@ -57,20 +50,17 @@ Max Score: @gradeType.MaxScore">
                     }
 
                     var totalUserScore = 0f;
+                    var classCurrentUser = @Model.CurrentUserId == cu.UserId ? "success" : "";
 
-                    <tr>
+                    <tr class="@classCurrentUser">
                         <td>
                             <a href="@Url.Action("Profil", "User", new {id = cu.UserId})">
-                                <img alt="Kullanıcı Resmi" src="@Url.Content(cu.User.UserPhoto())" class="img-circle" style="height: 30px;"/>
+                                <img alt="Kullanıcı Resmi" src="@Url.Content(cu.User.UserPhoto())" class="img-circle" style="height: 30px;" />
                                 @cu.User.FullName()
                             </a>
-
-                            @if (Model.CanEdit)
-                            {
-                                <a class="js-ejectUser ml-sm" data-user-id="@cu.UserId" data-course-id="@cu.CourseId">
-                                    <small class="text-danger"> <i class="fa fa-ban"></i> Çıkar </small>
-                                </a>
-                            }
+                            <a class="js-ejectUser ml-sm" data-user-id="@cu.UserId" data-course-id="@cu.CourseId">
+                                <small class="text-danger"> <i class="fa fa-ban"></i> Çıkar</small>
+                            </a>
                         </td>
 
                         @{ var gradesOfTheUser = Model.UserGrades.Where(u => u.UserId == cu.UserId).ToList(); }
@@ -84,35 +74,21 @@ Max Score: @gradeType.MaxScore">
                                 <td class="text-center">
                                     @if (userGrade == null)
                                     {
-                                        if (Model.CanEdit)
-                                        {
-                                            <a class="editable" href="#AddGrade" data-grade-type-id = "@gradeType.Id" data-user-id="@cu.UserId" >
-                                                <i class="fa fa-plus text-warning"></i>
-                                                <input type="text" style="display: none;" value="" data-x="@column" data-y="@row">
-                                            </a>
-                                        }
-                                        else
-                                        {
-                                            <span> <i class="fa fa-minus"></i></span>
-                                        }
+                                        <a class="editable" href="#AddGrade" data-grade-type-id = "@gradeType.Id" data-user-id="@cu.UserId" >
+                                            <i class="fa fa-plus text-warning"></i>
+                                            <input type="text" style="display: none;" value="" data-x="@column" data-y="@row">
+                                        </a>
                                     }
                                     else
                                     {
                                         totalUserScore += (userGrade.Grade*gradeType.Effect/100f);
 
-                                        if (Model.CanEdit)
-                                        {
-                                            @*@Url.Action("ChangeGrade", "Course", new { gradeId = userGrade.Id })*@
-                                            <a class="editable" href="#EditGrade" data-id="@userGrade.Id" data-grade-type-id = "@gradeType.Id" data-user-id="@cu.UserId">
-                                                <span>@userGrade.Grade</span>
-                                                <input type="text" style="display: none;" value="@userGrade.Grade" data-x="@column" data-y="@row">
-                                            </a>
-                                          
-                                        }
-                                        else
-                                        {
-                                            <span> @userGrade.Grade </span>
-                                        }
+                                        
+                                        @*@Url.Action("ChangeGrade", "Course", new { gradeId = userGrade.Id })*@
+                                        <a class="editable" href="#EditGrade" data-id="@userGrade.Id" data-grade-type-id = "@gradeType.Id" data-user-id="@cu.UserId">
+                                            <span>@userGrade.Grade</span>
+                                            <input type="text" style="display: none;" value="@userGrade.Grade" data-x="@column" data-y="@row">
+                                        </a>
                                     }
                                 </td>
                             }
@@ -127,10 +103,9 @@ Max Score: @gradeType.MaxScore">
    
 </div>
 
-@if (Model.CanEdit)
-{
-    <a href="@Url.Action("CreateGradeType", new {id = Model.CourseInfo.Id})" class="btn btn-primary-alt" id="dyna-del">Not Türü Ekle</a>
-}
+
+<a href="@Url.Action("CreateGradeType", new {id = Model.CourseInfo.Id})" class="btn btn-primary-alt" id="dyna-del">Not Türü Ekle</a>
+
 
 
 @section scripts

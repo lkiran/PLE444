@@ -35,7 +35,8 @@ namespace PLE444.Controllers
             {
                 Course = course,
                 IsCourseCreator = isCourseCreator(course),
-                IsMember = isMember(course.Id)
+                IsMember = isMember(course.Id),
+                MemberCount = db.UserCourses.Count(uc => uc.CourseId == course.Id && uc.IsActive)
             };
             return View(model);
         }
@@ -168,6 +169,9 @@ namespace PLE444.Controllers
             if (course == null)
                 HttpNotFound();
 
+            if (!isMember(course) && !isCourseCreator(course))
+                return RedirectToAction("Index", "Course", new { id = courseId });
+
             var courseUsers = db.UserCourses.Where(i => i.Course.Id == courseId).Include("User").ToList();
 
             var userIds = courseUsers.Select(u => u.UserId).ToList();
@@ -176,13 +180,16 @@ namespace PLE444.Controllers
             var model = new CourseGrades
             {
                 CourseInfo = course,
-                CanEdit = isCourseCreator(course),
+                CurrentUserId = User.Identity.GetUserId(),
                 UserGrades = ug,
                 GradeTypes = db.GradeTypes.Where(c => c.Course.Id == courseId).ToList(),
                 CourseUsers = courseUsers
             };
 
-            return View(model);
+            if (isCourseCreator(course))
+                return View("GradesForEditor", model);
+            else
+                return View("GradesForMember", model);
         }
 
         public  ActionResult CreateGradeType(Guid? id)
@@ -485,14 +492,27 @@ namespace PLE444.Controllers
             base.Dispose(disposing);
         }
 
+        [Authorize]
         public ActionResult Discussion(Guid? id)
         {
-            var c = db.Courses.Find(id);
-            var m = db.Courses.Include("Discussion").Include("Discussion.Messages").Include("Discussion.Readings").FirstOrDefault(i => i.Id == id);
+            var course = db.Courses.Find(id);
 
-            ViewBag.CourseName = c.Name.ToUpper() + " - " + c.Description;
+            if (course == null)
+                return HttpNotFound();
+
+            if (!isMember(course) && !isCourseCreator(course))
+                return RedirectToAction("Index", "Course", new { id = id });
+
+            var model =
+                db.Courses.Include("Discussion")
+                    .Include("Discussion.Messages")
+                    .Include("Discussion.Messages.Sender")
+                    .Include("Discussion.Readings")
+                    .FirstOrDefault(i => i.Id == id);
+
+          
             ViewBag.CurrentUserId = User.Identity.GetUserId();
-            return View(m);
+            return View(model);
         }
 
         [HttpPost]
@@ -602,13 +622,17 @@ namespace PLE444.Controllers
             {
                 uc = new UserCourse();
                 uc.UserId = userID;
-
                 uc.Course = c;
 
                 db.UserCourses.Add(uc);
-                db.SaveChanges();
+            }
+            else
+            {
+                uc.IsActive = true;
+                db.Entry(uc).State= EntityState.Modified;
             }
 
+            db.SaveChanges();
             return RedirectToAction("Index", new { id = id });
         }
 
@@ -620,11 +644,14 @@ namespace PLE444.Controllers
 
             var uc = db.UserCourses.Where(u => u.UserId == userID).FirstOrDefault(i => i.Course.Id == id);
 
-            if (uc != null)
-            {
-                db.UserCourses.Remove(uc);
-                db.SaveChanges();
-            }
+            if (uc == null)
+                return HttpNotFound();
+
+            uc.IsActive = false;
+
+            db.Entry(uc).State = EntityState.Modified;
+            db.SaveChanges();
+            
 
             return RedirectToAction("Index", new {id = id});
         }
@@ -680,7 +707,13 @@ namespace PLE444.Controllers
 
             if (user == null)
                 return false;
-            return true;
+            else
+                return user.IsActive;
+        }
+
+        private bool isMember(Course course)
+        {
+            return isMember(course.Id);
         }
     }
 }

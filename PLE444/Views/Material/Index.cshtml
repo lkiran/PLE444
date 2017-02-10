@@ -16,46 +16,43 @@
     {
         foreach (var material in chapter.Materials)
         {
-            if (material.IsActive)
-             {
-                 <div class="panel panel-default">
-                
-                    <div class="panel-heading">
-                        @if (@Model.CanEdit)
-                        {
+            <div class="panel panel-default">
 
-                            <a href="@Url.Action("Update", "Material", new {chapterId = chapter.Id, id = material.Id})">
-                                <small><i class="fa fa-pencil-square-o ml-md mr-sm"></i>Düzenle</small>
-                            </a>
-                            <button data-material-id="@material.Id" data-chapter-id="@chapter.Id" class="btn-remove btn-link">
-                                <small class="text-danger"><i class="fa fa-trash-o ml-md mr-sm"></i>Kaldır</small>
-                            </button>
-                        }
-                        <h2>@material.Title <em>(@chapter.Title)</em>
-                        </h2>
+                <div class="panel-heading">
+                    @if (@Model.CanEdit)
+                    {
 
-                        <div class="pull-right">
-                            @material.DateAdded, @h.GetDeltaDate(material.DateAdded)
-                        </div>
+                        <a href="@Url.Action("Update", "Material", new {chapterId = chapter.Id, id = material.Id})">
+                            <small><i class="fa fa-pencil-square-o ml-md mr-sm"></i>Düzenle</small>
+                        </a>
+                        <button data-material-id="@material.Id" data-chapter-id="@chapter.Id" class="btn-remove btn-link">
+                            <small class="text-danger"><i class="fa fa-trash-o ml-md mr-sm"></i>Kaldır</small>
+                        </button>
+                    }
+                    <h2>@material.Title <em>(@chapter.Title)</em>
+                    </h2>
+
+                    <div class="pull-right">
+                        @material.DateAdded, @h.GetDeltaDate(material.DateAdded)
                     </div>
-
-                    <div class="panel-body">
-                        @(new HtmlString(material.Description))
-                    </div>
-
-                    <ul style="list-style-type: none";>
-                        @foreach (var doc in material.Documents)
-                        {
-                            <li>
-                                <a href="@Url.Action("Download", "File", new {path = Url.Content(doc.FilePath), name = doc.Description})">
-                                    <img alt="Icon" src="@Url.Content(fh.GetFileIcon(doc.FilePath))" style="height: 40px;">
-                                    <span>@doc.Description</span>
-                                </a>
-                            </li>
-                        }
-                    </ul>
                 </div>
-             }
+
+                <div class="panel-body">
+                    @(new HtmlString(material.Description))
+                </div>
+
+                <ul style="list-style-type: none";>
+                    @foreach (var doc in material.Documents)
+                    {
+                        <li>
+                            <a href="@Url.Action("Download", "File", new {path = Url.Content(doc.FilePath), name = doc.Description})">
+                                <img alt="Icon" src="@Url.Content(fh.GetFileIcon(doc.FilePath))" style="height: 40px;">
+                                <span>@doc.Description</span>
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
         }
     }
 }
@@ -84,8 +81,9 @@
                         if (result) {
                             $.ajax({
                                 //RemoveFromChapter(Guid? chapterId, Guid? materialId)
-                                url: "/Material/RemoveFromChapter/?materialId=" + object.data('material-id') +
-                                                                  "&chapterId=" + object.data('chapter-id'),
+                                url: @Url.Action("RemoveFromChapter", "Material") +
+                                    "/?materialId=" + object.data('material-id') +
+                                    "&chapterId=" + object.data('chapter-id'),
                                 method: "POST",
                                 dataType: 'json',
                                 success: function(response) {

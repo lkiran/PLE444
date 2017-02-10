@@ -8,7 +8,7 @@ namespace PLE444.ViewModels
 {
     public class CourseGrades
     {
-        public bool CanEdit { get; set; }
+        public string CurrentUserId { get; set; }
 
         public Course CourseInfo { get; set; }
 
