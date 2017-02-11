@@ -1,0 +1,113 @@
+﻿@using Microsoft.Ajax.Utilities
+@model  PLE444.ViewModels.CourseMembers
+@{
+    ViewBag.Title = "Katılımcılar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@{ Html.RenderAction("Navigation", "Course", new { id = Model.Course.Id }); }
+
+@{
+    var active = Model.Members.Where(c => c.IsActive && c.DateJoin != null);
+    var waiting = Model.Members.Where(c => c.IsActive && c.DateJoin == null);
+    var leaved = Model.Members.Where(c => !c.IsActive);
+}
+
+<div class="panel panel-success" data-widget='{"draggable": "false"}'>
+    <div class="panel-heading">
+        <h2>Aktif Katılımcılar</h2>
+        <em class="ml-md">@active.Count() kişi</em>
+    </div>
+    <div class="panel-body">
+        <table class="table table-hover m-n" id="members">
+            <thead>
+            <tr>
+                <th>Katılımcı</th>
+                <th>Katıldığı Tarih</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var cm in active)
+            {
+                <tr>
+                    <td>
+                        <a href="@Url.Action("Profil", "User", new {id = cm.UserId})">
+                            <img alt="Kullanıcı Resmi" src="@Url.Content(cm.User.UserPhoto())" class="img-circle" style="height: 30px;" />
+                            @cm.User.FullName()
+                        </a>
+                    </td>
+                    <td>@cm.DateJoin</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@if (Model.CanEdit)
+{
+    <div class="panel panel-info" data-widget='{"draggable": "false"}'>
+        <div class="panel-heading">
+            <h2>Onay Bekleyen Katılımcılar</h2>
+            <em class="ml-md">@waiting.Count() kişi</em>
+        </div>
+        <div class="panel-body">
+            <table class="table table-hover m-n" id="members">
+                <thead>
+                <tr>
+                    <th>Katılımcı</th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var cm in waiting)
+                {
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("Profil", "User", new {id = cm.UserId})">
+                                <img alt="Kullanıcı Resmi" src="@Url.Content(cm.User.UserPhoto())" class="img-circle" style="height: 30px;" />
+                                @cm.User.FullName()
+                            </a>
+                        </td>
+                        <td>
+                            <a href="@Url.Action("Approve", "Course", new {id = cm.Id})">
+                                <span class="text-success"><i class="ti ti-check"></i> Onayla</span>
+                            </a>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="panel panel-gray" data-widget='{"draggable": "false"}'>
+        <div class="panel-heading">
+            <h2>Ayrılan veya Çıkarılan Katılımcılar</h2>
+            <em class="ml-md">@leaved.Count() kişi</em>
+        </div>
+        <div class="panel-body">
+            <table class="table table-hover m-n" id="members">
+                <thead>
+                    <tr>
+                        <th>Katılımcı</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cm in leaved)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("Profil", "User", new {id = cm.UserId})">
+                                    <img alt="Kullanıcı Resmi" src="@Url.Content(cm.User.UserPhoto())" class="img-circle" style="height: 30px;"/>
+                                    @cm.User.FullName()
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}

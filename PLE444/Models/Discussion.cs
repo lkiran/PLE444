@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -10,7 +11,12 @@ namespace PLE444.Models
         public class Reading
         {
             public int Id { get; set; }
+
+            [ForeignKey("User")]
             public string UserId { get; set; }
+
+            public ApplicationUser User { get; set; }
+
             public DateTime Date { get; set; }
         }
 
@@ -18,11 +24,20 @@ namespace PLE444.Models
         {
             ID = Guid.NewGuid();
         }
+
         public Guid ID { get; set; }
+
         public string Topic { get; set; }
+
+        [ForeignKey("Creator")]
         public string CreatorId { get; set; }
+
+        public ApplicationUser Creator { get; set; }
+
         public DateTime DateCreated { get; set; }
+
         public virtual ICollection<Message> Messages { get; set; }
+        
         public virtual ICollection<Reading> Readings { get; set; }
     }
 }

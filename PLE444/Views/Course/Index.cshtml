@@ -13,24 +13,30 @@
     <div class="panel-heading">
         <h2 class="text-capitalize">@Model.Course.Heading</h2>
         
-        @if (Model.IsMember)
-        {
-            <a class="pull-right text-danger" href="@Url.Action("Leave", "Course", new {id = Model.Course.Id})">
-                <small><i class="ti ti-angle-double-left"></i> Dersten Ayrıl</small> 
-            </a>
-        }
-        else
-        {
-            <a class="pull-right" href="@Url.Action("Join", "Course", new {id = Model.Course.Id})">
-                <span><i class="ti ti-angle-double-right"></i>  Derse Katıl</span> 
-            </a>
-        }
-        
         @if (Model.IsCourseCreator)
         {
             <a class="pull-right mr-md" href="@Url.Action("Edit", "Course", new {id = Model.Course.Id})">
                 <small><i class="ti ti-pencil-alt"></i> Düzenle</small>
             </a>
+        }
+        else
+        {
+            if (Model.IsMember)
+            {
+                <a class="pull-right text-danger" href="@Url.Action("Leave", "Course", new {id = Model.Course.Id})">
+                    <small><i class="ti ti-angle-double-left"></i> Dersten Ayrıl</small>
+                </a>
+            }
+            else if (Model.IsWaiting)
+            {
+                <span class="text-info pull-right"><i class="ti ti-time"></i> Onay Bekliyor</span>
+            }
+            else
+            {
+                <a class="pull-right" href="@Url.Action("Join", "Course", new {id = Model.Course.Id})">
+                    <span><i class="ti ti-angle-double-right"></i>  Derse Katıl</span>
+                </a>
+            }
         }
     </div>
     <div class="panel-body">

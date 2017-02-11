@@ -14,6 +14,17 @@ namespace PLE444.ViewModels
 
         public bool IsMember { get; set; }
 
+        public bool IsWaiting { get; set; }
+
         public int MemberCount { get; set; }
+    }
+
+    public class CourseMembers
+    {
+        public List<UserCourse> Members { get; set; }
+
+        public bool CanEdit { get; set; }
+
+        public Course Course { get; set; }
     }
 }

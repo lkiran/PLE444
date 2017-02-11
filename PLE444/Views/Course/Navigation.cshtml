@@ -18,6 +18,8 @@
                 <li><a href="@Url.Action("Index","Material",new { id =  Model.Id })">Materyaller</a></li>
 
                 <li><a href="@Url.Action("Discussion","Course",new { id = Model.Id })">Tartışmalar</a></li>
+
+                <li><a href="@Url.Action("Members","Course",new { id = Model.Id })">Katılımcılar</a></li>
             </ul>
         </h2>
     </div>
@@ -36,7 +38,7 @@
 
     $("#title").dotdotdot({
         /*	The text to add as ellipsis. */
-        ellipsis: '... ',
+        ellipsis: '...',
 
         /*	Wrap-option fallback to 'letter' for long words */
         fallbackToLetter: true,

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Core.Objects.DataClasses;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -35,7 +36,8 @@ namespace PLE444.Controllers
             {
                 Course = course,
                 IsCourseCreator = isCourseCreator(course),
-                IsMember = isMember(course.Id),
+                IsMember = isMember(course),
+                IsWaiting = isWaiting(course.Id),
                 MemberCount = db.UserCourses.Count(uc => uc.CourseId == course.Id && uc.IsActive)
             };
             return View(model);
@@ -44,6 +46,28 @@ namespace PLE444.Controllers
         public ActionResult List()
         {
             var model = db.Courses.Where(c => c.CanEveryoneJoin).ToList();
+            return View(model);
+        }
+
+        public ActionResult Members(Guid? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var course = db.Courses.Find(id);
+            if (course == null)
+                return HttpNotFound();
+
+            if (!isMember(course) && !isCourseCreator(course))
+                return RedirectToAction("Index", "Course", new {id = course.Id});
+
+            var model = new CourseMembers
+            {
+                Members = db.UserCourses.Include("User").Where(uc => uc.CourseId == id).ToList(),
+                Course = course,
+                CanEdit = isCourseCreator(course)
+            };
+                
             return View(model);
         }
 
@@ -475,7 +499,7 @@ namespace PLE444.Controllers
                 return HttpNotFound();
 
             else if (!isCourseCreator(gradeType.CourseId))
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
             db.UserGrades.Remove(userGrade);
             db.SaveChanges();
@@ -510,7 +534,8 @@ namespace PLE444.Controllers
                     .Include("Discussion.Readings")
                     .FirstOrDefault(i => i.Id == id);
 
-          
+
+            ViewBag.Role = isCourseCreator(course) ? "Creator" : "Member";
             ViewBag.CurrentUserId = User.Identity.GetUserId();
             return View(model);
         }
@@ -583,6 +608,31 @@ namespace PLE444.Controllers
             return View();
         }
 
+        [Authorize]
+        public ActionResult RemoveTitle(Guid? discussionId, Guid? courseId)
+        {
+            if (courseId == null || discussionId == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var course = db.Courses.FirstOrDefault(c => c.Id == courseId);
+            if(course == null)
+                return HttpNotFound();
+
+            else if (!isCourseCreator(course))
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+            var discussion = db.Discussions.FirstOrDefault(d => d.ID == discussionId);
+            if (discussion == null)
+                return HttpNotFound();
+            
+            db.Readings.RemoveRange(discussion.Readings);
+            db.Messages.RemoveRange(discussion.Messages);
+            db.Discussions.Remove(discussion);
+            db.SaveChanges();
+
+            return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
+        }
+
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
@@ -608,6 +658,25 @@ namespace PLE444.Controllers
                 return RedirectToAction("Discussion", new { id = courseId });
             }
             return View();
+        }
+
+        [Authorize]
+        public ActionResult RemoveMessage(Guid? messageId, Guid? courseId)
+        {
+            if (messageId == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var message = db.Messages.FirstOrDefault(m => m.ID == messageId);
+            if (message == null)
+                return HttpNotFound();
+
+            else if (!isCourseCreator(courseId) && message.SenderId != User.Identity.GetUserId())
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+            db.Messages.Remove(message);
+            db.SaveChanges();
+
+            return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
         }
 
         [Authorize]
@@ -648,6 +717,7 @@ namespace PLE444.Controllers
                 return HttpNotFound();
 
             uc.IsActive = false;
+            uc.DateJoin = null;
 
             db.Entry(uc).State = EntityState.Modified;
             db.SaveChanges();
@@ -671,11 +741,33 @@ namespace PLE444.Controllers
                 return Json(new { Success = false, Message = "Unauthorized" }, JsonRequestBehavior.AllowGet);
 
             uc.IsActive = false;
+            uc.DateJoin = null;
 
             db.Entry(uc).State = EntityState.Modified;
             db.SaveChanges();
 
             return Json(new { Success = true, Message = "OK" }, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        public ActionResult Approve(int? id)
+        {
+            if (!id.HasValue)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var userCourse = db.UserCourses.Include("Course").FirstOrDefault(uc => uc.Id == id);
+            if (userCourse == null)
+                return HttpNotFound();
+
+            else if (!isCourseCreator(userCourse.Course))
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+            userCourse.DateJoin = DateTime.Now;
+
+            db.Entry(userCourse).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("Members", "Course", new {id = userCourse.CourseId});
         }
 
         private bool isCourseCreator(Guid? courseId)
@@ -708,12 +800,21 @@ namespace PLE444.Controllers
             if (user == null)
                 return false;
             else
-                return user.IsActive;
+                return user.IsActive && user.DateJoin != null;
         }
 
         private bool isMember(Course course)
         {
             return isMember(course.Id);
+        }
+
+        private bool isWaiting(Guid? courseId)
+        {
+            var userId = User.Identity.GetUserId();
+            var user = db.UserCourses.Where(c => c.Course.Id == courseId && c.IsActive).FirstOrDefault(u => u.UserId == userId);
+            if (user == null)
+                return false;
+            return user.DateJoin == null;
         }
     }
 }

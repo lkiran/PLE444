@@ -73,6 +73,7 @@ namespace PLE444.Models
         public DbSet<PrivateMessage> PrivateMessages { get; set; }
         public DbSet<Space> Spaces { get; set; }
         public DbSet<TimelineEntry> TimelineEntries { get; set; }
+        public DbSet<Discussion.Reading> Readings { get; set; }
 
         public PleDbContext()
             : base("PleDbContext", throwIfV1Schema: false)

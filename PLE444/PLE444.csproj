@@ -226,6 +226,14 @@
     <Compile Include="Migrations\201702101459094_message.Designer.cs">
       <DependentUpon>201702101459094_message.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702102127357_course_approval.cs" />
+    <Compile Include="Migrations\201702102127357_course_approval.Designer.cs">
+      <DependentUpon>201702102127357_course_approval.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702111714561_discussion.cs" />
+    <Compile Include="Migrations\201702111714561_discussion.Designer.cs">
+      <DependentUpon>201702111714561_discussion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -2163,6 +2171,7 @@
     <Content Include="Views\Course\Index.cshtml" />
     <Content Include="Views\Material\Detail.cshtml" />
     <Content Include="Views\Course\GradesForEditor.cshtml" />
+    <Content Include="Views\Course\Members.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -2188,6 +2197,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702101459094_message.resx">
       <DependentUpon>201702101459094_message.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702102127357_course_approval.resx">
+      <DependentUpon>201702102127357_course_approval.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702111714561_discussion.resx">
+      <DependentUpon>201702111714561_discussion.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
