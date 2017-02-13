@@ -49,6 +49,7 @@ namespace PLE444.Controllers
             return View(model);
         }
 
+        [Authorize]
         public ActionResult Members(Guid? id)
         {
             if (id == null)
@@ -270,6 +271,7 @@ namespace PLE444.Controllers
             return View();
         }
 
+        [Authorize]
         public ActionResult EditGradeType(int? id)
         {
             if (id == null)

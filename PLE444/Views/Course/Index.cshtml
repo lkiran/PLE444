@@ -97,6 +97,15 @@
                                     <small class="ml-sm">
                                         @h.GetDeltaDate(@timelineEntry.DateCreated)
                                     </small>
+
+                                    <div class="pull-right">
+                                        @if(Model.IsCourseCreator)
+                                        {
+                                            <a href="#" class="js-deleteEntry" data-entry-id="@timelineEntry.Id">
+                                                <span class="text-danger">Sil</span>
+                                            </a>
+                                        }
+                                    </div>
                                     
                                 </div>
                                 <div class="timeline-content">
@@ -117,3 +126,48 @@
         </div>
     </div>
 </div>
+
+
+
+@section scripts
+{
+<script>
+    $(".js-deleteEntry").on("click", function() {
+        var object = $(this);
+        bootbox.confirm({
+            title: "Onay",
+            message: "Bu öğeyix içerik akışından çıkarmak istiyor musunuz?",
+            buttons: {
+                confirm: {
+                    label: 'Evet, Çıkar',
+                    className: 'btn-danger-alt'
+                },
+                cancel: {
+                    label: 'Hayır',
+                    className: 'btn-info-alt'
+                }
+            },
+            callback: function(result) {
+                if (result) {
+                    $.ajax({
+                        //Delete(Guid entryId, Guid courseId)
+                        url: "@Url.Action("Delete","Timeline")",
+                        method: "POST",
+                        data: { 
+                            entryId : object.data('entry-id'), 
+                            courseId : "@Model.Course.Id"
+                        },
+                        dataType: 'json',
+                        success: function(data, statusText, xhr) {
+                        },
+                        error: function (data, statusText, xhr) {
+                            if(data.status == 200) //OK
+                                object.closest("li").slideUp();                          
+                        }
+                    });
+                }
+            }
+        });
+    });            
+</script>
+}

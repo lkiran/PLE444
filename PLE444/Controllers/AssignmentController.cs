@@ -19,6 +19,7 @@ namespace PLE444.Controllers
     {
         private PleDbContext db = new PleDbContext();
 
+        [Authorize]
         public ActionResult Index(Guid? id)
         {
             if (id == null)
@@ -58,6 +59,7 @@ namespace PLE444.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Create(AssignmentForm model)
         {
@@ -113,6 +115,7 @@ namespace PLE444.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(AssignmentForm model)
         {
@@ -139,6 +142,7 @@ namespace PLE444.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult Delete(Guid? id)
         {
             if (id == null)
@@ -160,6 +164,7 @@ namespace PLE444.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult Upload(Guid assignmentId, HttpPostedFileBase uploadFile)
         {
@@ -214,6 +219,7 @@ namespace PLE444.Controllers
             return RedirectToAction("Index", "Assignment", new {id = a.Course.Id});
         }
 
+        [Authorize]
         public ActionResult DownloadAssignment(Guid asssignmentId)
         {
             var assignment = db.Assignments.Include("Uploads").Include("Uploads.Owner").FirstOrDefault(a => a.Id == asssignmentId);
@@ -271,11 +277,26 @@ namespace PLE444.Controllers
                 return false;
 
             var userId = User.Identity.GetUserId();
-            var user = db.UserCourses.Where(c => c.Course.Id == courseId).FirstOrDefault(u => u.UserId == userId && u.IsActive);
+            var user = db.UserCourses.Where(c => c.Course.Id == courseId).FirstOrDefault(u => u.UserId == userId);
 
             if (user == null)
                 return false;
-            return true;
+            else
+                return user.IsActive && user.DateJoin != null;
         }
-    }
+
+        private bool isMember(Course course)
+        {
+            return isMember(course.Id);
+        }
+
+        private bool isWaiting(Guid? courseId)
+        {
+            var userId = User.Identity.GetUserId();
+            var user = db.UserCourses.Where(c => c.Course.Id == courseId && c.IsActive).FirstOrDefault(u => u.UserId == userId);
+            if (user == null)
+                return false;
+            return user.DateJoin == null;
+        }
+    }    
 }

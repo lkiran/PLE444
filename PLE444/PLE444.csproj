@@ -211,6 +211,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PrivateMessagesController.cs" />
     <Compile Include="Controllers\SpacesController.cs" />
+    <Compile Include="Controllers\TimelineController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -1582,6 +1583,22 @@
     <Content Include="Content\plugins\jvectormap\jquery-jvectormap-us-ny-newyork-mill-en.js" />
     <Content Include="Content\plugins\jvectormap\jquery-jvectormap-world-mill-en.js" />
     <Content Include="Content\plugins\knob\jquery.knob.min.js" />
+    <Content Include="Content\plugins\malihu-custom-scrollbar\jquery.mCustomScrollbar.concat.min.js" />
+    <Content Include="Content\plugins\malihu-custom-scrollbar\jquery.mCustomScrollbar.css" />
+    <Content Include="Content\plugins\malihu-custom-scrollbar\jquery.mCustomScrollbar.js" />
+    <Content Include="Content\plugins\malihu-custom-scrollbar\jquery.mCustomScrollbar.min.css" />
+    <Content Include="Content\plugins\malihu-custom-scrollbar\js\minified\jquery-1.11.0.min.js" />
+    <Content Include="Content\plugins\malihu-custom-scrollbar\js\minified\jquery-1.9.1.min.js" />
+    <Content Include="Content\plugins\malihu-custom-scrollbar\js\minified\jquery-2.1.0.min.js" />
+    <Content Include="Content\plugins\malihu-custom-scrollbar\js\minified\jquery-ui-1.10.4.min.js" />
+    <Content Include="Content\plugins\malihu-custom-scrollbar\js\minified\jquery.mCustomScrollbar.min.js" />
+    <Content Include="Content\plugins\malihu-custom-scrollbar\js\minified\jquery.mousewheel-3.0.6.min.js" />
+    <Content Include="Content\plugins\malihu-custom-scrollbar\js\minified\jquery.mousewheel.min.js" />
+    <Content Include="Content\plugins\malihu-custom-scrollbar\js\uncompressed\jquery.mCustomScrollbar.js" />
+    <Content Include="Content\plugins\malihu-custom-scrollbar\js\uncompressed\jquery.mousewheel-3.0.6.js" />
+    <Content Include="Content\plugins\malihu-custom-scrollbar\js\uncompressed\jquery.mousewheel.js" />
+    <Content Include="Content\plugins\malihu-custom-scrollbar\LICENSE.txt" />
+    <Content Include="Content\plugins\malihu-custom-scrollbar\mCSB_buttons.png" />
     <Content Include="Content\plugins\nanoScroller\css\main.css" />
     <Content Include="Content\plugins\nanoScroller\css\nanoscroller.css" />
     <Content Include="Content\plugins\nanoScroller\js\jquery.nanoscroller.js" />
@@ -2069,6 +2086,10 @@
     <Content Include="Content\plugins\summernote\src\less\summernote.less" />
     <Content Include="Content\plugins\switchery\README.md" />
     <Content Include="Content\plugins\wijets\.DS_Store" />
+    <Content Include="Content\plugins\malihu-custom-scrollbar\.gitignore" />
+    <Content Include="Content\plugins\malihu-custom-scrollbar\bower.json" />
+    <Content Include="Content\plugins\malihu-custom-scrollbar\package.json" />
+    <Content Include="Content\plugins\malihu-custom-scrollbar\readme.md" />
     <None Include="Properties\PublishProfiles\PLE.pubxml" />
     <None Include="Properties\PublishProfiles\PLE444.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
@@ -2187,6 +2208,7 @@
     <Folder Include="Views\File\" />
     <Folder Include="Views\Group\" />
     <Folder Include="Views\PrivateMessages\" />
+    <Folder Include="Views\Timeline\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />

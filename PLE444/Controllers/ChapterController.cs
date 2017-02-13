@@ -16,6 +16,7 @@ namespace PLE444.Controllers
     {
         private PleDbContext db = new PleDbContext();
 
+        [Authorize]
         public ActionResult Index(Guid? id)
         {
             if (id == null)
@@ -25,6 +26,9 @@ namespace PLE444.Controllers
                 var course = db.Courses.SingleOrDefault(i => i.Id == id);
                 if(course == null)
                     return HttpNotFound();
+
+                if (!isMember(course) && !isCourseCreator(course))
+                    return RedirectToAction("Index", "Course", new { id = course.Id });
 
                 var chapters = db.Chapters.Where(i => i.CourseId == id && i.IsActive)
                                           .Include("Materials").ToList();
@@ -174,7 +178,22 @@ namespace PLE444.Controllers
 
             if (user == null)
                 return false;
-            return true;
+            else
+                return user.IsActive && user.DateJoin != null;
+        }
+
+        private bool isMember(Course course)
+        {
+            return isMember(course.Id);
+        }
+
+        private bool isWaiting(Guid? courseId)
+        {
+            var userId = User.Identity.GetUserId();
+            var user = db.UserCourses.Where(c => c.Course.Id == courseId && c.IsActive).FirstOrDefault(u => u.UserId == userId);
+            if (user == null)
+                return false;
+            return user.DateJoin == null;
         }
     }
 }

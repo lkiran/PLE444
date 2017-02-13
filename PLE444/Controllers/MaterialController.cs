@@ -24,6 +24,9 @@ namespace PLE444.Controllers
             if (id == null)
                 return RedirectToAction("Index", "Home");
 
+            if (!isMember(id) && !isCourseCreator(id))
+                return RedirectToAction("Index", "Course", new { id = id });
+
             var chapters =
                 db.Chapters.Where(c => c.Course.Id == id).Select(e => new
                 {
@@ -261,7 +264,22 @@ namespace PLE444.Controllers
 
             if (user == null)
                 return false;
-            return true;
+            else
+                return user.IsActive && user.DateJoin != null;
+        }
+
+        private bool isMember(Course course)
+        {
+            return isMember(course.Id);
+        }
+
+        private bool isWaiting(Guid? courseId)
+        {
+            var userId = User.Identity.GetUserId();
+            var user = db.UserCourses.Where(c => c.Course.Id == courseId && c.IsActive).FirstOrDefault(u => u.UserId == userId);
+            if (user == null)
+                return false;
+            return user.DateJoin == null;
         }
 
         private bool isOwner(string id)
