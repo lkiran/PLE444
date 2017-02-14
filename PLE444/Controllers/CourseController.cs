@@ -769,9 +769,34 @@ namespace PLE444.Controllers
             db.Entry(userCourse).State = EntityState.Modified;
             db.SaveChanges();
 
-            return RedirectToAction("Members", "Course", new {id = userCourse.CourseId});
+            return RedirectToAction("Members", "Course", new { id = userCourse.CourseId });
         }
 
+        [Authorize]
+        [HttpPost]
+        public ActionResult Approve(List<int> list)
+        {
+            if (!list.Any())
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            foreach (var i in list)
+            {
+                var userCourse = db.UserCourses.Include("Course").FirstOrDefault(uc => uc.Id == i);
+                if (userCourse == null)
+                    return HttpNotFound();
+
+                else if (!isCourseCreator(userCourse.Course))
+                    return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+                userCourse.DateJoin = DateTime.Now;
+
+                db.Entry(userCourse).State = EntityState.Modified;
+            }
+            
+            db.SaveChanges();
+
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
         private bool isCourseCreator(Guid? courseId)
         {
             if (courseId == null)

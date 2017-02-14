@@ -3691,7 +3691,7 @@ tbody.collapse.in {
 .tt-dropdown-menu {
   position: absolute;
   top: 100%;
-  left: 0;
+  left: 0% !important;
   z-index: 9999 !important;
   display: none;
   float: left;
