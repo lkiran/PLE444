@@ -24,7 +24,7 @@ namespace PLE444.Controllers
 
             var userCourses = db.UserCourses.Where(uc => uc.UserId == userId && uc.IsActive);
             var courses = db.Courses.Where(c => c.CreatorId == userId); 
-            var data = (from p in userCourses select p.Course);
+            var data = (from p in userCourses select p.Course).Union(courses);
 
             ViewBag.CurrentUser = userId;
             return PartialView(data.ToList());

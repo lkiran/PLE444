@@ -91,7 +91,20 @@ namespace PLE444.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(model).State = EntityState.Modified;
+                var community = db.Communities.Find(model.Id);
+                if (community == null)
+                   return HttpNotFound();
+
+                if (Status(community) != Enums.StatusType.Creator)
+                    return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+                community.Name = model.Name;
+                community.Description = model.Description;
+                community.IsHiden = model.IsHiden;
+                community.IsOpen = model.IsOpen;
+                community.SpaceId = community.SpaceId;
+
+                db.Entry(community).State = EntityState.Modified;
                 db.SaveChanges();
 
                 return RedirectToAction("Index", new { id = model.Id });
@@ -100,41 +113,53 @@ namespace PLE444.Controllers
             return View(model);
         }
 
-
+        [Authorize]
         public ActionResult Discussion(Guid? id)
         {
-            var community = db.Communities.Find(id);                  
-            var m = db.Communities.Include("Discussion").Include("Discussion.Messages").Include("Discussion.Readings").FirstOrDefault(i => i.Id == id);
+            var community =
+                db.Communities.Include("Discussions")
+                    .Include("Discussions.Messages")
+                    .Include("Discussions.Messages.Sender")
+                    .Include("Discussions.Readings")
+                    .FirstOrDefault(i => i.Id == id);
+            if (community == null)
+                return HttpNotFound();
 
+            if (Status(community) != Enums.StatusType.Creator  && Status(community) != Enums.StatusType.Member)
+                return RedirectToAction("Index", "Community", new { id = id });
+
+            community.Discussions = community.Discussions.OrderBy(d => d.DateCreated).ToList();
+            ViewBag.Role = Status(community) == Enums.StatusType.Creator ? "Creator" : "Member";
             ViewBag.CurrentUserId = User.Identity.GetUserId();
-            
-            return View(m);
+            return View(community);
         }
 
         [HttpPost]
         [Authorize]
-        public ActionResult Read(Guid? DiscussionId, Guid? CommunityId)
+        public ActionResult Read(Guid? discussionId, Guid? communityId)
         {
-            var c = db.Communities.Include("Discussion").Include("Discussion.Readings").FirstOrDefault(i => i.Id == CommunityId);
-            if(c == null)
+            var c = db.Communities.Include("Discussions").Include("Discussions.Readings").FirstOrDefault(i => i.Id == communityId);
+            if (c == null)
                 return Json(new { success = false });
 
-            var d = c.Discussions.FirstOrDefault(i => i.ID == DiscussionId);
+            var d = c.Discussions.FirstOrDefault(i => i.ID == discussionId);
             if (d == null)
                 return Json(new { success = false });
 
             var currentUser = User.Identity.GetUserId();
             var r = d.Readings.FirstOrDefault(u => u.UserId == currentUser);
-            if(r == null)
+            if (r == null)
             {
-                r = new Discussion.Reading();
-                r.UserId = currentUser;
-                r.Date = DateTime.Now;
+                r = new Discussion.Reading
+                {
+                    UserId = currentUser,
+                    Date = DateTime.Now
+                };
                 d.Readings.Add(r);
             }
             else
             {
-                r.Date = DateTime.Now;                
+                r.Date = DateTime.Now;
             }
 
             db.Entry(c).State = EntityState.Modified;
@@ -143,84 +168,26 @@ namespace PLE444.Controllers
             return Json(new { success = true });
         }
 
-        public ActionResult Members(Guid? id)
-        {
-            var currentuserId = User.Identity.GetUserId();
-            var c = db.Communities.Find(id);
-            var m = db.UserCommunities.Where(i => i.Community.Id == id);
-            var data = new CommunityMembersViewModel();
-            data.CommunityInfo = c;
-            data.Users = new List<UserViewModel>();
-            var friends = db.Friendship.Where(o => o.userID == currentuserId).ToList();
-            foreach (var item in m)
-            {                
-                var dbUser = db.Users.Find(item.UserId);
-                var userInfo = new UserViewModel();
-
-                userInfo.UserID = dbUser.Id;
-                userInfo.Name = dbUser.FirstName;
-                userInfo.Surname = dbUser.LastName;
-                userInfo.ProfilePhoto = dbUser.ProfilePicture;
-                if(dbUser.Id != currentuserId)
-                    userInfo.isFriend = friends.Any(o => o.FriendID == dbUser.Id);               
-                    
-                data.Users.Add(userInfo);
-            }
-            return View(data);
-        }
-
-        public ActionResult Join(Guid? id)
-        {
-            var userId = User.Identity.GetUserId();
-            var uc = db.UserCommunities.Where(u => u.UserId == userId).FirstOrDefault(c => c.Community.Id == id);
-
-            if(uc == null)
-            {
-                uc = new UserCommunity();
-                uc.Community = db.Communities.Find(id);                
-                uc.UserId = userId;
-                uc.DateJoined = DateTime.Now;
-
-                db.UserCommunities.Add(uc);
-
-                db.SaveChanges();               
-            }
-
-            return RedirectToAction("Index", new { id = id });
-        }
-
-        public ActionResult Leave(Guid? id)
-        {
-            var userId = User.Identity.GetUserId();
-            var uc = db.UserCommunities.Where(u => u.UserId == userId).FirstOrDefault(c => c.Community.Id == id);
-
-            if(uc != null)
-            {
-                db.UserCommunities.Remove(uc);
-                db.SaveChanges();
-            }
-
-            return RedirectToAction("Index", new { id = id });
-        }
-
+        [Authorize]
         public ActionResult AddTitle(string id)
         {
-            ViewBag.CommunityId = id;           
+            ViewBag.CommunityId = id;
             return View();
         }
 
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult AddTitle(Discussion discussion, Guid communityId)
+        public ActionResult AddTitle(Discussion discussion, Guid? communityId)
         {
             if (ModelState.IsValid)
             {
                 var d = new Discussion();
                 d.DateCreated = DateTime.Now;
-                d.CreatorId= User.Identity.GetUserId();
+                d.CreatorId = User.Identity.GetUserId();
                 d.Topic = discussion.Topic;
 
-                db.Discussions.Add(d);
+                d = db.Discussions.Add(d);
 
                 var c = db.Communities.Find(communityId);
                 c.Discussions.Add(d);
@@ -235,7 +202,33 @@ namespace PLE444.Controllers
             return View();
         }
 
+        [Authorize]
+        public ActionResult RemoveTitle(Guid? discussionId, Guid? communityId)
+        {
+            if (communityId == null || discussionId == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var community = db.Communities.FirstOrDefault(c => c.Id == communityId);
+            if (community == null)
+                return HttpNotFound();
+
+            else if (Status(community) != Enums.StatusType.Creator)
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+            var discussion = db.Discussions.FirstOrDefault(d => d.ID == discussionId);
+            if (discussion == null)
+                return HttpNotFound();
+
+            db.Readings.RemoveRange(discussion.Readings);
+            db.Messages.RemoveRange(discussion.Messages);
+            db.Discussions.Remove(discussion);
+            db.SaveChanges();
+
+            return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
+        }
+
         [HttpPost]
+        [Authorize]
         [ValidateAntiForgeryToken]
         public ActionResult SendMessage(Message message, Guid communityId, Guid discussionId)
         {
@@ -255,10 +248,142 @@ namespace PLE444.Controllers
 
                 db.SaveChanges();
 
-                TempData["Active"] = discussionId;
-                return RedirectToAction("Discussion", new { id = communityId });
+                TempData["Active"] = discussionId;                
             }
-            return View();
+            return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
+        }
+
+        [Authorize]
+        public ActionResult RemoveMessage(Guid? messageId, Guid? communityId)
+        {
+            if (messageId == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var message = db.Messages.FirstOrDefault(m => m.ID == messageId);
+            if (message == null)
+                return HttpNotFound();
+
+            else if (Status(communityId) != Enums.StatusType.Creator && message.SenderId != User.Identity.GetUserId())
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+            db.Messages.Remove(message);
+            db.SaveChanges();
+
+            return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
+        }
+
+
+        public ActionResult Members(Guid? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var community = db.Communities.Find(id);
+            if (community == null)
+                return HttpNotFound();
+
+            if (Status(community) != Enums.StatusType.Member && Status(community) != Enums.StatusType.Creator)
+                return RedirectToAction("Index", "Community", new { id = community.Id });
+
+            var model = new CommunityMembers
+            {
+                Members = db.UserCommunities.Include("User").Where(uc => uc.CommunityId == id).ToList(),
+                Community = community,
+                CanEdit = Status(community) == Enums.StatusType.Creator
+            };
+
+            return View(model);
+        }
+
+        public ActionResult Join(Guid? id)
+        {
+            var userId = User.Identity.GetUserId();
+
+            var community = db.Communities.Find(id);
+            if (community == null)
+                return HttpNotFound();
+
+            var uc = db.UserCommunities.Where(u => u.UserId == userId).FirstOrDefault(c => c.Community.Id == id);
+
+            if(uc == null)
+            {
+                uc = new UserCommunity
+                {
+                    Community = community,
+                    UserId = userId
+                };
+
+                if (!community.IsOpen)
+                    uc.DateJoined = DateTime.Now;
+                else
+                    uc.DateJoined = null;
+
+                db.UserCommunities.Add(uc);
+
+                db.SaveChanges();               
+            }
+
+            return RedirectToAction("Index", new { id = id });
+        }
+
+        public ActionResult Approve(Guid? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var userCommunity = db.UserCommunities.Include("Community").FirstOrDefault(uc => uc.Id == id);
+            if (userCommunity == null)
+                return HttpNotFound();
+
+            if (Status(userCommunity.Community) != Enums.StatusType.Creator)
+                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+            userCommunity.DateJoined = DateTime.Now;
+
+            db.Entry(userCommunity).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return RedirectToAction("Index", "Community", new { id = userCommunity.CommunityId });
+        }
+
+        [Authorize]
+        [HttpPost]
+        public ActionResult Approve(List<Guid> list)
+        {
+            if (!list.Any())
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            foreach (var i in list)
+            {
+                var userCommunity = db.UserCommunities.Include("Community").FirstOrDefault(uc => uc.Id == i);
+                if (userCommunity == null)
+                    return HttpNotFound();
+
+                if (Status(userCommunity.Community) != Enums.StatusType.Creator)
+                    return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+                userCommunity.DateJoined = DateTime.Now;
+
+                db.Entry(userCommunity).State = EntityState.Modified;
+            }
+
+            db.SaveChanges();
+
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        public ActionResult Leave(Guid? id)
+        {
+            var userId = User.Identity.GetUserId();
+            var uc = db.UserCommunities.Where(u => u.UserId == userId).FirstOrDefault(c => c.Community.Id == id);
+
+            if(uc != null)
+            {
+                db.UserCommunities.Remove(uc);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Index", new { id = id });
         }
 
         public ActionResult Archive()

@@ -205,7 +205,7 @@ namespace PLE444.Controllers
                     {
                         uploaded.DateUpload = DateTime.Now;
                         uploaded.Description = uploadFile.FileName;
-                        uploaded.FilePath = "~/Uploads/" + filePath;
+                        uploaded.FilePath = "~/Uploads/" + fileName;
                         uploaded.OwnerId = currentuserId;
 
                         db.Entry(uploaded).State = EntityState.Modified;

@@ -1,74 +1,193 @@
-﻿@model PLE444.Models.CommunityMembersViewModel
-
+﻿@using Microsoft.Ajax.Utilities
+@model  PLE444.ViewModels.CommunityMembers
 @{
-    ViewBag.Title = "Members";
+    ViewBag.Title = "Üyeler";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="panel panel-bluegray" data-widget='{"draggable": "false"}'>
+
+@{ Html.RenderAction("Navigation", "Community", new { id = Model.Community.Id }); }
+
+@{
+    var active = Model.Members.Where(c => c.IsActive && c.DateJoined != null);
+    var waiting = Model.Members.Where(c => c.IsActive && c.DateJoined == null);
+    var leaved = Model.Members.Where(c => !c.IsActive);
+}
+
+<div class="panel panel-success" data-widget='{"draggable": "false"}'>
     <div class="panel-heading">
-        <span class="pull-right">@Model.CommunityInfo.Name</span>
-        <h2>
-            <ul class="nav nav-tabs">
-                <li><a href="@Url.Action("Index", new { id = Model.CommunityInfo.ID })">Grup</a></li>
-                <li><a href="@Url.Action("Discussion", new { id = Model.CommunityInfo.ID })">Tartışma</a></li>
-                <li class="active"><a href="#">Üyeler</a></li>
-            </ul>
-        </h2>
+        <h2>Aktif Üyeler</h2>
+        <em class="ml-md">@active.Count() kişi</em>
+    </div>
+    <div class="panel-body">
+        @if (active.Count() != 0)
+        {
+            <table class="table table-hover m-n" id="members">
+                <thead>
+                    <tr>
+                        <th>Üye</th>
+                        <th>Katıldığı Tarih</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cm in active)
+                    {
+                        <tr>
+                            <td>
+                                <a href="@Url.Action("Profil", "User", new {id = cm.UserId})">
+                                    <img alt="Kullanıcı Resmi" src="@Url.Content(cm.User.UserPhoto())" class="img-circle" style="height: 30px;" />
+                                    @cm.User.FullName()
+                                </a>
+                            </td>
+                            <td>@cm.DateJoined</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <em class="lead">Derste hiç katılımcı yok.</em>
+        }
     </div>
 </div>
 
-<div class="row">
-    <div class="col-xs-12">
-        <div class="panel panel-default" data-widget='{"draggable": "false"}'>
-            <div class="panel-heading">
-                <h2>Üyeler</h2>
-                <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
-                <div class="options">
-
-                </div>
-            </div>
-            <div class="panel-body">
-                @*<p>For basic styling—light padding and only horizontal dividers—add the base class <code>.table</code> to any <code>&lt;table&gt;</code>.</p>*@
-                <table class="table m-n " >
+@if (Model.CanEdit)
+{
+    <div class="panel panel-info" data-widget='{"draggable": "false"}'>
+        <div class="panel-heading">
+            <h2>Onay Bekleyen Katılımcılar</h2>
+            <em class="ml-md">@waiting.Count() kişi</em>
+        </div>
+        <div class="panel-body">
+            @if (waiting.Count() != 0)
+            {
+                <table class="table table-hover m-n" id="waiting">
                     <thead>
-
+                        <tr>
+                            <th>
+                                <div class="icheck">
+                                    <label class="checkbox-inline icheck">
+                                        <input type="checkbox" class="allWaitings" value="" />
+                                    </label>
+                                </div>
+                            </th>
+                            <th>Katılımcı</th>
+                            <th></th>
+                        </tr>
                     </thead>
                     <tbody>
-                        @foreach (var user in Model.Users)
-                        {
+                        @foreach (var cm in waiting)
+                    {
                             <tr>
+                                <td width="5%">
+                                    <label class="checkbox-inline icheck">
+                                        <input type="checkbox" class="willBeAppoved" data-id="@cm.Id" />
+                                    </label>
+                                </td>
                                 <td>
-                                    <a href="@Url.Action("Profil", "User", new { id= user.UserID})">
-                                        @if (user.ProfilePhoto == null)
-                                        {
-                                            <img src="@Url.Content("~/Content/img/pp.jpg")" class="img-circle" style="height:40px;">
-                                        }
-                                        else
-                                        {
-                                            <img src="@Url.Content(user.ProfilePhoto)" class="img-circle" style="height:40px;">
-                                        }
-                                        <span>@user.FullName()</span>
+                                    <a href="@Url.Action("Profil", "User", new {id = cm.UserId})">
+                                        <img alt="Kullanıcı Resmi" src="@Url.Content(cm.User.UserPhoto())" class="img-circle" style="height: 30px;" />
+                                        @cm.User.FullName()
                                     </a>
-                                </td>                               
-                                
-                                <td style = "vertical-align: middle;">
-                                    @if (user.isFriend != null)
-                                    {
-                                        if(user.isFriend == false)
-                                        {
-                                            <a href="@Url.Action("AddFriend", "User", new { id = user.UserID })" class="btn btn-info-alt">Arkadaş Ekle</a>
-                                        }
-                                    }        
+                                </td>
+                                <td>
+                                    <a href="@Url.Action("Approve", "Community", new {id = cm.Id})">
+                                        <span class="text-success"><i class="ti ti-check"></i> Onayla</span>
+                                    </a>
                                 </td>
                             </tr>
                         }
                     </tbody>
                 </table>
-            </div>
+            }
+            else
+            {
+                <em class="lead">Onay bekleyen üye yok.</em>
+            }
+        </div>
+        <div class="panel-footer" style="display: none;">
+            <a href="#" id="approveSelection">
+                <span class="text-success">
+                    <i class="ti ti-check"></i> Seçilenleri Onayla
+                </span>
+            </a>
         </div>
     </div>
-</div>
 
+    <div class="panel panel-gray" data-widget='{"draggable": "false"}'>
+        <div class="panel-heading">
+            <h2>Ayrılan veya Çıkarılan Üyeler</h2>
+            <em class="ml-md">@leaved.Count() kişi</em>
+        </div>
+        <div class="panel-body">
+            @if (leaved.Count() != 0)
+            {
+                <table class="table table-hover m-n" id="leaved">
+                    <thead>
+                        <tr>
+                            <th>Üye</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var cm in leaved)
+                    {
+                            <tr>
+                                <td>
+                                    <a href="@Url.Action("Profil", "User", new {id = cm.UserId})">
+                                        <img alt="Kullanıcı Resmi" src="@Url.Content(cm.User.UserPhoto())" class="img-circle" style="height: 30px;" />
+                                        @cm.User.FullName()
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <em class="lead">Ayrılan veya çıkarılan üye yok.</em>
+            }
+        </div>
+    </div>
+}
 
+@section scripts
+{
+    <script>
+    $('input.willBeAppoved').on('ifChanged', function (event) {
+        if ($("input:checked.willBeAppoved").length === 0) {
+            $(this).closest(".panel").children(".panel-footer").slideUp();
+        } else {
+            $(this).closest(".panel").children(".panel-footer").slideDown();
+        }
+    });
 
+    $('input.allWaitings').on('ifChecked', function (event) {
+        $("input.willBeAppoved").iCheck('check');
+    });
+    $('input.allWaitings').on('ifUnchecked', function (event) {
+        $("input.willBeAppoved").iCheck('uncheck');
+    });
+
+    $('#approveSelection').on('click', function (event) {
+        var approve = [];
+        $("input:checked.willBeAppoved").each(function(i, object) {
+            approve.push($(object).data('id'));
+        });
+
+        $.ajax({
+            url: "@Url.Action("Approve", "Community")",
+            method: "POST",
+            data: { list : approve },
+            dataType: 'json',
+            success: function (data, statusText, xhr) {
+                location.reload();
+            },
+            error: function (data, statusText, xhr) {
+                location.reload();
+            }
+        });
+    });
+    </script>
+}

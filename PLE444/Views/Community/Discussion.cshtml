@@ -1,127 +1,131 @@
 ﻿@model PLE444.Models.Community
 @{
-    ViewBag.Title = "Discussion";
+    ViewBag.Title = "Tartışmalar";
     Layout = "~/Views/Shared/_Layout.cshtml";
-}
 
-<div class="panel panel-bluegray" data-widget='{"draggable": "false"}'>
-    <div class="panel-heading">
-        <span class="pull-right">@Model.Name</span>
-        <h2>
-            <ul class="nav nav-tabs">
-                <li ><a href="@Url.Action("Index", new { id = Model.ID })" >Grup</a></li>
-                <li class="active"><a href="@Url.Action("Discussion", new { id = Model.ID })" >Tartışma</a></li>
-                <li><a href="@Url.Action("Members", new { id = Model.ID })">Üyeler</a></li>
-            </ul>
-        </h2>
-    </div>
-</div>
+    var isCreator = ViewBag.Role == "Creator" ? true : false;    
+}
+@{ Html.RenderAction("Navigation", "Community", new { id = Model.Id }); }
+
+<style>
+    .unreadMessage {
+        background: #ffecb3;
+        box-shadow: 0 0 5px 5px #ffecb3;
+        box-shadow: 0 0 5px 5px rgba(255,236,179,1);
+        border-radius: 2px;
+    }
+</style>
 
 <div class="row">
     <div class="col-md-9">
-        <h2>@ViewBag.Action</h2>
-         <div class="panel-group panel-default" id="accordionA">    
-                @{var orderedDiscussions = Model.Discussion.OrderBy(o => o.Topic); }
-                @foreach (var discussion in orderedDiscussions)
+        <div class="panel-group panel-default" id="accordionA">
+            @foreach (var discussion in Model.Discussions)
+            {
+                var readings = discussion.Readings.FirstOrDefault(u => u.UserId == ViewBag.CurrentUserId);
+                DateTime? lastRead = null;
+                if (readings != null)
                 {
-                    var readings = discussion.Readings.FirstOrDefault(u => u.UserId == ViewBag.CurrentUserId);
-                    DateTime? lastRead = null;
-                    if (readings != null)
-                    {
-                        lastRead = readings.Date;
-                    }
-                    var unreads = new List<PLE444.Models.Message>();
-                    if (lastRead != null)
-                    {  unreads = discussion.Messages.Where(d => d.DateSent > lastRead).ToList(); }
-                    else
-                    {  unreads = discussion.Messages.ToList(); }
-                    unreads = unreads.Except(discussion.Messages.Where(u => u.SenderId == ViewBag.CurrentUserId).ToList()).ToList();
+                    lastRead = readings.Date;
+                }
+                var unreads = new List<PLE444.Models.Message>();
+                unreads = lastRead != null ? discussion.Messages.Where(d => d.DateSent > lastRead).ToList() : discussion.Messages.ToList();
+                unreads = unreads.Except(discussion.Messages.Where(u => u.SenderId == ViewBag.CurrentUserId).ToList()).ToList();
 
+                <div class="panel panel-default">
+                    <div data-toggle="collapse" data-parent="#accordionA" DiscussionId="@discussion.ID" class="Discussion" href="#@discussion.ID">
+                        <div class="panel-heading">
+                            
+                            <h2>@discussion.Topic</h2>
 
-                    <div class="panel panel-default">
-                        <a data-toggle="collapse" data-parent="#accordionA" DiscussionId="@discussion.ID" class="Discussion" href="#@discussion.ID">
-                            <div class="panel-heading">
-                                <h2>@discussion.Topic</h2>
-                                <div class="pull-right">
-                                    @if(discussion.Readings.Count != 0)
-                                    {
-                                        <span>@discussion.Readings.Count kişi okudu</span>
-                                    }
+                            <div class="pull-right">
+                                @if (discussion.Readings.Count != 0)
+                                {
+                                    <span>@discussion.Readings.Count kişi okudu</span>
+                                }
 
-                                    @if(unreads.Count != 0)
-                                    {
-                                        <span class="badge badge-warning">@unreads.Count okunmamış</span>
-                                    }
-                                </div>
-                            </div>                            
-                        </a>
-          
-                        <div id="@discussion.ID" class="collapse">  
-                            <div class="panel-body">
-                               
-                                @{
-                                    string PrevUserId = "";
-                                    var orderedMessages = discussion.Messages.OrderBy(o=> o.DateSent);
-                                    foreach (var message in orderedMessages)
-                                    {
-                                        var h = new PLE444.Helpers.UserHelper();
-                                        var dh = new PLE444.Helpers.DataManipulationHelper();
+                                @if (unreads.Count != 0)
+                                {
+                                    <span class="badge badge-warning">@unreads.Count okunmamış</span>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="@discussion.ID" class="collapse">
+                        <div class="panel-body">
+                            @{
+                                string PrevUserId = "";
+                                var orderedMessages = discussion.Messages.OrderBy(o => o.DateSent);
+                                foreach (var message in orderedMessages)
+                                {
+                                    var dh = new PLE444.Helpers.DataManipulationHelper();
+                                    var isOwner = ViewBag.CurrentUserId == message.SenderId ? true : false;
 
                                     <div class="message">
                                         @if (message.SenderId != PrevUserId)
                                         {
-                                            if (h.GetUserPhotoFromID(message.SenderId) == null || h.GetUserPhotoFromID(message.SenderId) == "")
-                                            {
-                                                <img class="img-circle" style="width:40px" src="~/Content/img/pp.jpg" />
-                                            }
-                                            else
-                                            {
-                                                <img class="img-circle" style="width:40px" src="@Url.Content(h.GetUserPhotoFromID(message.SenderId))" />                                 
-                                            }
-
-                                            <strong style="margin-left:10px;">@h.GetUserFullNameFromID(message.SenderId)</strong>
+                                            <a href="@Url.Action("Profil","User", new {id = message.SenderId})">
+                                                <img class="img-circle" style="width:40px" src="@Url.Content(message.Sender.UserPhoto())" />
+                                                <strong style="margin-left:10px;">@message.Sender.FullName()</strong>
+                                            </a>
                                             <br>
                                         }
                                         <div class="pull-right">
+                                            @if (isOwner || isCreator)
+                                            {
+                                                <a href="@Url.Action("RemoveMessage", "Community", new {messageId = message.ID, communityId = Model.Id})">
+                                                    <small class="text-danger">Kaldır</small>
+                                                </a>
+                                            }
+                                            
                                             <small>@dh.GetDeltaDate(message.DateSent)</small>
                                         </div>
-                                        
+
                                         @if (unreads.FirstOrDefault(i => i.ID == message.ID) == null)
                                         {
-                                            <p style="margin-left:50px;">@message.Content</p>
+                                            <div style="margin-left:50px;">@(new HtmlString(message.Content))</div>
                                         }
                                         else
                                         {
-                                            <p style="margin-left:50px; background: #ffecb3; box-shadow: 0 0 5px 5px rgba(255,236,179,1); border-radius: 2px; ">@message.Content</p>
+                                            <div class="unreadMessage" style="margin-left:50px;">@(new HtmlString(message.Content))</div>
                                         }
-                                        
+
                                     </div>
 
-                                        PrevUserId = message.SenderId;
-                                    }
-                                    
+                                    PrevUserId = message.SenderId;
                                 }
-                                <hr>
-                                <div class="message">  
-                                    @if(ViewBag.CurrentUserId==null)
-                                    {
-                                        <p>Mesaj yollamak için yapın</p>
-                                    }
-                                    else
-                                    {
-                                        @Html.Partial("SendMessage", new PLE444.Models.Message(), new ViewDataDictionary { { "DiscussionId", discussion.ID } ,
-                                                                                                                           { "CommunityId", Model.ID } ,
-                                                                                                                           { "CurrentUserId", ViewBag.CurrentUserId } }) 
-                                    }                                                         
-                                </div> 
+
+                            }
+                            <hr>
+                            <div class="message">
+                                @if (ViewBag.CurrentUserId == null)
+                                {
+                                    <p>Mesaj yollamak için yapın</p>
+                                }
+                                else
+                                {
+                                    @Html.Partial("SendMessage", new PLE444.Models.Message(), new ViewDataDictionary { { "DiscussionId", discussion.ID } ,
+                                        { "CommunityId", Model.Id } ,
+                                        { "CurrentUserId", ViewBag.CurrentUserId } })
+                                }
+                                @if (isCreator)
+                                {
+                                    <a href="@Url.Action("RemoveTitle", "Community", new {discussionId = discussion.ID, communityId = Model.Id})">
+                                        <small class="text-danger">Başlığı Sil</small>
+                                    </a>
+                                }
                             </div>
                         </div>
                     </div>
-                }            
-        </div>   
+                </div>
+            }
+        </div>
     </div>
+
     <div class="col-md-3">
-        <a href="@Url.Action("AddTitle", new { id = Model.ID })" class="btn btn-primary-alt btn-lg btn-block"><i class="fa fa-plus fa-bold"></i> Başlık Ekle</a>
+        <a href="@Url.Action("AddTitle", new {id = Model.Id})" class="btn btn-primary-alt btn-lg btn-block">
+            <i class="fa fa-plus fa-bold"></i> Başlık Ekle
+        </a>
     </div>
 </div>
 
@@ -131,12 +135,12 @@
     var debugging = false;
     $('.Discussion').click(function() {
         $.ajax({
-            url: '/Community/Read',
+            url: '@Url.Action("Read","Community")',
             dataType: 'json',
             type: 'POST',
-            data: "DiscussionId=" + $(this).attr('DiscussionId') + "&CommunityId=" + "@Model.ID",
-            
-            
+            data: "DiscussionId=" + $(this).attr('DiscussionId') + "&CommunityId=" + "@Model.Id",
+
+
             success: function (data) {
                 if (debugging)
                     alert(data.success);

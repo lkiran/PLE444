@@ -14,4 +14,13 @@ namespace PLE444.ViewModels
 
         public int MemberCount { get; set; }
     }
+
+    public class CommunityMembers
+    {
+        public List<UserCommunity> Members { get; set; }
+
+        public bool CanEdit { get; set; }
+
+        public Community Community { get; set; }
+    }
 }
