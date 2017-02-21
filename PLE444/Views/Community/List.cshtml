@@ -9,8 +9,9 @@
     <div class="panel-heading">
         <h2>Gruplar</h2>
         <div class="pull-right">
-            <i class="ti ti-plus"></i>
-            @Html.ActionLink("Yeni Grup Oluştur", "Create")
+            <a href="@Url.Action("Create","Community")">
+                <i class="ti ti-plus"></i> Yeni Grup Oluştur
+            </a>
         </div>
     </div>
     <div class="panel-body">
@@ -19,19 +20,15 @@
             <thead>
                 <tr>
                     <th>İsim</th>
-                    <th>Açıklama</th>
-                    <th>Durum</th>                          
+                    <th>Açılma Tarihi</th>                        
                 </tr>
             </thead>
             @foreach (var item in Model)
             {
                 <tbody>
                     <tr>
-                        <td> <a href="@Url.Action("Index",new { id = item.ID })"> @item.Name</a></td>
-                        <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                        <td>
-                            @(item.isOpen ? Html.Raw("Açık") : Html.Raw("Kapalı"))
-                        </td>
+                        <td> <a href="@Url.Action("Index",new { id = item.Id })"> @item.Name</a></td>
+                        <td>@Html.DisplayFor(modelItem => item.DateCreated)</td>
                     </tr>
                 </tbody>
             }

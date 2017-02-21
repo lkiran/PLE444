@@ -1,5 +1,22 @@
 ﻿@model List<PLE444.Models.Community>
-@foreach (var item in Model)
+
+@if (Model == null || !Model.Any())
 {
-    <li><a href="@Url.Action("Index","Community", new { id = item.ID })">@item.Name</a></li>
+    <li><a href="@Url.Action("List","Course")">Hiç Dersin Yok</a></li>
+}
+else
+{
+    foreach (var item in Model)
+    {
+        <li title="@item.Name">
+            <a href="@Url.Action("Index","Community", new { id = item.Id })">
+                <span>@item.Name</span>
+                
+                @if (@item.OwnerId == ViewBag.CurrentUser)
+                {
+                    <i class="ti ti-key text-warning"></i>
+                }
+            </a>
+        </li>
+    }
 }

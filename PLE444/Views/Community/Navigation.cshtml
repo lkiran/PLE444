@@ -1,0 +1,30 @@
+﻿@model PLE444.Models.Community
+
+<div class="panel panel-bluegray" data-widget='{"draggable": "false"}' style="z-index: 5;">
+    <div class="panel-heading">
+        <div id="title" title="@Model.Name" class="pull-right truncate hidden-xs hidden-sm">
+            <span>@Model.Name</span>
+        </div>
+        <h2>
+            <ul class="nav nav-tabs navigator">
+                <li><a href="@Url.Action("Index","Community",new { id = Model.Id })">Grup</a></li>
+                
+                <li><a href="@Url.Action("Discussion","Community",new { id = Model.Id })">Tartışma</a></li>
+
+                <li><a href="@Url.Action("Members","Community",new { id = Model.Id })">Üyeler</a></li>
+            </ul>
+        </h2>
+    </div>
+</div>
+
+
+@Scripts.Render("~/Content/js/jquery-1.8.3.min.js")
+
+<script>
+    $(function () {
+        $('.navigator a').each(function (index) {
+            if ($(this).attr("href").indexOf(location.pathname) != -1)
+                $(this).parent("li").addClass("active");
+        });
+    });
+</script>

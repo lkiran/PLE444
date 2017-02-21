@@ -27,48 +27,13 @@
 
 
 @Scripts.Render("~/Content/js/jquery-1.8.3.min.js")
-<script src="~/Content/plugins/jQuery.dotdotdot/jquery.dotdotdot.min.js" type="text/javascript"></script>
+
 <script>
     $(function () {
         $('.navigator a').each(function (index) {
             if ($(this).attr("href").indexOf(location.pathname) != -1)
                 $(this).parent("li").addClass("active");
         });
-    });
-
-    $("#title").dotdotdot({
-        /*	The text to add as ellipsis. */
-        ellipsis: '...',
-
-        /*	Wrap-option fallback to 'letter' for long words */
-        fallbackToLetter: true,
-
-        /*	jQuery-selector for the element to keep and put after the ellipsis. */
-        after: null,
-
-        /*	Whether to update the ellipsis: true/'window' */
-        watch: true,
-
-        /*	Optionally set a max-height, can be a number or function.
-			If null, the height will be measured. */
-        height: 48,
-
-        /*	Deviation for the height-option. */
-        tolerance: 0,
-
-        /*	Callback function that is fired after the ellipsis is added,
-			receives two parameters: isTruncated(boolean), orgContent(string). */
-        callback: function (isTruncated, orgContent) { },
-
-        lastCharacter: {
-
-            /*	Remove these characters from the end of the truncated text. */
-            remove: [' ', ',', ';', '.', '!', '?'],
-
-            /*	Don't add an ellipsis if this array contains 
-				the last character of the truncated text. */
-            noEllipsis: []
-        }
     });
 </script>
 

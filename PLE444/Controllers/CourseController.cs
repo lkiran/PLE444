@@ -19,17 +19,21 @@ namespace PLE444.Controllers
     public class CourseController : Controller
     {
         private PleDbContext db = new PleDbContext();
-
+        
         public ActionResult Index(Guid? id)
         {
             if (id == null)
                 return RedirectToAction("List");
 
-            var course = db.Courses.Include("Timeline").Include("Timeline.Creator").FirstOrDefault(c => c.Id == id);
+            var course =
+                db.Courses
+                    .Include("Creator")
+                    .Include("Timeline")
+                    .Include("Timeline.Creator")
+                    .FirstOrDefault(c => c.Id == id);
 
             if (course == null)
                 return HttpNotFound();
-
             course.Timeline = course.Timeline.OrderByDescending(e => e.DateCreated).ToList();
 
             var model = new CourseViewModel

@@ -1,75 +1,155 @@
-﻿@model IQueryable<PLE444.Models.PrivateMessage>
+﻿@model PLE444.ViewModels.MailBox
 @{
     ViewBag.Title = "MailBox";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var dh = new PLE444.Helpers.DataManipulationHelper();
 }
 
-<div class="col-md-10">
+<div class="col-md-3">
+    <a class="btn btn-lg btn-indigo btn-block mb-xl" href="#">Yeni</a>
+
+    <div class="list-group inbox-menu list-group-alternate">
+        <a href="#tab-inbox" role="tab" data-toggle="tab" class="list-group-item">
+            <i class="ti ti-import"></i>Gelen 
+            <span class="badge badge-default">@Model.Inbox.Count()</span>
+        </a>
+        <a href="#tab-unread" role="tab" data-toggle="tab" class="list-group-item">
+            <i class="ti ti-email"></i>Okunmamış
+            <span class="badge badge-info">@Model.Inbox.Count(m=>!m.IsRead)</span>
+        </a>
+        <a href="#tab-sent" role="tab" data-toggle="tab" class="list-group-item">
+            <i class="ti ti-export"></i>Gönderilen
+            <span class="badge badge-default">@Model.Sent.Count()</span>
+        </a>
+    </div>
+</div>
+
+<div class="col-md-9">
     <div class="panel panel-inbox">
         <div class="panel-body">
             <div class="inbox-mail-heading">
                 <div class="clearfix">
-
-                    <div class="pull-right hidden-xs">
-
+                    <div class="pull-left">
+                        <div title="Tümünü Seç" class="btn btn-lg btn-default-alt all"><small>Tümü</small></div>
+                        <div title="Sayfayı Yenile" href="#" class="btn btn-lg btn-info-alt reflesh"><i class="ti ti-reload"></i></div>
+                        <div title="Seçilenleri Sil" href="#" class="btn btn-lg btn-danger-alt"><i class="ti ti-trash"></i></div>
+                        <div title="Seçilenleri Okundu Olarak İşaretle" href="#" class="btn btn-lg btn-success-alt"><i class="fa fa-envelope-open-o"></i></div>
                     </div>
+                    <small id="selectionCount"></small>
                 </div>
             </div>
-            <table class="table table-hover table-inbox table-vam">
-                @{ 
-                    var uh = new PLE444.Helpers.UserHelper();
-                    var dh = new PLE444.Helpers.DataManipulationHelper();
-                }
-                <tbody>
-                    @foreach (var mail in Model)
-                    {
-                        if (mail.isRead)
-                        {
-                            <tr>
-                                <a href="@Url.Action("MailDetail", new {id = mail.Id})">
-                                    <td>
-                                        <img class="img-circle" style="width: 40px;"> src="@Url.Content(uh.GetUserPhotoFromID(mail.SenderId))"/>
+            <div class="tab-content">
+                <div class="tab-pane active" id="tab-inbox">
+                    <table class="table table-hover table-inbox table-vam">
+                        <tbody>
+                            @foreach (var mail in Model.Inbox)
+                            {
+                                var unreadClass = mail.IsRead ? "" : "unread";
+
+                                <tr class="@unreadClass">
+                                    <td width="5%" class="text-center">
+                                        <label class="checkbox-inline icheck">
+                                            <input type="checkbox" class="selected" data-id="@mail.Id" />
+                                        </label>
+                                    </td>
+                                        
+                                    <td width="5%">
+                                        <img src="@Url.Content(mail.Sender.UserPhoto())" class="img-circle" style="width: 40px;">
                                     </td>
 
                                     <td class="inbox-msg-from">
-                                        <div>@uh.GetUserFullNameFromID(mail.SenderId)</div>
+                                        <a href="@Url.Action("Profil", "User", new {id = mail.SenderId})">
+                                            @mail.Sender.FullName()
+                                        </a>
                                     </td>
 
-                                    @if (dh.ClearHTML(mail.Content).Length < 50)
-                                     {
-                                         <td class="inbox-msg-snip">@dh.ClearHTML(mail.Content)</td>
-                                     }
-                                     else
-                                     {
-                                         <td class="inbox-msg-snip">@dh.ClearHTML(mail.Content).Substring(0, 50)...</td>
-                                     }
-                                            @*<td class="inbox-msg-attach"><i class="ti ti-paperclip"></i> </td>*@
-                                    <td class="inbox-msg-time" width="20%">@dh.GetDeltaDate(mail.DateSent)</td>
-                                </a>
-                            </tr>
-                        }
-                        else
-                        {
-                            <tr class="unread clickable-row" data-href='@Url.Action("MailDetail", new {id = mail.Id})'>
-                                <td><img class="img-circle" style="width: 40px;" src="@uh.GetUserPhotoFromID(mail.SenderId)"/></td>
-                                <td class="inbox-msg-from" width="20%">
-                                    <div>@uh.GetUserFullNameFromID(mail.SenderId)</div></td>
-                                @if (dh.ClearHTML(mail.Content).Length < 50)
-                                {
-                                    <td class="inbox-msg-snip">@dh.ClearHTML(mail.Content)</td>
-                                }
-                                else
-                                {
-                                    <td class="inbox-msg-snip">@dh.ClearHTML(mail.Content).Substring(0, 50)...</td>
-                                }
-                                @*<td class="inbox-msg-attach"><i class="ti ti-paperclip" width="5%"></i> </td>*@
-                                <td class="inbox-msg-time" width="20%">@dh.GetDeltaDate(mail.DateSent)</td>
-                            </tr>
-                        }
-                    }
+                                    <td class="inbox-msg-snip hidden-sm hidden-xs" width="50%" >
+                                        <a class="ellipsis" href="@Url.Action("MailDetail", new {id = mail.Id})">
+                                            @dh.ClearHTML(mail.Content)
+                                        </a>
+                                    </td>
 
-                </tbody>
-            </table>
+                                    <td class="inbox-msg-time" width="20%">@dh.GetDeltaDate(mail.DateSent)</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" id="tab-unread">
+                    <table class="table table-hover table-inbox table-vam">
+                        <tbody>
+                            @foreach (var mail in Model.Inbox.Where(m => !m.IsRead))
+                            {
+                                var unreadClass = mail.IsRead ? "" : "unread";
+
+                                <tr class="@unreadClass">
+                                    <td width="5%" class="text-center">
+                                        <label class="checkbox-inline icheck">
+                                            <input type="checkbox" class="selected" data-id="@mail.Id" />
+                                        </label>
+                                    </td>
+
+                                    <td width="5%">
+                                        <img src="@Url.Content(mail.Sender.UserPhoto())" class="img-circle" style="width: 40px;">
+                                    </td>
+
+                                    <td class="inbox-msg-from">
+                                        <a href="@Url.Action("Profil", "User", new {id = mail.SenderId})">
+                                            @mail.Sender.FullName()
+                                        </a>
+                                    </td>
+
+                                    <td class="inbox-msg-snip hidden-sm hidden-xs" width="50%" >
+                                        <a class="ellipsis" href="@Url.Action("MailDetail", new {id = mail.Id})">
+                                            @dh.ClearHTML(mail.Content)
+                                        </a>
+                                    </td>
+
+                                    <td class="inbox-msg-time" width="20%">@dh.GetDeltaDate(mail.DateSent)</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tab-pane" id="tab-sent">
+                    <table class="table table-hover table-inbox table-vam">
+                        <tbody>
+                            @foreach (var mail in Model.Sent)
+                            {
+                                <tr>
+                                    <td width="5%"  class="text-center">
+                                        <label class="checkbox-inline icheck">
+                                            <input type="checkbox" class="selected" data-id="@mail.Id" />
+                                        </label>
+                                    </td>
+
+                                    <td width="5%">
+                                        <img src="@Url.Content(mail.Sender.UserPhoto())" class="img-circle" style="width: 40px;">
+                                    </td>
+
+                                    <td class="inbox-msg-from">
+                                        <a href="@Url.Action("Profil", "User", new {id = mail.SenderId})">
+                                            @mail.Sender.FullName()
+                                        </a>
+                                    </td>
+
+                                    <td class="inbox-msg-snip hidden-sm hidden-xs " width="50%" >
+                                        <a class="ellipsis" href="@Url.Action("MailDetail", new {id = mail.Id})">
+                                            @dh.ClearHTML(mail.Content)
+                                        </a>
+                                    </td>
+
+                                    <td class="inbox-msg-time" width="20%">@dh.GetDeltaDate(mail.DateSent)</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+             </div>
             <div class="inbox-mail-footer">
                 <div class="clearfix">
                     <div class="pull-right">
@@ -81,12 +161,45 @@
     </div>
 </div>
 
-<script type="text/javascript" src="~/Content/js/jquery-1.10.2.min.js"></script> 							
-
+@section scripts
+{
 <script>
-    jQuery(document).ready(function ($) {
-        $(".clickable-row").click(function () {
-            window.document.location = $(this).data("href");
+    $('.all').on('click', function () {
+        $(".tab-pane.active input.selected").iCheck('toggle');
+    });
+
+    $('.reflesh').on('click', function () {
+        location.reload();
+    });
+
+    $('input.selected').on('ifChanged', function () {
+        var count = $("input:checked.selected").length;
+        if (count === 0)
+            $("#selectionCount").html("");
+        else
+            $("#selectionCount").html(count + " öğe seçildi");
+
+    });
+
+    $('#approveSelection').on('click', function (event) {
+        var approve = [];
+        $("input:checked.willBeAppoved").each(function(i, object) {
+            approve.push($(object).data('id'));
+        });
+
+        $.ajax({
+            url: "@Url.Action("Approve", "Course")",
+            method: "POST",
+            data: { list: approve },
+            dataType: 'json',
+            success: function(data, statusText, xhr) {
+                location.reload();
+            },
+            error: function(data, statusText, xhr) {
+                location.reload();
+            }
         });
     });
+
 </script>
+}

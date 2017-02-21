@@ -8,13 +8,44 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PLE444.ViewModels;
 
 namespace PLE444.Controllers
 {
     public class CommunityController : Controller
     {
-        // GET: Community 
         private PleDbContext db = new PleDbContext();
+
+        public ActionResult Index(Guid? id)
+        {
+            if (id == null)
+                return RedirectToAction("List", "Community");
+
+            var community = db.Communities.Include("Owner").FirstOrDefault(c => c.Id == id);
+            var model = new CommunityViewModel
+            {
+                Community = community,
+                Status = Status(community),
+                MemberCount = db.UserCommunities
+                    .Where(c => c.Community.Id == community.Id)
+                    .Count(u => u.DateJoined != null && u.IsActive)
+            };
+
+            return View(model);
+        }
+
+        public ActionResult List()
+        {
+            var model = db.Communities.Where(c=>c.IsActive && !c.IsHiden).ToList();
+            return View(model);
+        }
+
+        [ChildActionOnly]
+        public ActionResult Navigation(Guid? id)
+        {
+            var model = db.Communities.SingleOrDefault(i => i.Id == id);
+            return PartialView(model);
+        }
 
         public ActionResult Create()
         {
@@ -24,30 +55,15 @@ namespace PLE444.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Community community, HttpPostedFileBase uploadFile)
+        public ActionResult Create(Community community)
         {       
             if (ModelState.IsValid)
             {
                 var currentuserId = User.Identity.GetUserId();
-                var imageFilePath = "";
 
-                if (uploadFile != null && uploadFile.ContentLength > 0) //check length of bytes are greater then zero or not
-                {
-                    //for checking uploaded file is image or not
-                    if (Path.GetExtension(uploadFile.FileName).ToLower() == ".jpg"
-                        || Path.GetExtension(uploadFile.FileName).ToLower() == ".png"
-                        || Path.GetExtension(uploadFile.FileName).ToLower() == ".gif"
-                        || Path.GetExtension(uploadFile.FileName).ToLower() == ".jpeg")
-                    {
-                        var fileName = Guid.NewGuid().ToString() + Path.GetExtension(uploadFile.FileName);
-                        imageFilePath = Path.Combine(Server.MapPath("~/Uploads"), fileName);
-                        uploadFile.SaveAs(imageFilePath);
-                        ViewBag.UploadSuccess = true;
-                    }
-                    community.GroupPhoto = "~/Uploads/" + uploadFile.FileName;
-                }
-
-                community.AdminId = currentuserId;               
+                community.OwnerId = currentuserId;
+                community.DateCreated = DateTime.Now;
+                              
                 db.Communities.Add(community);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -55,35 +71,40 @@ namespace PLE444.Controllers
             ViewBag.Sapces = db.Spaces.ToList();
             return View(community);
         }
-
-        public ActionResult Index(Guid? id)
+       
+        public ActionResult Edit(Guid id)
         {
-            if (id == null)
-            {                
-                var com = db.Communities.ToList();
-                return View("List", com);
-            }
-            var curr = User.Identity.GetUserId();
-            ViewBag.CurrentUserId = curr;
+            ViewBag.Sapces = db.Spaces.ToList();
+            var currentuserId = User.Identity.GetUserId();
             var c = db.Communities.Find(id);
 
-            var cu = db.UserCommunities.Where(u => u.Community.ID == id).FirstOrDefault(i => i.UserId == curr);
-            ViewBag.isJoined = true;
-            if (cu == null)
-                ViewBag.isJoined = false;
+            if (c.OwnerId == currentuserId)
+                return View(c);
 
-            return View(c);
+            return RedirectToAction("Index");
         }
-       
-        public ActionResult Events()
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(Community model)
         {
-            return View();
+            if (ModelState.IsValid)
+            {
+                db.Entry(model).State = EntityState.Modified;
+                db.SaveChanges();
+
+                return RedirectToAction("Index", new { id = model.Id });
+            }
+            ViewBag.Sapces = db.Spaces.ToList();
+            return View(model);
         }
+
 
         public ActionResult Discussion(Guid? id)
         {
             var community = db.Communities.Find(id);                  
-            var m = db.Communities.Include("Discussion").Include("Discussion.Messages").Include("Discussion.Readings").FirstOrDefault(i => i.ID == id);
+            var m = db.Communities.Include("Discussion").Include("Discussion.Messages").Include("Discussion.Readings").FirstOrDefault(i => i.Id == id);
 
             ViewBag.CurrentUserId = User.Identity.GetUserId();
             
@@ -94,11 +115,11 @@ namespace PLE444.Controllers
         [Authorize]
         public ActionResult Read(Guid? DiscussionId, Guid? CommunityId)
         {
-            var c = db.Communities.Include("Discussion").Include("Discussion.Readings").FirstOrDefault(i => i.ID == CommunityId);
+            var c = db.Communities.Include("Discussion").Include("Discussion.Readings").FirstOrDefault(i => i.Id == CommunityId);
             if(c == null)
                 return Json(new { success = false });
 
-            var d = c.Discussion.FirstOrDefault(i => i.ID == DiscussionId);
+            var d = c.Discussions.FirstOrDefault(i => i.ID == DiscussionId);
             if (d == null)
                 return Json(new { success = false });
 
@@ -126,7 +147,7 @@ namespace PLE444.Controllers
         {
             var currentuserId = User.Identity.GetUserId();
             var c = db.Communities.Find(id);
-            var m = db.UserCommunities.Where(i => i.Community.ID == id);
+            var m = db.UserCommunities.Where(i => i.Community.Id == id);
             var data = new CommunityMembersViewModel();
             data.CommunityInfo = c;
             data.Users = new List<UserViewModel>();
@@ -147,10 +168,11 @@ namespace PLE444.Controllers
             }
             return View(data);
         }
+
         public ActionResult Join(Guid? id)
         {
             var userId = User.Identity.GetUserId();
-            var uc = db.UserCommunities.Where(u => u.UserId == userId).FirstOrDefault(c => c.Community.ID == id);
+            var uc = db.UserCommunities.Where(u => u.UserId == userId).FirstOrDefault(c => c.Community.Id == id);
 
             if(uc == null)
             {
@@ -166,10 +188,11 @@ namespace PLE444.Controllers
 
             return RedirectToAction("Index", new { id = id });
         }
+
         public ActionResult Leave(Guid? id)
         {
             var userId = User.Identity.GetUserId();
-            var uc = db.UserCommunities.Where(u => u.UserId == userId).FirstOrDefault(c => c.Community.ID == id);
+            var uc = db.UserCommunities.Where(u => u.UserId == userId).FirstOrDefault(c => c.Community.Id == id);
 
             if(uc != null)
             {
@@ -200,7 +223,7 @@ namespace PLE444.Controllers
                 db.Discussions.Add(d);
 
                 var c = db.Communities.Find(communityId);
-                c.Discussion.Add(d);
+                c.Discussions.Add(d);
 
                 db.Entry(c).State = EntityState.Modified;
 
@@ -243,54 +266,34 @@ namespace PLE444.Controllers
             return View();
         }
 
-        public ActionResult Edit(Guid id)
+        private Enums.StatusType Status(Guid? communityId)
         {
-            ViewBag.Sapces = db.Spaces.ToList();
-            var currentuserId = User.Identity.GetUserId();
-            var c = db.Communities.Find(id);
+            if (communityId == null)
+                return Enums.StatusType.None;
 
-            if (c.AdminId == currentuserId)
-                return View(c);         
-
-            return RedirectToAction("Index");
+            var community = db.Communities.Find(communityId);
+            return Status(community);
         }
 
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(Community model, HttpPostedFileBase uploadFile)
+        private Enums.StatusType Status(Community community)
         {
-            if (ModelState.IsValid )
+            var userId = User.Identity.GetUserId();
+            if (community.OwnerId == userId)
+                return Enums.StatusType.Creator;
+            else
             {
-                var imageFilePath = "";
-                var fileName = "";
-
-                if (uploadFile != null && uploadFile.ContentLength > 0) 
-                {
-                    if (Path.GetExtension(uploadFile.FileName).ToLower() == ".jpg"
-                        || Path.GetExtension(uploadFile.FileName).ToLower() == ".png"
-                        || Path.GetExtension(uploadFile.FileName).ToLower() == ".gif"
-                        || Path.GetExtension(uploadFile.FileName).ToLower() == ".jpeg")
-                    {
-                        fileName = Guid.NewGuid().ToString() + Path.GetExtension(uploadFile.FileName);
-                        imageFilePath = Path.Combine(Server.MapPath("~/Uploads"), fileName);
-                        uploadFile.SaveAs(imageFilePath);
-                        ViewBag.UploadSuccess = true;
-
-                        model.GroupPhoto = "~/Uploads/" + fileName;
-                    }
-                }
-
-
-                db.Entry(model).State = EntityState.Modified;
-                db.SaveChanges();
-
-                return RedirectToAction("Index", new { id = model.ID });
+                var cu =
+                    db.UserCommunities.Where(c => c.Community.Id == community.Id)
+                        .FirstOrDefault(u => u.UserId == userId);
+                if (cu == null)
+                    return Enums.StatusType.None;
+                else if (cu.DateJoined == null)
+                    return Enums.StatusType.Waiting;
+                else if (cu.IsActive)
+                    return Enums.StatusType.Member;
+                else
+                    return Enums.StatusType.Removed;
             }
-            ViewBag.Sapces = db.Spaces.ToList();
-            return View(model);
         }
-
-
     }
 }

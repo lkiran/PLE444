@@ -54,13 +54,13 @@
                     <div class="col-md-10">
                         <table style="max-width: 100px;">
                             <tr>
-                                <td><small class="m-sm">Gizli</small></td>
+                                <td><small class="m-sm">Görünür</small></td>
                                 <td class="m-sm">
                                     <div class="demo-switches">
                                         @Html.CheckBoxFor(model => model.CanEveryoneJoin, htmlAttributes: new {@class = "bootstrap-switch", data_size = "mini", data_on_color = "warning", data_off_color = "success", data_on_text = "&nbsp;", data_off_text = "&nbsp"})
                                     </div>
                                 </td>
-                                <td ><small class="m-sm">Görünür</small></td>
+                                <td ><small class="m-sm">Gizli</small></td>
                             </tr>
                         </table>
                     </div>
@@ -87,7 +87,7 @@
                 },
                 toolbar: [
                     // [groupName, [list of button]]
-                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['style', ['bold', 'italic', 'underline', 'clear', 'codeview']],
                     ['font', ['strikethrough', 'superscript', 'subscript']],
                     ['fontsize', ['fontsize']],
                     ['color', ['color']],

@@ -1,69 +1,80 @@
-﻿@model PLE444.Models.Community
+﻿@using PLE444.Models
+@model PLE444.ViewModels.CommunityViewModel
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = @Model.Community.Name;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="panel panel-bluegray" data-widget='{"draggable": "false"}'>
+@{ Html.RenderAction("Navigation", "Community", new { id = Model.Community.Id }); }
+
+
+<div class="panel panel-default">
     <div class="panel-heading">
-        <span class="pull-right">@Model.Name</span>
-        <h2>
-            <ul class="nav nav-tabs">
-                <li class="active"><a href="@Url.Action("Index", "Community")" >Grup</a></li>
-                <li><a href="@Url.Action("Discussion", "Community", new { id= Model.ID })" >Tartışma</a></li>
-                <li><a href="@Url.Action("Members", new { id= Model.ID})">Üyeler</a></li>
-            </ul>
-        </h2>
+        <h2 class="text-capitalize">@Model.Community.Name</h2>
+
+        @if (Model.Status ==Enums.StatusType.Creator)
+        {
+            <a class="pull-right mr-md" href="@Url.Action("Edit", "Course", new {id = Model.Community.Id})">
+                <small><i class="ti ti-pencil-alt"></i> Düzenle</small>
+            </a>
+        }
+        else
+        {
+            if (Model.Status == Enums.StatusType.Member)
+            {
+                <a class="pull-right text-danger" href="@Url.Action("Leave", "Course", new {id = Model.Community.Id})">
+                    <small><i class="ti ti-angle-double-left"></i> Dersten Ayrıl</small>
+                </a>
+            }
+            else if (Model.Status == Enums.StatusType.Waiting)
+            {
+                <span class="text-info pull-right"><i class="ti ti-time"></i> Onay Bekliyor</span>
+            }
+            else
+            {
+                <a class="pull-right" href="@Url.Action("Join", "Community", new {id = Model.Community.Id})">
+                    <span><i class="ti ti-angle-double-right"></i>  Derse Katıl</span>
+                </a>
+            }
+        }
     </div>
-</div>
+    <div class="panel-body">
+        <div class="col-md-9">
+            <dl class="dl-horizontal">
+                <dt>Ders İsmi</dt>
+                <dd>@Model.Community.Name</dd>
+            </dl>
 
+            <dl class="dl-horizontal">
+                <dt>Açıklama</dt>
+                <dd class="text-justify">@(new HtmlString(Model.Community.Description))</dd>
+            </dl>
 
-<div class="row">
-    <div class="col-sm-12">
-        <div class="panel panel-profile">
-            <div class="panel-heading">
+            <dl class="dl-horizontal">
+                <dt>@Model.MemberCount Katılımcı</dt>
+                <dd></dd>
+            </dl>
+
+            @if (!Model.Community.IsOpen && Model.Status == Enums.StatusType.Creator)
+            {
+                <dl class="dl-horizontal">
+                    <dt>Katılım Linki</dt>
+                    <dd>
+                        <span class="text-info">
+                            @Url.Action("Join", "Community", routeValues: new {id = Model.Community.Id}, protocol: Request.Url?.Scheme)
+                        </span>
+                        <br/>
+                        <small>Üyelerin katılabilmesi için bu linki onlarla paylaşın.</small>
+                    </dd>
+                </dl>
+            }
+        </div>
+        <div class="col-md-3">
+            <div class="user pull-right">
+                <img alt="Profil Resmi" src="@Url.Content(Model.Community.Owner.UserPhoto())" />
+                <span>@Model.Community.Owner.FullName()</span>
             </div>
-            <div class="panel-body">
-                @if (ViewBag.CurrentUserId != null && ViewBag.CurrentUserId == Model.AdminId)
-                {
-                    <a style="float:right" href="@Url.Action("Edit", new { id = Model.ID })"><i class="fa fa-pencil"></i></a>
-                }
-                <div class="col-sm-3">
-                    @if (Model.GroupPhoto == null)
-                    {
-                        <img src="@Url.Content("~/Content/img/pp.jpg")" class="img-circle">
-                    }
-                    else
-                    {
-                        <img src="@Url.Content(Model.GroupPhoto)" class="img-circle">
-                    }
-                    <p>Grup İsmi</p>
-                    <div class="name">@Model.Name </div>
-                </div>
-                <div class="col-sm-9 text-left">
-                    <p class="lead">@Model.Description</p>
-                    @if (Model.isOpen)
-                    { 
-                         <p>Açık Grup</p>
-                    }
-                    else
-                    {
-                        <p>Kapalı Grup</p>
-                    }    
-                    @if(ViewBag.CurrentUserId!=null)
-                    {
-                        if (!ViewBag.isJoined)
-                        {
-                            @Html.ActionLink("Katıl", "Join", new { id = Model.ID })
-                        }
-                        else
-                        {
-                            @Html.ActionLink("Ayrıl", "Leave", new { id= Model.ID })              
-                        }
-                    }
-                </div>
-            </div>
-        </div><!-- panel -->
+        </div>
     </div>
 </div>
 

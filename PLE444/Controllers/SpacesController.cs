@@ -21,7 +21,7 @@ namespace PLE444.Controllers
             {
                 SpaceInfo = db.Spaces.Find(id),
                 Courses = db.Courses.Where(s => s.SpaceId == id && s.CanEveryoneJoin).ToList(),
-                Communities = db.Communities.Where(s => s.SpaceId == id && !s.isHiden).ToList()
+                Communities = db.Communities.Where(s => s.SpaceId == id && !s.IsHiden).ToList()
             };
 
             return View(viewData);

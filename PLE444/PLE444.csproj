@@ -81,6 +81,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -235,12 +236,34 @@
     <Compile Include="Migrations\201702111714561_discussion.Designer.cs">
       <DependentUpon>201702111714561_discussion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702142146013_mailbox.cs" />
+    <Compile Include="Migrations\201702142146013_mailbox.Designer.cs">
+      <DependentUpon>201702142146013_mailbox.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702171224266_community.cs" />
+    <Compile Include="Migrations\201702171224266_community.Designer.cs">
+      <DependentUpon>201702171224266_community.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702201739559_community2.cs" />
+    <Compile Include="Migrations\201702201739559_community2.Designer.cs">
+      <DependentUpon>201702201739559_community2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702201750532_community3.cs" />
+    <Compile Include="Migrations\201702201750532_community3.Designer.cs">
+      <DependentUpon>201702201750532_community3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702201821133_community4.cs" />
+    <Compile Include="Migrations\201702201821133_community4.Designer.cs">
+      <DependentUpon>201702201821133_community4.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Chapter.cs" />
     <Compile Include="Models\Community.cs" />
     <Compile Include="Models\CommunityMembersViewModel.cs" />
+    <Compile Include="Models\Enums.cs" />
+    <Compile Include="ViewModels\CommunityViewModel.cs" />
     <Compile Include="ViewModels\CourseViewModel.cs" />
     <Compile Include="Models\Discussion.cs" />
     <Compile Include="Models\Friendship.cs" />
@@ -256,7 +279,6 @@
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\PrivateMessage.cs" />
-    <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Space.cs" />
     <Compile Include="Models\SpaceViewModel.cs" />
     <Compile Include="Models\Tag.cs" />
@@ -273,6 +295,7 @@
     <Compile Include="ViewModels\Chapters.cs" />
     <Compile Include="ViewModels\CourseGrades.cs" />
     <Compile Include="ViewModels\CourseMaterials.cs" />
+    <Compile Include="ViewModels\MailBox.cs" />
     <Compile Include="ViewModels\MaterialForm.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -2193,6 +2216,7 @@
     <Content Include="Views\Material\Detail.cshtml" />
     <Content Include="Views\Course\GradesForEditor.cshtml" />
     <Content Include="Views\Course\Members.cshtml" />
+    <Content Include="Views\Community\Navigation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -2204,6 +2228,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\" />
+    <Folder Include="Views\Discussion\" />
     <Folder Include="Views\ErrorPages\" />
     <Folder Include="Views\File\" />
     <Folder Include="Views\Group\" />
@@ -2225,6 +2250,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702111714561_discussion.resx">
       <DependentUpon>201702111714561_discussion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702142146013_mailbox.resx">
+      <DependentUpon>201702142146013_mailbox.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702171224266_community.resx">
+      <DependentUpon>201702171224266_community.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702201739559_community2.resx">
+      <DependentUpon>201702201739559_community2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702201750532_community3.resx">
+      <DependentUpon>201702201750532_community3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702201821133_community4.resx">
+      <DependentUpon>201702201821133_community4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

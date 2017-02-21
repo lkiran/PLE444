@@ -1,4 +1,28 @@
 
+.user {
+    height: 40px !important;
+    margin: 10px;
+}
+
+.user > img {
+    border-radius: 50%;
+    width: 40px !important;
+}
+.user > span {
+    position: relative;
+    padding-left: 5px;
+    padding-right: 5px;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .text-xs-left { text-align: left; }
 .text-xs-right { text-align: right; }
 .text-xs-center { text-align: center; float: none !important; }
@@ -17567,6 +17591,7 @@ body.error .error-wrapper h1 {
   border-top: none;
   box-shadow: none;
 }
+
 .sidebar nav.widget-body > ul.acc-menu li,
 .sidebar nav.widget-body > ul.acc-menu li a {
   white-space: nowrap;
@@ -17577,6 +17602,19 @@ body.error .error-wrapper h1 {
   position: relative;
   font-weight: 400;
 }
+.sidebar nav.widget-body > ul.acc-menu ul li a i {
+    float:right !important;
+}
+/**---------------------------------------------------------------------------------------------------------------------------------*/
+.sidebar nav.widget-body > ul.acc-menu ul li a span {
+    width: 200px;
+    float: left;
+    clear: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
 .sidebar nav.widget-body > ul.acc-menu > li > a > i {
   margin-left: 0px;
   font-size: 17px;
@@ -17586,8 +17624,9 @@ body.error .error-wrapper h1 {
   display: inline-block;
 }
 .sidebar nav.widget-body > ul.acc-menu ul li a {
-  padding: 6px 16px 6px 56px;
+  padding: 6px 16px 6px 16px;
   font-weight: 400;
+  overflow: hidden;
 }
 .sidebar nav.widget-body > ul.acc-menu li.active > a {
   font-weight: 400;
@@ -22820,34 +22859,7 @@ input.dial {
 .panel-inbox .panel-body .table-inbox {
   margin: 0;
 }
-@media (max-width: 767px) {
-  .panel-inbox .panel-body .table-inbox .inbox-msg-attach,
-  .panel-inbox .panel-body .table-inbox .inbox-msg-time {
-    display: none !important;
-  }
-  tr.panel-inbox .panel-body .table-inbox .inbox-msg-attach,
-  tr.panel-inbox .panel-body .table-inbox .inbox-msg-time {
-    display: none !important;
-  }
-  th.panel-inbox .panel-body .table-inbox .inbox-msg-attach,
-  th.panel-inbox .panel-body .table-inbox .inbox-msg-time,
-  td.panel-inbox .panel-body .table-inbox .inbox-msg-attach,
-  td.panel-inbox .panel-body .table-inbox .inbox-msg-time {
-    display: none !important;
-  }
-  .btn-group.panel-inbox .panel-body .table-inbox .inbox-msg-attach,
-  .btn-group.panel-inbox .panel-body .table-inbox .inbox-msg-time,
-  .btn-group-vertical.panel-inbox .panel-body .table-inbox .inbox-msg-attach,
-  .btn-group-vertical.panel-inbox .panel-body .table-inbox .inbox-msg-time,
-  .btn.panel-inbox .panel-body .table-inbox .inbox-msg-attach,
-  .btn.panel-inbox .panel-body .table-inbox .inbox-msg-time,
-  span.panel-inbox .panel-body .table-inbox .inbox-msg-attach,
-  span.panel-inbox .panel-body .table-inbox .inbox-msg-time,
-  i.panel-inbox .panel-body .table-inbox .inbox-msg-attach,
-  i.panel-inbox .panel-body .table-inbox .inbox-msg-time {
-    display: none !important;
-  }
-}
+
 .panel-inbox .panel-body .table-inbox .inbox-msg-time {
   text-align: right;
 }

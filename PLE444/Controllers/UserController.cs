@@ -10,6 +10,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using PLE444.ViewModels;
 
 namespace PLE444.Controllers
 {
@@ -143,44 +144,57 @@ namespace PLE444.Controllers
         public ActionResult MailBox()
         {
             var currentUser = User.Identity.GetUserId();
-            var viewData = db.PrivateMessages.Where(u => u.ReceiverId == currentUser);
-            return View(viewData);
+
+            var model = new MailBox
+            {
+                Inbox = db.PrivateMessages
+                    .Where(u => u.ReceiverId == currentUser)
+                    .Include("Sender").Include("Receiver").ToList(),
+
+                Sent = db.PrivateMessages
+                    .Where(u => u.SenderId == currentUser)
+                    .Include("Sender").Include("Receiver").ToList()
+            };
+
+            return View(model);
         }
         public ActionResult SendMail(string id)
         {
-            var pm = new PrivateMessage();
-            pm.SenderId = User.Identity.GetUserId();
-            pm.ReceiverId = id;
+            var model = new PrivateMessage
+            {
+                Sender = db.Users.Find(User.Identity.GetUserId()),
+                Receiver = db.Users.Find(id)
+            };
 
-            return View(pm);
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SendMail([Bind(Include = "SenderId,ReceiverId,Content,DateSent,isRead")] PrivateMessage privateMessage)
+        public ActionResult SendMail(PrivateMessage privateMessage)
         {
-            if (ModelState.IsValid)
+            var currentUserId = User.Identity.GetUserId();
+        
+            db.PrivateMessages.Add(new PrivateMessage
             {
-                privateMessage.isRead = false;
-                privateMessage.DateSent = DateTime.Now;
-                privateMessage.SenderId = User.Identity.GetUserId();
+                Content = privateMessage.Content,
+                DateSent = DateTime.Now,
+                IsRead = false,
+                ReceiverId = privateMessage.Receiver.Id,
+                SenderId = currentUserId
+            });
+            db.SaveChanges();
 
-                db.PrivateMessages.Add(privateMessage);
-                db.SaveChanges();
-                return RedirectToAction("MailBox");
-            }
-
-            return View(privateMessage);
+            return RedirectToAction("MailBox");
         }
         public ActionResult MailDetail(int id)
         {
-            var pm = db.PrivateMessages.FirstOrDefault(i => i.Id == id);
+            var pm = db.PrivateMessages.Include("Sender").Include("Receiver").FirstOrDefault(i => i.Id == id);
 
-            pm.isRead = true;
+            pm.IsRead = true;
 
             db.Entry(pm).State = EntityState.Modified;
             db.SaveChanges();
-            
 
             return View(pm);
         }

@@ -45,7 +45,7 @@
                 @foreach (var item in Model.Communities)
                 {
                     <tr>
-                        <td><a href="@Url.Action("Index","Community", new { id=item.ID })">@item.Name</a></td>
+                        <td><a href="@Url.Action("Index","Community", new { id=item.Id })">@item.Name</a></td>
                         <td>@item.Description</td>
                     </tr>
                 }

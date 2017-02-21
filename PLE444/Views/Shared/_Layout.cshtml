@@ -94,7 +94,7 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <a href="@Url.Action("Index","Community", new { id = "" })"><i class="ti ti-direction"></i><span>Gruplar</span></a>
+                                    <a href="@Url.Action("List","Community")"><i class="ti ti-direction"></i><span>Gruplar</span></a>
                                     <ul class="" style="display: block;">
                                         @{ Html.RenderAction("Communities", "Layout"); }
                                     </ul>
@@ -114,7 +114,7 @@
                     </ol>
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-md-9 full-page" id="BodyDiv" style="height: calc(100vh - 130px)">                                
+                            <div class="col-md-12 col-lg-9 col- full-page" id="BodyDiv" style="height: calc(100vh - 130px)">                                
                                 @RenderBody()
                             </div>
                             @*<div class="col-md-3">
@@ -166,6 +166,7 @@
     @Scripts.Render("~/Content/plugins/summernote/dist/summernote.js")
     @Scripts.Render("~/Content/plugins/switchery/switchery.js")
     @Scripts.Render("~/Scripts/bootbox.js")
+    @Scripts.Render("~/Content/plugins/jQuery.dotdotdot/jquery.dotdotdot.min.js")
     @Scripts.Render("~/Content/plugins/malihu-custom-scrollbar/jquery.mCustomScrollbar.concat.min.js")
     
 
@@ -183,7 +184,44 @@
 		            mouseWheelPixels: 200
 		        });
 		    });
-		})(jQuery);
+    })(jQuery);
+
+    $(document).ready(function() {
+        $(".ellipsis").dotdotdot({
+            /*	The text to add as ellipsis. */
+            ellipsis: '...',
+
+            /*	Wrap-option fallback to 'letter' for long words */
+            fallbackToLetter: true,
+
+            /*	jQuery-selector for the element to keep and put after the ellipsis. */
+            after: null,
+
+            /*	Whether to update the ellipsis: true/'window' */
+            watch: true,
+
+            /*	Optionally set a max-height, can be a number or function.
+                If null, the height will be measured. */
+            height: 48,
+
+            /*	Deviation for the height-option. */
+            tolerance: 0,
+
+            /*	Callback function that is fired after the ellipsis is added,
+                receives two parameters: isTruncated(boolean), orgContent(string). */
+            callback: function(isTruncated, orgContent) {},
+
+            lastCharacter: {
+
+                /*	Remove these characters from the end of the truncated text. */
+                remove: [' ', ',', ';', '.', '!', '?'],
+
+                /*	Don't add an ellipsis if this array contains 
+                    the last character of the truncated text. */
+                noEllipsis: []
+            }
+        });
+    });
 </script>
 
 
