@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -18,8 +19,26 @@ namespace PLE444
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            var client = new SmtpClient
+            {
+                Host = "atmaca.cc.boun.edu.tr",
+                Credentials = new System.Net.NetworkCredential("cet", "4M36xo"),
+                Port = 587,
+                EnableSsl = true,
+                DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false
+            };
+
+            const string sentFrom = "cet@boun.edu.tr";
+
+            // Create the message:
+            var mail = new MailMessage(sentFrom, message.Destination)
+            {
+                Subject = message.Subject,
+                Body = message.Body
+            };
+
+            return client.SendMailAsync(mail);
         }
     }
 
