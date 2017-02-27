@@ -23,10 +23,9 @@ namespace PLE444
             {
                 Host = "atmaca.cc.boun.edu.tr",
                 Credentials = new System.Net.NetworkCredential("cet", "4M36xo"),
-                Port = 587,
+                Port = 25,
                 EnableSsl = true,
-                DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false
+                
             };
 
             const string sentFrom = "cet@boun.edu.tr";

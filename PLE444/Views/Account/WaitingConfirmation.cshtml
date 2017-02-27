@@ -13,14 +13,14 @@
                         <h2>E-posta Onayı</h2>
                     </div>
                     <div class="panel-body">
-                        <h2 class="lead text-success">
-                            E-postanız onaylandı!
-                        </h2>
-                        <p>Artık giriş yapabilirsiniz</p>
+                        <p class="text-info">
+                            E-posta adresinize gönderilen linki takip ederek hesabınızı onaylamalısınız. 
+                        </p>
+                        
                     </div>
                     <div class="panel-footer">
                         <div class="clearfix">
-                            <a href="@Url.Action("Login", "Account", routeValues: null)" class="btn btn-success pull-right">Giriş</a>
+                            <a href="@Url.Action("ResendConfirmation","Account", new { userId = ViewBag.CurrentUserId })" class="btn btn-default pull-left">Tekrar yolla</a>
                         </div>
                     </div>
                 </div>

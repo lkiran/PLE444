@@ -1,7 +1,7 @@
 ﻿@using PLE444.Models
 @model LoginViewModel
 @{
-    ViewBag.Title = "Log in";
+    ViewBag.Title = "Giriş";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -48,7 +48,7 @@
 
                             <div class="form-group mb-n">
                                 <div class="col-xs-12">
-                                    <a href="extras-forgotpassword.html" class="pull-left">Şifremi Unuttum</a>
+                                    <a href="@Url.Action("ForgotPassword","Account")" class="pull-left">Şifremi Unuttum</a>
                                     <div class="checkbox-inline icheck pull-right p-n">
                                         <label for="">
                                             @Html.CheckBoxFor(m => m.RememberMe)

@@ -66,6 +66,12 @@ namespace PLE444.Controllers
                 return View(model);
             }
 
+            var userid = UserManager.FindByEmail(model.Email).Id;
+            if (!UserManager.IsEmailConfirmed(userid))
+            {
+                return RedirectToAction("WaitingConfirmation", new { userId = userid });
+            }
+
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result =
@@ -204,12 +210,13 @@ namespace PLE444.Controllers
                     {
                         string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                         var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                        await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                        await UserManager.SendEmailAsync(user.Id, "Hesap Onayı", "Bu linke tıklayarak CET PLE heabınızı onaylayın: " + callbackUrl );
+                        
                     }
                     catch(Exception)
                     { Debug.WriteLine("E-mail could not be sent"); }
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("WaitingConfirmation", new { userId = user.Id });
                 }
                 AddErrors(result);
             }
@@ -218,6 +225,27 @@ namespace PLE444.Controllers
             return View(model);
         }
 
+        [AllowAnonymous]
+        public ActionResult WaitingConfirmation(string userId)
+        {
+            ViewBag.CurrentUserId = userId;
+            return View();
+        }
+
+        [AllowAnonymous]
+        public async Task<ActionResult> ResendConfirmation(string userId)
+        {
+            try
+            {
+                string code = await UserManager.GenerateEmailConfirmationTokenAsync(userId);
+                var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = userId, code = code }, protocol: Request.Url.Scheme);
+                await UserManager.SendEmailAsync(userId, "Hesap Onayı", "Bu linke tıklayarak CET PLE heabınızı onaylayın: " + callbackUrl);
+            }
+            catch (Exception)
+            { Debug.WriteLine("E-mail could not be sent"); }
+
+            return RedirectToAction("WaitingConfirmation", new { userId = userId });
+        }
 
         //
         // GET: /Account/ConfirmEmail
@@ -253,26 +281,44 @@ namespace PLE444.Controllers
                 if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
                 {
                     // Don't reveal that the user does not exist or is not confirmed
-                    return View("ForgotPasswordConfirmation");
+                    return View("ForgotPasswordConfirmation", new { userId = user?.Id });
                 }
 
                 // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                //ENABLED
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                await UserManager.SendEmailAsync(user.Id, "Parola Sıfırlama", "Bu linki takip ederek parolanızı sıfırlayablirsiniz: " + callbackUrl);
+                return RedirectToAction("ForgotPasswordConfirmation", "Account", new { userId = user.Id });
             }
 
             // If we got this far, something failed, redisplay form
             return View(model);
         }
 
+        [AllowAnonymous]
+        public async Task<ActionResult> ResendPassReset(string userId)
+        {
+            try
+            {
+                string code = await UserManager.GeneratePasswordResetTokenAsync(userId);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = userId, code = code }, protocol: Request.Url.Scheme);
+                await UserManager.SendEmailAsync(userId, "Parola Sıfırlama", "Bu linki takip ederek parolanızı sıfırlayablirsiniz: " + callbackUrl);
+            }
+            catch (Exception)
+            {
+                Debug.WriteLine("E-mail could not be sent");
+            }
+
+            return RedirectToAction("ForgotPasswordConfirmation", new { userId = userId });
+        }
         //
         // GET: /Account/ForgotPasswordConfirmation
         [AllowAnonymous]
-        public ActionResult ForgotPasswordConfirmation()
+        public ActionResult ForgotPasswordConfirmation(string userId)
         {
+            ViewBag.CurrentUserId = userId;
             return View();
         }
 
