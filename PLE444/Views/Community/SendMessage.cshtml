@@ -23,7 +23,7 @@
 
         <div class="form-group ml-xxl">
             <div class="col-sm-12">
-                @Html.TextAreaFor(m=> m.Content, new { @class="form-control" })
+                @Html.TextAreaFor(m=> m.Content, new { @class= "form-control summernote" })
                 @Html.ValidationMessageFor(model => model.Content, "", new {@class = "text-danger"})
             </div>
         </div>
@@ -39,7 +39,7 @@
 
 <script>
     $(document).ready(function () {
-        $('#Content').summernote({
+        $('.summernote').summernote({
             focus: true,
             codemirror: {
                 theme: 'united'

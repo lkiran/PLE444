@@ -75,6 +75,26 @@ namespace PLE444.Models
         public DbSet<UserCourse> UserCourses { get; set; }
         public DbSet<UserGrade> UserGrades { get; set; }
 
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<Assignment>().HasOptional(a=>a.Uploads).WithMany().WillCascadeOnDelete(true);
+
+        //    modelBuilder.Entity<Course>().HasOptional(c => c.Assignments).WithMany().WillCascadeOnDelete(true);
+        //    modelBuilder.Entity<Course>().HasOptional(c => c.Chapters).WithMany().WillCascadeOnDelete(true);
+        //    modelBuilder.Entity<Course>().HasOptional(c => c.Discussion).WithMany().WillCascadeOnDelete(true);
+        //    modelBuilder.Entity<Course>().HasOptional(c => c.Timeline).WithMany().WillCascadeOnDelete(true);
+
+        //    modelBuilder.Entity<UserCourse>().HasRequired(c => c.Course).WithMany().WillCascadeOnDelete(true);
+        //    modelBuilder.Entity<UserGrade>().HasRequired(c => c.GradeType).WithMany().WillCascadeOnDelete(true);
+            
+        //    modelBuilder.Entity<GradeType>().HasRequired(c => c.Course).WithMany().WillCascadeOnDelete(true);
+            
+        //    modelBuilder.Entity<Discussion>().HasOptional(c => c.Messages).WithMany().WillCascadeOnDelete(true);
+        //    modelBuilder.Entity<Discussion>().HasOptional(c => c.Readings).WithMany().WillCascadeOnDelete(true);
+
+        //    modelBuilder.Entity<Chapter>().HasOptional(c => c.Materials).WithMany().WillCascadeOnDelete(true);
+        //}
+
         public PleDbContext()
             : base("PleDbContext", throwIfV1Schema: false)
         {

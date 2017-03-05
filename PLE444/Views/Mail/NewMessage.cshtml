@@ -1,0 +1,7 @@
+﻿@{ Layout = "~/Views/Mail/_MailLayout.cshtml"; }
+
+@section Content{
+   <h2>Yeni Mesaj</h2>
+   <h3>Gönderen: @ViewData["sender"].ToString()</h3>
+   @(new HtmlString(ViewData["content"].ToString()))
+}

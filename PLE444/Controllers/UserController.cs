@@ -11,12 +11,15 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using PLE444.ViewModels;
+using System.Threading.Tasks;
+using System.Net.Mail;
 
 namespace PLE444.Controllers
 {
     public class UserController : Controller
     {
         private PleDbContext db = new PleDbContext();
+        private EmailService ms = new EmailService();
 
         [Authorize]
         public ActionResult Profil(string id)
@@ -164,17 +167,24 @@ namespace PLE444.Controllers
             {
                 Sender = db.Users.Find(User.Identity.GetUserId()),
                 Receiver = db.Users.Find(id)
-            };
+            };        
 
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult SendMail(PrivateMessage privateMessage)
+        public async Task<ActionResult> SendMail(PrivateMessage privateMessage)
         {
             var currentUserId = User.Identity.GetUserId();
-        
+            var currentUser = db.Users.Find(currentUserId);
+            if (currentUser == null)
+                return HttpNotFound();
+
+            var receiver = db.Users.Find(privateMessage.Receiver.Id);
+            if (receiver == null)
+                return HttpNotFound();
+
             db.PrivateMessages.Add(new PrivateMessage
             {
                 Content = privateMessage.Content,
@@ -184,6 +194,17 @@ namespace PLE444.Controllers
                 SenderId = currentUserId
             });
             db.SaveChanges();
+
+            var mail = new MailMessage(new MailAddress("cet@boun.edu.tr"), new MailAddress(receiver.Email))
+            {
+                Subject = currentUser.FullName() + " kullanıcısından yeni mesaj",
+                Body = MailController.RenderViewToString("NewMessage", new ViewDataDictionary() {
+                    { "content", privateMessage.Content },
+                    { "sender", currentUser.FullName()}
+                })
+            };
+            
+            await ms.SendAsync(mail);
 
             return RedirectToAction("MailBox");
         }

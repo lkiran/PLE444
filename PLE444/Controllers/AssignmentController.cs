@@ -11,6 +11,7 @@ using Ionic.Zip;
 using Microsoft.AspNet.Identity;
 using PLE444.Models;
 using PLE444.ViewModels;
+using System.Net.Mail;
 
 namespace PLE444.Controllers
 {
@@ -18,6 +19,7 @@ namespace PLE444.Controllers
     public class AssignmentController : Controller
     {
         private PleDbContext db = new PleDbContext();
+        private EmailService ms = new EmailService();
 
         [Authorize]
         public ActionResult Index(Guid? id)
@@ -61,7 +63,7 @@ namespace PLE444.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(AssignmentForm model)
+        public async System.Threading.Tasks.Task<ActionResult> Create(AssignmentForm model)
         {
             var course = db.Courses.Find(model.CourseId);
 
@@ -84,7 +86,32 @@ namespace PLE444.Controllers
 
                 db.SaveChanges();
 
-                return RedirectToAction("Index", "Assignment", new {id = model.CourseId});
+                var mail = new MailMessage()
+                {
+                    Subject = course.Heading + " dersine " + model.Title + " ödevi eklendi.",
+                    Body = MailController.RenderViewToString("NewAssignment", new ViewDataDictionary() {
+                        { "title", model.Title },
+                        { "deadline", model.Deadline },
+                        { "description", model.Description },
+                        { "course", course.Heading },
+                        { "courseId", assignment.Id }
+                    })
+                };
+
+                mail.IsBodyHtml = true;
+                
+                var emails = db.UserCourses
+                    .Where(uc => uc.CourseId == model.CourseId && uc.IsActive && uc.DateJoin != null)
+                    .Include(uc => uc.User)
+                    .Select(uc => uc.User)
+                    .Select(u => u.Email);
+
+                foreach (var receiver in emails.ToList())                
+                    mail.Bcc.Add(receiver);
+                
+                await ms.SendAsync(mail);
+
+                return RedirectToAction("Index", "Assignment", new { id = model.CourseId });
             }
 
             return View(model);

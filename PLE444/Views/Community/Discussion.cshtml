@@ -32,7 +32,7 @@
                 unreads = unreads.Except(discussion.Messages.Where(u => u.SenderId == ViewBag.CurrentUserId).ToList()).ToList();
 
                 <div class="panel panel-default">
-                    <div data-toggle="collapse" data-parent="#accordionA" DiscussionId="@discussion.ID" class="Discussion" href="#@discussion.ID">
+                    <a data-toggle="collapse" data-parent="#accordionA" DiscussionId="@discussion.ID" class="Discussion" href="#@discussion.ID">
                         <div class="panel-heading">
                             
                             <h2>@discussion.Topic</h2>
@@ -49,7 +49,7 @@
                                 }
                             </div>
                         </div>
-                    </div>
+                    </a>
 
                     <div id="@discussion.ID" class="collapse">
                         <div class="panel-body">

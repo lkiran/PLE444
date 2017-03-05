@@ -205,6 +205,7 @@
     <Compile Include="Controllers\AssignmentController.cs" />
     <Compile Include="Controllers\ChapterController.cs" />
     <Compile Include="Controllers\CommunityController.cs" />
+    <Compile Include="Controllers\MailController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\FileController.cs" />
@@ -2106,6 +2107,7 @@
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Mail\style.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -2193,6 +2195,9 @@
     <Content Include="Views\Course\Members.cshtml" />
     <Content Include="Views\Community\Navigation.cshtml" />
     <Content Include="Views\Account\WaitingConfirmation.cshtml" />
+    <Content Include="Views\Mail\NewMessage.cshtml" />
+    <Content Include="Views\Mail\_MailLayout.cshtml" />
+    <Content Include="Views\Mail\NewAssignment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

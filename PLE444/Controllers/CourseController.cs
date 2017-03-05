@@ -42,7 +42,7 @@ namespace PLE444.Controllers
                 IsCourseCreator = isCourseCreator(course),
                 IsMember = isMember(course),
                 IsWaiting = isWaiting(course.Id),
-                MemberCount = db.UserCourses.Count(uc => uc.CourseId == course.Id && uc.IsActive)
+                MemberCount = db.UserCourses.Count(uc => uc.CourseId == course.Id && uc.IsActive && uc.DateJoin != null)
             };
             return View(model);
         }

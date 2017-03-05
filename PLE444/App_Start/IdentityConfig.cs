@@ -39,6 +39,23 @@ namespace PLE444
 
             return client.SendMailAsync(mail);
         }
+
+        public Task SendAsync(MailMessage message)
+        {
+            var client = new SmtpClient
+            {
+                Host = "atmaca.cc.boun.edu.tr",
+                Credentials = new System.Net.NetworkCredential("cet", "4M36xo"),
+                Port = 25,
+                EnableSsl = true,
+
+            };
+           
+            message.From = new MailAddress("cet@boun.edu.tr");
+            message.IsBodyHtml = true;
+
+            return client.SendMailAsync(message);
+        }
     }
 
     public class SmsService : IIdentityMessageService
