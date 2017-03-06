@@ -1,7 +1,37 @@
 ﻿@{ Layout = "~/Views/Mail/_MailLayout.cshtml"; }
 
 @section Content{
-   <h2>Yeni Mesaj</h2>
-   <h3>Gönderen: @ViewData["sender"].ToString()</h3>
-   @(new HtmlString(ViewData["content"].ToString()))
+   <h3>Gönderen: </h3>
+   
+}
+
+@{ Layout = "~/Views/Mail/_MailLayout.cshtml"; }
+
+@section Content{
+    <tr>
+        <td style="text-align:center;">
+            <h2 style="color: #00acc1; font-weight:lighter;">Yeni Mesaj</h2>
+            <br />
+            <h3 style="font-weight:lighter;">
+                <small style="font-size: 80%; color: #cacaca;">Gönderen </small>
+                @ViewData["sender"].ToString()
+            </h3>
+        <td>
+    </tr>
+
+    <tr>
+        <td>
+            <hr />
+        </td>
+    </tr>
+
+    <tr>
+        <td>
+            <div>
+                <p style="text-align: justify;">
+                    @(new HtmlString(ViewData["content"].ToString()))
+                </p>
+            </div>
+        </td>
+    </tr>
 }

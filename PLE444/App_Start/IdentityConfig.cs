@@ -15,7 +15,7 @@ using PLE444.Models;
 
 namespace PLE444
 {
-    public class EmailService : IIdentityMessageService
+    public class EmailService : IIdentityMessageService, IDisposable
     {
         public Task SendAsync(IdentityMessage message)
         {
@@ -55,6 +55,11 @@ namespace PLE444
             message.IsBodyHtml = true;
 
             return client.SendMailAsync(message);
+        }
+
+        public void Dispose()
+        {
+            throw new NotImplementedException();
         }
     }
 

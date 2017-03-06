@@ -15,6 +15,7 @@ using System.IO;
 using Microsoft.Ajax.Utilities;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Net.Mail;
 
 namespace PLE444.Controllers
 {
@@ -204,24 +205,8 @@ namespace PLE444.Controllers
 
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
-                {
-                    //await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
-
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    //ENABLED
-                    try
-                    {
-                        string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                        var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                        await UserManager.SendEmailAsync(user.Id, "Hesap Onayı", "Bu linke tıklayarak CET PLE heabınızı onaylayın: " + callbackUrl );
-                        
-                    }
-                    catch(Exception)
-                    { Debug.WriteLine("E-mail could not be sent"); }
-
-                    return RedirectToAction("WaitingConfirmation", new { userId = user.Id });
-                }
+                    return RedirectToAction("ResendConfirmation", new { userId = user.Id });
+                
                 AddErrors(result);
             }
 
@@ -243,7 +228,23 @@ namespace PLE444.Controllers
             {
                 string code = await UserManager.GenerateEmailConfirmationTokenAsync(userId);
                 var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = userId, code = code }, protocol: Request.Url.Scheme);
-                await UserManager.SendEmailAsync(userId, "Hesap Onayı", "Bu linke tıklayarak CET PLE heabınızı onaylayın: " + callbackUrl);
+
+                var user = await UserManager.FindByIdAsync(userId);
+
+                var mail = new MailMessage
+                {
+                    Subject = "Hesap Onayı",
+                    Body = MailController.RenderViewToString("ConfirmEmail", new ViewDataDictionary()
+                    {
+                        {"confirmUrl", callbackUrl},
+                        {"userName", user.FullName()}
+                    }),
+                    IsBodyHtml = true
+                };
+
+                mail.Bcc.Add(user.Email);
+                
+                await new EmailService().SendAsync(mail);
             }
             catch (Exception)
             { Debug.WriteLine("E-mail could not be sent"); }
@@ -288,13 +289,9 @@ namespace PLE444.Controllers
                     return View("ForgotPasswordConfirmation", new { userId = user?.Id });
                 }
 
-                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                //ENABLED
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                await UserManager.SendEmailAsync(user.Id, "Parola Sıfırlama", "Bu linki takip ederek parolanızı sıfırlayablirsiniz: " + callbackUrl);
-                return RedirectToAction("ForgotPasswordConfirmation", "Account", new { userId = user.Id });
+                return RedirectToAction("ResendPassReset", "Account", new { userId = user.Id });
             }
 
             // If we got this far, something failed, redisplay form
@@ -308,7 +305,22 @@ namespace PLE444.Controllers
             {
                 string code = await UserManager.GeneratePasswordResetTokenAsync(userId);
                 var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = userId, code = code }, protocol: Request.Url.Scheme);
-                await UserManager.SendEmailAsync(userId, "Parola Sıfırlama", "Bu linki takip ederek parolanızı sıfırlayablirsiniz: " + callbackUrl);
+
+                var user = await UserManager.FindByIdAsync(userId);
+                var mail = new MailMessage
+                {
+                    Subject = "Parola Sıfırlama",
+                    Body = MailController.RenderViewToString("ResetPassword", new ViewDataDictionary()
+                    {
+                        {"confirmUrl", callbackUrl},
+                        {"userName", user.FullName()}
+                    }),
+                    IsBodyHtml = true
+                };
+
+                mail.Bcc.Add(user.Email);
+
+                await new EmailService().SendAsync(mail);
             }
             catch (Exception)
             {

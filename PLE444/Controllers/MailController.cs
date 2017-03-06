@@ -14,10 +14,22 @@ namespace PLE444.Controllers
         {
             return View();
         }
+
         public ActionResult NewAssignment()
         {
             return View();
         }
+
+        public ActionResult ConfirmEmail()
+        {
+            return View();
+        }
+
+        public ActionResult ResetPassword()
+        {
+            return View();
+        }
+
         public static string RenderViewToString(string viewName, ViewDataDictionary viewData)
         {
             using (var writer = new StringWriter())
@@ -34,6 +46,5 @@ namespace PLE444.Controllers
 
             }
         }
-        
     }
 }

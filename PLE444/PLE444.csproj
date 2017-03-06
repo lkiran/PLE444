@@ -18,8 +18,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort>
-    </IISExpressSSLPort>
+    <IISExpressSSLPort>44380</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -2198,6 +2197,8 @@
     <Content Include="Views\Mail\NewMessage.cshtml" />
     <Content Include="Views\Mail\_MailLayout.cshtml" />
     <Content Include="Views\Mail\NewAssignment.cshtml" />
+    <Content Include="Views\Mail\ConfirmEmail.cshtml" />
+    <Content Include="Views\Mail\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
