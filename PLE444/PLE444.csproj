@@ -204,7 +204,6 @@
     <Compile Include="Controllers\AssignmentController.cs" />
     <Compile Include="Controllers\ChapterController.cs" />
     <Compile Include="Controllers\CommunityController.cs" />
-    <Compile Include="Controllers\MailController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\FileController.cs" />
@@ -221,6 +220,7 @@
     <Compile Include="Helpers\DataManipulationHelper.cs" />
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\UserHelper.cs" />
+    <Compile Include="Helpers\ViewHelper.cs" />
     <Compile Include="Migrations\201702071613141_recreate.cs" />
     <Compile Include="Migrations\201702071613141_recreate.Designer.cs">
       <DependentUpon>201702071613141_recreate.cs</DependentUpon>

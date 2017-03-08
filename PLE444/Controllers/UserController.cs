@@ -13,6 +13,7 @@ using System.Web.Security;
 using PLE444.ViewModels;
 using System.Threading.Tasks;
 using System.Net.Mail;
+using static PLE444.Helpers.ViewHelper;
 
 namespace PLE444.Controllers
 {
@@ -198,7 +199,7 @@ namespace PLE444.Controllers
             var mail = new MailMessage(new MailAddress("cet@boun.edu.tr"), new MailAddress(receiver.Email))
             {
                 Subject = currentUser.FullName() + " kullanıcısından yeni mesaj",
-                Body = MailController.RenderViewToString("NewMessage", new ViewDataDictionary() {
+                Body = ViewRenderer.RenderView("~/Views/Mail/NewMessage.cshtml", new ViewDataDictionary() {
                     { "content", privateMessage.Content },
                     { "sender", currentUser.FullName()}
                 })

@@ -16,6 +16,8 @@ using Microsoft.Ajax.Utilities;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Mail;
+using PLE444.Helpers;
+using static PLE444.Helpers.ViewHelper;
 
 namespace PLE444.Controllers
 {
@@ -77,20 +79,20 @@ namespace PLE444.Controllers
             if (user == null)
                 result = SignInStatus.Failure;
 
-            
+
             switch (result)
             {
                 case SignInStatus.Success:
-                {
-                    if (!UserManager.IsEmailConfirmed(user.Id))                    
-                        return RedirectToAction("WaitingConfirmation", new { userId = user.Id });
-                    
-                    return RedirectToLocal(returnUrl);
-                }               
+                    {
+                        if (!UserManager.IsEmailConfirmed(user.Id))
+                            return RedirectToAction("WaitingConfirmation", new { userId = user.Id });
+
+                        return RedirectToLocal(returnUrl);
+                    }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new {ReturnUrl = returnUrl, RememberMe = model.RememberMe});
+                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
@@ -108,7 +110,7 @@ namespace PLE444.Controllers
             {
                 return View("Error");
             }
-            return View(new VerifyCodeViewModel {Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe});
+            return View(new VerifyCodeViewModel { Provider = provider, ReturnUrl = returnUrl, RememberMe = rememberMe });
         }
 
         //
@@ -206,7 +208,7 @@ namespace PLE444.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                     return RedirectToAction("ResendConfirmation", new { userId = user.Id });
-                
+
                 AddErrors(result);
             }
 
@@ -224,30 +226,26 @@ namespace PLE444.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> ResendConfirmation(string userId)
         {
-            try
+
+            string code = await UserManager.GenerateEmailConfirmationTokenAsync(userId);
+            var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = userId, code = code }, protocol: Request.Url.Scheme);
+
+            var user = await UserManager.FindByIdAsync(userId);
+
+            var mail = new MailMessage
             {
-                string code = await UserManager.GenerateEmailConfirmationTokenAsync(userId);
-                var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = userId, code = code }, protocol: Request.Url.Scheme);
-
-                var user = await UserManager.FindByIdAsync(userId);
-
-                var mail = new MailMessage
-                {
-                    Subject = "Hesap Onayı",
-                    Body = MailController.RenderViewToString("ConfirmEmail", new ViewDataDictionary()
+                Subject = "Hesap Onayı",
+                Body = ViewRenderer.RenderView("~/Views/Mail/ConfirmEmail.cshtml", new ViewDataDictionary()
                     {
                         {"confirmUrl", callbackUrl},
                         {"userName", user.FullName()}
                     }),
-                    IsBodyHtml = true
-                };
+                IsBodyHtml = true
+            };
 
-                mail.Bcc.Add(user.Email);
-                
-                await new EmailService().SendAsync(mail);
-            }
-            catch (Exception)
-            { Debug.WriteLine("E-mail could not be sent"); }
+            mail.Bcc.Add(user.Email);
+
+            await new EmailService().SendAsync(mail);
 
             return RedirectToAction("WaitingConfirmation", new { userId = userId });
         }
@@ -310,7 +308,7 @@ namespace PLE444.Controllers
                 var mail = new MailMessage
                 {
                     Subject = "Parola Sıfırlama",
-                    Body = MailController.RenderViewToString("ResetPassword", new ViewDataDictionary()
+                    Body = ViewRenderer.RenderView("~/Views/Mail/ResetPassword.cshtml", new ViewDataDictionary()
                     {
                         {"confirmUrl", callbackUrl},
                         {"userName", user.FullName()}

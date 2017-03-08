@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 using PLE444.Models;
 using PLE444.ViewModels;
 using System.Net.Mail;
+using static PLE444.Helpers.ViewHelper;
 
 namespace PLE444.Controllers
 {
@@ -89,7 +90,7 @@ namespace PLE444.Controllers
                 var mail = new MailMessage()
                 {
                     Subject = course.Heading + " dersine " + model.Title + " ödevi eklendi.",
-                    Body = MailController.RenderViewToString("NewAssignment", new ViewDataDictionary() {
+                    Body = ViewRenderer.RenderView("~/Views/Mail/NewAssignment.cshtml", new ViewDataDictionary() {
                         { "title", model.Title },
                         { "deadline", model.Deadline },
                         { "description", model.Description },

@@ -1,4 +1,5 @@
-﻿@{ Layout = "~/Views/Mail/_MailLayout.cshtml"; }
+﻿@model ViewDataDictionary
+@{ Layout = "~/Views/Mail/_MailLayout.cshtml"; }
 
 @section Content{
     <tr>
@@ -10,13 +11,7 @@
 
     <tr>
         <td>
-            <hr />
-        </td>
-    </tr>
-
-    <tr>
-        <td>
-            <p>Merhaba @ViewData["userName"].ToString(),</p>
+            <p>Merhaba @(Model["userName"] as string),</p>
             <p style="text-align: justify;">
                 <div>E-posta adresinizi onayladıktan sonra giriş yapabilirsiniz. PLE'nin sunduğu özelliklere erişebilmeniz için e-posta adresinizi onaylamanız gerekmektedir.</div>
             </p>
@@ -29,7 +24,7 @@
 
     <tr>
         <td style="text-align:center;">
-            <a href="@(new HtmlString(ViewData["confirmUrl"] as String))" style="display: inline-block; margin-bottom: 0; font-weight: 700; text-align: center; vertical-align: middle; border: 1px solid transparent; white-space: nowrap; padding: 6px 12px; font-size: 16px; line-height: 1.65; border-radius: 2px; color: #fff; background-color: #8bc34a;">Onayla</a>
+            <a href="@(Model["confirmUrl"] as string)" style="display: inline-block; margin-bottom: 0; font-weight: 700; text-align: center; vertical-align: middle; border: 1px solid transparent; white-space: nowrap; padding: 6px 12px; font-size: 16px; line-height: 1.65; border-radius: 2px; color: #fff; background-color: #8bc34a;">Onayla</a>
         </td>
     </tr>
 
@@ -40,7 +35,7 @@
     <tr>
         <td>
             <small>Düğme çalışmıyor ise bu linki takip edin:</small>
-            <small style="color: #00acc1; text-decoration: none;">@(new HtmlString(ViewData["confirmUrl"] as String))</small>
+            <small style="color: #00acc1; text-decoration: none;">@(Model["confirmUrl"] as string)</small>
         </td>
     </tr>
 }

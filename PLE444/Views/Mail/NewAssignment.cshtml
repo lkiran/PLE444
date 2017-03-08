@@ -1,28 +1,23 @@
-﻿@{ Layout = "~/Views/Mail/_MailLayout.cshtml"; }
+﻿@model ViewDataDictionary
+@{ Layout = "~/Views/Mail/_MailLayout.cshtml"; }
 
 @section Content{
     <tr>
         <td style="text-align:center;">
             <h2 style="color: #00acc1; font-weight:lighter;">Yeni Ödev Eklendi</h2>
             <br />
-            <h3 style="font-weight:lighter;">@ViewData["title"].ToString()</h3>
+            <h3 style="font-weight:lighter;">@(Model["title"] as string)</h3>
             <h4 style="font-weight:lighter;">
                 <small style="font-size: 80%; color: #cacaca;">Teslim Tarihi</small>
-                @ViewData["deadline"].ToString()
+                @(Model["deadline"] as string)
             </h4>
         <td>
     </tr>
 
     <tr>
         <td>
-            <hr />
-        </td>
-    </tr>
-
-    <tr>
-        <td>
             <p style="text-align:justify;">
-                @(new HtmlString(ViewData["description"] as String))
+                @(new HtmlString(Model["description"] as String))
             </p>
         </td>
     </tr>
