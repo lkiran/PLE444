@@ -4,15 +4,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<a href="@Url.Action("Create","Community")" class="btn btn-primary-alt center-block">
+    <i class="fa fa-plus"></i> Yeni Grup Oluştur
+</a>
 
 <div class="panel panel-default" data-widget='{"draggable": "false", "collapsable" :"false"}'>
     <div class="panel-heading">
         <h2>Gruplar</h2>
-        <div class="pull-right">
-            <a href="@Url.Action("Create","Community")">
-                <i class="ti ti-plus"></i> Yeni Grup Oluştur
-            </a>
-        </div>
     </div>
     <div class="panel-body">
         <table class="table table-hover m-n">
@@ -35,6 +33,4 @@
         </table>
     </div>
 </div>
-
-
 

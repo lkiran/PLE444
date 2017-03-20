@@ -3,7 +3,7 @@
     ViewBag.Title = "Tartışmalar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    var isCreator = ViewBag.Role == "Creator" ? true : false;    
+    var isCreator = ViewBag.Role == "Creator" ? true : false;
 }
 @{ Html.RenderAction("Navigation", "Community", new { id = Model.Id }); }
 
@@ -19,7 +19,7 @@
 <div class="row">
     <div class="col-md-9">
         <div class="panel-group panel-default" id="accordionA">
-            @foreach (var discussion in Model.Discussions)
+            @foreach (var discussion in Model.Discussions.OrderByDescending(d => d.DateCreated))
             {
                 var readings = discussion.Readings.FirstOrDefault(u => u.UserId == ViewBag.CurrentUserId);
                 DateTime? lastRead = null;
@@ -34,7 +34,7 @@
                 <div class="panel panel-default">
                     <a data-toggle="collapse" data-parent="#accordionA" DiscussionId="@discussion.ID" class="Discussion" href="#@discussion.ID">
                         <div class="panel-heading">
-                            
+
                             <h2>@discussion.Topic</h2>
 
                             <div class="pull-right">
@@ -53,10 +53,32 @@
 
                     <div id="@discussion.ID" class="collapse">
                         <div class="panel-body">
+
+                            <div class="message">
+                                @if (ViewBag.CurrentUserId == null)
+                                {
+                                    <p>Mesaj yollamak için yapın</p>
+                                }
+                                else
+                                {
+                                    @Html.Partial("SendMessage", new PLE444.Models.Message(), new ViewDataDictionary { { "DiscussionId", discussion.ID } ,
+                                        { "CommunityId", Model.Id } ,
+                                        { "CurrentUserId", ViewBag.CurrentUserId } })
+                                }
+                                @if (isCreator)
+                                {
+                                    <a href="@Url.Action("RemoveTitle", "Community", new {discussionId = discussion.ID, communityId = Model.Id})">
+                                        <small class="text-danger">Başlığı Sil</small>
+                                    </a>
+                                }
+                            </div>
+
+                            <hr>
+
                             @{
                                 string PrevUserId = "";
                                 var orderedMessages = discussion.Messages.OrderBy(o => o.DateSent);
-                                foreach (var message in orderedMessages)
+                                foreach (var message in orderedMessages.OrderByDescending(m => m.DateSent))
                                 {
                                     var dh = new PLE444.Helpers.DataManipulationHelper();
                                     var isOwner = ViewBag.CurrentUserId == message.SenderId ? true : false;
@@ -77,7 +99,7 @@
                                                     <small class="text-danger">Kaldır</small>
                                                 </a>
                                             }
-                                            
+
                                             <small>@dh.GetDeltaDate(message.DateSent)</small>
                                         </div>
 
@@ -96,29 +118,11 @@
                                 }
 
                             }
-                            <hr>
-                            <div class="message">
-                                @if (ViewBag.CurrentUserId == null)
-                                {
-                                    <p>Mesaj yollamak için yapın</p>
-                                }
-                                else
-                                {
-                                    @Html.Partial("SendMessage", new PLE444.Models.Message(), new ViewDataDictionary { { "DiscussionId", discussion.ID } ,
-                                        { "CommunityId", Model.Id } ,
-                                        { "CurrentUserId", ViewBag.CurrentUserId } })
-                                }
-                                @if (isCreator)
-                                {
-                                    <a href="@Url.Action("RemoveTitle", "Community", new {discussionId = discussion.ID, communityId = Model.Id})">
-                                        <small class="text-danger">Başlığı Sil</small>
-                                    </a>
-                                }
-                            </div>
+
                         </div>
                     </div>
                 </div>
-            }
+                                }
         </div>
     </div>
 
@@ -133,7 +137,7 @@
 
 <script>
     var debugging = false;
-    $('.Discussion').click(function() {
+    $('.Discussion').click(function () {
         $.ajax({
             url: '@Url.Action("Read","Community")',
             dataType: 'json',

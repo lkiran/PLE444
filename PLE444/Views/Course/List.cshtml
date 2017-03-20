@@ -6,40 +6,40 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<a href="@Url.Action("Create","Course")" class="btn btn-primary-alt center-block">
+    <i class="fa fa-plus"></i> Yeni Ders Ekle
+</a>
+
 <div class="panel panel-default" data-widget='{"draggable": "false"}'>
     <div class="panel-heading">
         <h2>Ders Listesi</h2>
-       
+
         <div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
     </div>
     <div class="panel-body">
         <table class="table table-hover m-n">
             <thead>
-            <tr>
-                <th>Kod</th>                 
-                <th>İsim</th>
-                <th>Açılma Tarihi</th>
-                <th></th>
-            </tr>
+                <tr>
+                    <th>Kod</th>
+                    <th>İsim</th>
+                    <th>Açılma Tarihi</th>
+                    <th></th>
+                </tr>
             </thead>
             @foreach (var course in Model)
             {
                 <tbody>
-                <tr>
-                    <td><a href="@Url.Action("Index", "Course", new { id = course.Id })"> @course.Code</a></td>
-                    <td>@Html.DisplayFor(modelItem => course.Name)</td>
-                    <td>@Html.DisplayFor(modelItem => course.DateCreated)</td>
-                    <td>
-                        @{ PleDbContext db = new PleDbContext(); }
-                        @db.UserCourses.Count(uc=> uc.CourseId == course.Id && uc.IsActive) Katılımcı
-                    </td>
-                </tr>
+                    <tr>
+                        <td><a href="@Url.Action("Index", "Course", new { id = course.Id })"> @course.Code</a></td>
+                        <td>@Html.DisplayFor(modelItem => course.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => course.DateCreated)</td>
+                        <td>
+                            @{ PleDbContext db = new PleDbContext(); }
+                            @db.UserCourses.Count(uc => uc.CourseId == course.Id && uc.IsActive) Katılımcı
+                        </td>
+                    </tr>
                 </tbody>
-                            }
+                                }
         </table>
     </div>
 </div>
-
-<a href="@Url.Action("Create","Course")" class="btn btn-primary-alt center-block">
-    <i class="fa fa-plus"></i> Yeni Ders Ekle
-</a>
