@@ -15,7 +15,7 @@
     </div>
 }
 
-@foreach (var assignment in Model.AssignmentList)
+@foreach (var assignment in Model.AssignmentList.OrderByDescending(a => a.DateAdded))
 {
     var userUpload = assignment.Uploads.FirstOrDefault(u => u.OwnerId == Model.CurrentUserId);
     var isUploded = userUpload != null;
@@ -42,16 +42,16 @@
     }
 
     <div class="panel panel-@panelColor" data-widget='{"draggable": "false"}'>
-        <div class="panel-heading">          
+        <div class="panel-heading">
             <h2>@Html.DisplayFor(modelItem => assignment.Title) </h2>
-            
+
             @if (Model.CanEdit)
             {
                 <div class="panel-ctrls" style="float:left">
                     <a class="button-icon ml-sm" title="Düzenle" href="@Url.Action("Edit", "Assignment", new {id = assignment.Id, courseId = Model.CourseInfo.Id})">
                         <i class="ti ti-pencil"></i>
                     </a>
-                    
+
                     <a title="Kaldır" data-assignment-id="@assignment.Id" class="btn-remove button-icon ml-sm">
                         <i class="ti ti-trash"></i>
                     </a>
@@ -77,62 +77,62 @@
         </div>
         <div class="panel-body">
             <p>
-                @(new HtmlString(assignment.Description))         
+                @(new HtmlString(assignment.Description))
             </p>
 
             @if (Model.CanEdit && assignment.Uploads.Count > 0)
             {
-                <hr/>
+                <hr />
                 <table class="table m-n ">
                     <thead>
 
                     </thead>
                     <tbody>
-                    @foreach (var upload in assignment.Uploads)
-                    {
-                        <tr>
-                            <td>
-                                <img class="img-circle" src="@Url.Content(upload.Owner.UserPhoto())" style="height: 30px;"/>
-                                <span>@upload.Owner.FullName()</span>
-                            </td>
+                        @foreach (var upload in assignment.Uploads.OrderBy(u => u.Owner.FullName()))
+                        {
+                            <tr>
+                                <td>
+                                    <img class="img-circle" src="@Url.Content(upload.Owner.UserPhoto())" style="height: 30px;" />
+                                    <span>@upload.Owner.FullName()</span>
+                                </td>
 
-                            <td>
-                                <a href="@Url.Action("Download", "File", new {path = Url.Content(upload.FilePath), name = Url.Content(upload.Description) })">
-                                    <img src="@Url.Content(fh.GetFileIcon(upload.FilePath))" style="height: 30px;"/>
-                                    <span>@upload.Description</span>
-                                </a>
-                            </td>
+                                <td>
+                                    <a href="@Url.Action("Download", "File", new {path = Url.Content(upload.FilePath), name = Url.Content(upload.Description) })">
+                                        <img src="@Url.Content(fh.GetFileIcon(upload.FilePath))" style="height: 30px;" />
+                                        <span>@upload.Description</span>
+                                    </a>
+                                </td>
 
-                            <td> @upload.DateUpload, @h.GetDeltaDate(upload.DateUpload)</td>
-                        </tr>
-                    }
+                                <td> @upload.DateUpload, @h.GetDeltaDate(upload.DateUpload)</td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             }
         </div>
 
         <div class="panel-footer">
-           
-                @if (Model.CanEdit)
-                {
-                    <a href="@Url.Action("DownloadAssignment", "Assignment", new {asssignmentId = assignment.Id})" class="pull-right">
-                        <img src="@Url.Content("~/Content/img/FileIcons/zip.png")" alt="zip" style="height: 30px;"/>
-                        <span> Hepsini İndir</span>
-                    </a>
-                }
-                else if(Model.CanUpload)
-                {
-                    using (Html.BeginForm("Upload", "Assignment", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <input class="btn btn-primary-alt pull-right mr-md" type="submit" value="Yükle"/>
 
-                        <input class="pull-right filer_input" name="uploadFile" type="file" id="uploadFile" />
+            @if (Model.CanEdit)
+                {
+                <a href="@Url.Action("DownloadAssignment", "Assignment", new {asssignmentId = assignment.Id})" class="pull-right">
+                    <img src="@Url.Content("~/Content/img/FileIcons/zip.png")" alt="zip" style="height: 30px;" />
+                    <span> Hepsini İndir</span>
+                </a>
+            }
+            else if (Model.CanUpload)
+            {
+                using (Html.BeginForm("Upload", "Assignment", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input class="btn btn-primary-alt pull-right mr-md" type="submit" value="Yükle" />
+
+                    <input class="pull-right filer_input" name="uploadFile" type="file" id="uploadFile" />
                         <input type="hidden" name="assignmentId" id="assignmentId" value="@assignment.Id">
-                    }
                 }
+            }
 
-                <span>Teslim Tarihi: @assignment.Deadline</span>
+            <span>Teslim Tarihi: @assignment.Deadline</span>
         </div>
     </div>
 }
@@ -193,7 +193,7 @@
                     }
                 });
             });
-           
+
             $('.jFiler-input').each(function () {
                 $(this).addClass("pull-right");
             });

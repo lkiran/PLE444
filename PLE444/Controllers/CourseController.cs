@@ -118,20 +118,6 @@ namespace PLE444.Controllers
             return View(course);
         }
 
-        public ActionResult CourseDetails(Guid? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Course course = db.Courses.Find(id);
-            if (course == null)
-            {
-                return HttpNotFound();
-            }
-            return View(course);
-        }
-
         [Authorize]
         public ActionResult Edit(Guid? id)
         {
@@ -221,6 +207,7 @@ namespace PLE444.Controllers
                 return View("GradesForMember", model);
         }
 
+        [Authorize]
         public  ActionResult CreateGradeType(Guid? id)
         {
             if (id == null)

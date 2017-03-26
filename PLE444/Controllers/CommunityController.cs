@@ -272,7 +272,7 @@ namespace PLE444.Controllers
             return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
         }
 
-
+        [Authorize]
         public ActionResult Members(Guid? id)
         {
             if (id == null)
@@ -295,6 +295,7 @@ namespace PLE444.Controllers
             return View(model);
         }
 
+        [Authorize]
         public ActionResult Join(Guid? id)
         {
             var userId = User.Identity.GetUserId();
@@ -326,6 +327,7 @@ namespace PLE444.Controllers
             return RedirectToAction("Index", new { id = id });
         }
 
+        [Authorize]
         public ActionResult Approve(Guid? id)
         {
             if (id == null)
@@ -372,6 +374,7 @@ namespace PLE444.Controllers
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
+        [Authorize]
         public ActionResult Leave(Guid? id)
         {
             var userId = User.Identity.GetUserId();
@@ -385,12 +388,7 @@ namespace PLE444.Controllers
 
             return RedirectToAction("Index", new { id = id });
         }
-
-        public ActionResult Archive()
-        {
-            return View();
-        }
-
+        
         private Enums.StatusType Status(Guid? communityId)
         {
             if (communityId == null)
