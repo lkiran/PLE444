@@ -29,6 +29,7 @@ namespace PLE444.Controllers
 
         public AccountController()
         {
+            //deneme
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
