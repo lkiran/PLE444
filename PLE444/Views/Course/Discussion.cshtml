@@ -39,20 +39,21 @@
                         <div class="panel-heading">
                             
                             <h2>@discussion.Topic</h2>
-                            @*<h2>@discussion</h2>*@
-
+                            
+                            <span style="margin-left:25px;">@discussion.DateCreated</span>
+                            
                             <div class="pull-right">
-                                @if (discussion.Readings.Count != 0)
-                                {
-                                    <span>@discussion.Readings.Count kişi okudu</span>
-                                }
+                                    @if (discussion.Readings.Count != 0)
+                                    {
+                                        <span>@discussion.Readings.Count kişi okudu</span>
+                                    }
 
-                                @if (unreads.Count != 0)
-                                {
-                                    <span class="badge badge-warning">@unreads.Count okunmamış</span>
-                                }
+                                    @if (unreads.Count != 0)
+                                    {
+                                        <span class="badge badge-warning">@unreads.Count okunmamış</span>
+                                    }
+                                </div>
                             </div>
-                        </div>
                     </a>
 
                     <div id="@discussion.ID" class="collapse">
