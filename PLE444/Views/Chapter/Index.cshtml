@@ -15,7 +15,7 @@
             <i class="ti ti-info-alt lead"></i>  Bu derse eklenmiş herhangi bir bölüm henüz yok.
         </div>
     }
-    foreach (var chapter in Model.ChapterList)
+    foreach (var chapter in Model.ChapterList.OrderByDescending(d => d.DateAdded))
     {
         <div class="panel panel-default" id="panel">
             <div class="panel-heading"> 

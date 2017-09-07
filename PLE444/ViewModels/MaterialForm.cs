@@ -34,5 +34,7 @@ namespace PLE444.ViewModels
         public List<Document> Documents { get; set; }
 
         public List<HttpPostedFileBase> UploadedFiles { get; set; }
+
+        public DateTime Activate { get; set; }
     }
 }
