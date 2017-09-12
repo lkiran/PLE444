@@ -257,6 +257,14 @@
     <Compile Include="Migrations\201702201821133_community4.Designer.cs">
       <DependentUpon>201702201821133_community4.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709121546322_chapterOrder.cs" />
+    <Compile Include="Migrations\201709121546322_chapterOrder.Designer.cs">
+      <DependentUpon>201709121546322_chapterOrder.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709121554194_orderupdate.cs" />
+    <Compile Include="Migrations\201709121554194_orderupdate.Designer.cs">
+      <DependentUpon>201709121554194_orderupdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -2247,6 +2255,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702201821133_community4.resx">
       <DependentUpon>201702201821133_community4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709121546322_chapterOrder.resx">
+      <DependentUpon>201709121546322_chapterOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709121554194_orderupdate.resx">
+      <DependentUpon>201709121554194_orderupdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

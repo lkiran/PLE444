@@ -22,7 +22,7 @@
                     @if (@Model.CanEdit)
                     {
 
-                        <a href="@Url.Action("Update", "Material", new {chapterId = chapter.Id, id = material.Id})">
+                        <a href="@Url.Action("Update", "Material", new { chapterId = chapter.Id, id = material.Id })">
                             <small><i class="fa fa-pencil-square-o ml-md mr-sm"></i>Düzenle</small>
                         </a>
                         <button data-material-id="@material.Id" data-chapter-id="@chapter.Id" class="btn-remove btn-link">
@@ -45,7 +45,7 @@
                     @foreach (var doc in material.Documents)
                     {
                         <li>
-                            <a href="@Url.Action("Download", "File", new {path = Url.Content(doc.FilePath), name = doc.Description})">
+                            <a href="@Url.Action("Download", "File", new { path = Url.Content(doc.FilePath), name = doc.Description })">
                                 <img alt="Icon" src="@Url.Content(fh.GetFileIcon(doc.FilePath))" style="height: 40px;">
                                 <span>@doc.Description</span>
                             </a>
@@ -56,6 +56,7 @@
         }
     }
 }
+
 @section scripts
 {
     <script>

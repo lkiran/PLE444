@@ -19,7 +19,7 @@ namespace PLE444.Controllers
     public class CourseController : Controller
     {
         private PleDbContext db = new PleDbContext();
-        
+
         public ActionResult Index(Guid? id)
         {
             if (id == null)
@@ -64,7 +64,7 @@ namespace PLE444.Controllers
                 return HttpNotFound();
 
             if (!isMember(course) && !isCourseCreator(course))
-                return RedirectToAction("Index", "Course", new {id = course.Id});
+                return RedirectToAction("Index", "Course", new { id = course.Id });
 
             var model = new CourseMembers
             {
@@ -72,7 +72,7 @@ namespace PLE444.Controllers
                 Course = course,
                 CanEdit = isCourseCreator(course)
             };
-                
+
             return View(model);
         }
 
@@ -98,7 +98,7 @@ namespace PLE444.Controllers
             if (ModelState.IsValid)
             {
                 course.CreatorId = User.Identity.GetUserId();
-                course.DateCreated= DateTime.Now;
+                course.DateCreated = DateTime.Now;
                 course.Timeline = new List<TimelineEntry>
                 {
                     new TimelineEntry
@@ -112,7 +112,7 @@ namespace PLE444.Controllers
 
                 course = db.Courses.Add(course);
                 db.SaveChanges();
-                return RedirectToAction("Index", new {id = course.Id});
+                return RedirectToAction("Index", new { id = course.Id });
             }
             ViewBag.Sapces = db.Spaces.ToList();
             return View(course);
@@ -125,12 +125,12 @@ namespace PLE444.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
             var model = db.Courses.FirstOrDefault(c => c.Id == id);
-            if(model == null)
-                 return HttpNotFound();
+            if (model == null)
+                return HttpNotFound();
 
-            if(!isCourseCreator(model))
+            if (!isCourseCreator(model))
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
-           
+
             ViewBag.Sapces = db.Spaces.ToList();
             return View(model);
         }
@@ -144,14 +144,14 @@ namespace PLE444.Controllers
             {
                 var course = db.Courses.FirstOrDefault(c => c.Id == model.Id);
 
-                if(course == null)
+                if (course == null)
                     return HttpNotFound();
 
                 if (!isCourseCreator(course))
                     return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
                 course.CanEveryoneJoin = model.CanEveryoneJoin;
-                course.Code = model.Code; 
+                course.Code = model.Code;
                 course.Name = model.Name;
                 course.Description = model.Description;
                 course.SpaceId = model.SpaceId;
@@ -190,7 +190,7 @@ namespace PLE444.Controllers
             var courseUsers = db.UserCourses.Where(i => i.Course.Id == courseId).Include("User").ToList();
 
             var userIds = courseUsers.Select(u => u.UserId).ToList();
-            var ug = db.UserGrades.Where(g=>userIds.Contains(g.UserId)).ToList();
+            var ug = db.UserGrades.Where(g => userIds.Contains(g.UserId)).ToList();
 
             var model = new CourseGrades
             {
@@ -208,16 +208,16 @@ namespace PLE444.Controllers
         }
 
         [Authorize]
-        public  ActionResult CreateGradeType(Guid? id)
+        public ActionResult CreateGradeType(Guid? id)
         {
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             var course = db.Courses.Find(id);
 
-            if(course == null)
+            if (course == null)
                 return HttpNotFound();
 
-            if(!isCourseCreator(course))
+            if (!isCourseCreator(course))
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
             ViewBag.CourseId = id;
@@ -229,12 +229,12 @@ namespace PLE444.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult CreateGradeType(GradeType model, Guid? courseId)
         {
-            if (model != null || courseId !=null )
+            if (model != null || courseId != null)
             {
                 var course = db.Courses.FirstOrDefault(i => i.Id == courseId);
 
                 if (course == null)
-                   return HttpNotFound();
+                    return HttpNotFound();
 
                 if (!isCourseCreator(course))
                     return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
@@ -273,7 +273,7 @@ namespace PLE444.Controllers
             if (model == null)
                 return HttpNotFound();
 
-            if(!isCourseCreator(model.Course))
+            if (!isCourseCreator(model.Course))
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
             return View(model);
@@ -305,14 +305,14 @@ namespace PLE444.Controllers
                     CreatorId = gradeType.Course.CreatorId,
                     DateCreated = DateTime.Now,
                     IconClass = "ti ti-pencil",
-                    Heading = model.Name +" notu değiştirildi"
+                    Heading = model.Name + " notu değiştirildi"
                 });
 
                 db.Entry(gradeType).State = EntityState.Modified;
                 db.SaveChanges();
 
                 var course = db.Courses.FirstOrDefault(i => i.Id == model.CourseId);
-                return RedirectToAction("Grades", new {courseId = course.Id});
+                return RedirectToAction("Grades", new { courseId = course.Id });
             }
 
             return View(model);
@@ -328,24 +328,24 @@ namespace PLE444.Controllers
             if (gradeType == null)
                 return HttpNotFound();
 
-            else if(!isCourseCreator(gradeType.CourseId))
+            else if (!isCourseCreator(gradeType.CourseId))
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
             gradeType.IsActive = false;
 
             gradeType.Course.Timeline.Add(new TimelineEntry
-             {
-                 ColorClass = "timeline-danger",
-                 CreatorId = gradeType.Course.CreatorId,
-                 DateCreated = DateTime.Now,
-                 IconClass = "ti ti-trash",
-                 Heading = gradeType.Name + " notu silindi"
-             });
+            {
+                ColorClass = "timeline-danger",
+                CreatorId = gradeType.Course.CreatorId,
+                DateCreated = DateTime.Now,
+                IconClass = "ti ti-trash",
+                Heading = gradeType.Name + " notu silindi"
+            });
 
             db.Entry(gradeType).State = EntityState.Modified;
             db.SaveChanges();
 
-            return RedirectToAction("Grades", "Course", new { courseId = gradeType.CourseId});
+            return RedirectToAction("Grades", "Course", new { courseId = gradeType.CourseId });
         }
 
         [Authorize]
@@ -355,7 +355,7 @@ namespace PLE444.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
             var model = db.UserGrades.Where(i => i.Id == gradeId).Include("GradeType").Include("GradeType.Course").FirstOrDefault();
-            if(model == null)
+            if (model == null)
                 return HttpNotFound();
 
             var course = model.GradeType.Course;
@@ -412,7 +412,7 @@ namespace PLE444.Controllers
                 db.SaveChanges();
 
                 var courseId = db.GradeTypes.Find(model.GradeTypeId).CourseId;
-                return RedirectToAction("Grades", "Course", new { courseId = courseId});
+                return RedirectToAction("Grades", "Course", new { courseId = courseId });
             }
             return View(model);
         }
@@ -420,11 +420,11 @@ namespace PLE444.Controllers
         [Authorize]
         public JsonResult AddOrUpdateGradeJson(int gradeTypeId, string userId, float grade)
         {
-            if(userId.IsNullOrWhiteSpace())
+            if (userId.IsNullOrWhiteSpace())
                 return Json(new { Success = false, Message = "BadRequest" }, JsonRequestBehavior.AllowGet);
 
             var gt = db.GradeTypes.Include("Course").FirstOrDefault(i => i.Id == gradeTypeId);
-            if(gt == null)
+            if (gt == null)
                 return Json(new { Success = false, Message = "HttpNotFound" }, JsonRequestBehavior.AllowGet);
 
             if (!isCourseCreator(gt.Course))
@@ -522,6 +522,7 @@ namespace PLE444.Controllers
 
             var model =
                 db.Courses.Include("Discussion")
+                   .Include("Creator")
                     .Include("Discussion.Messages")
                     .Include("Discussion.Messages.Sender")
                     .Include("Discussion.Readings")
@@ -608,7 +609,7 @@ namespace PLE444.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
             var course = db.Courses.FirstOrDefault(c => c.Id == courseId);
-            if(course == null)
+            if (course == null)
                 return HttpNotFound();
 
             else if (!isCourseCreator(course))
@@ -617,7 +618,7 @@ namespace PLE444.Controllers
             var discussion = db.Discussions.FirstOrDefault(d => d.ID == discussionId);
             if (discussion == null)
                 return HttpNotFound();
-            
+
             db.Readings.RemoveRange(discussion.Readings);
             db.Messages.RemoveRange(discussion.Messages);
             db.Discussions.Remove(discussion);
@@ -691,7 +692,7 @@ namespace PLE444.Controllers
             else
             {
                 uc.IsActive = true;
-                db.Entry(uc).State= EntityState.Modified;
+                db.Entry(uc).State = EntityState.Modified;
             }
 
             db.SaveChanges();
@@ -701,7 +702,7 @@ namespace PLE444.Controllers
         [Authorize]
         public ActionResult Leave(Guid id)
         {
-            var userID = User.Identity.GetUserId(); 
+            var userID = User.Identity.GetUserId();
             var c = db.Courses.FirstOrDefault(i => i.Id == id);
 
             var uc = db.UserCourses.Where(u => u.UserId == userID).FirstOrDefault(i => i.Course.Id == id);
@@ -714,16 +715,16 @@ namespace PLE444.Controllers
 
             db.Entry(uc).State = EntityState.Modified;
             db.SaveChanges();
-            
 
-            return RedirectToAction("Index", new {id = id});
+
+            return RedirectToAction("Index", new { id = id });
         }
 
         [Authorize]
         [HttpPost]
         public ActionResult EjectUserFromCourse(string userId, Guid? courseId)
         {
-            if(userId.IsNullOrWhiteSpace() || courseId == null)
+            if (userId.IsNullOrWhiteSpace() || courseId == null)
                 return Json(new { Success = false, Message = "BadRequest" }, JsonRequestBehavior.AllowGet);
 
             var uc = db.UserCourses.FirstOrDefault(c => c.CourseId == courseId && c.UserId == userId);
@@ -783,7 +784,7 @@ namespace PLE444.Controllers
 
                 db.Entry(userCourse).State = EntityState.Modified;
             }
-            
+
             db.SaveChanges();
 
             return new HttpStatusCodeResult(HttpStatusCode.OK);

@@ -7,7 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using PLE444.Models;
-using Ionic.Zip;
+//using Ionic.Zip;
 using System.Diagnostics;
 
 namespace PLE444.Controllers

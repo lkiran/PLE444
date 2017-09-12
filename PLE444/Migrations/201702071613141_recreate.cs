@@ -50,6 +50,7 @@ namespace PLE444.Migrations
                         CourseId = c.Guid(nullable: false),
                         Title = c.String(nullable: false),
                         Description = c.String(nullable: false),
+                     //   OrderBy = c.String(nullable: true),
                         DateAdded = c.DateTime(nullable: false),
                         IsActive = c.Boolean(nullable: false),
                     })
