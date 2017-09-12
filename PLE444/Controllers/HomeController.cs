@@ -10,6 +10,10 @@ namespace PLE444.Controllers
     {
         public ActionResult Index()
         {
+
+            List<Models.Community> Communities = new List<Models.Community>();
+
+
             return View();
         }
 
