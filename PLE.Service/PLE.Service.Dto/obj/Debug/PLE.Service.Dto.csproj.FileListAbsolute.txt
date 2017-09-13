@@ -1,0 +1,5 @@
+C:\Users\leven\OneDrive\Documents\GitHub\PLE444\PLE.Service\PLE.Service.Dto\bin\Debug\PLE.Service.Dto.dll
+C:\Users\leven\OneDrive\Documents\GitHub\PLE444\PLE.Service\PLE.Service.Dto\bin\Debug\PLE.Service.Dto.pdb
+C:\Users\leven\OneDrive\Documents\GitHub\PLE444\PLE.Service\PLE.Service.Dto\obj\Debug\PLE.Service.Dto.csprojResolveAssemblyReference.cache
+C:\Users\leven\OneDrive\Documents\GitHub\PLE444\PLE.Service\PLE.Service.Dto\obj\Debug\PLE.Service.Dto.dll
+C:\Users\leven\OneDrive\Documents\GitHub\PLE444\PLE.Service\PLE.Service.Dto\obj\Debug\PLE.Service.Dto.pdb

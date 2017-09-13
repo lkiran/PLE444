@@ -11,7 +11,7 @@ namespace PLE.Service.Controllers
     {
         private PleDbContext _db = new PleDbContext();
 
-        [Authorize]
+  
         [Route("users")]
         public IHttpActionResult GetUsers()
         {
