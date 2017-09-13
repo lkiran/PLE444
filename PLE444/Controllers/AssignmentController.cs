@@ -16,315 +16,313 @@ using static PLE444.Helpers.ViewHelper;
 
 namespace PLE444.Controllers
 {
-    [Authorize]
-    public class AssignmentController : Controller
-    {
-        private PleDbContext db = new PleDbContext();
-        private EmailService ms = new EmailService();
+	[Authorize]
+	public class AssignmentController : Controller
+	{
+		private PleDbContext db = new PleDbContext();
+		private EmailService ms = new EmailService();
 
-        [Authorize]
-        public ActionResult Index(Guid? id)
-        {
-            if (id == null)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+		[Authorize]
+		public ActionResult Index(Guid? id)
+		{
+			if (id == null)
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var course = db.Courses.Find(id);
-            if (course == null)
-                return  HttpNotFound();
+			var course = db.Courses.Find(id);
+			if (course == null)
+				return HttpNotFound();
 
-            if (!isMember(id) && !isCourseCreator(course))
-                return RedirectToAction("Index", "Course", new { id = id });
+			if (!isMember(id) && !isCourseCreator(course))
+				return RedirectToAction("Index", "Course", new { id = id });
 
-            var assignments = db.Assignments.Include("Uploads").Include("Uploads.Owner").Where(a => a.Course.Id == id && a.IsActive).ToList();
-            var model = new CourseAssignments
-            {
-                CourseInfo = course,
-                AssignmentList = assignments,
-                CanEdit = isCourseCreator(course),
-                CanUpload = isMember(course.Id),
-                CurrentUserId = User.Identity.GetUserId()
-            };
+			var assignments = db.Assignments.Include("Uploads").Include("Uploads.Owner").Where(a => a.Course.Id == id && a.IsActive).ToList();
+			var model = new CourseAssignments
+			{
+				CourseInfo = course,
+				AssignmentList = assignments,
+				CanEdit = isCourseCreator(course),
+				CanUpload = isMember(course.Id),
+				CurrentUserId = User.Identity.GetUserId()
+			};
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        public ActionResult Create(Guid id)
-        {
-            if (!isCourseCreator(id))
-                return RedirectToAction("Index", "Home");
+		public ActionResult Create(Guid id)
+		{
+			if (!isCourseCreator(id))
+				return RedirectToAction("Index", "Home");
 
-            var model = new AssignmentForm
-            {
-                CourseId = id,
-                Deadline = DateTime.Now
-            };
-            return View(model);
-        }
+			var model = new AssignmentForm
+			{
+				CourseId = id,
+				Deadline = DateTime.Now
+			};
+			return View(model);
+		}
 
-        [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public async System.Threading.Tasks.Task<ActionResult> Create(AssignmentForm model)
-        {
-            var course = db.Courses.Find(model.CourseId);
+		[HttpPost]
+		[Authorize]
+		[ValidateAntiForgeryToken]
+		public async System.Threading.Tasks.Task<ActionResult> Create(AssignmentForm model)
+		{
+			var course = db.Courses.Find(model.CourseId);
 
-            if (!isCourseCreator(course))
-                return RedirectToAction("Index", "Home");
+			if (!isCourseCreator(course))
+				return RedirectToAction("Index", "Home");
 
-            else if (ModelState.IsValid)
-            {
-                var assignment = new Assignment
-                {
-                    DateAdded = DateTime.Now,
-                    Title = model.Title,
-                    Description = model.Description,
-                    Deadline = model.Deadline
-                };
-                db.Assignments.Add(assignment);
+			else if (ModelState.IsValid)
+			{
+				var assignment = new Assignment
+				{
+					DateAdded = DateTime.Now,
+					Title = model.Title,
+					Description = model.Description,
+					Deadline = model.Deadline
+				};
+				db.Assignments.Add(assignment);
 
-                course.Assignments.Add(assignment);
-                db.Entry(course).State = EntityState.Modified;
+				course.Assignments.Add(assignment);
+				db.Entry(course).State = EntityState.Modified;
 
-                db.SaveChanges();
+				db.SaveChanges();
 
-                var mail = new MailMessage()
-                {
-                    Subject = course.Heading + " dersine " + model.Title + " ödevi eklendi.",
-                    Body = ViewRenderer.RenderView("~/Views/Mail/NewAssignment.cshtml", new ViewDataDictionary() {
-                        { "title", model.Title },
-                        { "deadline", model.Deadline },
-                        { "description", model.Description },
-                        { "course", course.Heading },
-                        { "courseId", assignment.Id }
-                    })
-                };
+				var mail = new MailMessage()
+				{
+					Subject = course.Heading + " dersine " + model.Title + " ödevi eklendi.",
+					Body = ViewRenderer.RenderView("~/Views/Mail/NewAssignment.cshtml", new ViewDataDictionary() {
+						{ "title", model.Title },
+						{ "deadline", model.Deadline },
+						{ "description", model.Description },
+						{ "course", course.Heading },
+						{ "courseId", assignment.Id }
+					})
+				};
 
-                mail.IsBodyHtml = true;
-                
-                var emails = db.UserCourses
-                    .Where(uc => uc.CourseId == model.CourseId && uc.IsActive && uc.DateJoin != null)
-                    .Include(uc => uc.User)
-                    .Select(uc => uc.User)
-                    .Select(u => u.Email);
+				mail.IsBodyHtml = true;
 
-                foreach (var receiver in emails.ToList())                
-                    mail.Bcc.Add(receiver);
-                
-                await ms.SendAsync(mail);
+				var emails = db.UserCourses
+					.Where(uc => uc.CourseId == model.CourseId && uc.IsActive && uc.DateJoin != null)
+					.Include(uc => uc.User)
+					.Select(uc => uc.User)
+					.Select(u => u.Email);
 
-                return RedirectToAction("Index", "Assignment", new { id = model.CourseId });
-            }
+				foreach (var receiver in emails.ToList())
+					mail.Bcc.Add(receiver);
 
-            return View(model);
-        }
+				await ms.SendAsync(mail);
 
-        public ActionResult Edit(Guid? id, Guid? courseId)
-        {
-            if (!id.HasValue || !courseId.HasValue)
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+				return RedirectToAction("Index", "Assignment", new { id = model.CourseId });
+			}
 
-            if (!isCourseCreator(courseId))
-                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+			return View(model);
+		}
 
-            var assignment = db.Assignments.Include("Course").FirstOrDefault(i => i.Id == id);
-            if (assignment == null)
-                return HttpNotFound();
+		public ActionResult Edit(Guid? id, Guid? courseId)
+		{
+			if (!id.HasValue || !courseId.HasValue)
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            var model = new AssignmentForm
-            {
-                Id = assignment.Id,
-                CourseId = assignment.CourseId,
-                Deadline = assignment.Deadline,
-                Description = assignment.Description,
-                Title = assignment.Title
-            };
+			if (!isCourseCreator(courseId))
+				return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
-            return View(model);
-        }
+			var assignment = db.Assignments.Include("Course").FirstOrDefault(i => i.Id == id);
+			if (assignment == null)
+				return HttpNotFound();
 
-        [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(AssignmentForm model)
-        {
-            if (ModelState.IsValid)
-            {
-                var assignment = db.Assignments.Include("Course").SingleOrDefault(i => i.Id == model.Id);
-                if (assignment == null)
-                    return HttpNotFound();
+			var model = new AssignmentForm
+			{
+				Id = assignment.Id,
+				CourseId = assignment.CourseId,
+				Deadline = assignment.Deadline,
+				Description = assignment.Description,
+				Title = assignment.Title
+			};
 
-                if (!isCourseCreator(assignment.Course))
-                    return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+			return View(model);
+		}
 
-                assignment.Deadline = model.Deadline;
-                assignment.Description = model.Description;
-                assignment.Title = model.Title;
+		[HttpPost]
+		[Authorize]
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit(AssignmentForm model)
+		{
+			if (ModelState.IsValid)
+			{
+				var assignment = db.Assignments.Include("Course").SingleOrDefault(i => i.Id == model.Id);
+				if (assignment == null)
+					return HttpNotFound();
 
-                db.Entry(assignment).State = EntityState.Modified;
-                db.SaveChanges();
+				if (!isCourseCreator(assignment.Course))
+					return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
-                return RedirectToAction("Index", "Assignment", new {id = assignment.CourseId});
-            }
+				assignment.Deadline = model.Deadline;
+				assignment.Description = model.Description;
+				assignment.Title = model.Title;
 
-            return View(model);
-        }
+				db.Entry(assignment).State = EntityState.Modified;
+				db.SaveChanges();
 
-        [HttpPost]
-        [Authorize]
-        public ActionResult Delete(Guid? id)
-        {
-            if (id == null)
-                return Json(new { Success = false, Message = "BadRequest" }, JsonRequestBehavior.AllowGet);
+				return RedirectToAction("Index", "Assignment", new { id = assignment.CourseId });
+			}
 
-            var assignment = db.Assignments.Find(id);
-            if (assignment == null)
-                return Json(new { Success = false, Message = "HttpNotFound" }, JsonRequestBehavior.AllowGet);
+			return View(model);
+		}
 
-            else if (!isCourseCreator(assignment.CourseId))
-                return Json(new { Success = false, Message = "Unauthorized" }, JsonRequestBehavior.AllowGet);
+		[HttpPost]
+		[Authorize]
+		public ActionResult Delete(Guid? id)
+		{
+			if (id == null)
+				return Json(new { Success = false, Message = "BadRequest" }, JsonRequestBehavior.AllowGet);
 
-            assignment.IsActive = false;
+			var assignment = db.Assignments.Find(id);
+			if (assignment == null)
+				return Json(new { Success = false, Message = "HttpNotFound" }, JsonRequestBehavior.AllowGet);
 
-            db.Entry(assignment).State = EntityState.Modified;
-            db.SaveChanges();
+			else if (!isCourseCreator(assignment.CourseId))
+				return Json(new { Success = false, Message = "Unauthorized" }, JsonRequestBehavior.AllowGet);
 
-            return Json(new { Success = true, Message = "OK" }, JsonRequestBehavior.AllowGet);
-        }
+			assignment.IsActive = false;
 
-        [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public ActionResult Upload(Guid assignmentId, HttpPostedFileBase uploadFile)
-        {
-            var a = db.Assignments.Include("Course").FirstOrDefault(i => i.Id == assignmentId);
+			db.Entry(assignment).State = EntityState.Modified;
+			db.SaveChanges();
 
-            if (a == null || !isMember(a.Course.Id))
-                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+			return Json(new { Success = true, Message = "OK" }, JsonRequestBehavior.AllowGet);
+		}
 
-            if (ModelState.IsValid)
-            {
-                var currentuserId = User.Identity.GetUserId();
+		[HttpPost]
+		[Authorize]
+		[ValidateAntiForgeryToken]
+		public ActionResult Upload(Guid assignmentId, HttpPostedFileBase uploadFile)
+		{
+			var a = db.Assignments.Include("Course").FirstOrDefault(i => i.Id == assignmentId);
 
-                if (uploadFile != null && uploadFile.ContentLength > 0)
-                {
-                    var filePath = "";
-                    var fileName = "";
+			if (a == null || !isMember(a.Course.Id))
+				return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
-                    fileName = Guid.NewGuid().ToString() + Path.GetExtension(uploadFile.FileName);
-                    filePath = Path.Combine(Server.MapPath("~/Uploads"), fileName);
-                    uploadFile.SaveAs(filePath);
-                    ViewBag.UploadSuccess = true;
+			if (ModelState.IsValid)
+			{
+				var currentuserId = User.Identity.GetUserId();
 
-                    var uploaded = a.Uploads.FirstOrDefault(u => u.OwnerId == currentuserId);
-                    if (uploaded == null)
-                    {
-                        var d = new Document
-                        {
-                            DateUpload = DateTime.Now,
-                            Description = uploadFile.FileName,
-                            OwnerId = currentuserId,
-                            FilePath = "~/Uploads/" + fileName
-                        };
+				if (uploadFile != null && uploadFile.ContentLength > 0)
+				{
+					var filePath = "";
+					var fileName = "";
 
-                        db.Documents.Add(d);
-                        a.Uploads.Add(d);
-                    }
-                    else
-                    {
-                        uploaded.DateUpload = DateTime.Now;
-                        uploaded.Description = uploadFile.FileName;
-                        uploaded.FilePath = "~/Uploads/" + fileName;
-                        uploaded.OwnerId = currentuserId;
+					fileName = Guid.NewGuid().ToString() + Path.GetExtension(uploadFile.FileName);
+					filePath = Path.Combine(Server.MapPath("~/Uploads"), fileName);
+					uploadFile.SaveAs(filePath);
+					ViewBag.UploadSuccess = true;
 
-                        db.Entry(uploaded).State = EntityState.Modified;
-                    }
+					var uploaded = a.Uploads.FirstOrDefault(u => u.OwnerId == currentuserId);
+					if (uploaded == null)
+					{
+						var d = new Document
+						{
+							DateUpload = DateTime.Now,
+							Description = uploadFile.FileName,
+							OwnerId = currentuserId,
+							FilePath = "~/Uploads/" + fileName
+						};
 
-                    db.Entry(a).State = EntityState.Modified;
-                    db.SaveChanges();
-                }
-            }
+						db.Documents.Add(d);
+						a.Uploads.Add(d);
+					}
+					else
+					{
+						uploaded.DateUpload = DateTime.Now;
+						uploaded.Description = uploadFile.FileName;
+						uploaded.FilePath = "~/Uploads/" + fileName;
+						uploaded.OwnerId = currentuserId;
 
-            return RedirectToAction("Index", "Assignment", new {id = a.Course.Id});
-        }
+						db.Entry(uploaded).State = EntityState.Modified;
+					}
 
-        [Authorize]
-        public ActionResult DownloadAssignment(Guid asssignmentId)
-        {
-            var assignment = db.Assignments.Include("Uploads").Include("Uploads.Owner").FirstOrDefault(a => a.Id == asssignmentId);
-            
-            if (assignment == null)
-                return HttpNotFound();
+					db.Entry(a).State = EntityState.Modified;
+					db.SaveChanges();
+				}
+			}
 
-            if(!isCourseCreator(assignment.CourseId))
-                return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+			return RedirectToAction("Index", "Assignment", new { id = a.Course.Id });
+		}
 
-            var documents = assignment.Uploads.ToList();
+		[Authorize]
+		public ActionResult DownloadAssignment(Guid asssignmentId)
+		{
+			var assignment = db.Assignments.Include("Uploads").Include("Uploads.Owner").FirstOrDefault(a => a.Id == asssignmentId);
 
-            var memoryStream = new MemoryStream();
+			if (assignment == null)
+				return HttpNotFound();
 
-            using (var zip = new ZipFile())
-            {
-                foreach (var document in documents)
-                {
-                    var path = Server.MapPath(document.FilePath);
+			if (!isCourseCreator(assignment.CourseId))
+				return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
-                    if (System.IO.File.Exists(path))
-                    {
-                        var zipFileName = document.Owner.FullName() + "_" + document.Description;
-                        zip.AddFile(path, "").FileName = zipFileName;
-                    }
-                }
-                zip.Save(memoryStream);
-            }
-            memoryStream.Seek(0, 0);
-            return File(memoryStream, "application/octet-stream", DateTime.Now + ".zip");
-        }
+			var documents = assignment.Uploads.ToList();
 
-        private bool isCourseCreator(Guid? courseId)
-        {
-            if (courseId == null)
-                return false;
+			var memoryStream = new MemoryStream();
 
-            var course = db.Courses.Find(courseId);
-            return isCourseCreator(course);
-        }
+			using (var zip = new ZipFile())
+			{
+				foreach (var document in documents)
+				{
+					var path = Server.MapPath(document.FilePath);
 
-        private bool isCourseCreator(Course course)
-        {
-            if (course == null)
-                return false;
+					if (!System.IO.File.Exists(path)) continue;
+					var zipFileName = document.Owner.FullName() + "_" + document.Description;
+					zip.AddFile(path, "").FileName = zipFileName;
+				}
+				zip.Save(memoryStream);
+			}
+			memoryStream.Seek(0, 0);
+			return File(memoryStream, "application/octet-stream", DateTime.Now + ".zip");
+		}
 
-            else if (course.CreatorId != User.Identity.GetUserId())
-                return false;
-            return true;
-        }
+		private bool isCourseCreator(Guid? courseId)
+		{
+			if (courseId == null)
+				return false;
 
-        private bool isMember(Guid? courseId)
-        {
-            if (courseId == null)
-                return false;
+			var course = db.Courses.Find(courseId);
+			return isCourseCreator(course);
+		}
 
-            var userId = User.Identity.GetUserId();
-            var user = db.UserCourses.Where(c => c.Course.Id == courseId).FirstOrDefault(u => u.UserId == userId);
+		private bool isCourseCreator(Course course)
+		{
+			if (course == null)
+				return false;
 
-            if (user == null)
-                return false;
-            else
-                return user.IsActive && user.DateJoin != null;
-        }
+			else if (course.CreatorId != User.Identity.GetUserId())
+				return false;
+			return true;
+		}
 
-        private bool isMember(Course course)
-        {
-            return isMember(course.Id);
-        }
+		private bool isMember(Guid? courseId)
+		{
+			if (courseId == null)
+				return false;
 
-        private bool isWaiting(Guid? courseId)
-        {
-            var userId = User.Identity.GetUserId();
-            var user = db.UserCourses.Where(c => c.Course.Id == courseId && c.IsActive).FirstOrDefault(u => u.UserId == userId);
-            if (user == null)
-                return false;
-            return user.DateJoin == null;
-        }
-    }    
+			var userId = User.Identity.GetUserId();
+			var user = db.UserCourses.Where(c => c.Course.Id == courseId).FirstOrDefault(u => u.UserId == userId);
+
+			if (user == null)
+				return false;
+			else
+				return user.IsActive && user.DateJoin != null;
+		}
+
+		private bool isMember(Course course)
+		{
+			return isMember(course.Id);
+		}
+
+		private bool isWaiting(Guid? courseId)
+		{
+			var userId = User.Identity.GetUserId();
+			var user = db.UserCourses.Where(c => c.Course.Id == courseId && c.IsActive).FirstOrDefault(u => u.UserId == userId);
+			if (user == null)
+				return false;
+			return user.DateJoin == null;
+		}
+	}
 }
