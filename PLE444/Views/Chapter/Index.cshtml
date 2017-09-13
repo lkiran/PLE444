@@ -22,29 +22,35 @@
            @* <div class="col-md-9">*@
                 <div class="panel-group panel-default" id="accordionA">
                     <div class="panel panel-default">
-                        <a data-toggle="collapse" data-parent="#accordionA" Chapter="@chapter.Id" class="Chapter" href="#@chapter.Id">
                             <div class="panel-heading">
-                                @*div class="panel panel-default" id="panel">*@
+    @*div class="panel panel-default" id="panel">*@
 
-                                @*<div class="panel-heading">*@
+    @*<div class="panel-heading">*@
 
-                                <h2>@Html.DisplayFor(modelItem => chapter.Title)</h2>
-                                
-                                    @if (Model.canEdit)
-                                    {
-                                    //<div class="panel-footer">
-                                        <div class="pull-right">
-                                            <a href="@Url.Action("Add", "Material", new {chapterId = chapter.Id})" class="btn btn-primary-alt btn-sm ">
-                                               @*<i class="fa fa-plus"></i>*@
-                                                Materyal Ekle
-                                            </a>
-                                        </div>
-                                   // </div>
-                                    }
-                                
-                            </div></a>
+    <h2>@Html.DisplayFor(modelItem => chapter.Title)</h2>
+    @*<small>modelItem.Description</small>*@
+    @*<small> (@(new HtmlString(chapter.Description)))</small>*@
+
+    @if (Model.canEdit)
+    {
+        //<div class="panel-footer">
+        <div class="pull-right">
+            <a href="@Url.Action("Add", "Material", new {chapterId = chapter.Id})" class="btn btn-primary-alt btn-sm ">
+                @*<i class="fa fa-plus"></i>*@
+                Materyal Ekle
+            </a>
+        </div>
+        // </div>
+    }
+
+</div>
+
+<a data-toggle="collapse" data-parent="#accordionA" Chapter="@chapter.Id" class="Chapter" href="#@chapter.Id">
+    <small class="text-danger"><span class="visible-lg visible-md">Materyaller</span></small>
+</a>
                         @if (Model.canEdit)
                     {
+                           
                             <a href="@Url.Action("Edit","Chapter", new {id = chapter.Id})">
                                 <small><i class="fa fa-pencil-square-o ml-lg mr-xs"></i><span class="visible-lg visible-md">Düzenle</span></small>
                             </a>
@@ -53,25 +59,22 @@
                             </button>
                         }
                         <div class="not-pull-right-xs text-xs-center">
-                            @Html.DisplayFor(modelItem => chapter.DateAdded), @{var h = new PLE444.Helpers.DataManipulationHelper(); }
+                            <div class="col-xs-12">
+                            @Html.DisplayFor(modelItem => chapter.DateAdded), 
+                            @{var h = new PLE444.Helpers.DataManipulationHelper(); }
                             @h.GetDeltaDate(chapter.DateAdded)
-
+                            </div>
                         </div>
-                   
-                </div>
-
-                        
-
-                       
 
                         <div id="@chapter.Id" class="collapse">
-                            <div style="background-color:white"   class="panel-body">
-                                
-                              @*  @(new HtmlString(chapter.Description))*@
+                            <div style="background-color:white" class="panel-body">
+
+                                @(new HtmlString(chapter.Description))
 
                                 <ul style="list-style-type: none" ;>
                                     @foreach (var material in chapter.Materials)
                     {
+                                        
                                         <li>
                                             <a class="ShowModal" href="#_" data-href="@Url.Action("Detail", "Material", new { id= material.Id })" data-toggle="modal" data-target="#myModal">
                                                 @material.Title
@@ -80,10 +83,10 @@
                                     }
                                 </ul>
                             </div>
-                           
                         </div>
                     </div>
                 </div>
+        </div>
             
                            
                     

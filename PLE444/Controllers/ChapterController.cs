@@ -119,7 +119,7 @@ namespace PLE444.Controllers
 				var chapterDb = db.Chapters.Find(model.Id);
 				chapterDb.Description = model.Description;
 				chapterDb.Title = model.Title;
-				//   chapterDb.OrderBy = model.OrderBy;
+                chapterDb.OrderBy = model.OrderBy;
 
 				db.Entry(chapterDb).State = EntityState.Modified;
 				db.SaveChanges();
