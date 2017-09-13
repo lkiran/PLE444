@@ -304,6 +304,7 @@
     <Compile Include="ViewModels\Chapters.cs" />
     <Compile Include="ViewModels\CourseGrades.cs" />
     <Compile Include="ViewModels\CourseMaterials.cs" />
+    <Compile Include="ViewModels\Entry.cs" />
     <Compile Include="ViewModels\MailBox.cs" />
     <Compile Include="ViewModels\MaterialForm.cs" />
   </ItemGroup>
