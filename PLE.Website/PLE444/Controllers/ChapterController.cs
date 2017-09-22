@@ -166,7 +166,7 @@ namespace PLE444.Controllers
 			if (course == null)
 				return false;
 
-			else if (course.CreatorId != User.Identity.GetUserId())
+			else if (course.CreatorId != User.GetPrincipal()?.User.Id)
 				return false;
 			return true;
 		}
@@ -176,7 +176,7 @@ namespace PLE444.Controllers
 			if (courseId == null)
 				return false;
 
-			var userId = User.Identity.GetUserId();
+			var userId = User.GetPrincipal()?.User.Id;
 			var user = db.UserCourses.Where(c => c.Course.Id == courseId).FirstOrDefault(u => u.UserId == userId);
 
 			if (user == null)
@@ -192,7 +192,7 @@ namespace PLE444.Controllers
 
 		private bool isWaiting(Guid? courseId)
 		{
-			var userId = User.Identity.GetUserId();
+			var userId = User.GetPrincipal()?.User.Id;
 			var user = db.UserCourses.Where(c => c.Course.Id == courseId && c.IsActive).FirstOrDefault(u => u.UserId == userId);
 			if (user == null)
 				return false;

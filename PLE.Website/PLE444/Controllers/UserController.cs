@@ -25,7 +25,7 @@ namespace PLE444.Controllers
         [Authorize]
         public ActionResult Profil(string id)
         {
-            var currentUser = User.Identity.GetUserId();
+            var currentUser = User.GetPrincipal()?.User.Id;
             if (id == null)
             {
                 id = currentUser;
@@ -45,7 +45,7 @@ namespace PLE444.Controllers
         [Authorize]
         public ActionResult MyFriends()
         {
-            var activeUserId = User.Identity.GetUserId();
+            var activeUserId = User.GetPrincipal()?.User.Id;
             var myfriends = db.Friendship.Where(m => m.userID == activeUserId).ToList();
 
             return View(myfriends);
@@ -53,7 +53,7 @@ namespace PLE444.Controllers
 
         public ActionResult AddFriend(String id)
         {
-            var currentuserId = User.Identity.GetUserId();
+            var currentuserId = User.GetPrincipal()?.User.Id;
             var fs = db.Friendship.Where(u => u.userID == currentuserId).FirstOrDefault(f => f.FriendID == id);
 
             if (fs == null)
@@ -93,7 +93,7 @@ namespace PLE444.Controllers
 
         public ActionResult ProfilEdit()
         {
-            var currentuserId = User.Identity.GetUserId();
+            var currentuserId = User.GetPrincipal()?.User.Id;
             var userDetail = db.Users.Find(currentuserId);
             return View(userDetail);
         }
@@ -105,7 +105,7 @@ namespace PLE444.Controllers
         {
             if (ModelState.IsValid)
             {
-                var currentuserId = User.Identity.GetUserId();
+                var currentuserId = User.GetPrincipal()?.User.Id;
                 var userDetail = db.Users.Find(currentuserId);
 
                 if (!photoBase64.IsNullOrWhiteSpace())
@@ -147,7 +147,7 @@ namespace PLE444.Controllers
         [Authorize]
         public ActionResult MailBox()
         {
-            var currentUser = User.Identity.GetUserId();
+            var currentUser = User.GetPrincipal()?.User.Id;
 
             var model = new MailBox
             {
@@ -166,7 +166,7 @@ namespace PLE444.Controllers
         {
             var model = new PrivateMessage
             {
-                Sender = db.Users.Find(User.Identity.GetUserId()),
+                Sender = db.Users.Find(User.GetPrincipal()?.User.Id),
                 Receiver = db.Users.Find(id)
             };        
 
@@ -177,7 +177,7 @@ namespace PLE444.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> SendMail(PrivateMessage privateMessage)
         {
-            var currentUserId = User.Identity.GetUserId();
+            var currentUserId = User.GetPrincipal()?.User.Id;
             var currentUser = db.Users.Find(currentUserId);
             if (currentUser == null)
                 return HttpNotFound();
@@ -223,7 +223,7 @@ namespace PLE444.Controllers
 
         public ActionResult Files()
         {
-            var curr = User.Identity.GetUserId();
+            var curr = User.GetPrincipal()?.User.Id;
             return View(db.Documents.Where(u => u.OwnerId == curr));
         }
     }

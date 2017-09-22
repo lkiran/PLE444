@@ -50,7 +50,7 @@ namespace PLE444.Controllers
             if (course == null)
                 return false;
 
-            else if (course.CreatorId != User.Identity.GetUserId())
+            else if (course.CreatorId != User.GetPrincipal()?.User.Id)
                 return false;
             return true;
         }

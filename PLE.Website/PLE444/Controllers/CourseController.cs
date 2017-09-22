@@ -97,14 +97,14 @@ namespace PLE444.Controllers
         {
             if (ModelState.IsValid)
             {
-                course.CreatorId = User.Identity.GetUserId();
+                course.CreatorId = User.GetPrincipal()?.User.Id;
                 course.DateCreated = DateTime.Now;
                 course.Timeline = new List<TimelineEntry>
                 {
                     new TimelineEntry
                     {
                         Heading = "Ders oluşturuldu",
-                        CreatorId = User.Identity.GetUserId(),
+                        CreatorId = User.GetPrincipal()?.User.Id,
                         DateCreated = DateTime.Now,
                         IconClass = "ti ti-plus"
                     }
@@ -195,7 +195,7 @@ namespace PLE444.Controllers
             var model = new CourseGrades
             {
                 CourseInfo = course,
-                CurrentUserId = User.Identity.GetUserId(),
+                CurrentUserId = User.GetPrincipal()?.User.Id,
                 UserGrades = ug,
                 GradeTypes = db.GradeTypes.Where(c => c.Course.Id == courseId).ToList(),
                 CourseUsers = courseUsers
@@ -530,7 +530,7 @@ namespace PLE444.Controllers
 
 
             ViewBag.Role = isCourseCreator(course) ? "Creator" : "Member";
-            ViewBag.CurrentUserId = User.Identity.GetUserId();
+            ViewBag.CurrentUserId = User.GetPrincipal()?.User.Id;
             return View(model);
         }
 
@@ -546,7 +546,7 @@ namespace PLE444.Controllers
             if (d == null)
                 return Json(new { success = false });
 
-            var currentUser = User.Identity.GetUserId();
+            var currentUser = User.GetPrincipal()?.User.Id;
             var r = d.Readings.FirstOrDefault(u => u.UserId == currentUser);
             if (r == null)
             {
@@ -584,7 +584,7 @@ namespace PLE444.Controllers
             {
                 var d = new Discussion();
                 d.DateCreated = DateTime.Now;
-                d.CreatorId = User.Identity.GetUserId();
+                d.CreatorId = User.GetPrincipal()?.User.Id;
                 d.Topic = discussion.Topic;
 
                 db.Discussions.Add(d);
@@ -637,7 +637,7 @@ namespace PLE444.Controllers
                 var m = new Message();
                 m.Content = message.Content;
                 m.DateSent = DateTime.Now;
-                m.SenderId = User.Identity.GetUserId();
+                m.SenderId = User.GetPrincipal()?.User.Id;
 
                 db.Messages.Add(m);
 
@@ -664,7 +664,7 @@ namespace PLE444.Controllers
             if (message == null)
                 return HttpNotFound();
 
-            else if (!isCourseCreator(courseId) && message.SenderId != User.Identity.GetUserId())
+            else if (!isCourseCreator(courseId) && message.SenderId != User.GetPrincipal()?.User.Id)
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
             db.Messages.Remove(message);
@@ -676,7 +676,7 @@ namespace PLE444.Controllers
         [Authorize]
         public ActionResult Join(Guid id)
         {
-            var userID = User.Identity.GetUserId(); ;
+            var userID = User.GetPrincipal()?.User.Id; ;
             var c = db.Courses.FirstOrDefault(i => i.Id == id);
 
             var uc = db.UserCourses.Where(u => u.UserId == userID).FirstOrDefault(i => i.Course.Id == id);
@@ -702,7 +702,7 @@ namespace PLE444.Controllers
         [Authorize]
         public ActionResult Leave(Guid id)
         {
-            var userID = User.Identity.GetUserId();
+            var userID = User.GetPrincipal()?.User.Id;
             var c = db.Courses.FirstOrDefault(i => i.Id == id);
 
             var uc = db.UserCourses.Where(u => u.UserId == userID).FirstOrDefault(i => i.Course.Id == id);
@@ -803,7 +803,7 @@ namespace PLE444.Controllers
             if (course == null)
                 return false;
 
-            else if (course.CreatorId != User.Identity.GetUserId())
+            else if (course.CreatorId != User.GetPrincipal()?.User.Id)
                 return false;
             return true;
         }
@@ -813,7 +813,7 @@ namespace PLE444.Controllers
             if (courseId == null)
                 return false;
 
-            var userId = User.Identity.GetUserId();
+            var userId = User.GetPrincipal()?.User.Id;
             var user = db.UserCourses.Where(c => c.Course.Id == courseId).FirstOrDefault(u => u.UserId == userId);
 
             if (user == null)
@@ -829,7 +829,7 @@ namespace PLE444.Controllers
 
         private bool isWaiting(Guid? courseId)
         {
-            var userId = User.Identity.GetUserId();
+            var userId = User.GetPrincipal()?.User.Id;
             var user = db.UserCourses.Where(c => c.Course.Id == courseId && c.IsActive).FirstOrDefault(u => u.UserId == userId);
             if (user == null)
                 return false;

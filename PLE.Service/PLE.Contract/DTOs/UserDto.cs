@@ -3,9 +3,11 @@ using PLE.Contract.Enums;
 
 namespace PLE.Contract.DTOs
 {
-	public class User
+	public class UserDto
 	{
-		public Guid Id { get; set; }
+		public string Id { get; set; }
+
+		public TokenDto Token { get; set; }
 
 		public string FirstName { get; set; }
 

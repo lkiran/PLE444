@@ -72,7 +72,7 @@ namespace PLE444.Controllers
 
             else if (ModelState.IsValid)
             {
-                var currentUserId = User.Identity.GetUserId();
+                var currentUserId = User.GetPrincipal()?.User.Id;
                 foreach (var uploadedFile in model.UploadedFiles)  //iterate in each file
                 {
                     if (uploadedFile != null && uploadedFile.ContentLength > 0) //check length of bytes are greater then zero or not
@@ -169,7 +169,7 @@ namespace PLE444.Controllers
                         var d = new Document
                         {
                             FilePath = "~/Uploads/" + fileName,
-                            OwnerId = User.Identity.GetUserId(),
+                            OwnerId = User.GetPrincipal()?.User.Id,
                             DateUpload = DateTime.Now,
                             Description = uploadedFile.FileName
                         };
@@ -249,7 +249,7 @@ namespace PLE444.Controllers
 
             var c = db.Courses.Find(courseId);
 
-            if (c.CreatorId != User.Identity.GetUserId())
+            if (c.CreatorId != User.GetPrincipal()?.User.Id)
                 return false;
             return true;
         }
@@ -259,7 +259,7 @@ namespace PLE444.Controllers
             if (courseId == null)
                 return false;
 
-            var userId = User.Identity.GetUserId();
+            var userId = User.GetPrincipal()?.User.Id;
             var user = db.UserCourses.Where(c => c.Course.Id == courseId).FirstOrDefault(u => u.UserId == userId);
 
             if (user == null)
@@ -275,7 +275,7 @@ namespace PLE444.Controllers
 
         private bool isWaiting(Guid? courseId)
         {
-            var userId = User.Identity.GetUserId();
+            var userId = User.GetPrincipal()?.User.Id;
             var user = db.UserCourses.Where(c => c.Course.Id == courseId && c.IsActive).FirstOrDefault(u => u.UserId == userId);
             if (user == null)
                 return false;
@@ -284,7 +284,7 @@ namespace PLE444.Controllers
 
         private bool isOwner(string id)
         {
-            var userId = User.Identity.GetUserId();
+            var userId = User.GetPrincipal()?.User.Id;
             if (userId == id)
                 return true;
             return false;

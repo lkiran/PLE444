@@ -59,7 +59,7 @@ namespace PLE444.Controllers
         {       
             if (ModelState.IsValid)
             {
-                var currentuserId = User.Identity.GetUserId();
+                var currentuserId = User.GetPrincipal()?.User.Id;
 
                 community.OwnerId = currentuserId;
                 community.DateCreated = DateTime.Now;
@@ -75,7 +75,7 @@ namespace PLE444.Controllers
         public ActionResult Edit(Guid id)
         {
             ViewBag.Sapces = db.Spaces.ToList();
-            var currentuserId = User.Identity.GetUserId();
+            var currentuserId = User.GetPrincipal()?.User.Id;
             var c = db.Communities.Find(id);
 
             if (c.OwnerId == currentuserId)
@@ -130,7 +130,7 @@ namespace PLE444.Controllers
 
             community.Discussions = community.Discussions.OrderBy(d => d.DateCreated).ToList();
             ViewBag.Role = Status(community) == Enums.StatusType.Creator ? "Creator" : "Member";
-            ViewBag.CurrentUserId = User.Identity.GetUserId();
+            ViewBag.CurrentUserId = User.GetPrincipal()?.User.Id;
             return View(community);
         }
 
@@ -146,7 +146,7 @@ namespace PLE444.Controllers
             if (d == null)
                 return Json(new { success = false });
 
-            var currentUser = User.Identity.GetUserId();
+            var currentUser = User.GetPrincipal()?.User.Id;
             var r = d.Readings.FirstOrDefault(u => u.UserId == currentUser);
             if (r == null)
             {
@@ -184,7 +184,7 @@ namespace PLE444.Controllers
             {
                 var d = new Discussion();
                 d.DateCreated = DateTime.Now;
-                d.CreatorId = User.Identity.GetUserId();
+                d.CreatorId = User.GetPrincipal()?.User.Id;
                 d.Topic = discussion.Topic;
 
                 d = db.Discussions.Add(d);
@@ -237,7 +237,7 @@ namespace PLE444.Controllers
                 var m = new Message();
                 m.Content = message.Content;
                 m.DateSent = DateTime.Now;
-                m.SenderId = User.Identity.GetUserId();
+                m.SenderId = User.GetPrincipal()?.User.Id;
 
                 db.Messages.Add(m);
 
@@ -263,7 +263,7 @@ namespace PLE444.Controllers
             if (message == null)
                 return HttpNotFound();
 
-            else if (Status(communityId) != Enums.StatusType.Creator && message.SenderId != User.Identity.GetUserId())
+            else if (Status(communityId) != Enums.StatusType.Creator && message.SenderId != User.GetPrincipal()?.User.Id)
                 return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
             db.Messages.Remove(message);
@@ -298,7 +298,7 @@ namespace PLE444.Controllers
         [Authorize]
         public ActionResult Join(Guid? id)
         {
-            var userId = User.Identity.GetUserId();
+            var userId = User.GetPrincipal()?.User.Id;
 
             var community = db.Communities.Find(id);
             if (community == null)
@@ -377,7 +377,7 @@ namespace PLE444.Controllers
         [Authorize]
         public ActionResult Leave(Guid? id)
         {
-            var userId = User.Identity.GetUserId();
+            var userId = User.GetPrincipal()?.User.Id;
             var uc = db.UserCommunities.Where(u => u.UserId == userId).FirstOrDefault(c => c.Community.Id == id);
 
             if(uc != null)
@@ -400,7 +400,7 @@ namespace PLE444.Controllers
 
         private Enums.StatusType Status(Community community)
         {
-            var userId = User.Identity.GetUserId();
+            var userId = User.GetPrincipal()?.User.Id;
             if (community.OwnerId == userId)
                 return Enums.StatusType.Creator;
             else

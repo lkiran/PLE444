@@ -48,29 +48,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTOs\Assignment.cs" />
-    <Compile Include="DTOs\ChangePassword.cs" />
-    <Compile Include="DTOs\Chapter.cs" />
-    <Compile Include="DTOs\Community.cs" />
-    <Compile Include="DTOs\Course.cs" />
-    <Compile Include="DTOs\Discussion.cs" />
-    <Compile Include="DTOs\Document.cs" />
-    <Compile Include="DTOs\Event.cs" />
-    <Compile Include="DTOs\EventReponse.cs" />
-    <Compile Include="DTOs\Friendship.cs" />
-    <Compile Include="DTOs\GradeType.cs" />
-    <Compile Include="DTOs\Interest.cs" />
-    <Compile Include="DTOs\Material.cs" />
-    <Compile Include="DTOs\Message.cs" />
-    <Compile Include="DTOs\Post.cs" />
-    <Compile Include="DTOs\PrivateMessage.cs" />
-    <Compile Include="DTOs\Space.cs" />
-    <Compile Include="DTOs\SpaceViewModel.cs" />
-    <Compile Include="DTOs\TimelineEntry.cs" />
-    <Compile Include="DTOs\User.cs" />
-    <Compile Include="DTOs\UserCommunity.cs" />
-    <Compile Include="DTOs\UserCourse.cs" />
-    <Compile Include="DTOs\UserGrade.cs" />
+    <Compile Include="DTOs\Requests\GetUserRequest.cs" />
+    <Compile Include="DTOs\TokenDto.cs" />
+    <Compile Include="DTOs\UserDto.cs" />
     <Compile Include="Enums\GenderType.cs" />
     <Compile Include="Enums\StatusTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

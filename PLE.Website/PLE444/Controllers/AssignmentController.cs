@@ -42,7 +42,7 @@ namespace PLE444.Controllers
 				AssignmentList = assignments,
 				CanEdit = isCourseCreator(course),
 				CanUpload = isMember(course.Id),
-				CurrentUserId = User.Identity.GetUserId()
+				CurrentUserId = User.GetPrincipal()?.User.Id
 			};
 
 			return View(model);
@@ -203,7 +203,7 @@ namespace PLE444.Controllers
 
 			if (ModelState.IsValid)
 			{
-				var currentuserId = User.Identity.GetUserId();
+				var currentuserId = User.GetPrincipal()?.User.Id;
 
 				if (uploadFile != null && uploadFile.ContentLength > 0)
 				{
@@ -292,7 +292,7 @@ namespace PLE444.Controllers
 			if (course == null)
 				return false;
 
-			else if (course.CreatorId != User.Identity.GetUserId())
+			else if (course.CreatorId != User.GetPrincipal()?.User.Id)
 				return false;
 			return true;
 		}
@@ -302,7 +302,7 @@ namespace PLE444.Controllers
 			if (courseId == null)
 				return false;
 
-			var userId = User.Identity.GetUserId();
+			var userId = User.GetPrincipal()?.User.Id;
 			var user = db.UserCourses.Where(c => c.Course.Id == courseId).FirstOrDefault(u => u.UserId == userId);
 
 			if (user == null)
@@ -318,7 +318,7 @@ namespace PLE444.Controllers
 
 		private bool isWaiting(Guid? courseId)
 		{
-			var userId = User.Identity.GetUserId();
+			var userId = User.GetPrincipal()?.User.Id;
 			var user = db.UserCourses.Where(c => c.Course.Id == courseId && c.IsActive).FirstOrDefault(u => u.UserId == userId);
 			if (user == null)
 				return false;
