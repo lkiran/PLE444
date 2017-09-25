@@ -22,14 +22,11 @@ namespace PLE.Service.Models
 
         public ApplicationUser Creator { get; set; }
 
-        [Display(Name = "Dersin Kodu")]
         public string Code { get; set; }
 
-        [Display(Name = "Dersin İsmi")]
         public string Name { get; set; }
 
         [AllowHtml]
-        [Display(Name = "Açıklama")]
         public string Description { get; set; }
 
         public DateTime DateCreated { get; set; }
@@ -48,7 +45,5 @@ namespace PLE.Service.Models
         public virtual ICollection<Discussion> Discussion { get; set; }
 
         public virtual ICollection<TimelineEntry> Timeline { get; set; }
-
-        public string Heading => Code + " - " + Name;
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using PLE.Contract.Enums;
+﻿using PLE.Contract.Enums;
 
 namespace PLE.Contract.DTOs
 {
@@ -26,15 +25,9 @@ namespace PLE.Contract.DTOs
 		public string Vision { get; set; }
 
 		public string Mission { get; set; }
-		
-		public string FullName()
-		{
-			return FirstName + " " + LastName;
-		}
 
-		public string UserPhoto()
-		{
-			return string.IsNullOrWhiteSpace(ProfilePicture) ? "~/Content/img/pp.jpg" : ProfilePicture;
-		}
+		public string FullName() => FirstName + " " + LastName;
+
+		public string UserPhoto() => string.IsNullOrWhiteSpace(ProfilePicture) ? "~/Content/img/pp.jpg" : ProfilePicture;
 	}
 }

@@ -16,7 +16,7 @@ namespace PLE444.Controllers
 
 		[ChildActionOnly]
 		public ActionResult Courses() {
-			var userId = User.GetPrincipal()?.User.Id;
+			var userId = User.GetPrincipal()?.User?.Id;
 
 			if (userId.IsNullOrWhiteSpace())
 				return PartialView(new List<Course>());
@@ -31,7 +31,7 @@ namespace PLE444.Controllers
 
 		[ChildActionOnly]
 		public ActionResult Communities() {
-			var userId = User.GetPrincipal()?.User.Id;
+			var userId = User.GetPrincipal()?.User?.Id;
 
 			if (userId.IsNullOrWhiteSpace())
 				return PartialView(new List<Community>());

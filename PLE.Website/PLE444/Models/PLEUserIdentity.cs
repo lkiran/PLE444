@@ -19,7 +19,7 @@ namespace PLE444.Models
 
 			UpdateUser(principal, user);
 			HttpContext.Current.Session["Login"] = true;
-			HttpContext.Current.Session["AttemptedUser"] = null;
+			HttpContext.Current.Session["User"] = user;
 		}
 
 		public static void LogoutUser(this IPrincipal principal) {
@@ -28,11 +28,11 @@ namespace PLE444.Models
 
 			UpdateUser(principal, null);
 			HttpContext.Current.Session["Login"] = false;
-			HttpContext.Current.Session["AttemptedUser"] = null;
+			HttpContext.Current.Session["User"] = null;
 		}
 
 		public static void UpdateUser(this IPrincipal principal, UserDto user) {
-			HttpContext.Current.Session["AttemptedUser"] = user;
+			HttpContext.Current.Session["User"] = user;
 		}
 	}
 }

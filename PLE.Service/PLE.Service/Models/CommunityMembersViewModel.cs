@@ -2,12 +2,10 @@
 
 namespace PLE.Service.Models
 {
-    public class CommunityMembersViewModel
-    {
-        public Community CommunityInfo { get; set; }
+	public class CommunityMembersViewModel
+	{
+		public Community CommunityInfo { get; set; }
 
-        public List<UserViewModel> Users { get; set; }
-
-
-    }
+		public List<UserViewModel> Users { get; set; }
+	}
 }

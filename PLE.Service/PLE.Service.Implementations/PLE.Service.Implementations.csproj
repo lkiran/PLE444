@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D1452847-49DF-45B7-8DBE-CBB65DF21D9E}</ProjectGuid>
+    <ProjectGuid>{D7DE356C-182B-459D-BFD6-968B6C4CD7EB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PLE.Contract</RootNamespace>
-    <AssemblyName>PLE.Contract</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <RootNamespace>PLE.Service.Implementations</RootNamespace>
+    <AssemblyName>PLE.Service.Implementations</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,14 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
-    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -48,26 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTOs\AssignmentDto.cs" />
-    <Compile Include="DTOs\ChapterDto.cs" />
-    <Compile Include="DTOs\CourseDto.cs" />
-    <Compile Include="DTOs\DiscussionDto.cs" />
-    <Compile Include="DTOs\DocumentDto.cs" />
-    <Compile Include="DTOs\MaterialDto.cs" />
-    <Compile Include="DTOs\MessageDto.cs" />
-    <Compile Include="DTOs\ReadingDto.cs" />
-    <Compile Include="DTOs\Requests\GetUserRequest.cs" />
-    <Compile Include="DTOs\SpaceDto.cs" />
-    <Compile Include="DTOs\TimeLineEntryDto.cs" />
-    <Compile Include="DTOs\TokenDto.cs" />
-    <Compile Include="DTOs\UserDto.cs" />
-    <Compile Include="Enums\GenderType.cs" />
-    <Compile Include="Enums\StatusTypes.cs" />
+    <Compile Include="CourseService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -126,3 +126,5 @@ C:\Users\leven\OneDrive\Documents\GitHub\PLE444\PLE.Service\PLE.Service\bin\Syst
 C:\Users\leven\OneDrive\Documents\GitHub\PLE444\PLE.Service\PLE.Service\bin\System.Web.Http.WebHost.dll
 C:\Users\leven\OneDrive\Documents\GitHub\PLE444\PLE.Service\PLE.Service\bin\System.Web.Http.Cors.xml
 C:\Users\leven\OneDrive\Documents\GitHub\PLE444\PLE.Service\PLE.Service\bin\System.Web.Http.WebHost.xml
+C:\Users\leven\OneDrive\Documents\GitHub\PLE444\PLE.Service\PLE.Service\bin\AutoMapper.dll
+C:\Users\leven\OneDrive\Documents\GitHub\PLE444\PLE.Service\PLE.Service\bin\AutoMapper.xml
