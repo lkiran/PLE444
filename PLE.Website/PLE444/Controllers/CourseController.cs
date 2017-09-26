@@ -654,6 +654,40 @@ namespace PLE444.Controllers
             return View();
         }
 
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult ReplyMessage(Message message, Guid courseId, Guid discussionId, Guid? messageId)
+        {
+            if (messageId == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+            var replymessage = db.Messages.FirstOrDefault(m => m.ID == messageId);
+            if (replymessage == null)
+                return HttpNotFound();
+
+            if (ModelState.IsValid)
+            {
+                var m = new Message();
+                m.Content = message.Content;
+                m.DateSent = DateTime.Now;
+                m.SenderId = User.Identity.GetUserId();
+
+                db.Messages.Add(m);
+
+                var d = db.Discussions.Find(discussionId);
+                d.Messages.Add(m);
+
+                db.Entry(d).State = EntityState.Modified;
+
+                db.SaveChanges();
+
+                TempData["Active"] = discussionId;
+                return RedirectToAction("Discussion", new { id = courseId });
+            }
+            return View();
+        }
+
         [Authorize]
         public ActionResult RemoveMessage(Guid? messageId, Guid? courseId)
         {

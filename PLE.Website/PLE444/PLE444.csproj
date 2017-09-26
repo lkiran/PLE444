@@ -2172,6 +2172,7 @@
     <Content Include="Views\Mail\NewAssignment.cshtml" />
     <Content Include="Views\Mail\ConfirmEmail.cshtml" />
     <Content Include="Views\Mail\ResetPassword.cshtml" />
+    <Content Include="Views\Course\ReplyMessage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
