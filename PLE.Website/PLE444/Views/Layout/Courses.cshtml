@@ -1,18 +1,18 @@
-﻿@model List<PLE444.Models.Course>
+﻿@model PLE444.Models.Layout.SidebarList<PLE.Contract.DTOs.CourseDto>
 
-@if (Model==null || !Model.Any())
+@if (Model?.Items==null || !Model.Items.Any())
 {
     <li><a href="@Url.Action("List","Course")">Hiç Dersin Yok</a></li>
 }
 else
 {
-    foreach (var item in Model)
+    foreach (var item in Model.Items)
     {
         <li title="@item.Heading">
             <a href="@Url.Action("Index", "Course", new {id = item.Id})">
                 @item.Code
 
-                @if (@item.CreatorId == ViewBag.CurrentUser)
+                @if (@item.CreatorId == Model.ActiveUserId)
                 {
                     <i class="ti ti-key text-warning"></i>
                 }

@@ -26,5 +26,12 @@ namespace PLE.Website.Service.Core
 			var result = JsonConvert.DeserializeObject<T>(resultContent);
 			return result;
 		}
+
+		public T Get<T>(string url) {
+			var response = _client.GetAsync(url).Result;
+			var resultContent = response.Content.ReadAsStringAsync().Result;
+			var result = JsonConvert.DeserializeObject<T>(resultContent);
+			return result;
+		}
 	}
 }

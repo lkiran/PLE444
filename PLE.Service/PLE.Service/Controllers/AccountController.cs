@@ -7,24 +7,16 @@ using PLE.Service.Models;
 
 namespace PLE.Service.Controllers
 {
-	[RoutePrefix("api/accounts")]
+	[RoutePrefix("Api/Accounts")]
 	public class AccountsController : BaseApiController
 	{
-		private PleDbContext _db = new PleDbContext();
+		private readonly PleDbContext _db = new PleDbContext();
 
 		[HttpGet]
 		[Route("users")]
 		public IHttpActionResult GetUsers() {
 			return Ok(_db.Users.ToList());
 		}
-
-		[HttpGet]
-		[Route("exampleException")]
-		public IHttpActionResult GetExampleException() {
-			return InternalServerError(new Exception("This an exception result (Levent Kıran)"));
-		}
-
-
 
 		[HttpPost]
 		[Route("GetUser")]

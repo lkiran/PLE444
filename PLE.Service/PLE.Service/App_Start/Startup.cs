@@ -12,6 +12,8 @@ using System.Configuration;
 using System.Linq;
 using System.Net.Http.Formatting;
 using System.Web.Http;
+using AutoMapper;
+using PLE.Service.Models.Mapper;
 
 namespace PLE.Service.App_Start
 {
@@ -25,7 +27,7 @@ namespace PLE.Service.App_Start
 			ConfigureWebApi(httpConfig);
 			app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
 			app.UseWebApi(httpConfig);
-
+			Mapper.Initialize(cfg=>cfg.AddProfile<PleMappingProfile>());
 		}
 
 		private void ConfigureOAuthTokenGeneration(IAppBuilder app)

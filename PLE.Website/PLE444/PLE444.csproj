@@ -46,6 +46,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=6.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.6.1.1\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="DotNetZip, Version=1.10.1.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
       <HintPath>..\packages\DotNetZip.1.10.1\lib\net20\DotNetZip.dll</HintPath>
       <Private>True</Private>
@@ -233,6 +236,7 @@
     <Compile Include="Models\CommunityMembersViewModel.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\Interfaces\IUserSession.cs" />
+    <Compile Include="Models\Layout\SidebarList.cs" />
     <Compile Include="Models\PLEUserIdentity.cs" />
     <Compile Include="Models\UserPrincipal.cs" />
     <Compile Include="Models\UserSession.cs" />
@@ -271,6 +275,7 @@
     <Compile Include="ViewModels\Entry.cs" />
     <Compile Include="ViewModels\MailBox.cs" />
     <Compile Include="ViewModels\MaterialForm.cs" />
+    <Compile Include="Models\PleWebsiteMappingProfile.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -2190,6 +2195,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\" />
+    <Folder Include="Views\BasePle\" />
     <Folder Include="Views\Discussion\" />
     <Folder Include="Views\ErrorPages\" />
     <Folder Include="Views\File\" />

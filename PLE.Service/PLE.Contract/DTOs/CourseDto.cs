@@ -8,6 +8,7 @@ namespace PLE.Contract.DTOs
 		public Guid Id { get; set; }
 		
 		public UserDto Creator { get; set; }
+		public string CreatorId { get; set; }
 	
 		public string Code { get; set; }
 		
@@ -20,6 +21,7 @@ namespace PLE.Contract.DTOs
 		public bool CanEveryoneJoin { get; set; }
 
 		public SpaceDto Space { get; set; }
+		public int SpaceId { get; set; }
 
 		public virtual ICollection<ChapterDto> Chapters { get; set; }
 

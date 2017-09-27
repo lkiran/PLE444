@@ -211,9 +211,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Implementations\CourseService.cs" />
     <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Chapter.cs" />
     <Compile Include="Models\Community.cs" />
