@@ -1,27 +1,59 @@
-﻿@model List<PLE444.ViewModels.Entry>
+﻿@model List<PLE444.ViewModels.MainPage>
 
 @{
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
+<div class="jumbotron" style="background-image: url('../../Content/img/pleBackground2.jpg');" >
     <h1>PLE</h1>
-    <h2>Personal Learning Environment
-        <small>Kişisel Öğrenme Ortamı</small>
-    </h2>    
+    <h3>Personal Learning Environment</h3>
+    <h5>Kişisel Öğrenme Ortamı</h5>
 </div>
 
 <div class="row">
     <div class="col-md-4">
         <h2>Dersler</h2>
-        <p></p>
+        <p>
+            @foreach (var item in Model.Courses)
+            {
+            <li title="@item.Heading">
+                <a href="@Url.Action("Index", "Course", new {id = item.Id })">
+                    @item.Code
+
+                    @if (@item.CreatorId == ViewBag.CurrentUser)
+                    {
+                        <i class="ti ti-key text-warning"></i>
+                    }
+                </a>
+            </li>
+            }
+        </p>
     </div>
     <div class="col-md-4">
         <h2>Gruplar</h2>
-        <p></p>
+        <p>
+            foreach (var item in Model.Communities)
+            {
+            <li title="@item.Name">
+                <a href="@Url.Action("Index","Community", new { id = item.Id })">
+                    <span>@item.Name</span>
+
+                    @if (@item.OwnerId == ViewBag.CurrentUser)
+                    {
+                        <i class="ti ti-key text-warning"></i>
+                    }
+                </a>
+            </li>
+            }
+        </p>
     </div>
     <div class="col-md-4">
         <h2>Alanlar</h2>
-        <p></p>
+        <p>
+            @foreach (var item in Model.Spaces)
+            {
+                <li><a href="@Url.Action("Index","Spaces", new { id = item.Id })">@item.Name</a></li>
+            }
+        </p>
     </div>
 </div>

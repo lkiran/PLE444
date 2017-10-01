@@ -258,8 +258,8 @@
     <Compile Include="ViewModels\Chapters.cs" />
     <Compile Include="ViewModels\CourseGrades.cs" />
     <Compile Include="ViewModels\CourseMaterials.cs" />
-    <Compile Include="ViewModels\Entry.cs" />
     <Compile Include="ViewModels\MailBox.cs" />
+    <Compile Include="ViewModels\MainPage.cs" />
     <Compile Include="ViewModels\MaterialForm.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -733,6 +733,8 @@
     <Content Include="Content\img\FileIcons\xml.png" />
     <Content Include="Content\img\FileIcons\zip.png" />
     <Content Include="Content\img\logo.png" />
+    <Content Include="Content\img\pleBackground.jpg" />
+    <Content Include="Content\img\pleBackground2.jpg" />
     <Content Include="Content\img\pp.jpg" />
     <Content Include="Content\js\application.js" />
     <Content Include="Content\js\bootstrap.min.js" />
