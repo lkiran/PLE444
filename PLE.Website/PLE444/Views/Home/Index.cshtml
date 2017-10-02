@@ -1,4 +1,4 @@
-﻿@model List<PLE444.ViewModels.MainPage>
+﻿@*@model List<PLE444.ViewModels.MainPage>*@
 
 @{
     ViewBag.Title = "Home Page";
@@ -14,46 +14,16 @@
     <div class="col-md-4">
         <h2>Dersler</h2>
         <p>
-            @foreach (var item in Model.Courses)
-            {
-            <li title="@item.Heading">
-                <a href="@Url.Action("Index", "Course", new {id = item.Id })">
-                    @item.Code
-
-                    @if (@item.CreatorId == ViewBag.CurrentUser)
-                    {
-                        <i class="ti ti-key text-warning"></i>
-                    }
-                </a>
-            </li>
-            }
         </p>
     </div>
     <div class="col-md-4">
         <h2>Gruplar</h2>
         <p>
-            foreach (var item in Model.Communities)
-            {
-            <li title="@item.Name">
-                <a href="@Url.Action("Index","Community", new { id = item.Id })">
-                    <span>@item.Name</span>
-
-                    @if (@item.OwnerId == ViewBag.CurrentUser)
-                    {
-                        <i class="ti ti-key text-warning"></i>
-                    }
-                </a>
-            </li>
-            }
         </p>
     </div>
     <div class="col-md-4">
         <h2>Alanlar</h2>
         <p>
-            @foreach (var item in Model.Spaces)
-            {
-                <li><a href="@Url.Action("Index","Spaces", new { id = item.Id })">@item.Name</a></li>
-            }
         </p>
     </div>
 </div>
