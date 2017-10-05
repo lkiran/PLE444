@@ -9,11 +9,17 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using PLE444.ViewModels;
+using PLE.Website.Service;
 
 namespace PLE444.Controllers
 {
     public class CommunityController : Controller
     {
+        private CommunityService _communityService;
+        protected override void OnActionExecuting(ActionExecutingContext context)
+        {
+            _communityService = new CommunityService(User.GetPrincipal()?.User?.Token.access_token);
+        }
         private PleDbContext db = new PleDbContext();
 
         public ActionResult Index(Guid? id)

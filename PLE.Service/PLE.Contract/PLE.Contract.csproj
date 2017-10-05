@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="DTOs\AssignmentDto.cs" />
     <Compile Include="DTOs\ChapterDto.cs" />
+    <Compile Include="DTOs\CommunityDto.cs" />
     <Compile Include="DTOs\CourseDto.cs" />
     <Compile Include="DTOs\DiscussionDto.cs" />
     <Compile Include="DTOs\DocumentDto.cs" />

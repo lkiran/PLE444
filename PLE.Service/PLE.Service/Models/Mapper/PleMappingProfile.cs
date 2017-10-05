@@ -21,6 +21,7 @@ namespace PLE.Service.Models.Mapper
 			CreateMap<Document, DocumentDto>();
 			CreateMap<Discussion.Reading, ReadingDto>();
 			CreateMap<TimelineEntry, TimeLineEntryDto>();
-		}
+            CreateMap<Community, CommunityDto>();
+        }
 	}
 }

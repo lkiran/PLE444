@@ -13,10 +13,11 @@ namespace PLE444.Controllers
 	{
 		private PleDbContext db = new PleDbContext();
 		private CourseService _courseService;
-
-		protected override void OnActionExecuting(ActionExecutingContext context) {
+        private CommunityService _communityService;
+        protected override void OnActionExecuting(ActionExecutingContext context) {
 			_courseService = new CourseService(User.GetPrincipal()?.User?.Token.access_token);
-		}
+            _communityService = new CommunityService(User.GetPrincipal()?.User?.Token.access_token);
+        }
 
 		[ChildActionOnly]
 		public ActionResult Courses() {
@@ -42,12 +43,13 @@ namespace PLE444.Controllers
 			if (userId.IsNullOrWhiteSpace())
 				return PartialView(new List<Community>());
 
-			var userCommunities = db.UserCommunities.Where(uc => uc.UserId == userId && uc.IsActive);
-			var communities = db.Communities.Where(c => c.OwnerId == userId && c.IsActive);
-			var data = (from p in userCommunities select p.Community).Union(communities);
-
-			ViewBag.CurrentUser = userId;
-			return PartialView(data.ToList());
+           var data= _communityService.GetCommunityListByUser();
+            var model = new SidebarList<CommunityDto>
+            {
+                Items = data,
+                ActiveUserId = userId
+            };
+            return PartialView(model);
 		}
 
 		public ActionResult LogedInUser() {
