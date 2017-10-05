@@ -36,6 +36,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -44,6 +45,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="DotNetZip, Version=1.10.1.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
@@ -790,8 +792,6 @@
     <Content Include="Content\js\media.match.min.js" />
     <Content Include="Content\js\placeholdr.min.js" />
     <Content Include="Content\js\respond.min.js" />
-    <Content Include="Content\plugins\bootbox\bootbox.js" />
-    <Content Include="Content\plugins\bootbox\readme.txt" />
     <Content Include="Content\plugins\bootstrap-datepicker\bootstrap-datepicker.js" />
     <Content Include="Content\plugins\bootstrap-datepicker\locales\bootstrap-datepicker.ar.js" />
     <Content Include="Content\plugins\bootstrap-datepicker\locales\bootstrap-datepicker.az.js" />
@@ -1900,7 +1900,6 @@
     <Content Include="Content\less\variables.less" />
     <Content Include="Content\less\widgets.less" />
     <Content Include="Content\less\yamm.less" />
-    <Content Include="Content\plugins\.DS_Store" />
     <Content Include="Content\plugins\bootstrap-datepicker\CHANGELOG.md" />
     <Content Include="Content\plugins\bootstrap-datepicker\CONTRIBUTING.md" />
     <Content Include="Content\plugins\bootstrap-datepicker\datepicker3.less" />
@@ -2072,7 +2071,6 @@
     <Content Include="Content\plugins\summernote\src\less\elements.less" />
     <Content Include="Content\plugins\summernote\src\less\summernote.less" />
     <Content Include="Content\plugins\switchery\README.md" />
-    <Content Include="Content\plugins\wijets\.DS_Store" />
     <Content Include="Content\plugins\malihu-custom-scrollbar\.gitignore" />
     <Content Include="Content\plugins\malihu-custom-scrollbar\bower.json" />
     <Content Include="Content\plugins\malihu-custom-scrollbar\package.json" />
@@ -2108,12 +2106,6 @@
     <Content Include="Views\Mail\style.css" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
-    </Content>
-    <Content Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
-    </Content>
-    <Content Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
