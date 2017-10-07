@@ -39,8 +39,8 @@
                         <div class="panel-heading" id="scroll">
 
                             <h2>@discussion.Topic</h2>
-                            <span class="m-md"> @*@discussion.Creator.FullName()*@ 
-                            tarafından oluşturuldu</span>
+                            @*<span class="m-md"> @discussion.Creator.FullName() 
+                            tarafından @discussion.DateCreated tarihinde oluşturuldu</span>*@
                             <div class="pull-right">
                                 @if (discussion.Readings.Count != 0)
                                 {
@@ -98,7 +98,7 @@
                                             <br>
                                         }
                                         <div class="pull-right">
-                                            <a href="#scroll">Cevapla</a>
+                                            @*<a href="#scroll">Cevapla</a>*@
 
                                             @if (isOwner || isCreator)
                                             {
