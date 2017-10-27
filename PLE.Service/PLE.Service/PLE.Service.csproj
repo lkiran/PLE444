@@ -218,6 +218,7 @@
     </Compile>
     <Compile Include="Implementations\CommunityService.cs" />
     <Compile Include="Implementations\CourseService.cs" />
+    <Compile Include="Implementations\UserService.cs" />
     <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Chapter.cs" />
     <Compile Include="Models\Community.cs" />

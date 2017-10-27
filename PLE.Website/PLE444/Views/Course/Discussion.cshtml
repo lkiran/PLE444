@@ -36,10 +36,11 @@
 
                 <div class="panel panel-default">
                     <a data-toggle="collapse" data-parent="#accordionA" DiscussionId="@discussion.ID" class="Discussion" href="#@discussion.ID">
-                        <div class="panel-heading">
+                        <div class="panel-heading" id="scroll">
 
                             <h2>@discussion.Topic</h2>
-                            <span class="m-md"> @discussion.Creator.FullName() tarafından oluşturuldu</span>
+                            @*<span class="m-md"> @discussion.Creator.FullName() 
+                            tarafından @discussion.DateCreated tarihinde oluşturuldu</span>*@
                             <div class="pull-right">
                                 @if (discussion.Readings.Count != 0)
                                 {
@@ -53,26 +54,28 @@
                             </div>
                         </div>
                     </a>
-
                     <div id="@discussion.ID" class="collapse">
                         <div class="panel-body">
                             <div class="message">
-                                @if (ViewBag.CurrentUserId == null)
-                                {
-                                    <p>Mesaj yollamak için yapın</p>
-                                }
-                                else
-                                {
-                                    @Html.Partial("SendMessage", new PLE444.Models.Message(), new ViewDataDictionary { { "DiscussionId", discussion.ID } ,
+                                
+                                    @if (ViewBag.CurrentUserId == null)
+                                    {
+                                        <p>Mesaj yollamak için yapın</p>
+                                    }
+                                    else
+                                    {
+                                        @Html.Partial("SendMessage", new PLE444.Models.Message(), new ViewDataDictionary { { "DiscussionId", discussion.ID } ,
                                         { "CourseId", Model.Id } ,
                                         { "CurrentUserId", ViewBag.CurrentUserId } })
-                                }
-                                @if (isCreator)
-                                {
-                                    <a href="@Url.Action("RemoveTitle", "Course", new {discussionId = discussion.ID, courseId = Model.Id})">
-                                        <small class="text-danger">Başlığı Sil</small>
-                                    </a>
-                                }
+                                    }
+                                
+                                    @if (isCreator)
+                                    {
+                                        <a href="@Url.Action("RemoveTitle", "Course", new {discussionId = discussion.ID, courseId = Model.Id})">
+                                            <small class="text-danger">Başlığı Sil</small>
+                                        </a>
+                                    }
+                                
                             </div>
 
                             <hr>
@@ -95,6 +98,8 @@
                                             <br>
                                         }
                                         <div class="pull-right">
+                                            @*<a href="#scroll">Cevapla</a>*@
+
                                             @if (isOwner || isCreator)
                                             {
                                                 <a href="@Url.Action("RemoveMessage", "Course", new {messageId = message.ID, courseId = Model.Id})">
@@ -134,6 +139,34 @@
         </a>
     </div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+  // Add smooth scrolling to all links
+  $("a").on('click', function(event) {
+
+    // Make sure this.hash has a value before overriding default behavior
+    if (this.hash !== "") {
+      // Prevent default anchor click behavior
+      event.preventDefault();
+
+      // Store hash
+      var hash = this.hash;
+
+      // Using jQuery's animate() method to add smooth page scroll
+      // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 800, function(){
+
+        // Add hash (#) to URL when done scrolling (default click behavior)
+        window.location.hash = hash;
+      });
+    } // End if
+  });
+});
+</script>
 
 <script src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
 

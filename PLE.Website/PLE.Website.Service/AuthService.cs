@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PLE.Contract.DTOs;
 using PLE.Contract.DTOs.Requests;
+using PLE.Contract.DTOs.Responses;
 using PLE.Website.Service.Core;
 
 namespace PLE.Website.Service
@@ -15,8 +16,8 @@ namespace PLE.Website.Service
 	{
 		private readonly PleClient _client;
 
-		public AuthService(string token) {
-			_client = new PleClient(token);
+		public AuthService() {
+			_client = new PleClient();
 		}
 
 		public async Task<TokenDto> GetAuthToken(string username, string password) {
@@ -31,14 +32,26 @@ namespace PLE.Website.Service
 				var result = httpClient.PostAsync(url, content).Result;
 				var resultContent = result.Content.ReadAsStringAsync().Result;
 
-				return JsonConvert.DeserializeObject<TokenDto>(resultContent);
+				var token = JsonConvert.DeserializeObject<TokenDto>(resultContent);
+				if (token?.access_token == null)
+					throw new Exception("Access token is Null");
+				return token;
 			}
 		}
 
-		public UserDto User(string username) {
-			var result = _client.Post<UserDto>("api/accounts/GetUser", new GetUserRequest { UserName = username });
+		public UserDto GetActiveUser() {
+			var result = _client.Get<UserDto>("api/accounts/User");
+			return result;
+		}
+
+		public UserDto GetUser(string userId = "") {
+			var result = _client.Get<UserDto>($"api/accounts/User?userId={userId}");
+			return result;
+		}
+
+		public RegisterUserResponseDto RegisterUser(UserDto user) {
+			var result = _client.Post<RegisterUserResponseDto>("api/accounts/User", user);
 			return result;
 		}
 	}
-
 }

@@ -8,44 +8,40 @@ using System.Threading.Tasks;
 
 namespace PLE.Service.Providers
 {
-    public class PleOAuthProvider : OAuthAuthorizationServerProvider
-    {
+	public class PleOAuthProvider : OAuthAuthorizationServerProvider
+	{
 
-        public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
-        {
-            context.Validated();
-            return Task.FromResult<object>(null);
-        }
+		public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context) {
+			context.Validated();
+			return Task.FromResult<object>(null);
+		}
 
-        public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
-        {
+		public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context) {
 
-            var allowedOrigin = "*";
+			var allowedOrigin = "*";
 
-            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
+			context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
 
-            var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
+			var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
 
-            ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
+			ApplicationUser user = await userManager.FindAsync(context.UserName, context.Password);
 
-            if (user == null)
-            {
-                context.SetError("invalid_grant", "The user name or password is incorrect.");
-                return;
-            }
+			if (user == null) {
+				context.SetError("invalid_grant", "The user name or password is incorrect.");
+				return;
+			}
 
-            if (!user.EmailConfirmed)
-            {
-                context.SetError("invalid_grant", "User did not confirm email.");
-                return;
-            }
+			//if (!user.EmailConfirmed) {
+			//	context.SetError("invalid_grant", "User did not confirm email.");
+			//	return;
+			//}
 
-            ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager, "JWT");
+			ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager, "JWT");
 
-            var ticket = new AuthenticationTicket(oAuthIdentity, null);
+			var ticket = new AuthenticationTicket(oAuthIdentity, null);
 
-            context.Validated(ticket);
+			context.Validated(ticket);
 
-        }
-    }
+		}
+	}
 }

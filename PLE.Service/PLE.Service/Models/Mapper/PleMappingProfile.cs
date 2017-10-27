@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using AutoMapper;
+﻿using AutoMapper;
 using PLE.Contract.DTOs;
 
 namespace PLE.Service.Models.Mapper
@@ -10,7 +6,7 @@ namespace PLE.Service.Models.Mapper
 	public class PleMappingProfile : Profile
 	{
 		public PleMappingProfile() {
-			CreateMap<ApplicationUser, UserDto>();
+			CreateMap<ApplicationUser, UserDto>().ReverseMap();
 			CreateMap<Space, SpaceDto>();
 			CreateMap<Course, CourseDto>();
 			CreateMap<Chapter, ChapterDto>();
@@ -21,7 +17,7 @@ namespace PLE.Service.Models.Mapper
 			CreateMap<Document, DocumentDto>();
 			CreateMap<Discussion.Reading, ReadingDto>();
 			CreateMap<TimelineEntry, TimeLineEntryDto>();
-            CreateMap<Community, CommunityDto>();
-        }
+			CreateMap<Community, CommunityDto>();
+		}
 	}
 }

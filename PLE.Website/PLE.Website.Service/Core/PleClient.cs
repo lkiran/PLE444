@@ -8,28 +8,54 @@ namespace PLE.Website.Service.Core
 {
 	public class PleClient
 	{
+		#region Fields
 		private readonly HttpClient _client;
-		private const string BaseUri = "http://localhost:54020/";
+		private string defaultUri = "http://localhost:54020/";
+		public Uri BaseUri {
+			get => _client.BaseAddress;
+			set => _client.BaseAddress = value;
+		}
+		#endregion
 
-		public PleClient(string AuthToken) {
-			_client = new HttpClient { BaseAddress = new Uri(BaseUri) };
+		#region Ctor
+		public PleClient(Uri uri = null) {
+			_client = new HttpClient { BaseAddress = uri ?? new Uri(defaultUri) };
 			_client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-			if (!string.IsNullOrWhiteSpace(AuthToken))
-				_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AuthToken);
+
+			var authToken = Common.Common.Token?.access_token;
+			if (!string.IsNullOrWhiteSpace(authToken))
+				_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
+		}
+
+		public PleClient(string authToken, Uri uri = null) {
+			_client = new HttpClient { BaseAddress = uri ?? new Uri(defaultUri) };
+			_client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+			if (!string.IsNullOrWhiteSpace(authToken))
+				_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
+		}
+		#endregion
+
+		public T Get<T>(string url) {
+			var response = _client.GetAsync(url).Result;
+			var resultContent = response.Content.ReadAsStringAsync().Result;
+
+			if (!response.IsSuccessStatusCode)
+				throw new Exception(resultContent);
+
+			var result = JsonConvert.DeserializeObject<T>(resultContent);
+			return result;
 		}
 
 		public T Post<T>(string url, object content) {
 			var request = new StringContent(JsonConvert.SerializeObject(content), Encoding.UTF8,
 				"application/json");
 			var response = _client.PostAsync(url, request).Result;
-			var resultContent = response.Content.ReadAsStringAsync().Result;
-			var result = JsonConvert.DeserializeObject<T>(resultContent);
-			return result;
-		}
 
-		public T Get<T>(string url) {
-			var response = _client.GetAsync(url).Result;
 			var resultContent = response.Content.ReadAsStringAsync().Result;
+			if (!response.IsSuccessStatusCode)
+				throw new Exception(resultContent);
+
 			var result = JsonConvert.DeserializeObject<T>(resultContent);
 			return result;
 		}
