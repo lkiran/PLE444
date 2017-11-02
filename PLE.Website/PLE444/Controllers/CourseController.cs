@@ -628,29 +628,36 @@ namespace PLE444.Controllers
         }
 
         [HttpPost]
-        [Authorize]
-        [ValidateAntiForgeryToken]
-        public ActionResult SendMessage(Message message, Guid courseId, Guid discussionId)
-        {
+		[Authorize]
+		[ValidateAntiForgeryToken]
+		//public ActionResult SendMessage(SendMessageParametersVm message)
+		public ActionResult SendMessage(Message message, Guid courseId, Guid discussionId)
+		{
             if (ModelState.IsValid)
             {
                 var m = new Message();
                 m.Content = message.Content;
                 m.DateSent = DateTime.Now;
                 m.SenderId = User.Identity.GetUserId();
+				//m.Message_Id = message.messageId;
 
-                db.Messages.Add(m);
 
-                var d = db.Discussions.Find(discussionId);
-                d.Messages.Add(m);
+
+				db.Messages.Add(m);
+
+				//var d = db.Discussions.Find(message.discussionId);
+				var d = db.Discussions.Find(discussionId);
+				d.Messages.Add(m);
 
                 db.Entry(d).State = EntityState.Modified;
 
                 db.SaveChanges();
 
-                TempData["Active"] = discussionId;
-                return RedirectToAction("Discussion", new { id = courseId });
-            }
+                //TempData["Active"] = message.discussionId;
+				TempData["Active"] = discussionId;
+				//return RedirectToAction("Discussion", new { id = message.courseId });
+				return RedirectToAction("Discussion", new { id = courseId });
+			}
             return View();
         }
 

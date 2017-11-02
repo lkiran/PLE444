@@ -7,22 +7,24 @@ using System.Web.Mvc;
 
 namespace PLE444.Models
 {
-    public class Message
-    {
-        public Message()
-        {
-            ID = Guid.NewGuid();
-        }
-        public Guid ID { get; set; }
+	public class Message
+	{
+		public Message()
+		{
+			ID = Guid.NewGuid();
+		}
+		public Guid ID { get; set; }
 
-        [AllowHtml]
-        public string Content { get; set; }
+		[AllowHtml]
+		public string Content { get; set; }
 
-        [ForeignKey("Sender")]
-        public string SenderId { get; set; }
+		[ForeignKey("Sender")]
+		public string SenderId { get; set; }
 
-        public ApplicationUser Sender { get; set; }
+		public ApplicationUser Sender { get; set; }
 
-        public DateTime DateSent { get; set; }
-    }
+		public DateTime DateSent { get; set; }
+
+		public ICollection<Message> Replies { get; set; }
+	}
 }

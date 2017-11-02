@@ -14,7 +14,6 @@
     <strong style="margin-left:10px;">@h.GetUserFullNameFromID(ViewBag.CurrentUserId)</strong>
     <br>
 }
-
 @using (Html.BeginForm("SendMessage", "Course", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     <div class="form-horizontal">
@@ -28,7 +27,8 @@
             </div>
         </div>
         <input type="hidden" name="discussionId" id="discussionId" value="@ViewBag.DiscussionId" />
-        <input type="hidden" name="CourseId" id="CourseId" value="@ViewBag.CourseId" />
+		<input type="hidden" name="messageId" id="discussionId" value="@Model.ID" />
+        <input type="hidden" name="courseId" id="courseId" value="@ViewBag.CourseId" />
 
         <div class="col-sm-12 pull-right">
             <button type="submit" class="btn btn-success pull-right">Gönder</button>
@@ -47,7 +47,8 @@
             toolbar: [
                 // [groupName, [list of button]]
                 ['style', ['bold', 'italic', 'underline', 'clear', 'codeview']],
-                ['color', ['color']]
+                ['color', ['color']],
+				['insert', ['link', 'picture']]
             ]
         }); 
     });

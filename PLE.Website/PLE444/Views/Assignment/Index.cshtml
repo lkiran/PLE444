@@ -1,251 +1,210 @@
 ﻿@model PLE444.ViewModels.CourseAssignments
 @{
-    ViewBag.Title = "Ödevler";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-    var h = new PLE444.Helpers.DataManipulationHelper();
-    var fh = new PLE444.Helpers.FileHelper();
+	ViewBag.Title = "Ödevler";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	var h = new PLE444.Helpers.DataManipulationHelper();
+	var fh = new PLE444.Helpers.FileHelper();
 }
 
 @{ Html.RenderAction("Navigation", "Course", new { id = Model.CourseInfo.Id }); }
 
 @if (!Model.AssignmentList.Any())
 {
-    <div class="alert alert-dismissable alert-info">
-        <i class="ti ti-info-alt lead"></i> Bu derse eklenmiş herhangi bir ödev henüz yok.
-    </div>
+	<div class="alert alert-dismissable alert-info">
+		<i class="ti ti-info-alt lead"></i> Bu derse eklenmiş herhangi bir ödev henüz yok.
+	</div>
 }
 
 @if (Model.CanEdit)
-{
-    <a href="@Url.Action("Create", "Assignment", new {id = Model.CourseInfo.Id})" class="btn btn-primary-alt center-block">
-        <i class="fa fa-plus"></i> Yeni Ödev Ekle
-    </a>
-}
+	{
+<a href="@Url.Action("Create", "Assignment", new {id = Model.CourseInfo.Id})" class="btn btn-primary-alt center-block">
+	<i class="fa fa-plus"></i> Yeni Ödev Ekle
+</a>
+	}
+
 
 @foreach (var assignment in Model.AssignmentList.OrderByDescending(a => a.DateAdded))
 {
-    var userUpload = assignment.Uploads.FirstOrDefault(u => u.OwnerId == Model.CurrentUserId);
-    var isUploded = userUpload != null;
+	var userUpload = assignment.Uploads.FirstOrDefault(u => u.OwnerId == Model.CurrentUserId);
+	var isUploded = userUpload != null;
 
-    var panelColor = "default";
-    var message = "Yükleme bekliyor";
+	var panelColor = "default";
+	var message = "Yükleme bekliyor";
 
-    if (!Model.CanEdit)
-    {
-        if (isUploded)
-        {
-            var isLateUpload = userUpload.DateUpload > assignment.Deadline;
-            panelColor = isLateUpload ? "warning" : "success";
-            message = isLateUpload ? "Teslim tarihinden sonra yüklendi" : "Yüklendi";
-        }
-        else
-        {
-            if (DateTime.Now > assignment.Deadline)
-            {
-                panelColor = "danger";
-                message = "Teslim tarihi geçti ve yüklenmedi";
-            }
-        }
-    }
+	if (!Model.CanEdit)
+	{
+		if (isUploded)
+		{
+			var isLateUpload = userUpload.DateUpload > assignment.Deadline;
+			panelColor = isLateUpload ? "warning" : "success";
+			message = isLateUpload ? "Teslim tarihinden sonra yüklendi" : "Yüklendi";
+		}
+		else
+		{
+			if (DateTime.Now > assignment.Deadline)
+			{
+				panelColor = "danger";
+				message = "Teslim tarihi geçti ve yüklenmedi";
+			}
+		}
+	}
+		<div class="panel panel-@panelColor" data-widget='{"draggable": "false"}'>
 
-    <div class="panel panel-@panelColor" data-widget='{"draggable": "false"}'>
+			<div class="panel-heading">
+				<a data-toggle="collapse" data-parent="#accordionA" AssignmentID="@assignment.Id" class="Assignment" href="#@assignment.Id">
+					<h2>@Html.DisplayFor(modelItem => assignment.Title) </h2>
+				</a>
+				@if (Model.CanEdit)
+				{
+					<div class="panel-ctrls" style="float:left">
+						<a class="button-icon ml-sm" title="Düzenle" href="@Url.Action("Edit", "Assignment", new {id = assignment.Id, courseId = Model.CourseInfo.Id})">
+							<i class="ti ti-pencil"></i>
+						</a>
 
-        @if (Model.CanEdit)
-        {
-            <div class="panel-heading">
-                <h2>@Html.DisplayFor(modelItem => assignment.Title)</h2>
-                <div class="pull-right">
-                    @Html.DisplayFor(modelItem => assignment.DateAdded), @h.GetDeltaDate(assignment.DateAdded)
-                </div>
-                <div class="panel-ctrls" style="float:left">
-                    <a class="button-icon ml-sm" title="Düzenle" href="@Url.Action("Edit", "Assignment", new { id = assignment.Id, courseId = Model.CourseInfo.Id })">
-                        <i class="ti ti-pencil"></i>
-                    </a>
+						<a title="Kaldır" data-assignment-id="@assignment.Id" class="btn-remove button-icon ml-sm">
+							<i class="ti ti-trash"></i>
+						</a>
+					</div>
+				}
+				else
+				{
+					<small class="ml-md">@message</small>
 
-                    <a title="Kaldır" data-assignment-id="@assignment.Id" class="btn-remove button-icon ml-sm">
-                        <i class="ti ti-trash"></i>
-                    </a>
-                </div>
-            </div>
-            
-                <p>@(new HtmlString(assignment.Description))</p>
+					if (userUpload != null)
+					{
+						<div class="panel-ctrls" style="float:left">
+							<a class="button-icon ml-sm" title="Yükenen Ödevi İndir" href="@Url.Action("Download", "File", new {path = userUpload.FilePath, name = userUpload.Description})">
+								<i class="ti ti-download"></i>
+							</a>
+						</div>
+					}
+				}
 
-            if (Model.CanEdit && assignment.Uploads.Count > 0)
-            {
-                <table class="table m-n ">
-                    <thead>
+				<div class="pull-right">
+					@Html.DisplayFor(modelItem => assignment.DateAdded), @h.GetDeltaDate(assignment.DateAdded)
+				</div>
+			</div>
+			<div id="accordionA">
+				<div id="@assignment.Id" class="collapse">
+					<div class="panel-body">
+						<p>
+							@(new HtmlString(assignment.Description))
+						</p>
 
-                    </thead>
-                    <tbody>
-                        @foreach (var upload in assignment.Uploads.OrderBy(u => u.Owner.FullName()))
-                        {
-                            <tr>
-                                <td>
-                                    <img class="img-circle" src="@Url.Content(upload.Owner.UserPhoto())" style="height: 30px;" />
-                                    <span>@upload.Owner.FullName()</span>
-                                </td>
+						@if (Model.CanEdit && assignment.Uploads.Count > 0)
+				{
+							<hr />
+							<table class="table m-n ">
+								<thead>
 
-                                <td>
-                                    <a href="@Url.Action("Download", "File", new { path = Url.Content(upload.FilePath), name = Url.Content(upload.Description) })">
-                                        <img src="@Url.Content(fh.GetFileIcon(upload.FilePath))" style="height: 30px;" />
-                                        <span>@upload.Description</span>
-                                    </a>
-                                </td>
-                                <td> @upload.DateUpload, @h.GetDeltaDate(upload.DateUpload)</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            }
+								</thead>
+								<tbody>
+									@foreach (var upload in assignment.Uploads.OrderBy(u => u.Owner.FullName()))
+									{
+										<tr>
+											<td>
+												<img class="img-circle" src="@Url.Content(upload.Owner.UserPhoto())" style="height: 30px;" />
+												<span>@upload.Owner.FullName()</span>
+											</td>
 
-            <div class="panel-footer">
-                <a href="@Url.Action("DownloadAssignment", "Assignment", new { asssignmentId = assignment.Id })" class="pull-right">
-                    <img src="@Url.Content("~/Content/img/FileIcons/zip.png")" alt="zip" style="height: 30px;" />
-                    <span> Hepsini İndir</span>
-                </a>
-                <span>Teslim Tarihi: @assignment.Deadline</span>
-            </div>
-        }
+											<td>
+												<a href="@Url.Action("Download", "File", new {path = Url.Content(upload.FilePath), name = Url.Content(upload.Description) })">
+													<img src="@Url.Content(fh.GetFileIcon(upload.FilePath))" style="height: 30px;" />
+													<span>@upload.Description</span>
+												</a>
+											</td>
 
-        else if (Model.CanUpload)
-        {
-            <div class="panel-heading">
-                <div class="panel-group panel-default" id="accordionA">
-                    <h2>@Html.DisplayFor(modelItem => assignment.Title)</h2>
-                    <div class="pull-right">
-                        @Html.DisplayFor(modelItem => assignment.DateAdded), @h.GetDeltaDate(assignment.DateAdded)
-                    </div>
-                    <a data-toggle="collapse" data-parent="#accordionA" Assignment="@assignment.Id" class="button-icon ml-sm" href="#@assignment.Id" style="float:left">
-                        <i class="ti ti-menu"></i>
-                    </a>
-                    <small class="ml-md">@message</small>
+											<td> @upload.DateUpload, @h.GetDeltaDate(upload.DateUpload)</td>
+										</tr>
+									}
+								</tbody>
+							</table>
+				}
+					</div>
 
-                    @if (userUpload != null)
-                    {
-                        <div class="panel-ctrls" style="float:left">
-                            <a class="button-icon ml-sm" title="Yüklenen Ödevi İndir" href="@Url.Action("Download", "File", new { path = userUpload.FilePath, name = userUpload.Description })">
-                                <i class="ti ti-download"></i>
-                            </a>
-                        </div>
-                    }
 
-                    <div id="@assignment.Id" class="collapse">
-                        <p>
-                            @(new HtmlString(assignment.Description))
-                        </p>
+					<div class="panel-footer">
 
-                        <div class="panel-footer">
-                            @if (Model.CanUpload)
-                            {
-                                using (Html.BeginForm("Upload", "Assignment", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
-                                {
-                                    @Html.AntiForgeryToken()
-                                    <input class="btn btn-primary-alt pull-right mr-md" type="submit" value="Yükle" />
+						@if (Model.CanEdit)
+				{
+							<a href="@Url.Action("DownloadAssignment", "Assignment", new {asssignmentId = assignment.Id})" class="pull-right">
+								<img src="@Url.Content("~/Content/img/FileIcons/zip.png")" alt="zip" style="height: 30px;" />
+								<span> Hepsini İndir</span>
+							</a>
+				}
+				else if (Model.CanUpload)
+				{
+					using (Html.BeginForm("Upload", "Assignment", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
+					{
+								@Html.AntiForgeryToken()
+								<input class="btn btn-primary-alt pull-right mr-md" type="submit" value="Yükle" />
 
-                                    <input class="pull-right filer_input" name="uploadFile" type="file" id="uploadFile" />
-                                    <input type="hidden" name="assignmentId" id="assignmentId" value="@assignment.Id">
-                                }
-                            }
-
-                            <span>Teslim Tarihi: @assignment.Deadline</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
+								<input class="pull-right filer_input" name="uploadFile" type="file" id="uploadFile" />
+								<input type="hidden" name="assignmentId" id="assignmentId" value="@assignment.Id">
+					}
+				}
+						<span>Teslim Tarihi: @assignment.Deadline</span>
+					</div>
+				</div>
+			</div>
+	</div>
 }
-
-@*<div class="panel-body">
-        <p>
-            @(new HtmlString(assignment.Description))
-        </p>
-
-        @if (Model.CanEdit && assignment.Uploads.Count > 0)
-        {
-            <hr />
-                <table class="table m-n ">
-                    <thead>
-
-                    </thead>
-                    <tbody>
-                        @foreach (var upload in assignment.Uploads.OrderBy(u => u.Owner.FullName()))
-                        {
-                            <tr>
-                                <td>
-                                    <img class="img-circle" src="@Url.Content(upload.Owner.UserPhoto())" style="height: 30px;" />
-                                    <span>@upload.Owner.FullName()</span>
-                                </td>
-
-                                <td>
-                                    <a href="@Url.Action("Download", "File", new {path = Url.Content(upload.FilePath), name = Url.Content(upload.Description) })">
-                                        <img src="@Url.Content(fh.GetFileIcon(upload.FilePath))" style="height: 30px;" />
-                                        <span>@upload.Description</span>
-                                    </a>
-                                </td>
-                                <td> @upload.DateUpload, @h.GetDeltaDate(upload.DateUpload)</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-        }
-    </div>*@
 
 @section scripts
 {
-    <script>
-        $(document).ready(function () {
-            $(".btn-remove").on("click", function () {
+	<script>
+		$(document).ready(function () {
+			$(".btn-remove").on("click", function () {
 
-                var object = $(this);
+				var object = $(this);
 
-                bootbox.confirm({
-                    title: "Onay",
-                    message: "Ödevi kaldırmak istediğinize emin misiniz?",
-                    buttons: {
-                        confirm: {
-                            label: 'Evet, Kaldır',
-                            className: 'btn-danger-alt'
-                        },
-                        cancel: {
-                            label: 'Hayır',
-                            className: 'btn-info-alt'
-                        }
-                    },
-                    callback: function (result) {
-                        if (result) {
-                            $.ajax({
-                                url: "@Url.Action("Delete", "Assignment")" + "/" + object.data('assignment-id'),
-                                method: "POST",
-                                dataType: 'json',
-                                success: function (response) {
-                                    object.parent("div").parent("div").parent("div").slideUp();
-                                },
-                                error: function (response) {
-                                    console.log(response);
-                                }
-                            });
-                        }
+				bootbox.confirm({
+					title: "Onay",
+					message: "Ödevi kaldırmak istediğinize emin misiniz?",
+					buttons: {
+						confirm: {
+							label: 'Evet, Kaldır',
+							className: 'btn-danger-alt'
+						},
+						cancel: {
+							label: 'Hayır',
+							className: 'btn-info-alt'
+						}
+					},
+					callback: function (result) {
+						if (result) {
+							$.ajax({
+								url: "@Url.Action("Delete", "Assignment")" + "/" + object.data('assignment-id'),
+								method: "POST",
+								dataType: 'json',
+								success: function (response) {
+									object.parent("div").parent("div").parent("div").slideUp();
+								},
+								error: function (response) {
+									console.log(response);
+								}
+							});
+						}
 
-                    }
-                });
-            });
+					}
+				});
+			});
 
-            $('.filer_input').each(function () {
-                $(this).filer({
-                    captions: {
-                        button: "Seç",
-                        feedback: "Hiç dosya seçilmedi",
-                        feedback2: "dosya seçildi"
-                    }
-                });
-            });
+			$('.filer_input').each(function () {
+				$(this).filer({
+					captions: {
+						button: "Seç",
+						feedback: "Hiç dosya seçilmedi",
+						feedback2: "dosya seçildi"
+					}
+				});
+			});
 
-            $('.jFiler-input').each(function () {
-                $(this).addClass("pull-right");
-            });
-        });
-    </script>
+			$('.jFiler-input').each(function () {
+				$(this).addClass("pull-right");
+			});
+		});
+	</script>
 }
 
 
