@@ -25,6 +25,6 @@ namespace PLE444.Models
 
 		public DateTime DateSent { get; set; }
 
-		public ICollection<Message> Replies { get; set; }
+		public virtual ICollection<Message> Replies { get; set; }
 	}
 }

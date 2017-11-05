@@ -661,7 +661,45 @@ namespace PLE444.Controllers
             return View();
         }
 
-        [Authorize]
+		[HttpPost]
+		public ActionResult ReplyMessage(Message model)
+		{
+			if (ModelState.IsValid)
+			{
+				var m = new Message();
+				m.Content = model.Content;
+				m.DateSent = DateTime.Now;
+				m.SenderId = User.Identity.GetUserId();
+				//m.Message_Id = message.messageId;
+
+
+
+				db.Messages.Add(m);
+
+				//var d = db.Discussions.Find(message.discussionId);
+				var d = db.Discussions.Find(discussionId);
+				d.Messages.Add(m);
+
+				db.Entry(d).State = EntityState.Modified;
+
+				db.SaveChanges();
+
+				//TempData["Active"] = message.discussionId;
+				TempData["Active"] = discussionId;
+				//return RedirectToAction("Discussion", new { id = message.courseId });
+				return RedirectToAction("Discussion", new { id = courseId });
+			}
+			chapter.Materials.Add(material);
+			db.Entry(chapter).State = EntityState.Modified;
+
+			db.SaveChanges();
+
+			return RedirectToAction("Index", "Chapter", new { id = chapter.CourseId });
+			return View();
+			
+			}
+
+		[Authorize]
         public ActionResult RemoveMessage(Guid? messageId, Guid? courseId)
         {
             if (messageId == null)

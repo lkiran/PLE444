@@ -143,7 +143,7 @@
 
 
 											<form id="reply-form" style="display:none">
-												@Html.Partial("SendMessage", new PLE444.Models.Message(), new ViewDataDictionary { { "DiscussionId", discussion.ID } ,
+												@Html.Partial("ReplyMessage", new PLE444.Models.Message(), new ViewDataDictionary { { "DiscussionId", discussion.ID } ,
 										{ "CourseId", Model.Id } ,
 										{ "CurrentUserId", ViewBag.CurrentUserId } })
 											</form>
