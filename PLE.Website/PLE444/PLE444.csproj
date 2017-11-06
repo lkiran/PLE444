@@ -241,13 +241,9 @@
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\UserHelper.cs" />
     <Compile Include="Helpers\ViewHelper.cs" />
-    <Compile Include="Migrations\201710021640571_October.cs" />
-    <Compile Include="Migrations\201710021640571_October.Designer.cs">
-      <DependentUpon>201710021640571_October.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201710201606045_replies.cs" />
-    <Compile Include="Migrations\201710201606045_replies.Designer.cs">
-      <DependentUpon>201710201606045_replies.cs</DependentUpon>
+    <Compile Include="Migrations\201711061555156_replies.cs" />
+    <Compile Include="Migrations\201711061555156_replies.Designer.cs">
+      <DependentUpon>201711061555156_replies.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -289,9 +285,11 @@
     <Compile Include="ViewModels\Chapters.cs" />
     <Compile Include="ViewModels\CourseGrades.cs" />
     <Compile Include="ViewModels\CourseMaterials.cs" />
+    <Compile Include="ViewModels\DiscussionViewModel.cs" />
     <Compile Include="ViewModels\MailBox.cs" />
     <Compile Include="ViewModels\MainPage.cs" />
     <Compile Include="ViewModels\MaterialForm.cs" />
+    <Compile Include="ViewModels\NewMessageViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -2222,11 +2220,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201710021640571_October.resx">
-      <DependentUpon>201710021640571_October.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201710201606045_replies.resx">
-      <DependentUpon>201710201606045_replies.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201711061555156_replies.resx">
+      <DependentUpon>201711061555156_replies.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
