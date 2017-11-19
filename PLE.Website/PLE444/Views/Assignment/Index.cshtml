@@ -16,11 +16,11 @@
 }
 
 @if (Model.CanEdit)
-	{
-<a href="@Url.Action("Create", "Assignment", new {id = Model.CourseInfo.Id})" class="btn btn-primary-alt center-block">
-	<i class="fa fa-plus"></i> Yeni Ödev Ekle
-</a>
-	}
+{
+	<a href="@Url.Action("Create", "Assignment", new {id = Model.CourseInfo.Id})" class="btn btn-primary-alt center-block">
+		<i class="fa fa-plus"></i> Yeni Ödev Ekle
+	</a>
+}
 
 
 @foreach (var assignment in Model.AssignmentList.OrderByDescending(a => a.DateAdded))
@@ -48,12 +48,12 @@
 			}
 		}
 	}
-		<div class="panel panel-@panelColor" data-widget='{"draggable": "false"}'>
-
+	<div class="panel panel-@panelColor" data-widget='{"draggable": "false"}'>
+		<a data-toggle="collapse" data-parent="#accordionA" AssignmentID="@assignment.Id" class="Assignment" href="#@assignment.Id">
 			<div class="panel-heading">
-				<a data-toggle="collapse" data-parent="#accordionA" AssignmentID="@assignment.Id" class="Assignment" href="#@assignment.Id">
-					<h2>@Html.DisplayFor(modelItem => assignment.Title) </h2>
-				</a>
+
+				<h2>@Html.DisplayFor(modelItem => assignment.Title) </h2>
+
 				@if (Model.CanEdit)
 				{
 					<div class="panel-ctrls" style="float:left">
@@ -83,17 +83,19 @@
 				<div class="pull-right">
 					@Html.DisplayFor(modelItem => assignment.DateAdded), @h.GetDeltaDate(assignment.DateAdded)
 				</div>
-			</div>
-			<div id="accordionA">
-				<div id="@assignment.Id" class="collapse">
-					<div class="panel-body">
-						<p>
-							@(new HtmlString(assignment.Description))
-						</p>
 
-						@if (Model.CanEdit && assignment.Uploads.Count > 0)
+			</div>
+		</a>
+		<div id="accordionA">
+			<div id="@assignment.Id" class="collapse">
+				<div class="panel-body">
+					<p>
+						@(new HtmlString(assignment.Description))
+					</p>
+
+					@if (Model.CanEdit && assignment.Uploads.Count > 0)
 				{
-							<hr />
+						<hr />
 							<table class="table m-n ">
 								<thead>
 
@@ -120,33 +122,33 @@
 								</tbody>
 							</table>
 				}
-					</div>
+				</div>
 
 
-					<div class="panel-footer">
+				<div class="panel-footer">
 
-						@if (Model.CanEdit)
+					@if (Model.CanEdit)
 				{
-							<a href="@Url.Action("DownloadAssignment", "Assignment", new {asssignmentId = assignment.Id})" class="pull-right">
-								<img src="@Url.Content("~/Content/img/FileIcons/zip.png")" alt="zip" style="height: 30px;" />
-								<span> Hepsini İndir</span>
-							</a>
+						<a href="@Url.Action("DownloadAssignment", "Assignment", new {asssignmentId = assignment.Id})" class="pull-right">
+							<img src="@Url.Content("~/Content/img/FileIcons/zip.png")" alt="zip" style="height: 30px;" />
+							<span> Hepsini İndir</span>
+						</a>
 				}
 				else if (Model.CanUpload)
 				{
 					using (Html.BeginForm("Upload", "Assignment", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
 					{
-								@Html.AntiForgeryToken()
-								<input class="btn btn-primary-alt pull-right mr-md" type="submit" value="Yükle" />
+							@Html.AntiForgeryToken()
+							<input class="btn btn-primary-alt pull-right mr-md" type="submit" value="Yükle" />
 
 								<input class="pull-right filer_input" name="uploadFile" type="file" id="uploadFile" />
 								<input type="hidden" name="assignmentId" id="assignmentId" value="@assignment.Id">
 					}
 				}
-						<span>Teslim Tarihi: @assignment.Deadline</span>
-					</div>
+					<span>Teslim Tarihi: @assignment.Deadline</span>
 				</div>
 			</div>
+		</div>
 	</div>
 }
 

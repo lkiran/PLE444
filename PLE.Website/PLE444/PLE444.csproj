@@ -241,10 +241,6 @@
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\UserHelper.cs" />
     <Compile Include="Helpers\ViewHelper.cs" />
-    <Compile Include="Migrations\201711061555156_replies.cs" />
-    <Compile Include="Migrations\201711061555156_replies.Designer.cs">
-      <DependentUpon>201711061555156_replies.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -762,6 +758,7 @@
     <Content Include="Content\img\FileIcons\xml.png" />
     <Content Include="Content\img\FileIcons\zip.png" />
     <Content Include="Content\img\logo.png" />
+    <Content Include="Content\img\ple2.jpg" />
     <Content Include="Content\img\pleBackground.jpg" />
     <Content Include="Content\img\pleBackground2.jpg" />
     <Content Include="Content\img\pp.jpg" />
@@ -2218,11 +2215,6 @@
       <Project>{7df5f085-db4a-4f0c-a091-3122d1a8e988}</Project>
       <Name>PLE.Website.Service</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201711061555156_replies.resx">
-      <DependentUpon>201711061555156_replies.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

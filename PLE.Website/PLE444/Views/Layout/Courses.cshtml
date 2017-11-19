@@ -9,7 +9,7 @@ else
     foreach (var item in Model)
     {
         <li title="@item.Heading">
-            <a href="@Url.Action("Index", "Course", new {id = item.Id})">
+            <a href="@Url.Action("Index", "Chapter", new {id = item.Id})">
                 @item.Code
 
                 @if (@item.CreatorId == ViewBag.CurrentUser)
