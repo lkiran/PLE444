@@ -520,7 +520,7 @@ namespace PLE444.Controllers
 
 			db.Entry(c).State = EntityState.Modified;
 			db.SaveChanges();
-
+			//return View("",model);
 			return Json(new { success = true });
 		}
 

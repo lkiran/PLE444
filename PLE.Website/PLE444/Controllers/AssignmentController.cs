@@ -194,6 +194,21 @@ namespace PLE444.Controllers
 		[HttpPost]
 		[Authorize]
 		[ValidateAntiForgeryToken]
+		public ActionResult Feedback(int? uploadId, string feedback)
+		{
+			if (uploadId == null || String.IsNullOrEmpty(feedback))
+				return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+			var a = db.Documents.Find(uploadId);
+			a.Feedback = feedback;
+
+			db.Entry(a).State = EntityState.Modified;
+			db.SaveChanges();
+			return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
+		}
+
+		[HttpPost]
+		[Authorize]
+		[ValidateAntiForgeryToken]
 		public ActionResult Upload(Guid assignmentId, HttpPostedFileBase uploadFile)
 		{
 			var a = db.Assignments.Include("Course").FirstOrDefault(i => i.Id == assignmentId);

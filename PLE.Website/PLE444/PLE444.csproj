@@ -241,6 +241,10 @@
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\UserHelper.cs" />
     <Compile Include="Helpers\ViewHelper.cs" />
+    <Compile Include="Migrations\201711241538070_feedbacks.cs" />
+    <Compile Include="Migrations\201711241538070_feedbacks.Designer.cs">
+      <DependentUpon>201711241538070_feedbacks.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -2215,6 +2219,11 @@
       <Project>{7df5f085-db4a-4f0c-a091-3122d1a8e988}</Project>
       <Name>PLE.Website.Service</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201711241538070_feedbacks.resx">
+      <DependentUpon>201711241538070_feedbacks.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

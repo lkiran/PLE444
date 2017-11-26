@@ -73,7 +73,7 @@
 					if (userUpload != null)
 					{
 						<div class="panel-ctrls" style="float:left">
-							<a class="button-icon ml-sm" title="Yükenen Ödevi İndir" href="@Url.Action("Download", "File", new {path = userUpload.FilePath, name = userUpload.Description})">
+							<a class="button-icon ml-sm" title="Yüklenen Ödevi İndir" href="@Url.Action("Download", "File", new {path = userUpload.FilePath, name = userUpload.Description})">
 								<i class="ti ti-download"></i>
 							</a>
 						</div>
@@ -92,17 +92,28 @@
 					<p>
 						@(new HtmlString(assignment.Description))
 					</p>
+					
 
-					@if (Model.CanEdit && assignment.Uploads.Count > 0)
+					@if (assignment.Uploads.Count > 0)
 				{
 						<hr />
-							<table class="table m-n ">
-								<thead>
 
-								</thead>
-								<tbody>
-									@foreach (var upload in assignment.Uploads.OrderBy(u => u.Owner.FullName()))
-									{
+						foreach (var upload in assignment.Uploads.OrderBy(u => u.Owner.FullName()))
+						{
+							if (Model.CanUpload)
+							{
+								<p style="background-color:aliceblue;">
+									Öğretmen Geri Bildirimi: @upload.Feedback;
+								</p>
+							}
+
+							if (Model.CanEdit)
+							{
+								<table class="table m-n ">
+									<thead>
+
+									</thead>
+									<tbody>
 										<tr>
 											<td>
 												<img class="img-circle" src="@Url.Content(upload.Owner.UserPhoto())" style="height: 30px;" />
@@ -117,13 +128,24 @@
 											</td>
 
 											<td> @upload.DateUpload, @h.GetDeltaDate(upload.DateUpload)</td>
-										</tr>
-									}
-								</tbody>
-							</table>
-				}
-				</div>
 
+											<td>
+												@using (Html.BeginForm("Feedback", "Assignment", FormMethod.Post))
+												{
+													@Html.AntiForgeryToken()
+													<input name="feedback" id="feedback" type="text" value="@upload.Feedback" />
+														<input type="hidden" name="uploadId" id="uploadId" value="@upload.Id">
+														<input class="btn btn-primary-alt pull-right mr-md" type="submit" value="Gönder" />
+												}
+
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							}
+						}
+					}
+				</div>
 
 				<div class="panel-footer">
 
@@ -141,8 +163,8 @@
 							@Html.AntiForgeryToken()
 							<input class="btn btn-primary-alt pull-right mr-md" type="submit" value="Yükle" />
 
-								<input class="pull-right filer_input" name="uploadFile" type="file" id="uploadFile" />
-								<input type="hidden" name="assignmentId" id="assignmentId" value="@assignment.Id">
+							<input class="pull-right filer_input" name="uploadFile" type="file" id="uploadFile" />
+							<input type="hidden" name="assignmentId" id="assignmentId" value="@assignment.Id">
 					}
 				}
 					<span>Teslim Tarihi: @assignment.Deadline</span>
@@ -209,4 +231,6 @@
 	</script>
 }
 
-
+@*$('#fb-123'.slideUp)
+	$('#fb-123'.slideDown)
+	div i td'nin kapanma tag inden önce ekle *@
