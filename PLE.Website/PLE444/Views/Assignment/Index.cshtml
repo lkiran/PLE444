@@ -92,59 +92,54 @@
 					<p>
 						@(new HtmlString(assignment.Description))
 					</p>
-					
 
-					@if (assignment.Uploads.Count > 0)
-				{
-						<hr />
+					@*@if (Model.CanUpload)
+					{
+						<p>
+							@(new HtmlString(userUpload.Feedback))
+						</p>
+					}*@
+					<hr />
 
-						foreach (var upload in assignment.Uploads.OrderBy(u => u.Owner.FullName()))
+					<table class="table m-n ">
+						<thead>
+
+						</thead>
+
+						@if (Model.CanEdit && assignment.Uploads.Count > 0)
 						{
-							if (Model.CanUpload)
+							foreach (var upload in assignment.Uploads.OrderBy(u => u.Owner.FullName()))
 							{
-								<p style="background-color:aliceblue;">
-									Öğretmen Geri Bildirimi: @upload.Feedback;
-								</p>
-							}
+								<tbody>
+									<tr>
+										<td>
+											<img class="img-circle" src="@Url.Content(upload.Owner.UserPhoto())" style="height: 30px;" />
+											<span>@upload.Owner.FullName()</span>
+										</td>
 
-							if (Model.CanEdit)
-							{
-								<table class="table m-n ">
-									<thead>
+										<td>
+											<a href="@Url.Action("Download", "File", new {path = Url.Content(upload.FilePath), name = Url.Content(upload.Description) })">
+												<img src="@Url.Content(fh.GetFileIcon(upload.FilePath))" style="height: 30px;" />
+												<span>@upload.Description</span>
+											</a>
+										</td>
 
-									</thead>
-									<tbody>
-										<tr>
-											<td>
-												<img class="img-circle" src="@Url.Content(upload.Owner.UserPhoto())" style="height: 30px;" />
-												<span>@upload.Owner.FullName()</span>
-											</td>
+										<td> @upload.DateUpload, @h.GetDeltaDate(upload.DateUpload)</td>
 
-											<td>
-												<a href="@Url.Action("Download", "File", new {path = Url.Content(upload.FilePath), name = Url.Content(upload.Description) })">
-													<img src="@Url.Content(fh.GetFileIcon(upload.FilePath))" style="height: 30px;" />
-													<span>@upload.Description</span>
-												</a>
-											</td>
-
-											<td> @upload.DateUpload, @h.GetDeltaDate(upload.DateUpload)</td>
-
-											<td>
-												@using (Html.BeginForm("Feedback", "Assignment", FormMethod.Post))
-												{
-													@Html.AntiForgeryToken()
-													<input name="feedback" id="feedback" type="text" value="@upload.Feedback" />
-														<input type="hidden" name="uploadId" id="uploadId" value="@upload.Id">
-														<input class="btn btn-primary-alt pull-right mr-md" type="submit" value="Gönder" />
-												}
-
-											</td>
-										</tr>
-									</tbody>
-								</table>
+										<td>
+											@using (Html.BeginForm("Feedback", "Assignment", FormMethod.Post))
+						{
+												@Html.AntiForgeryToken()
+												<input name="feedback" id="feedback" type="text" value="@upload.Feedback" />
+												<input type="hidden" name="uploadId" id="uploadId" value="@upload.Id">
+												<input class="btn btn-primary-alt pull-right mr-md" type="submit" value="Gönder" />
+						}
+										</td>
+									</tr>
+								</tbody>
 							}
 						}
-					}
+					</table>
 				</div>
 
 				<div class="panel-footer">
@@ -164,9 +159,10 @@
 							<input class="btn btn-primary-alt pull-right mr-md" type="submit" value="Yükle" />
 
 							<input class="pull-right filer_input" name="uploadFile" type="file" id="uploadFile" />
-							<input type="hidden" name="assignmentId" id="assignmentId" value="@assignment.Id">
+								<input type="hidden" name="assignmentId" id="assignmentId" value="@assignment.Id">
 					}
 				}
+
 					<span>Teslim Tarihi: @assignment.Deadline</span>
 				</div>
 			</div>
