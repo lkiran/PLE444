@@ -241,9 +241,9 @@
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\UserHelper.cs" />
     <Compile Include="Helpers\ViewHelper.cs" />
-    <Compile Include="Migrations\201711241538070_feedbacks.cs" />
-    <Compile Include="Migrations\201711241538070_feedbacks.Designer.cs">
-      <DependentUpon>201711241538070_feedbacks.cs</DependentUpon>
+    <Compile Include="Migrations\201712021250020_feedback.cs" />
+    <Compile Include="Migrations\201712021250020_feedback.Designer.cs">
+      <DependentUpon>201712021250020_feedback.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -285,6 +285,7 @@
     <Compile Include="ViewModels\Chapters.cs" />
     <Compile Include="ViewModels\CourseGrades.cs" />
     <Compile Include="ViewModels\CourseMaterials.cs" />
+    <Compile Include="ViewModels\DiscussionMessages.cs" />
     <Compile Include="ViewModels\DiscussionViewModel.cs" />
     <Compile Include="ViewModels\MailBox.cs" />
     <Compile Include="ViewModels\MainPage.cs" />
@@ -2195,6 +2196,7 @@
     <Content Include="Views\Mail\ConfirmEmail.cshtml" />
     <Content Include="Views\Mail\ResetPassword.cshtml" />
     <Content Include="Views\Course\ReplyMessage.cshtml" />
+    <Content Include="Views\Course\Read.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -2221,8 +2223,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201711241538070_feedbacks.resx">
-      <DependentUpon>201711241538070_feedbacks.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201712021250020_feedback.resx">
+      <DependentUpon>201712021250020_feedback.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

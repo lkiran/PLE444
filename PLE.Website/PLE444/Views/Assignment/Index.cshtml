@@ -64,11 +64,25 @@
 						<a title="Kaldır" data-assignment-id="@assignment.Id" class="btn-remove button-icon ml-sm">
 							<i class="ti ti-trash"></i>
 						</a>
+
+						@if (assignment.IsFeedbackPublished == false)
+						{
+							<a class="button-icon ml-sm" title="Geri Bildirimi Yayınla" href="@Url.Action("Publish", "Assignment", new {assignmentId = assignment.Id, courseId = Model.CourseInfo.Id})">
+								<i class="ti ti-announcement"></i>
+							</a>
+						}
+						else
+						{
+							<a class="button-icon ml-sm " title="Geri Bildirimi Yayından Kaldır" href="@Url.Action("Publish", "Assignment", new {assignmentId = assignment.Id, courseId = Model.CourseInfo.Id})">
+								<i class="ti ti-announcement text-danger"></i>
+							</a>
+						}
+
 					</div>
 				}
 				else
 				{
-					<small class="ml-md">@message</small>
+					<small class="ml-md text">@message</small>
 
 					if (userUpload != null)
 					{
@@ -76,6 +90,7 @@
 							<a class="button-icon ml-sm" title="Yüklenen Ödevi İndir" href="@Url.Action("Download", "File", new {path = userUpload.FilePath, name = userUpload.Description})">
 								<i class="ti ti-download"></i>
 							</a>
+
 						</div>
 					}
 				}
@@ -92,13 +107,11 @@
 					<p>
 						@(new HtmlString(assignment.Description))
 					</p>
-
-					@*@if (Model.CanUpload)
-					{
-						<p>
-							@(new HtmlString(userUpload.Feedback))
-						</p>
-					}*@
+						@if (assignment.IsFeedbackPublished == true && userUpload != null &&	!string.IsNullOrEmpty(userUpload.Feedback)){
+							<strong class="text-info">Geri Bildirim</strong>
+							<p class="text-info">@userUpload.Feedback</p>
+						}
+					
 					<hr />
 
 					<table class="table m-n ">
@@ -159,10 +172,9 @@
 							<input class="btn btn-primary-alt pull-right mr-md" type="submit" value="Yükle" />
 
 							<input class="pull-right filer_input" name="uploadFile" type="file" id="uploadFile" />
-								<input type="hidden" name="assignmentId" id="assignmentId" value="@assignment.Id">
+							<input type="hidden" name="assignmentId" id="assignmentId" value="@assignment.Id">
 					}
 				}
-
 					<span>Teslim Tarihi: @assignment.Deadline</span>
 				</div>
 			</div>

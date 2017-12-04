@@ -15,7 +15,7 @@ namespace PLE444.Models
 		{
 			Id = Guid.NewGuid();
 			IsActive = true;
-			IsFeedbackPublished = false;
+			//IsFeedbackPublished = false;
 		}
 
 		[Key]

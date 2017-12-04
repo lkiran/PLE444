@@ -497,7 +497,9 @@ namespace PLE444.Controllers
 		[HttpPost]
 		[Authorize]
 		public ActionResult Read(Guid? discussionId, Guid? courseId) {
-			var c = db.Courses.Include("Discussion").Include("Discussion.Readings").FirstOrDefault(i => i.Id == courseId);
+			if (discussionId == Guid.Empty || courseId == Guid.Empty)
+				return HttpNotFound();
+			var c = db.Courses.Include("Discussion").Include("Discussion.Messages.Sender").Include("Discussion.Readings").FirstOrDefault(i => i.Id == courseId);
 			if (c == null)
 				return Json(new { success = false });
 
@@ -520,8 +522,14 @@ namespace PLE444.Controllers
 
 			db.Entry(c).State = EntityState.Modified;
 			db.SaveChanges();
-			//return View("",model);
-			return Json(new { success = true });
+			var model = new DiscussionMessages
+			{
+				Discussion = d,
+				CurrentUserId = currentUser,
+				CourseId = (Guid)courseId,
+				Role = isCourseCreator(c)? "Creator" : "Member"
+			};
+			return PartialView(model);
 		}
 
 		[Authorize]

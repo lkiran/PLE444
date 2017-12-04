@@ -197,13 +197,36 @@ namespace PLE444.Controllers
 		public ActionResult Feedback(int? uploadId, string feedback)
 		{
 			if (uploadId == null || String.IsNullOrEmpty(feedback))
-				return new HttpStatusCodeResult(HttpStatusCode.NotFound);
+			return new HttpStatusCodeResult(HttpStatusCode.NotFound);
 			var a = db.Documents.Find(uploadId);
 			a.Feedback = feedback;
+			
 
 			db.Entry(a).State = EntityState.Modified;
 			db.SaveChanges();
 			return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
+		}
+		
+		[Authorize]
+		public ActionResult Publish(Guid? assignmentId, Guid? courseId)
+		{
+			var assignment = db.Assignments.Include("Course").SingleOrDefault(i => i.Id == assignmentId);
+
+			if (assignment == null)
+				return HttpNotFound();
+			
+			if(assignment.IsFeedbackPublished == true)
+			{
+				assignment.IsFeedbackPublished = false;
+			}
+			else
+			{
+				assignment.IsFeedbackPublished = true;
+			}
+
+			db.Entry(assignment).State = EntityState.Modified;
+			db.SaveChanges();
+			return RedirectToAction("Index", "Assignment", new { id = assignment.CourseId });
 		}
 
 		[HttpPost]
