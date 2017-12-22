@@ -14,7 +14,19 @@
         <h2 class="text-capitalize">@Model.Course.Heading</h2>
         
         @if (Model.IsCourseCreator)
-        {
+		{
+			if (Model.Course.IsCourseActive == false)
+			{
+				<a class="button-icon ml-sm" title="Dersi Aktif Hale Getir" href="@Url.Action("Active", "Course", new { courseId = Model.Course.Id })">
+					<i class="ti ti-lock"></i>
+				</a>
+			}
+			else
+			{
+				<a class="button-icon ml-sm " title="Dersi Pasif Hale Getir" href="@Url.Action("Active", "Course", new { courseId = Model.Course.Id })">
+					<i class="ti ti-unlock"></i>
+				</a>
+			}
             <a class="pull-right mr-md" href="@Url.Action("Edit", "Course", new {id = Model.Course.Id})">
                 <small><i class="ti ti-pencil-alt"></i> Düzenle</small>
             </a>
@@ -30,14 +42,22 @@
             else if (Model.IsWaiting)
             {
                 <span class="text-info pull-right"><i class="ti ti-time"></i> Onay Bekliyor</span>
-            }
-            else
-            {
-                <a class="pull-right" href="@Url.Action("Join", "Course", new {id = Model.Course.Id})">
-                    <span><i class="ti ti-angle-double-right"></i>  Derse Katıl</span>
-                </a>
-            }
-        }
+			}
+			else
+			{
+				if (Model.Course.IsCourseActive == true)
+				{
+					<a class="pull-right" href="@Url.Action("Join", "Course", new {id = Model.Course.Id})">
+						<span><i class="ti ti-angle-double-right"></i>  Derse Katıl</span>
+					</a>
+				}
+
+				else
+				{
+					<span class="pull-right text-danger">Bu Ders Pasif</span>
+				}
+			}
+		}
     </div>
     <div class="panel-body">
         <div class="col-md-9">

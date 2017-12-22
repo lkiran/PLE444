@@ -749,6 +749,28 @@ namespace PLE444.Controllers
 			return new HttpStatusCodeResult(HttpStatusCode.OK);
 		}
 
+		[Authorize]
+		public ActionResult Active(Guid? courseId)
+		{
+			var course = db.Courses.SingleOrDefault(i => i.Id == courseId);
+
+			if (course == null)
+				return HttpNotFound();
+
+			if (course.IsCourseActive == true)
+			{
+				course.IsCourseActive = false;
+			}
+			else
+			{
+				course.IsCourseActive = true;
+			}
+
+			db.Entry(course).State = EntityState.Modified;
+			db.SaveChanges();
+			return RedirectToAction("Index", "Course", new { id = course.Id });
+		}
+
 		#region Private Methods
 		private bool isCourseCreator(Guid? courseId) {
 			if (courseId == null)

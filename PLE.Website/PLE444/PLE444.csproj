@@ -245,6 +245,14 @@
     <Compile Include="Migrations\201712021250020_feedback.Designer.cs">
       <DependentUpon>201712021250020_feedback.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712220939278_active.cs" />
+    <Compile Include="Migrations\201712220939278_active.Designer.cs">
+      <DependentUpon>201712220939278_active.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712220943529_activeCourse.cs" />
+    <Compile Include="Migrations\201712220943529_activeCourse.Designer.cs">
+      <DependentUpon>201712220943529_activeCourse.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -2225,6 +2233,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201712021250020_feedback.resx">
       <DependentUpon>201712021250020_feedback.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712220939278_active.resx">
+      <DependentUpon>201712220939278_active.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712220943529_activeCourse.resx">
+      <DependentUpon>201712220943529_activeCourse.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -81,7 +81,7 @@ Max Score: @gradeType.MaxScore">
                                     }
                                     else
                                     {
-                                        totalUserScore += (userGrade.Grade*gradeType.Effect/100f);
+                                        totalUserScore += (userGrade.Grade*gradeType.Effect/gradeType.MaxScore);
 
                                         
                                         @*@Url.Action("ChangeGrade", "Course", new { gradeId = userGrade.Id })*@
