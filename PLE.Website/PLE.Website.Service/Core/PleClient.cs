@@ -23,16 +23,13 @@ namespace PLE.Website.Service.Core
 			_client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
 			var authToken = Common.Common.Token?.access_token;
-			if (!string.IsNullOrWhiteSpace(authToken))
-				_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
+			UpdateToken(authToken);
 		}
 
 		public PleClient(string authToken, Uri uri = null) {
 			_client = new HttpClient { BaseAddress = uri ?? new Uri(defaultUri) };
 			_client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-			if (!string.IsNullOrWhiteSpace(authToken))
-				_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
+			UpdateToken(authToken);
 		}
 		#endregion
 
@@ -58,6 +55,11 @@ namespace PLE.Website.Service.Core
 
 			var result = JsonConvert.DeserializeObject<T>(resultContent);
 			return result;
+		}
+
+		public void UpdateToken(string authToken) {
+			if (!string.IsNullOrWhiteSpace(authToken))
+				_client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", authToken);
 		}
 	}
 }

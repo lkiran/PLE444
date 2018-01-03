@@ -222,7 +222,6 @@
     <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Chapter.cs" />
     <Compile Include="Models\Community.cs" />
-    <Compile Include="Models\CommunityMembersViewModel.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Discussion.cs" />
     <Compile Include="Models\Document.cs" />
@@ -232,21 +231,17 @@
     <Compile Include="Models\Friendship.cs" />
     <Compile Include="Models\GradeType.cs" />
     <Compile Include="Models\Interest.cs" />
-    <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Mapper\PleMappingProfile.cs" />
     <Compile Include="Models\Material.cs" />
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\PrivateMessage.cs" />
     <Compile Include="Models\Space.cs" />
-    <Compile Include="Models\SpaceViewModel.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Models\TimelineEntry.cs" />
     <Compile Include="Models\UserCommunity.cs" />
     <Compile Include="Models\UserCourse.cs" />
     <Compile Include="Models\UserGrade.cs" />
-    <Compile Include="Models\UserInterest.cs" />
-    <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Providers\PleJwtFormat.cs" />
     <Compile Include="Providers\PleOAuthProvider.cs" />
     <Content Include="Global.asax" />
@@ -270,7 +265,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\ModelFactory.cs" />
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ApplicationUser.cs" />
     <Compile Include="Models\PleDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

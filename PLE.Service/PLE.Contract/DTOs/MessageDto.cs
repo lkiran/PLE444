@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PLE.Contract.DTOs
 {
@@ -15,5 +12,7 @@ namespace PLE.Contract.DTOs
 		public UserDto Sender { get; set; }
 
 		public DateTime DateSent { get; set; }
+
+		public virtual ICollection<MessageDto> Replies { get; set; }
 	}
 }

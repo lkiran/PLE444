@@ -12,12 +12,14 @@ namespace PLE.Service.Models
 		public ApplicationUser Owner { get; set; }
 
 		[ForeignKey("Owner")]
-		public string OwnerId { get; set; }	
+		public string OwnerId { get; set; }
 
 		public string FilePath { get; set; }
 
 		public string Description { get; set; }
 
 		public DateTime DateUpload { get; set; }
+
+		public string Feedback { get; set; }
 	}
 }

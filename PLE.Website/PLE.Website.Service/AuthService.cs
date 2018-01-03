@@ -1,26 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 using Newtonsoft.Json;
 using PLE.Contract.DTOs;
-using PLE.Contract.DTOs.Requests;
-using PLE.Contract.DTOs.Responses;
 using PLE.Website.Service.Core;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using PLE.Contract.DTOs.Responses;
 
 namespace PLE.Website.Service
 {
-	public class AuthService
+	public class AuthService : IDisposable
 	{
 		private readonly PleClient _client;
+		private const string AuthTokenName = "PLE_Auth_Token";
 
 		public AuthService() {
 			_client = new PleClient();
 		}
 
-		public async Task<TokenDto> GetAuthToken(string username, string password) {
+		public TokenDto GetAuthToken(string username, string password) {
 			const string url = "http://localhost:54020/oauth/token";
 			using (var httpClient = new HttpClient()) {
 				HttpContent content = new FormUrlEncodedContent(new[]
@@ -39,8 +38,14 @@ namespace PLE.Website.Service
 			}
 		}
 
+		public void UpdateClientToken(TokenDto token) {
+			Common.Common.Token = token;
+			_client.UpdateToken(token.access_token);
+		}
+
 		public UserDto GetActiveUser() {
 			var result = _client.Get<UserDto>("api/accounts/User");
+			result.Token = Common.Common.Token;
 			return result;
 		}
 
@@ -52,6 +57,35 @@ namespace PLE.Website.Service
 		public RegisterUserResponseDto RegisterUser(UserDto user) {
 			var result = _client.Post<RegisterUserResponseDto>("api/accounts/User", user);
 			return result;
+		}
+
+
+		public void SetAuthCookie([Optional]TokenDto token) {
+			if (token == null)
+				token = Common.Common.Token;
+
+			HttpContext.Current.Response.Cookies.Add(new HttpCookie(AuthTokenName) {
+				Value = JsonConvert.SerializeObject(token),
+				Expires = DateTime.Now + TimeSpan.FromSeconds(token.expires_in)
+			});
+		}
+
+		public TokenDto GetAuthCookie() {
+			var cookie = HttpContext.Current.Request.Cookies.Get(AuthTokenName);
+			return cookie == null ? null : JsonConvert.DeserializeObject<TokenDto>(cookie.Value);
+		}
+
+		public void DeleteAuthCookie() {
+			var cookie = HttpContext.Current.Request.Cookies.Get(AuthTokenName);
+			if (cookie == null) return;
+			cookie.Expires = DateTime.Now.AddDays(-1);
+			HttpContext.Current.Response.Cookies.Add(cookie);
+		}
+
+		public bool CheckAuthCookieExist() => HttpContext.Current.Request.Cookies.Get(AuthTokenName) != null;
+
+		public void Dispose() {
+
 		}
 	}
 }

@@ -4626,8 +4626,8 @@ button.close {
 }
 .modal-dialog {
   position: relative;
-  width: auto;
   margin: 10px;
+  width:90% !important;
 }
 .modal-content {
   position: relative;
@@ -13922,60 +13922,60 @@ body.topnav-collapsed header.navbar.navbar-default .navbar-collapse .open .tt-dr
   background-color: #263238;
 }
 .sidebar-midnightblue .sidebar .widget .widget-heading {
-  color: #546e7a;
+  color: white;
   background-color: #263238;
 }
 .sidebar-midnightblue .sidebar .widget .widget-body .userinfo .username {
-  color: #cfd8dc;
+  color: white;
 }
 .sidebar-midnightblue .sidebar .widget .widget-body .userinfo .useremail {
-  color: #546e7a;
+  color: white;
 }
 .sidebar-midnightblue .sidebar .widget .widget-body .mini-progressbar {
-  color: #546e7a;
+  color: white;
 }
 .sidebar-midnightblue .sidebar .widget .widget-body .mini-progressbar .progress {
   background-color: #455a64;
 }
 .sidebar-midnightblue nav.widget-body > ul.acc-menu li.nav-separator {
-  color: #546e7a;
+  color: white;
 }
 .sidebar-midnightblue nav.widget-body > ul.acc-menu ul,
 .sidebar-midnightblue nav.widget-body > ul.acc-menu ul li a {
   background-color: #1c2429;
-  color: #78909c;
+  color: white;
 }
 .sidebar-midnightblue nav.widget-body > ul.acc-menu li a {
-  color: #90a4ae;
+  color: white;
   background-color: #263238;
 }
 .sidebar-midnightblue nav.widget-body > ul.acc-menu > li:hover > a {
   background-color: #37474f;
-  color: #cfd8dc;
+  color: white;
 }
 .sidebar-midnightblue nav.widget-body > ul.acc-menu > li.active > a {
   background-color: #455a64;
-  color: #ffffff;
+  color: white;
 }
 .sidebar-midnightblue nav.widget-body > ul.acc-menu > li > a > i {
-  color: #90a4ae;
+  color: white;
 }
 .sidebar-midnightblue nav.widget-body > ul.acc-menu > li > a:hover > i {
-  color: #cfd8dc;
+  color: white;
 }
 .sidebar-midnightblue nav.widget-body > ul.acc-menu > li.active > a > i,
 .sidebar-midnightblue nav.widget-body > ul.acc-menu > li.active > a:hover > i {
-  color: #ffffff;
+  color: white;
 }
 .sidebar-midnightblue nav.widget-body > ul.acc-menu ul li a:hover {
   background-color: #212b30;
-  color: #cfd8dc;
+  color: white;
 }
 .sidebar-midnightblue nav.widget-body > ul.acc-menu ul li.active:not(.open) > a {
-  color: #ffffff;
+  color: white;
 }
 .sidebar-midnightblue nav.widget-body > ul.acc-menu li.disabled-link a {
-  color: #546e7a;
+  color: white;
 }
 #headernav.navbar-default {
   background: #ffffff;

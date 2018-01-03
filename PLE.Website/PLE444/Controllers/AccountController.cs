@@ -65,16 +65,20 @@ namespace PLE444.Controllers
 
 			var result = SignInStatus.Failure;
 			try {
-				var token = await _authService.GetAuthToken(model.Email, model.Password);
-				Common.Token = token;
+				var token = _authService.GetAuthToken(model.Email, model.Password);
+				_authService.UpdateClientToken(token);
 				var user = _authService.GetActiveUser();
 				user.Token = token;
+				Common.Token = token;
 
 				User.GetPrincipal().LoginUser(user);
 
 				result = SignInStatus.Success;
 				switch (result) {
 					case SignInStatus.Success:
+						if (model.RememberMe) 
+							_authService.SetAuthCookie();
+						
 						return string.IsNullOrWhiteSpace(returnUrl) ? RedirectToAction("Index", "Home") : RedirectToLocal(returnUrl);
 
 					case SignInStatus.LockedOut:
@@ -446,6 +450,7 @@ namespace PLE444.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult LogOff() {
+			_authService.DeleteAuthCookie();
 			User.GetPrincipal().LogoutUser();
 			return RedirectToAction("Index", "Home");
 		}

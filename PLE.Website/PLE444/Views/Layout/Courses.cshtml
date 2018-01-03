@@ -9,13 +9,19 @@ else
     foreach (var item in Model.Items)
     {
         <li title="@item.Heading">
-            <a href="@Url.Action("Index", "Course", new {id = item.Id})">
+            <a href="@Url.Action("Index", "Chapter", new {id = item.Id})">
                 @item.Code
 
-                @if (@item.CreatorId == Model.ActiveUserId)
-                {
+				@if (item.IsCourseActive == false)
+				{
+					<i class="ti ti-lock text-warning"></i>
+				}
+
+                @if (item.CreatorId == ViewBag.CurrentUser)
+				{
                     <i class="ti ti-key text-warning"></i>
                 }
+				
             </a>
         </li>
     }

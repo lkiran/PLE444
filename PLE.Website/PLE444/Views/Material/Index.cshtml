@@ -28,7 +28,7 @@
                         <button data-material-id="@material.Id" data-chapter-id="@chapter.Id" class="btn-remove btn-link">
                             <small class="text-danger"><i class="fa fa-trash-o ml-md mr-sm"></i>Kaldır</small>
                         </button>
-                    }
+					}
                     <h2>@material.Title <em>(@chapter.Title)</em>
                     </h2>
 
@@ -81,8 +81,8 @@
                     callback: function (result) {
                         if (result) {
                             $.ajax({
-                                //RemoveFromChapter(Guid? chapterId, Guid? materialId)
-                                url: @Url.Action("RemoveFromChapter", "Material") +
+                            	//RemoveFromChapter(Guid? chapterId, Guid? materialId)
+                            	url: "@Url.Action("RemoveFromChapter", "Material")" +
                                     "/?materialId=" + object.data('material-id') +
                                     "&chapterId=" + object.data('chapter-id'),
                                 method: "POST",
@@ -98,6 +98,23 @@
 
                     }
                 });
+            });
+
+            $(".ShowModal").on("click", function (e) {
+            	e.preventDefault();
+            	$.ajax({
+            		//RemoveFromChapter(Guid? chapterId, Guid? materialId)
+            		url: $(this).data("href"),
+            		method: "GET",
+            		dataType: 'json',
+            		success: function (response) {
+            			$(".modal-dialog").html(response.responseText);
+            		},
+            		error: function (response) {
+            			$(".modal-dialog").html(response.responseText);
+            		}
+            	});
+
             });
         });
     </script>

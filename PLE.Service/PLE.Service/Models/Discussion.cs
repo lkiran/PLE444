@@ -20,10 +20,10 @@ namespace PLE.Service.Models
 
         public Discussion()
         {
-            Id = Guid.NewGuid();
+            ID = Guid.NewGuid();
         }
 
-        public Guid Id { get; set; }
+        public Guid ID { get; set; }
 
         public string Topic { get; set; }
 

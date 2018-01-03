@@ -1,0 +1,78 @@
+﻿@using PLE444.ViewModels
+@model DiscussionMessages
+
+@{ 
+	string PrevUserId = "";
+	var orderedMessages = Model.Discussion.Messages.OrderBy(o => o.DateSent);
+	foreach (var message in orderedMessages.OrderByDescending(m => m.DateSent))
+	{
+		var dh = new PLE444.Helpers.DataManipulationHelper();
+		var isOwner = Model.CurrentUserId == message.SenderId;
+		var isCreator = Model.Role == "Creator";
+		var unreads = new List<PLE444.Models.Message>();
+		var readings = Model.Discussion.Readings.FirstOrDefault(u => u.UserId == Model.CurrentUserId);
+		DateTime? lastRead = null;
+		if (readings != null)
+		{
+			lastRead = readings.Date;
+		}
+		unreads = lastRead != null ? Model.Discussion.Messages.Where(d => d.DateSent > lastRead).ToList() : Model.Discussion.Messages.ToList();
+		unreads = unreads.Except(Model.Discussion.Messages.Where(u => u.SenderId == Model.CurrentUserId).ToList()).ToList();
+
+		<div class="message">
+			@if (message.SenderId != PrevUserId)
+			{
+				<a href="@Url.Action("Profil","User", new {id = message.SenderId})">
+					<img class="img-circle" style="width:40px" src="@Url.Content(message.Sender.UserPhoto())" />
+					<strong style="margin-left:10px;">@message.Sender.FullName()</strong>
+				</a>
+				<br>
+			}
+			<div class="pull-right">
+				@if (isOwner || isCreator)
+				{
+					<a href="@Url.Action("RemoveMessage", "Course", new {messageId = message.ID, courseId = Model.CourseId})">
+						<small class="text-danger">Kaldır</small>
+					</a>
+
+					<a class="replyBtn" data-parent-id="@message.ID" href="#"><small class="text-info">Cevapla</small></a>
+				}
+
+				<small>@dh.GetDeltaDate(message.DateSent)</small>
+			</div>
+
+			@if (unreads.FirstOrDefault(i => i.ID == message.ID) == null)
+			{
+				<div class="content" style="margin-left:50px;">@(new HtmlString(message.Content))</div>
+			}
+			else
+			{
+				<div class="content unreadMessage" style="margin-left:50px;">@(new HtmlString(message.Content))</div>
+			}
+
+			@foreach (var reply in message.Replies)
+			{
+				<div class="reply">
+					<a href="@Url.Action("Profil","User", new {id = reply.SenderId})">
+						<strong style="margin-left:10px;">@reply.Sender.FullName()</strong>
+					</a>
+					<div class="pull-right">
+						@if (Model.CurrentUserId == reply.SenderId || isCreator)
+						{
+							<a href="@Url.Action("RemoveMessage", "Course", new {messageId = reply.ID, courseId = Model.CourseId})">
+								<small class="text-danger">Kaldır</small>
+							</a>
+						}
+
+						<small>@dh.GetDeltaDate(reply.DateSent)</small>
+					</div>
+
+					<div class="content">@(new HtmlString(reply.Content))</div>
+				</div>
+			}
+		</div>
+
+		PrevUserId = message.SenderId;
+	}
+
+}

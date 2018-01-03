@@ -22,5 +22,7 @@ namespace PLE444.Models
 		public string Description { get; set; }
 
         public DateTime DateUpload { get; set; }
-    }
+
+		public string Feedback { get; set; }
+	}
 }
