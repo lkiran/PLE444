@@ -5,6 +5,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using PLE444.ViewModels;
 using PLE.Website.Service;
 
@@ -12,13 +13,18 @@ namespace PLE444.Controllers
 {
 	public class CommunityController : Controller
 	{
+		#region Fields
 		private PleDbContext db = new PleDbContext();
 		private CommunityService _communityService;
+		#endregion
 
+		#region Ctor
 		public CommunityController() {
 			_communityService = new CommunityService();
 		}
+		#endregion
 
+		#region Community
 		public ActionResult Index(Guid? id) {
 			if (id == null)
 				return RedirectToAction("List", "Community");
@@ -47,7 +53,6 @@ namespace PLE444.Controllers
 		}
 
 		public ActionResult Create() {
-			ViewBag.Sapces = db.Spaces.ToList();
 			return View();
 		}
 
@@ -64,12 +69,10 @@ namespace PLE444.Controllers
 				db.SaveChanges();
 				return RedirectToAction("Index");
 			}
-			ViewBag.Sapces = db.Spaces.ToList();
 			return View(community);
 		}
 
 		public ActionResult Edit(Guid id) {
-			ViewBag.Sapces = db.Spaces.ToList();
 			var currentuserId = User.GetPrincipal()?.User.Id;
 			var c = db.Communities.Find(id);
 
@@ -95,66 +98,44 @@ namespace PLE444.Controllers
 				community.Description = model.Description;
 				community.IsHiden = model.IsHiden;
 				community.IsOpen = model.IsOpen;
-				community.SpaceId = community.SpaceId;
 
 				db.Entry(community).State = EntityState.Modified;
 				db.SaveChanges();
 
 				return RedirectToAction("Index", new { id = model.Id });
 			}
-			ViewBag.Sapces = db.Spaces.ToList();
 			return View(model);
 		}
 
+		#endregion
+
+		#region Discussions
 		[Authorize]
 		public ActionResult Discussion(Guid? id) {
-			var community =
-				db.Communities.Include("Discussions")
-					.Include("Discussions.Messages")
-					.Include("Discussions.Messages.Sender")
-					.Include("Discussions.Readings")
-					.FirstOrDefault(i => i.Id == id);
+			var community = db.Communities
+				.Include("Discussions")
+				.Include("Discussions.Messages")
+				.Include("Discussions.Messages.Sender")
+				.Include("Discussions.Readings")
+				.FirstOrDefault(i => i.Id == id);
+
 			if (community == null)
 				return HttpNotFound();
 
 			if (Status(community) != Enums.StatusType.Creator && Status(community) != Enums.StatusType.Member)
 				return RedirectToAction("Index", "Community", new { id = id });
 
-			community.Discussions = community.Discussions.OrderBy(d => d.DateCreated).ToList();
-			ViewBag.Role = Status(community) == Enums.StatusType.Creator ? "Creator" : "Member";
-			ViewBag.CurrentUserId = User.GetPrincipal()?.User.Id;
-			return View(community);
+			var model = new DiscussionViewModel {
+				CId = community.Id,
+				CurrentUserId = User.Identity?.GetUserId(),
+				Role = Status(community) == Enums.StatusType.Creator ? "Creator" : "Member",
+				Discussion = community.Discussions.ToList()
+			};
+
+			return View(model);
 		}
 
-		[HttpPost]
-		[Authorize]
-		public ActionResult Read(Guid? discussionId, Guid? communityId) {
-			var c = db.Communities.Include("Discussions").Include("Discussions.Readings").FirstOrDefault(i => i.Id == communityId);
-			if (c == null)
-				return Json(new { success = false });
-
-			var d = c.Discussions.FirstOrDefault(i => i.ID == discussionId);
-			if (d == null)
-				return Json(new { success = false });
-
-			var currentUser = User.GetPrincipal()?.User.Id;
-			var r = d.Readings.FirstOrDefault(u => u.UserId == currentUser);
-			if (r == null) {
-				r = new Discussion.Reading {
-					UserId = currentUser,
-					Date = DateTime.Now
-				};
-				d.Readings.Add(r);
-			} else {
-				r.Date = DateTime.Now;
-			}
-
-			db.Entry(c).State = EntityState.Modified;
-			db.SaveChanges();
-
-			return Json(new { success = true });
-		}
-
+		#region Title
 		[Authorize]
 		public ActionResult AddTitle(string id) {
 			ViewBag.CommunityId = id;
@@ -187,11 +168,11 @@ namespace PLE444.Controllers
 		}
 
 		[Authorize]
-		public ActionResult RemoveTitle(Guid? discussionId, Guid? communityId) {
-			if (communityId == null || discussionId == null)
+		public ActionResult RemoveTitle(Guid? discussionId, Guid? CId) {
+			if (CId == null || discussionId == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-			var community = db.Communities.FirstOrDefault(c => c.Id == communityId);
+			var community = db.Communities.FirstOrDefault(c => c.Id == CId);
 			if (community == null)
 				return HttpNotFound();
 
@@ -209,49 +190,113 @@ namespace PLE444.Controllers
 
 			return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
 		}
+		#endregion
+
+		#region Messages
+		[HttpPost]
+		[Authorize]
+		public ActionResult Read(Guid? discussionId, Guid? CId) {
+			if (discussionId == Guid.Empty || CId == Guid.Empty)
+				return HttpNotFound();
+			var c = db.Communities.Include("Discussions")
+				.Include("Discussions.Messages.Sender")
+				.Include("Discussions.Readings")
+				.FirstOrDefault(i => i.Id == CId);
+			if (c == null)
+				return Json(new { success = false });
+
+			var d = c.Discussions.FirstOrDefault(i => i.ID == discussionId);
+			if (d == null)
+				return Json(new { success = false });
+
+			var currentUser = User.Identity.GetUserId();
+			var r = d.Readings.FirstOrDefault(u => u.UserId == currentUser);
+			if (r == null) {
+				r = new Discussion.Reading {
+					UserId = currentUser,
+					Date = DateTime.Now
+				};
+				d.Readings.Add(r);
+			}
+			else {
+				r.Date = DateTime.Now;
+			}
+
+			db.Entry(c).State = EntityState.Modified;
+			db.SaveChanges();
+			var model = new DiscussionMessages {
+				Discussion = d,
+				CurrentUserId = currentUser,
+				CId = (Guid)CId,
+				Role = Status(c).ToString()
+			};
+			return PartialView(model);
+		}
 
 		[HttpPost]
 		[Authorize]
 		[ValidateAntiForgeryToken]
-		public ActionResult SendMessage(Message message, Guid communityId, Guid discussionId) {
-			if (ModelState.IsValid) {
-				var m = new Message();
-				m.Content = message.Content;
-				m.DateSent = DateTime.Now;
-				m.SenderId = User.GetPrincipal()?.User.Id;
+		public ActionResult SendMessage(NewMessageViewModel model) {
+			if (!ModelState.IsValid)
+				return View(model);
 
-				db.Messages.Add(m);
+			var newMessage = new Message {
+				Content = model.Content,
+				DateSent = DateTime.Now,
+				SenderId = User.Identity.GetUserId()
+			};
 
-				var d = db.Discussions.Find(discussionId);
-				d.Messages.Add(m);
+			if (model.ReplyId != Guid.Empty) {
+				var parentMessage = db.Messages.Find(model.ReplyId);
+				parentMessage?.Replies.Add(newMessage);
 
-				db.Entry(d).State = EntityState.Modified;
-
-				db.SaveChanges();
-
-				TempData["Active"] = discussionId;
+				db.Entry(parentMessage).State = EntityState.Modified;
 			}
-			return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
+			else {
+				db.Messages.Add(newMessage);
+
+				var discussion = db.Discussions.Find(model.DiscussionId);
+				discussion?.Messages.Add(newMessage);
+
+				db.Entry(discussion).State = EntityState.Modified;
+			}
+
+			db.SaveChanges();
+
+			TempData["Active"] = model.DiscussionId;
+			return RedirectToAction("Discussion", new { id = model.CId });
 		}
 
+
 		[Authorize]
-		public ActionResult RemoveMessage(Guid? messageId, Guid? communityId) {
+		public ActionResult RemoveMessage(Guid? messageId, Guid? CId) {
 			if (messageId == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-			var message = db.Messages.FirstOrDefault(m => m.ID == messageId);
-			if (message == null)
-				return HttpNotFound();
+			try {
+				var message = db.Messages.Include("Replies").FirstOrDefault(m => m.ID == messageId);
+				if (message == null)
+					return HttpNotFound();
 
-			else if (Status(communityId) != Enums.StatusType.Creator && message.SenderId != User.GetPrincipal()?.User.Id)
-				return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+				if (Status(CId) != Enums.StatusType.Creator && message.SenderId != User.GetPrincipal()?.User.Id)
+					return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
-			db.Messages.Remove(message);
-			db.SaveChanges();
+				foreach (var reply in message.Replies.ToList())
+					db.Messages.Remove(reply);
+
+
+				db.Messages.Remove(message);
+				db.SaveChanges();
+			}
+			catch (Exception e) { }
 
 			return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
 		}
+		#endregion
 
+		#endregion
+
+		#region Members
 		[Authorize]
 		public ActionResult Members(Guid? id) {
 			if (id == null)
@@ -359,6 +404,9 @@ namespace PLE444.Controllers
 			return RedirectToAction("Index", new { id = id });
 		}
 
+		#endregion
+
+		#region Private Methods
 		private Enums.StatusType Status(Guid? communityId) {
 			if (communityId == null)
 				return Enums.StatusType.None;
@@ -385,5 +433,6 @@ namespace PLE444.Controllers
 					return Enums.StatusType.Removed;
 			}
 		}
+		#endregion
 	}
 }

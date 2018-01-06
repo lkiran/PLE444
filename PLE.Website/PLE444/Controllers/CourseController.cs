@@ -11,6 +11,7 @@ using PLE444.Models;
 using Microsoft.AspNet.Identity;
 using System.IO;
 using Microsoft.Ajax.Utilities;
+using PLE.Website.Service;
 using PLE444.ViewModels;
 using WebGrease.Css.Extensions;
 
@@ -18,8 +19,18 @@ namespace PLE444.Controllers
 {
 	public class CourseController : Controller
 	{
+		#region Fields
 		private PleDbContext db = new PleDbContext();
+		private CourseService _courseService; 
+		#endregion
 
+		#region Ctor
+		public CourseController() {
+			_courseService = new CourseService();
+		}
+		#endregion
+
+		#region Course
 		public ActionResult Index(Guid? id) {
 			if (id == null)
 				return RedirectToAction("List");
@@ -50,26 +61,6 @@ namespace PLE444.Controllers
 			return View(model);
 		}
 
-		[Authorize]
-		public ActionResult Members(Guid? id) {
-			if (id == null)
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-			var course = db.Courses.Find(id);
-			if (course == null)
-				return HttpNotFound();
-
-			if (!isMember(course) && !isCourseCreator(course))
-				return RedirectToAction("Index", "Course", new { id = course.Id });
-
-			var model = new CourseMembers {
-				Members = db.UserCourses.Include("User").Where(uc => uc.CourseId == id).ToList(),
-				Course = course,
-				CanEdit = isCourseCreator(course)
-			};
-
-			return View(model);
-		}
 
 		[ChildActionOnly]
 		public ActionResult Navigation(Guid? id) {
@@ -79,7 +70,6 @@ namespace PLE444.Controllers
 
 		[Authorize]
 		public ActionResult Create() {
-			ViewBag.Sapces = db.Spaces.ToList();
 			return View();
 		}
 
@@ -105,7 +95,6 @@ namespace PLE444.Controllers
 				db.SaveChanges();
 				return RedirectToAction("Index", new { id = course.Id });
 			}
-			ViewBag.Sapces = db.Spaces.ToList();
 			return View(course);
 		}
 
@@ -120,8 +109,7 @@ namespace PLE444.Controllers
 
 			if (!isCourseCreator(model))
 				return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
-
-			ViewBag.Sapces = db.Spaces.ToList();
+			
 			return View(model);
 		}
 
@@ -142,8 +130,6 @@ namespace PLE444.Controllers
 				course.Code = model.Code;
 				course.Name = model.Name;
 				course.Description = model.Description;
-				course.SpaceId = model.SpaceId;
-
 				course.Timeline.Add(new TimelineEntry {
 					ColorClass = "timeline-primary",
 					CreatorId = course.CreatorId,
@@ -157,10 +143,11 @@ namespace PLE444.Controllers
 				return RedirectToAction("Index", new { id = model.Id });
 
 			}
-			ViewBag.Sapces = db.Spaces.ToList();
 			return View(model);
-		}
+		} 
+		#endregion
 
+		#region Grades
 		[Authorize]
 		public ActionResult Grades(Guid? courseId) {
 			if (courseId == null)
@@ -462,21 +449,17 @@ namespace PLE444.Controllers
 			return RedirectToAction("Grades", "Course", new { courseId = gradeType.CourseId });
 		}
 
-		protected override void Dispose(bool disposing) {
-			if (disposing) {
-				db.Dispose();
-			}
-			base.Dispose(disposing);
-		}
+		#endregion
 
+		#region Discussions
 		[Authorize]
 		public ActionResult Discussion(Guid? id) {
 			var course = db.Courses.Include("Discussion")
-				   .Include("Creator")
-					.Include("Discussion.Messages")
-					.Include("Discussion.Messages.Sender")
-					.Include("Discussion.Readings")
-					.FirstOrDefault(i => i.Id == id);
+				.Include("Creator")
+				.Include("Discussion.Messages")
+				.Include("Discussion.Messages.Sender")
+				.Include("Discussion.Readings")
+				.FirstOrDefault(i => i.Id == id);
 
 			if (course == null)
 				return HttpNotFound();
@@ -485,8 +468,8 @@ namespace PLE444.Controllers
 				return RedirectToAction("Index", "Course", new { id = id });
 
 			var model = new DiscussionViewModel {
-				CourseId = course.Id,
-				CurrentUserId = User.Identity.GetUserId(),
+				CId = course.Id,
+				CurrentUserId = User.Identity?.GetUserId(),
 				Role = isCourseCreator(course) ? "Creator" : "Member",
 				Discussion = course.Discussion.ToList()
 			};
@@ -494,43 +477,7 @@ namespace PLE444.Controllers
 			return View(model);
 		}
 
-		[HttpPost]
-		[Authorize]
-		public ActionResult Read(Guid? discussionId, Guid? courseId) {
-			if (discussionId == Guid.Empty || courseId == Guid.Empty)
-				return HttpNotFound();
-			var c = db.Courses.Include("Discussion").Include("Discussion.Messages.Sender").Include("Discussion.Readings").FirstOrDefault(i => i.Id == courseId);
-			if (c == null)
-				return Json(new { success = false });
-
-			var d = c.Discussion.FirstOrDefault(i => i.ID == discussionId);
-			if (d == null)
-				return Json(new { success = false });
-
-			var currentUser = User.Identity.GetUserId();
-			var r = d.Readings.FirstOrDefault(u => u.UserId == currentUser);
-			if (r == null) {
-				r = new Discussion.Reading {
-					UserId = currentUser,
-					Date = DateTime.Now
-				};
-				d.Readings.Add(r);
-			}
-			else {
-				r.Date = DateTime.Now;
-			}
-
-			db.Entry(c).State = EntityState.Modified;
-			db.SaveChanges();
-			var model = new DiscussionMessages {
-				Discussion = d,
-				CurrentUserId = currentUser,
-				CourseId = (Guid)courseId,
-				Role = isCourseCreator(c) ? "Creator" : "Member"
-			};
-			return PartialView(model);
-		}
-
+		#region Title
 		[Authorize]
 		public ActionResult AddTitle(string id) {
 			ViewBag.CourseId = id;
@@ -563,11 +510,11 @@ namespace PLE444.Controllers
 		}
 
 		[Authorize]
-		public ActionResult RemoveTitle(Guid? discussionId, Guid? courseId) {
-			if (courseId == null || discussionId == null)
+		public ActionResult RemoveTitle(Guid? discussionId, Guid? CId) {
+			if (CId == null || discussionId == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-			var course = db.Courses.FirstOrDefault(c => c.Id == courseId);
+			var course = db.Courses.FirstOrDefault(c => c.Id == CId);
 			if (course == null)
 				return HttpNotFound();
 
@@ -584,6 +531,45 @@ namespace PLE444.Controllers
 			db.SaveChanges();
 
 			return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
+		}
+		#endregion
+
+		#region Messages
+		[HttpPost]
+		[Authorize]
+		public ActionResult Read(Guid? discussionId, Guid? CId) {
+			if (discussionId == Guid.Empty || CId == Guid.Empty)
+				return HttpNotFound();
+			var c = db.Courses.Include("Discussion").Include("Discussion.Messages.Sender").Include("Discussion.Readings").FirstOrDefault(i => i.Id == CId);
+			if (c == null)
+				return Json(new { success = false });
+
+			var d = c.Discussion.FirstOrDefault(i => i.ID == discussionId);
+			if (d == null)
+				return Json(new { success = false });
+
+			var currentUser = User.Identity.GetUserId();
+			var r = d.Readings.FirstOrDefault(u => u.UserId == currentUser);
+			if (r == null) {
+				r = new Discussion.Reading {
+					UserId = currentUser,
+					Date = DateTime.Now
+				};
+				d.Readings.Add(r);
+			}
+			else {
+				r.Date = DateTime.Now;
+			}
+
+			db.Entry(c).State = EntityState.Modified;
+			db.SaveChanges();
+			var model = new DiscussionMessages {
+				Discussion = d,
+				CurrentUserId = currentUser,
+				CId = (Guid)CId,
+				Role = isCourseCreator(c) ? "Creator" : "Member"
+			};
+			return PartialView(model);
 		}
 
 		[HttpPost]
@@ -618,25 +604,56 @@ namespace PLE444.Controllers
 			db.SaveChanges();
 
 			TempData["Active"] = model.DiscussionId;
-			return RedirectToAction("Discussion", new { id = model.CommunityId });
+			return RedirectToAction("Discussion", new { id = model.CId });
 		}
 
 		[Authorize]
-		public ActionResult RemoveMessage(Guid? messageId, Guid? courseId) {
+		public ActionResult RemoveMessage(Guid? messageId, Guid? CId) {
 			if (messageId == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-			var message = db.Messages.FirstOrDefault(m => m.ID == messageId);
-			if (message == null)
-				return HttpNotFound();
+			try {
+				var message = db.Messages.Include("Replies").FirstOrDefault(m => m.ID == messageId);
+				if (message == null)
+					return HttpNotFound();
 
-			else if (!isCourseCreator(courseId) && message.SenderId != User.GetPrincipal()?.User.Id)
-				return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+				else if (!isCourseCreator(CId) && message.SenderId != User.GetPrincipal()?.User.Id)
+					return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+				foreach (var reply in message.Replies.ToList())
+					db.Messages.Remove(reply);
 
-			db.Messages.Remove(message);
-			db.SaveChanges();
+
+				db.Messages.Remove(message);
+				db.SaveChanges();
+			}
+			catch (Exception e) { }
 
 			return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
+		} 
+		#endregion
+		
+		#endregion
+
+		#region Members
+		[Authorize]
+		public ActionResult Members(Guid? id) {
+			if (id == null)
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+			var course = db.Courses.Find(id);
+			if (course == null)
+				return HttpNotFound();
+
+			if (!isMember(course) && !isCourseCreator(course))
+				return RedirectToAction("Index", "Course", new { id = course.Id });
+
+			var model = new CourseMembers {
+				Members = db.UserCourses.Include("User").Where(uc => uc.CourseId == id).ToList(),
+				Course = course,
+				CanEdit = isCourseCreator(course)
+			};
+
+			return View(model);
 		}
 
 		[Authorize]
@@ -766,6 +783,7 @@ namespace PLE444.Controllers
 			db.SaveChanges();
 			return RedirectToAction("Index", "Course", new { id = course.Id });
 		}
+		#endregion
 
 		#region Private Methods
 		private bool isCourseCreator(Guid? courseId) {
@@ -808,6 +826,13 @@ namespace PLE444.Controllers
 			if (user == null)
 				return false;
 			return user.DateJoin == null;
+		}
+
+		protected override void Dispose(bool disposing) {
+			if (disposing) {
+				db.Dispose();
+			}
+			base.Dispose(disposing);
 		}
 		#endregion
 	}

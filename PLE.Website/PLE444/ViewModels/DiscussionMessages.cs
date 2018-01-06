@@ -8,7 +8,7 @@ namespace PLE444.ViewModels
 {
 	public class DiscussionMessages
 	{
-			public Guid CourseId { get; set; }
+			public Guid CId { get; set; }
 
 			public string CurrentUserId { get; set; }
 

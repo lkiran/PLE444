@@ -1,11 +1,8 @@
-﻿@using Microsoft.Ajax.Utilities
-@using PLE444.Models
-@model  PLE444.ViewModels.CourseGrades
+﻿@model  PLE444.ViewModels.CourseGrades
 
 @{
 	ViewBag.Title = "Notlar";
 	Layout = "~/Views/Shared/_Layout.cshtml";
-
 }
 
 @section styles
@@ -88,8 +85,8 @@ Max Score: @gradeType.MaxScore">
 					}
 					<td class="text-center">@(Math.Round((totalUserScore), 2))</td>
 				</tr>
-							row++;
-						}
+				row++;
+			}
 		</tbody>
 	</table>
 

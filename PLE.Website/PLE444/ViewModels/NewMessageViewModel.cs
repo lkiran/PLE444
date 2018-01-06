@@ -11,7 +11,7 @@ namespace PLE444.ViewModels
 
 		public string CurrentUserId { get; set; }
 
-		public Guid CommunityId { get; set; }
+		public Guid CId { get; set; }
 
 		public string SenderId { get; set; }
 

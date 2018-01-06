@@ -8,55 +8,46 @@
 
 @{ Html.RenderAction("Navigation", "Course", new { id = Model.CourseInfo.Id }); }
 
-@if (!Model.AssignmentList.Any())
-{
+@if (!Model.AssignmentList.Any()) {
 	<div class="alert alert-dismissable alert-info">
 		<i class="ti ti-info-alt lead"></i> Bu derse eklenmiş herhangi bir ödev henüz yok.
 	</div>
 }
 
-@if (Model.CanEdit)
-{
-	<a href="@Url.Action("Create", "Assignment", new {id = Model.CourseInfo.Id})" class="btn btn-primary-alt center-block">
+@if (Model.CanEdit){
+	<a href="@Url.Action("Create", "Assignment", new{id = Model.CourseInfo.Id})" class="btn btn-primary-alt center-block">
 		<i class="fa fa-plus"></i> Yeni Ödev Ekle
 	</a>
 }
 
+<div class="panel-default" id="accordionA">
+	@foreach (var assignment in Model.AssignmentList.OrderByDescending(a => a.DateAdded)) {
+		var userUpload = assignment.Uploads.FirstOrDefault(u => u.OwnerId == Model.CurrentUserId);
+		var isUploded = userUpload != null;
 
-@foreach (var assignment in Model.AssignmentList.OrderByDescending(a => a.DateAdded))
-{
-	var userUpload = assignment.Uploads.FirstOrDefault(u => u.OwnerId == Model.CurrentUserId);
-	var isUploded = userUpload != null;
+		var panelColor = "default";
+		var message = "Yükleme bekliyor";
 
-	var panelColor = "default";
-	var message = "Yükleme bekliyor";
-
-	if (!Model.CanEdit)
-	{
-		if (isUploded)
-		{
-			var isLateUpload = userUpload.DateUpload > assignment.Deadline;
-			panelColor = isLateUpload ? "warning" : "success";
-			message = isLateUpload ? "Teslim tarihinden sonra yüklendi" : "Yüklendi";
-		}
-		else
-		{
-			if (DateTime.Now > assignment.Deadline)
-			{
-				panelColor = "danger";
-				message = "Teslim tarihi geçti ve yüklenmedi";
+		if (!Model.CanEdit) {
+			if (isUploded) {
+				var isLateUpload = userUpload.DateUpload > assignment.Deadline;
+				panelColor = isLateUpload ? "warning" : "success";
+				message = isLateUpload ? "Teslim tarihinden sonra yüklendi" : "Yüklendi";
+			}
+			else {
+				if (DateTime.Now > assignment.Deadline) {
+					panelColor = "danger";
+					message = "Teslim tarihi geçti ve yüklenmedi";
+				}
 			}
 		}
-	}
-	<div class="panel panel-@panelColor" data-widget='{"draggable": "false"}'>
-		<a data-toggle="collapse" data-parent="#accordionA" AssignmentID="@assignment.Id" class="Assignment" href="#@assignment.Id">
-			<div class="panel-heading">
+		<div class="panel panel-@panelColor">
+			<div class="panel-heading" style="cursor: pointer" data-toggle="collapse" data-parent="#accordionA" class="Assignment" href="#@assignment.Id">
 
-				<h2>@Html.DisplayFor(modelItem => assignment.Title) </h2>
+				<h2>@assignment.Title</h2>
 
-				@if (Model.CanEdit)
-				{
-					<div class="panel-ctrls" style="float:left">
+				@if (Model.CanEdit) {
+					<div class="panel-ctrls" style="float: left">
 						<a class="button-icon ml-sm" title="Düzenle" href="@Url.Action("Edit", "Assignment", new {id = assignment.Id, courseId = Model.CourseInfo.Id})">
 							<i class="ti ti-pencil"></i>
 						</a>
@@ -65,64 +56,51 @@
 							<i class="ti ti-trash"></i>
 						</a>
 
-						@if (assignment.IsFeedbackPublished == false)
-						{
+						@if (assignment.IsFeedbackPublished == false) {
 							<a class="button-icon ml-sm" title="Geri Bildirimi Yayınla" href="@Url.Action("Publish", "Assignment", new {assignmentId = assignment.Id, courseId = Model.CourseInfo.Id})">
 								<i class="ti ti-announcement"></i>
 							</a>
 						}
-						else
-						{
+						else {
 							<a class="button-icon ml-sm " title="Geri Bildirimi Yayından Kaldır" href="@Url.Action("Publish", "Assignment", new {assignmentId = assignment.Id, courseId = Model.CourseInfo.Id})">
 								<i class="ti ti-announcement text-danger"></i>
 							</a>
 						}
-
 					</div>
 				}
-				else
-				{
+				else {
 					<small class="ml-md text">@message</small>
 
-					if (userUpload != null)
-					{
+					if (userUpload != null) {
 						<div class="panel-ctrls" style="float:left">
 							<a class="button-icon ml-sm" title="Yüklenen Ödevi İndir" href="@Url.Action("Download", "File", new {path = userUpload.FilePath, name = userUpload.Description})">
 								<i class="ti ti-download"></i>
 							</a>
-
 						</div>
 					}
 				}
-
-				<div class="pull-right">
-					@Html.DisplayFor(modelItem => assignment.DateAdded), @h.GetDeltaDate(assignment.DateAdded)
+				<div class="pull-right" title="@assignment.DateAdded">
+					@h.GetDeltaDate(assignment.DateAdded)
 				</div>
-
 			</div>
-		</a>
-		<div id="accordionA">
+
+
 			<div id="@assignment.Id" class="collapse">
 				<div class="panel-body">
-					<p>
-						@(new HtmlString(assignment.Description))
-					</p>
-						@if (assignment.IsFeedbackPublished == true && userUpload != null &&	!string.IsNullOrEmpty(userUpload.Feedback)){
-							<strong class="text-info">Geri Bildirim</strong>
-							<p class="text-info">@userUpload.Feedback</p>
-						}
-					
+					<p>@(new HtmlString(assignment.Description))</p>
+
+					@if (assignment.IsFeedbackPublished && userUpload != null && !string.IsNullOrEmpty(userUpload.Feedback)) {
+						<strong class="text-info">Geri Bildirim</strong>
+						<p class="text-info">@userUpload.Feedback</p>
+					}
+
 					<hr />
 
 					<table class="table m-n ">
-						<thead>
+						<thead></thead>
 
-						</thead>
-
-						@if (Model.CanEdit && assignment.Uploads.Count > 0)
-						{
-							foreach (var upload in assignment.Uploads.OrderBy(u => u.Owner.FullName()))
-							{
+						@if (Model.CanEdit && assignment.Uploads.Count > 0) {
+							foreach (var upload in assignment.Uploads.OrderBy(u => u.Owner.FullName())) {
 								<tbody>
 									<tr>
 										<td>
@@ -140,13 +118,12 @@
 										<td> @upload.DateUpload, @h.GetDeltaDate(upload.DateUpload)</td>
 
 										<td>
-											@using (Html.BeginForm("Feedback", "Assignment", FormMethod.Post))
-						{
+											@using (Html.BeginForm("Feedback", "Assignment", FormMethod.Post)) {
 												@Html.AntiForgeryToken()
 												<input name="feedback" id="feedback" type="text" value="@upload.Feedback" />
 												<input type="hidden" name="uploadId" id="uploadId" value="@upload.Id">
 												<input class="btn btn-primary-alt pull-right mr-md" type="submit" value="Gönder" />
-						}
+											}
 										</td>
 									</tr>
 								</tbody>
@@ -157,17 +134,14 @@
 
 				<div class="panel-footer">
 
-					@if (Model.CanEdit)
-				{
+					@if (Model.CanEdit) {
 						<a href="@Url.Action("DownloadAssignment", "Assignment", new {asssignmentId = assignment.Id})" class="pull-right">
 							<img src="@Url.Content("~/Content/img/FileIcons/zip.png")" alt="zip" style="height: 30px;" />
 							<span> Hepsini İndir</span>
 						</a>
-				}
-				else if (Model.CanUpload)
-				{
-					using (Html.BeginForm("Upload", "Assignment", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" }))
-					{
+					}
+					else if (Model.CanUpload) {
+						using (Html.BeginForm("Upload", "Assignment", FormMethod.Post, new { role = "form", enctype = "multipart/form-data" })) {
 							@Html.AntiForgeryToken()
 							<input class="btn btn-primary-alt pull-right mr-md" type="submit" value="Yükle" />
 
@@ -179,8 +153,8 @@
 				</div>
 			</div>
 		</div>
-	</div>
-}
+	}
+</div>
 
 @section scripts
 {
@@ -203,6 +177,7 @@
 							className: 'btn-info-alt'
 						}
 					},
+					size: "small",
 					callback: function (result) {
 						if (result) {
 							$.ajax({
@@ -238,7 +213,3 @@
 		});
 	</script>
 }
-
-@*$('#fb-123'.slideUp)
-	$('#fb-123'.slideDown)
-	div i td'nin kapanma tag inden önce ekle *@

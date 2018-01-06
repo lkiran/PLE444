@@ -11,6 +11,7 @@ namespace PLE.Service.Models
 		public Course() {
 			Id = Guid.NewGuid();
 			CanEveryoneJoin = false;
+			IsCourseActive = true;
 		}
 
 		[Required]
@@ -21,24 +22,18 @@ namespace PLE.Service.Models
 
 		public ApplicationUser Creator { get; set; }
 
-		[Display(Name = "Dersin Kodu")]
 		public string Code { get; set; }
 
-		[Display(Name = "Dersin İsmi")]
 		public string Name { get; set; }
 
 		[AllowHtml]
-		[Display(Name = "Açıklama")]
 		public string Description { get; set; }
 
 		public DateTime DateCreated { get; set; }
 
 		public bool CanEveryoneJoin { get; set; }
 
-		public Space Space { get; set; }
-
-		[ForeignKey("Space")]
-		public int SpaceId { get; set; }
+		public bool IsCourseActive { get; set; }
 
 		public virtual ICollection<Chapter> Chapters { get; set; }
 
@@ -49,7 +44,5 @@ namespace PLE.Service.Models
 		public virtual ICollection<TimelineEntry> Timeline { get; set; }
 
 		public string Heading => Code + " - " + Name;
-
-		public bool IsCourseActive { get; set; }
 	}
 }

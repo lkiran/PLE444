@@ -31,7 +31,7 @@
 			<div class="pull-right">
 				@if (isOwner || isCreator)
 				{
-					<a href="@Url.Action("RemoveMessage", "Course", new {messageId = message.ID, courseId = Model.CourseId})">
+					<a href="@Url.Action("RemoveMessage", "Course", new {messageId = message.ID, CId = Model.CId})">
 						<small class="text-danger">Kaldır</small>
 					</a>
 
@@ -59,7 +59,7 @@
 					<div class="pull-right">
 						@if (Model.CurrentUserId == reply.SenderId || isCreator)
 						{
-							<a href="@Url.Action("RemoveMessage", "Course", new {messageId = reply.ID, courseId = Model.CourseId})">
+							<a href="@Url.Action("RemoveMessage", "Course", new {messageId = reply.ID, CId = Model.CId})">
 								<small class="text-danger">Kaldır</small>
 							</a>
 						}

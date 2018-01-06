@@ -1,6 +1,6 @@
 ﻿@*
 	@Html.ActionLink("Contact", "Contact", "Home")
-	
+
 *@
 <!DOCTYPE html>
 <html lang="tr">
@@ -18,17 +18,18 @@
 	@Styles.Render("~/Content/fonts/themify-icons/themify-icons.css") <!-- Themify Icons -->
 	@Styles.Render("~/Content/css/styles.css") <!-- Core CSS with all styles -->
 	@Styles.Render("~/Content/plugins/codeprettifier/prettify.css") <!-- Code Prettifier -->
-	@Styles.Render("~/Content/plugins/iCheck/skins/minimal/blue.css") <!-- iCheck -->     
+	@Styles.Render("~/Content/plugins/iCheck/skins/minimal/blue.css") <!-- iCheck -->
 	@Styles.Render("~/Content/css/jquery.filer.css")
 	@Styles.Render("~/Content/css/jquery.filer-dragdropbox-theme.css")
-	@Styles.Render("~/Content/plugins/summernote/dist/summernote.css") 
+	@Styles.Render("~/Content/plugins/summernote/dist/summernote.css")
 	@Styles.Render("~/Content/plugins/switchery/switchery.css")
-	@Styles.Render("~/Content/plugins/malihu-custom-scrollbar/jquery.mCustomScrollbar.css")
+	@Styles.Render("~/Content/plugins/jquery-scrollbar/jquery.scrollbar.css")
+
 	@RenderSection("styles", required: false)
-	
-   
-	
-		   
+
+
+
+
 	<!--[if lt IE 10]>
 		<script type="text/javascript" src="assets/js/media.match.min.js"></script>
 		<script type="text/javascript" src="assets/js/respond.min.js"></script>
@@ -51,17 +52,17 @@
 
 			<a title="Ana Sayfa" class="toolbar-icon-bg" href="@Url.Action("Index","Home")"><h3 style="color: white; line-height: 25px;">PLE</h3></a>
 			@*<div class="toolbar-icon-bg hidden-xs" id="toolbar-search">
-				<div class="input-group">
-					<span class="input-group-btn"><button class="btn" type="button"><i class="ti ti-search"></i></button></span>
-					<input type="text" class="form-control" placeholder="Grup, Soru veya Ders ara...">
-					<span class="input-group-btn"><button class="btn" type="button"><i class="ti ti-close"></i></button></span>
-				</div>
-			</div>*@
+					<div class="input-group">
+						<span class="input-group-btn"><button class="btn" type="button"><i class="ti ti-search"></i></button></span>
+						<input type="text" class="form-control" placeholder="Grup, Soru veya Ders ara...">
+						<span class="input-group-btn"><button class="btn" type="button"><i class="ti ti-close"></i></button></span>
+					</div>
+				</div>*@
 		</div><!-- logo-area -->
 		<ul class="nav navbar-nav toolbar pull-right">
 			@*<li class="toolbar-icon-bg visible-xs-block" id="trigger-toolbar-search">
-				<a href="#"><span class="icon-bg"><i class="ti ti-search"></i></span></a>
-			</li>*@
+					<a href="#"><span class="icon-bg"><i class="ti ti-search"></i></span></a>
+				</li>*@
 
 			<li class="toolbar-icon-bg hidden-xs" id="trigger-fullscreen">
 				<a href="#" alt="Tam Ekran" class="toggle-fullscreen"><span class="icon-bg"><i class="ti ti-fullscreen"></i></span></a>
@@ -70,78 +71,74 @@
 			@{ Html.RenderAction("LogedInUser", "Layout"); }
 		</ul>
 	</header>
-<div id="wrapper">
-	<div id="layout-static">
-		<div class="static-sidebar-wrapper sidebar-midnightblue">
-			<div class="static-sidebar">
-				<div class="sidebar" id="SidebarDiv"  style="height: calc(100vh - 60px)">
-					<div class="widget">
-					</div>
-					<div class="widget" id="widget-sidebar">
-						<nav role="navigation" class="widget-body">
-							<ul class="acc-menu">
-								<li>
-									<a href="@Url.Action("List","Course")"><i class="ti ti-direction"></i><span>Dersler</span></a> 
-									<ul class="" style="display: block;">
-										@{ Html.RenderAction("Courses", "Layout"); }
-											
-									</ul>
-								</li>
-								@*<li>
-									<a href="#_"><i class="ti ti-direction"></i><span>Alanlar</span></a>
-									<ul class="" style="display: block;">
-										@{ Html.RenderAction("Spaces", "Layout"); }
-									</ul>
-								</li>*@
-								<li>
-									<a href="@Url.Action("List","Community")"><i class="ti ti-direction"></i><span>Gruplar</span></a>
-									<ul class="" style="display: block;">
-										@{ Html.RenderAction("Communities", "Layout"); }
-									</ul>
-								</li>
-									
-							</ul>
-						</nav>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="static-content-wrapper">
-			<div class="static-content">
-				<div class="page-content">
-					<ol class="breadcrumb">
-						<li class="active"><a href="#"></a></li>
-					</ol>
-					<div class="container-fluid">
-						<div class="row">
-							<div class="col-md-12 col-lg-9 col- full-page" id="BodyDiv" style="height: calc(100vh - 130px)">                                
-								@RenderBody()
-							</div>
-							@*<div class="col-md-3">
-									<div class="panel panel-default" data-widget='{"draggable": "false"}'>
-										<div class="panel-heading">
-											<h2>Panel</h2>
-											<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
-										</div>
-										<div class="panel-body">
-											Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.
-										</div>
-									</div>
-								</div>*@
+	<div id="wrapper">
+		<div id="layout-static">
+			<div class="static-sidebar-wrapper sidebar-midnightblue">
+				<div class="static-sidebar">
+					<div class="sidebar scrollbar-outer" id="SidebarDiv" style="height: calc(100vh - 60px)">
+						<div class="widget">
+						</div>
+						<div class="widget" id="widget-sidebar">
+							<nav role="navigation" class="widget-body">
+								<ul class="acc-menu">
+									<li>
+										<a href="@Url.Action("List","Course")"><i class="ti ti-book"></i><span>Dersler</span></a>
+										<ul class="" style="display: block;">
+											@{ Html.RenderAction("Courses", "Layout"); }
+
+										</ul>
+									</li>
+									<li>
+										<a href="@Url.Action("List","Community")"><i class="ti ti-comments"></i><span>Gruplar</span></a>
+										<ul class="" style="display: block;">
+											@{ Html.RenderAction("Communities", "Layout"); }
+										</ul>
+									</li>
+
+								</ul>
+							</nav>
 						</div>
 					</div>
-				</div> <!-- #page-content -->
-			</div>
-			<footer role="contentinfo">
-				<div class="clearfix">
-					<ul class="list-unstyled list-inline pull-left">
-						<li><small><em>Boğaziçi University - CET <span style="margin: 0;">&copy; @DateTime.Now.Year</span></em></small></li>
-					</ul>
 				</div>
-			</footer>
+			</div>
+			<div class="static-content-wrapper">
+				<div class="static-content">
+					<div class="page-content">
+						<ol class="breadcrumb">
+							<li class="active"><a href="#"></a></li>
+						</ol>
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-md-12 col-lg-9 col- full-page" id="BodyDiv">
+									<div class="scrollbar-outer">
+										@RenderBody()
+									</div>
+								</div>
+								@*<div class="col-md-3">
+										<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+											<div class="panel-heading">
+												<h2>Panel</h2>
+												<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
+											</div>
+											<div class="panel-body">
+												Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.
+											</div>
+										</div>
+									</div>*@
+							</div>
+						</div>
+					</div> <!-- #page-content -->
+				</div>
+				<footer role="contentinfo">
+					<div class="clearfix">
+						<ul class="list-unstyled list-inline pull-right">
+							<li><small><em>Boğaziçi University - CET <span style="margin: 0;">&copy; @DateTime.Now.Year</span></em></small></li>
+						</ul>
+					</div>
+				</footer>
+			</div>
 		</div>
 	</div>
-</div>
 
 
 	<!-- Load site level scripts -->
@@ -167,65 +164,57 @@
 	@Scripts.Render("~/Content/plugins/switchery/switchery.js")
 	@Scripts.Render("~/Scripts/bootbox.js")
 	@Scripts.Render("~/Content/plugins/jQuery.dotdotdot/jquery.dotdotdot.min.js")
-	@Scripts.Render("~/Content/plugins/malihu-custom-scrollbar/jquery.mCustomScrollbar.concat.min.js")
-	
+	@Scripts.Render("~/Content/plugins/jquery-scrollbar/jquery.scrollbar.min.js")
 
-<script>
-	(function ($) {
-			$(window).on("load", function () {
-				$("#BodyDiv").mCustomScrollbar({
-					theme: "minimal-dark",
-					autoHideScrollbar: true,
-					mouseWheelPixels: 200
-				});
-				$("#SidebarDiv").mCustomScrollbar({
-					theme: "minimal",
-					autoHideScrollbar: true,
-					mouseWheelPixels: 200
-				});
+
+
+	<script>
+
+		$(document).ready(function () {
+			jQuery('.scrollbar-outer').scrollbar({
+				"ignoreMobile": true,
+				"scrollx":"element" 
 			});
-	})(jQuery);
 
-	$(document).ready(function() {
-		$(".ellipsis").dotdotdot({
-			/*	The text to add as ellipsis. */
-			ellipsis: '...',
+			$(".ellipsis").dotdotdot({
+				/*	The text to add as ellipsis. */
+				ellipsis: '...',
 
-			/*	Wrap-option fallback to 'letter' for long words */
-			fallbackToLetter: true,
+				/*	Wrap-option fallback to 'letter' for long words */
+				fallbackToLetter: true,
 
-			/*	jQuery-selector for the element to keep and put after the ellipsis. */
-			after: null,
+				/*	jQuery-selector for the element to keep and put after the ellipsis. */
+				after: null,
 
-			/*	Whether to update the ellipsis: true/'window' */
-			watch: true,
+				/*	Whether to update the ellipsis: true/'window' */
+				watch: true,
 
-			/*	Optionally set a max-height, can be a number or function.
-				If null, the height will be measured. */
-			height: 48,
+				/*	Optionally set a max-height, can be a number or function.
+					If null, the height will be measured. */
+				height: 48,
 
-			/*	Deviation for the height-option. */
-			tolerance: 0,
+				/*	Deviation for the height-option. */
+				tolerance: 0,
 
-			/*	Callback function that is fired after the ellipsis is added,
-				receives two parameters: isTruncated(boolean), orgContent(string). */
-			callback: function(isTruncated, orgContent) {},
+				/*	Callback function that is fired after the ellipsis is added,
+					receives two parameters: isTruncated(boolean), orgContent(string). */
+				callback: function (isTruncated, orgContent) { },
 
-			lastCharacter: {
+				lastCharacter: {
 
-				/*	Remove these characters from the end of the truncated text. */
-				remove: [' ', ',', ';', '.', '!', '?'],
+					/*	Remove these characters from the end of the truncated text. */
+					remove: [' ', ',', ';', '.', '!', '?'],
 
-				/*	Don't add an ellipsis if this array contains 
-					the last character of the truncated text. */
-				noEllipsis: []
-			}
+					/*	Don't add an ellipsis if this array contains
+						the last character of the truncated text. */
+					noEllipsis: []
+				}
+			});
 		});
-	});
-</script>
+	</script>
 
 
-<!-- End loading site level scripts -->
+	<!-- End loading site level scripts -->
 	<!-- Load page level scripts-->
 	<!-- End loading page level scripts-->
 	@RenderSection("scripts", required: false)

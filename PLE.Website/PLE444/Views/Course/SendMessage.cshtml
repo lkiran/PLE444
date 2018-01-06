@@ -37,13 +37,12 @@
 	<div class="replyDisplay">
 		@Html.HiddenFor(m => m.ReplyId)
 		<a class="cancelReply text-danger" href="#"><i class="fa fa-times"></i></a>
-		<div class="content">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</div>
+		<div class="content"></div>
 	</div>
-
-
+	
 	var h = new PLE444.Helpers.UserHelper();
 	if (h.GetUserPhotoFromID(Model.CurrentUserId) == null || h.GetUserPhotoFromID(Model.CurrentUserId) == " ") {
-		<img class="img-circle" style="width:40px" src="@Url.Content("~/Content/img/pp.jpg")" />
+		<img class="img-circle" style="width: 40px" src="@Url.Content("~/Content/img/pp.jpg")" />
 	}
 	else {
 		<img class="img-circle" style="width:40px" src="@Url.Content(h.GetUserPhotoFromID(Model.CurrentUserId))" />
@@ -60,7 +59,7 @@
 		</div>
 
 		@Html.HiddenFor(m => m.DiscussionId)
-		@Html.HiddenFor(m => m.CommunityId)
+		@Html.HiddenFor(m => m.CId)
 
 		<div class="col-sm-12 pull-right">
 			<button type="submit" class="btn btn-success pull-right">Gönder</button>
@@ -88,5 +87,3 @@
 		$(this).parent(".replyDisplay").slideUp();
 	});
 </script>
-
-

@@ -53,11 +53,5 @@ namespace PLE444.Controllers
 			var user = User.GetPrincipal()?.User;
 			return PartialView(user);
 		}
-
-		[ChildActionOnly]
-		public ActionResult Spaces() {
-			var s = db.Spaces.ToList();
-			return PartialView(s);
-		}
 	}
 }

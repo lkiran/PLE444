@@ -4,64 +4,65 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@{ Html.RenderAction("Navigation", "Course", new {id = Model.CourseInfo.Id}); }
+@{ Html.RenderAction("Navigation", "Course", new { id = Model.CourseInfo.Id }); }
 
-@if (Model != null)
-{
-	if (!Model.ChapterList.Any())
-	{
+@if (Model != null) {
+	if (!Model.ChapterList.Any()) {
 		<div class="alert alert-dismissable alert-info">
 			<i class="ti ti-info-alt lead"></i>  Bu derse eklenmiş herhangi bir bölüm henüz yok.
 		</div>
 	}
-	foreach (var chapter in Model.ChapterList)
-	{
-		<div class="panel panel-default" id="panel">
-			<div class="panel-heading"> 
-                    
-				<h2>@Html.DisplayFor(modelItem => chapter.Title)</h2>
-				@if (Model.canEdit)
-				{
-					<a href="@Url.Action("Edit","Chapter", new {id = chapter.Id})">
-						<small><i class="fa fa-pencil-square-o ml-lg mr-xs"></i><span class="visible-lg visible-md">Düzenle</span></small>
-					</a>
-					<button data-chapter-id="@chapter.Id" class="btn-remove btn-link">
-						<small class="text-danger"><i class="fa fa-trash-o ml-xs mr-xs"></i><span class="visible-lg visible-md">Kaldır</span></small>
-					</button>
-				}
-				<div class="not-pull-right-xs text-xs-center">
-					@Html.DisplayFor(modelItem => chapter.DateAdded), @{var h = new PLE444.Helpers.DataManipulationHelper(); }
-					@h.GetDeltaDate(chapter.DateAdded)
-				</div>
-			</div>
+	<div class="panel-default" id="accordionA">
+		@foreach (var chapter in Model.ChapterList) {
+			<div class="panel panel-default">
+				<div class="panel-heading" style="cursor: pointer" data-toggle="collapse" @*data-parent="#accordionA"*@ href="#@chapter.Id">
 
-			<div class="panel-body">
-				@(new HtmlString(chapter.Description))
+					<h2>@chapter.Title</h2>
 
-				<ul style="list-style-type: none" ;>
-					@foreach (var material in chapter.Materials)
-					{
-						<li>
-							<a class="ShowModal" href="#_" data-href="@Url.Action("Detail", "Material", new { id= material.Id })" data-toggle="modal" data-target="#myModal">     
-								@material.Title                          
+					@if (Model.canEdit) {
+						<div class="panel-ctrls" style="float: left">
+							<a class="button-icon ml-sm" title="Düzenle" href="@Url.Action("Edit","Chapter", new {id = chapter.Id})">
+								<i class="ti ti-pencil"></i>
 							</a>
-						</li>
+
+							<a class="btn-remove button-icon ml-sm" title="Kaldır" data-chapter-id="@chapter.Id">
+								<i class="ti ti-trash"></i>
+							</a>
+						</div>
 					}
-				</ul>
-			</div>
-			@if (Model.canEdit)
-			{               
-				<div class="panel-footer">
-					<div class="pull-right">
-						<a href="@Url.Action("Add", "Material", new {chapterId = chapter.Id})" class="btn btn-primary-alt btn-sm ">
-							<i class="fa fa-plus"></i> Materyal Ekle
-						</a>
+					<div class="not-pull-right-xs text-xs-center" title="@chapter.DateAdded">
+						@{var h = new PLE444.Helpers.DataManipulationHelper(); }
+						@h.GetDeltaDate(chapter.DateAdded)
 					</div>
 				</div>
-			}
-		</div>
+				<div id="@chapter.Id" class="collapse">
+					<div class="panel-body">
+						@(new HtmlString(chapter.Description))
+
+						<ul style="list-style-type: none" ;>
+							@foreach (var material in chapter.Materials) {
+								<li>
+									<a class="ShowModal" href="#_" data-href="@Url.Action("Detail", "Material", new { id= material.Id })" data-toggle="modal" data-target="#myModal">
+										@material.Title
+									</a>
+								</li>
+							}
+						</ul>
+					</div>
+					@if (Model.canEdit) {
+						<div class="panel-footer">
+							<div class="pull-right">
+								<a href="@Url.Action("Add", "Material", new {chapterId = chapter.Id})" class="btn btn-primary-alt btn-sm ">
+									<i class="fa fa-plus"></i> Materyal Ekle
+								</a>
+							</div>
+						</div>
+					}
+				</div>
+			</div>
+		}
+	</div>
 	}
-}
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="text-center">
@@ -70,8 +71,7 @@
 	</div>
 </div>
 
-@if(Model.canEdit)
-{
+@if (Model.canEdit) {
 	<a href="@Url.Action("Create", "Chapter", new {id = Model.CourseInfo.Id})" class="btn btn-primary-alt center-block" id="dyna-del">
 		<i class="fa fa-plus"></i> Yeni Bölüm Ekle
 	</a>
@@ -80,7 +80,7 @@
 @section scripts
 {
 	<script>
-		$(document).ready(function() {
+		$(document).ready(function () {
 			$(".btn-remove").on("click", function () {
 
 				var object = $(this);
@@ -104,7 +104,7 @@
 								url: "/Chapter/Delete/" + object.data('chapter-id'),
 								method: "POST",
 								dataType: 'json',
-								success: function(response) {
+								success: function (response) {
 									object.parent("div").parent("div").slideUp();
 								},
 								error: function (response) {
@@ -131,7 +131,7 @@
 						$(".modal-dialog").html(response.responseText);
 					}
 				});
-                
+
 			});
 		});
 	</script>

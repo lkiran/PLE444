@@ -1,36 +1,35 @@
 ﻿@model IEnumerable<PLE444.Models.Community>
 @{
-    ViewBag.Title = "List";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "List";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <a href="@Url.Action("Create","Community")" class="btn btn-primary-alt center-block">
-    <i class="fa fa-plus"></i> Yeni Grup Oluştur
+	<i class="fa fa-plus"></i> Yeni Grup Oluştur
 </a>
 
 <div class="panel panel-default" data-widget='{"draggable": "false", "collapsable" :"false"}'>
-    <div class="panel-heading">
-        <h2>Gruplar</h2>
-    </div>
-    <div class="panel-body">
-        <table class="table table-hover m-n">
+	<div class="panel-heading">
+		<h2>Gruplar</h2>
+	</div>
+	<div class="panel-body">
+		<table class="table table-hover m-n">
 
-            <thead>
-                <tr>
-                    <th>İsim</th>
-                    <th>Açılma Tarihi</th>                        
-                </tr>
-            </thead>
-            @foreach (var item in Model)
-            {
-                <tbody>
-                    <tr>
-                        <td> <a href="@Url.Action("Index",new { id = item.Id })"> @item.Name</a></td>
-                        <td>@Html.DisplayFor(modelItem => item.DateCreated)</td>
-                    </tr>
-                </tbody>
-            }
-        </table>
-    </div>
+			<thead>
+				<tr>
+					<th>İsim</th>
+					<th>Açılma Tarihi</th>
+				</tr>
+			</thead>
+			@foreach (var item in Model) {
+				<tbody>
+					<tr>
+						<td> <a href="@Url.Action("Index",new { id = item.Id })"> @item.Name</a></td>
+						<td>@Html.DisplayFor(modelItem => item.DateCreated)</td>
+					</tr>
+				</tbody>
+			}
+		</table>
+	</div>
 </div>
 

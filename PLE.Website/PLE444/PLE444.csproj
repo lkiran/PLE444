@@ -239,7 +239,6 @@
     <Compile Include="Controllers\LayoutController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PrivateMessagesController.cs" />
-    <Compile Include="Controllers\SpacesController.cs" />
     <Compile Include="Controllers\TimelineController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -252,6 +251,10 @@
     <Compile Include="Migrations\201801021800112_merge.cs" />
     <Compile Include="Migrations\201801021800112_merge.Designer.cs">
       <DependentUpon>201801021800112_merge.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201801061858301_remove-spaces.cs" />
+    <Compile Include="Migrations\201801061858301_remove-spaces.Designer.cs">
+      <DependentUpon>201801061858301_remove-spaces.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -282,8 +285,6 @@
     <Compile Include="Models\Message.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\PrivateMessage.cs" />
-    <Compile Include="Models\Space.cs" />
-    <Compile Include="Models\SpaceViewModel.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Models\TimelineEntry.cs" />
     <Compile Include="Models\UserCommunity.cs" />
@@ -1603,6 +1604,21 @@
     <Content Include="Content\plugins\jQuery-Mapael\js\maps\world_countries.js" />
     <Content Include="Content\plugins\jQuery-Mapael\js\raphael\raphael-min.js" />
     <Content Include="Content\plugins\jquery-mousewheel\jquery.mousewheel.min.js" />
+    <Content Include="Content\plugins\jquery-scrollbar\demo\advanced.html" />
+    <Content Include="Content\plugins\jquery-scrollbar\demo\angular.html" />
+    <Content Include="Content\plugins\jquery-scrollbar\demo\basic.html" />
+    <Content Include="Content\plugins\jquery-scrollbar\demo\skins\vista-x.png" />
+    <Content Include="Content\plugins\jquery-scrollbar\demo\skins\vista-y.png" />
+    <Content Include="Content\plugins\jquery-scrollbar\includes\angular.js" />
+    <Content Include="Content\plugins\jquery-scrollbar\includes\jquery.js" />
+    <Content Include="Content\plugins\jquery-scrollbar\includes\prettify\prettify.css" />
+    <Content Include="Content\plugins\jquery-scrollbar\includes\prettify\prettify.js" />
+    <Content Include="Content\plugins\jquery-scrollbar\includes\style.css" />
+    <Content Include="Content\plugins\jquery-scrollbar\includes\tarzan.jpg" />
+    <Content Include="Content\plugins\jquery-scrollbar\index.html" />
+    <Content Include="Content\plugins\jquery-scrollbar\jquery.scrollbar.css" />
+    <Content Include="Content\plugins\jquery-scrollbar\jquery.scrollbar.js" />
+    <Content Include="Content\plugins\jquery-scrollbar\jquery.scrollbar.min.js" />
     <Content Include="Content\plugins\jQuery.dotdotdot\jquery.dotdotdot.js" />
     <Content Include="Content\plugins\jQuery.dotdotdot\jquery.dotdotdot.min.js" />
     <Content Include="Content\plugins\jQuery.dotdotdot\jquery.dotdotdot.min.umd.js" />
@@ -2159,7 +2175,6 @@
     <Content Include="Views\User\ListUsers.cshtml" />
     <Content Include="Views\Community\Archive.cshtml" />
     <Content Include="Views\Community\Discussion.cshtml" />
-    <Content Include="Views\Community\Events.cshtml" />
     <Content Include="Views\Community\Index.cshtml" />
     <Content Include="Views\Community\List.cshtml" />
     <Content Include="Views\Assignment\Create.cshtml" />
@@ -2192,7 +2207,6 @@
     <Content Include="Views\User\SendMail.cshtml" />
     <Content Include="Views\User\Files.cshtml" />
     <Content Include="Views\Spaces\Index.cshtml" />
-    <Content Include="Views\Layout\Spaces.cshtml" />
     <Content Include="Views\Course\Navigation.cshtml" />
     <Content Include="Views\Material\Update.cshtml" />
     <Content Include="Views\Assignment\Edit.cshtml" />
@@ -2211,10 +2225,10 @@
     <Content Include="Views\Mail\NewAssignment.cshtml" />
     <Content Include="Views\Mail\ConfirmEmail.cshtml" />
     <Content Include="Views\Mail\ResetPassword.cshtml" />
-    <Content Include="Views\Course\ReplyMessage.cshtml" />
     <Content Include="Views\Course\Read.cshtml" />
     <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.2.1.min.map" />
+    <Content Include="Views\Community\Read.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -2248,6 +2262,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201801021800112_merge.resx">
       <DependentUpon>201801021800112_merge.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801061858301_remove-spaces.resx">
+      <DependentUpon>201801061858301_remove-spaces.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
