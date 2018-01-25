@@ -1,0 +1,29 @@
+___Yapýlanlar___
+- Tartýþmalara yorum yapýlabiliyor.
+- Tartýþmalara resim eklenebiliyor.
+- Anasayfaya resim eklendi.
+- Ana baþlýk düzeltildi.
+- Alanlar kaldýrýldý.
+- Anasayfaya dersler ve gruplar linkleri eklendi.
+- Bu linkler ortalandý.
+- Menünün yazý rengi düzeltildi.
+- Dersi açýnca dersi anlatan kýsým deðil bölümler açýlýyor.
+- Yeni Bölüm Ekle butonu yukarý taþýndý.
+- Ödevler sadece baþlýða týklayýnca deðil header a týklayýnca açýlýyor.
+
+___Yapýlacaklar___
+- Anasayfadaki resim kontrol edilecek.
+- Bölümler kýsmý kenarlara dayalý
+- Performans problemi
+- Drag drop düzelt ya da kaldýr.
+- Ödevin altýnda feedback field
+- Öðrencilere mail gitmiyor.
+- Mesajlarda hata
+- Derse katýlanlar için kod (?)
+- Haftalýk konular için aktif-pasif
+- Dersin aktif-pasif olmasý (eklenilebilirliði için)
+- Ödevin bölümlerde linki olabilir.
+- Veritabanýný taþýmak (?)
+- Anasayfada açýklama
+- Dersleri arþiv dersine çevirmek (Belirli içerikler aktarýlabilir.)
+- Hakkýnda kýsmý
