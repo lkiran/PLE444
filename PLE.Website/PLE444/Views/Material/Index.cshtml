@@ -33,9 +33,12 @@
 					<div class="pull-right" title="@material.DateAdded">@h.GetDeltaDate(material.DateAdded)</div>
 				</div>
 
-				<div class="panel-body">
-					@(new HtmlString(material.Description))
-				</div>
+				@if (material.Description != null)
+				{
+					<div class="panel-body">
+						@(new HtmlString(material.Description))
+					</div>
+				}
 
 				<ul style="list-style-type: none" ;>
 					@foreach (var doc in material.Documents) {

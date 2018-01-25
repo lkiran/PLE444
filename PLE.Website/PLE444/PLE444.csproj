@@ -248,13 +248,9 @@
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\UserHelper.cs" />
     <Compile Include="Helpers\ViewHelper.cs" />
-    <Compile Include="Migrations\201801021800112_merge.cs" />
-    <Compile Include="Migrations\201801021800112_merge.Designer.cs">
-      <DependentUpon>201801021800112_merge.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801061858301_remove-spaces.cs" />
-    <Compile Include="Migrations\201801061858301_remove-spaces.Designer.cs">
-      <DependentUpon>201801061858301_remove-spaces.cs</DependentUpon>
+    <Compile Include="Migrations\201801251550475_migration.cs" />
+    <Compile Include="Migrations\201801251550475_migration.Designer.cs">
+      <DependentUpon>201801251550475_migration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -2260,11 +2256,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201801021800112_merge.resx">
-      <DependentUpon>201801021800112_merge.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801061858301_remove-spaces.resx">
-      <DependentUpon>201801061858301_remove-spaces.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201801251550475_migration.resx">
+      <DependentUpon>201801251550475_migration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

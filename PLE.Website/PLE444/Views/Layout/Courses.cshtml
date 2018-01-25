@@ -4,7 +4,7 @@
 	<li><a href="@Url.Action("List","Course")">Hiç Dersin Yok</a></li>
 }
 else {
-	foreach (var item in Model.Items) {
+	foreach (var item in Model.Items.OrderByDescending(i => i.IsCourseActive)) {
 		<li title="@item.Heading">
 			<a href="@Url.Action("Index", "Chapter", new {id = item.Id})">
 				@item.Code

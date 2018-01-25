@@ -7,13 +7,13 @@ namespace PLE444.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class removespaces : IMigrationMetadata
+    public sealed partial class migration : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(removespaces));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(migration));
         
         string IMigrationMetadata.Id
         {
-            get { return "201801061858301_remove-spaces"; }
+            get { return "201801251550475_migration"; }
         }
         
         string IMigrationMetadata.Source
