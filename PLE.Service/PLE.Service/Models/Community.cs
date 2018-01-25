@@ -1,21 +1,20 @@
 ﻿using System;
+using System.Web.Mvc;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Web.Mvc;
 
 namespace PLE.Service.Models
 {
 	public class Community
 	{
-		public Community()
-		{
+		public Community() {
 			Id = Guid.NewGuid();
 			IsActive = true;
 		}
 
 		[Key]
-		public Guid Id { get;  set; }
+		public Guid Id { get; set; }
 
 		public string Name { get; set; }
 
@@ -34,11 +33,6 @@ namespace PLE.Service.Models
 		public string OwnerId { get; set; }
 
 		public ApplicationUser Owner { get; set; }
-
-		[ForeignKey("Space")]
-		public int SpaceId { get; set; }
-
-		public Space Space { get; set; }
 
 		public virtual ICollection<Discussion> Discussions { get; set; }
 	}

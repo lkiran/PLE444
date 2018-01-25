@@ -6,44 +6,43 @@ using System.Web.Mvc;
 
 namespace PLE.Service.Models
 {
-    public class Course
-    {
-        public Course()
-        {
-            Id = Guid.NewGuid();
-            CanEveryoneJoin = false;
-        }
+	public class Course
+	{
+		public Course() {
+			Id = Guid.NewGuid();
+			CanEveryoneJoin = false;
+			IsCourseActive = true;
+		}
 
-        [Required]
-        public Guid Id { get; set; }
+		[Required]
+		public Guid Id { get; set; }
 
-        [ForeignKey("Creator")]
-        public string CreatorId { get; set; }
+		[ForeignKey("Creator")]
+		public string CreatorId { get; set; }
 
-        public ApplicationUser Creator { get; set; }
+		public ApplicationUser Creator { get; set; }
 
-        public string Code { get; set; }
+		public string Code { get; set; }
 
-        public string Name { get; set; }
+		public string Name { get; set; }
 
-        [AllowHtml]
-        public string Description { get; set; }
+		[AllowHtml]
+		public string Description { get; set; }
 
-        public DateTime DateCreated { get; set; }
+		public DateTime DateCreated { get; set; }
 
-        public bool CanEveryoneJoin { get; set; }
+		public bool CanEveryoneJoin { get; set; }
 
-        public Space Space { get; set; }
+		public bool IsCourseActive { get; set; }
 
-        [ForeignKey("Space")]
-        public int SpaceId { get; set; }
+		public virtual ICollection<Chapter> Chapters { get; set; }
 
-        public virtual ICollection<Chapter> Chapters { get; set; }
+		public virtual ICollection<Assignment> Assignments { get; set; }
 
-        public ICollection<Assignment> Assignments { get; set; }
+		public virtual ICollection<Discussion> Discussion { get; set; }
 
-        public virtual ICollection<Discussion> Discussion { get; set; }
+		public virtual ICollection<TimelineEntry> Timeline { get; set; }
 
-        public virtual ICollection<TimelineEntry> Timeline { get; set; }
-    }
+		public string Heading => Code + " - " + Name;
+	}
 }

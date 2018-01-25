@@ -5,14 +5,15 @@ namespace PLE.Service.Models
 {
 	public class Interest
 	{
-		public Interest()
-		{
-			Id = Guid.NewGuid();
+		public Interest() {
+			ID = Guid.NewGuid();
 		}
 
 		[Required]
-		public Guid Id { get; set; }
+		public Guid ID { get; set; }
+
 		public string Name { get; set; }
+
 		public string Description { get; set; }
 	}
 }

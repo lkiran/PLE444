@@ -1,56 +1,89 @@
-﻿@model PLE444.Models.Message
+﻿@model PLE444.ViewModels.NewMessageViewModel
 
-@{
-    var h = new PLE444.Helpers.UserHelper();
+<style>
+	.replyDisplay {
+		background: #e7f4ff;
+		margin: 0 5px 10px 60px;
+		padding: 10px;
+		box-shadow: 0 0 3px 1px #e7f4ff;
+		display: none;
+		min-width: 50px;
+		width: fit-content;
+	}
 
-    if (h.GetUserPhotoFromID(ViewBag.CurrentUserId) == null || h.GetUserPhotoFromID(ViewBag.CurrentUserId) == " ")
-    {
-        <img class="img-circle" style="width:40px" src="@Url.Content("~/Content/img/pp.jpg")" />
-    }
-    else
-    {
-        <img class="img-circle" style="width:40px" src="@Url.Content(h.GetUserPhotoFromID(ViewBag.CurrentUserId))" />
-    }
-    <strong style="margin-left:10px;">@h.GetUserFullNameFromID(ViewBag.CurrentUserId)</strong>
-    <br>
-}
+		.replyDisplay:before {
+			content: "\f112";
+			font-family: FontAwesome;
+			position: absolute;
+			left: 35px;
+			top: 25px;
+			font-size: 1.5em;
+			color: #c1c1c1;
+		}
 
-@using (Html.BeginForm("SendMessage", "Community", FormMethod.Post, new { enctype = "multipart/form-data" }))
-{
-    <div class="form-horizontal">
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+		.replyDisplay p {
+			text-align: justify;
+		}
 
-        <div class="form-group ml-xxl">
-            <div class="col-sm-12">
-                @Html.TextAreaFor(m=> m.Content, new { @class= "form-control summernote" })
-                @Html.ValidationMessageFor(model => model.Content, "", new {@class = "text-danger"})
-            </div>
-        </div>
-        <input type="hidden" name="discussionId" id="discussionId" value="@ViewBag.DiscussionId" />
-        <input type="hidden" name="CommunityId" id="CommunityId" value="@ViewBag.CommunityId" />
+		.replyDisplay .cancelReply {
+			position: absolute;
+			left: 40px;
+			top: 50px;
+		}
+</style>
 
-        <div class="col-sm-12 pull-right">
-            <button type="submit" class="btn btn-success pull-right sendBtn">Gönder</button>
-        </div>
+@using (Html.BeginForm("SendMessage", "Community", FormMethod.Post, new { enctype = "multipart/form-data" })) {
+	@Html.AntiForgeryToken()
+	<div class="replyDisplay">
+		@Html.HiddenFor(m => m.ReplyId)
+		<a class="cancelReply text-danger" href="#"><i class="fa fa-times"></i></a>
+		<div class="content"></div>
+	</div>
+	
+	var h = new PLE444.Helpers.UserHelper();
+	if (h.GetUserPhotoFromID(Model.CurrentUserId) == null || h.GetUserPhotoFromID(Model.CurrentUserId) == " ") {
+		<img class="img-circle" style="width: 40px" src="@Url.Content("~/Content/img/pp.jpg")" />
+	}
+	else {
+		<img class="img-circle" style="width:40px" src="@Url.Content(h.GetUserPhotoFromID(Model.CurrentUserId))" />
+	}
+	<strong style="margin-left:10px;">@h.GetUserFullNameFromID(Model.CurrentUserId)</strong>
+	<br>
 
-    </div>
+	<div class="form-horizontal">
+		<div class="form-group ml-xxl">
+			<div class="col-sm-12">
+				@Html.TextAreaFor(m => m.Content, new { @class = "form-control summernote" })
+				@Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+			</div>
+		</div>
+
+		@Html.HiddenFor(m => m.DiscussionId)
+		@Html.HiddenFor(m => m.CId)
+
+		<div class="col-sm-12 pull-right">
+			<button type="submit" class="btn btn-success pull-right">Gönder</button>
+		</div>
+	</div>
 }
 
 <script>
-    $(document).ready(function () {
-        $('.summernote').summernote({
-            focus: true,
-            codemirror: {
-                theme: 'united'
-            },
-            toolbar: [
-                // [groupName, [list of button]]
-                ['style', ['bold', 'italic', 'underline', 'clear', 'codeview']],
-                ['color', ['color']]
-            ]
-        });        
-    });
+	$(document).ready(function () {
+		$('.summernote').summernote({
+			focus: true,
+			codemirror: {
+				theme: 'united'
+			},
+			toolbar: [
+				// [groupName, [list of button]]
+				['style', ['bold', 'italic', 'underline', 'clear', 'codeview']],
+				['color', ['color']],
+				['insert', ['link', 'picture']]
+			]
+		});
+	});
+
+	$(".cancelReply").click(function(event) {
+		$(this).parent(".replyDisplay").slideUp();
+	});
 </script>
-
-

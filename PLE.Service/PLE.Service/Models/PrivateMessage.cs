@@ -5,26 +5,26 @@ using System.Web.Mvc;
 
 namespace PLE.Service.Models
 {
-    public class PrivateMessage
-    {
-        [Key]
-        public int Id { get; set; }
+	public class PrivateMessage
+	{
+		[Key]
+		public int Id { get; set; }
 
-        [ForeignKey("Sender")]
-        public string SenderId { get; set; }
+		[ForeignKey("Sender")]
+		public string SenderId { get; set; }
 
-        public ApplicationUser Sender { get; set; }
+		public ApplicationUser Sender { get; set; }
 
-        [ForeignKey("Receiver")]
-        public string ReceiverId { get; set; }
+		[ForeignKey("Receiver")]
+		public string ReceiverId { get; set; }
 
-        public ApplicationUser Receiver { get; set; }
+		public ApplicationUser Receiver { get; set; }
 
-        [AllowHtml]
-        public string Content { get; set; }
+		[AllowHtml]
+		public string Content { get; set; }
 
-        public DateTime DateSent { get; set; }
+		public DateTime DateSent { get; set; }
 
-        public bool IsRead { get; set; }
-    }
+		public bool IsRead { get; set; }
+	}
 }

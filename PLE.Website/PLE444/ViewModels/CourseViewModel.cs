@@ -26,5 +26,5 @@ namespace PLE444.ViewModels
         public bool CanEdit { get; set; }
 
         public Course Course { get; set; }
-    }
+	}
 }

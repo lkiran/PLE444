@@ -208,32 +208,58 @@ namespace PLE444.Controllers
         }
 
 
-        [HttpPost]
-        public ActionResult RemoveFromChapter(Guid? chapterId, Guid? materialId)
-        {
-            if (chapterId == null || materialId == null)
-                return Json(new {Success = false, Message = "BadRequest"}, JsonRequestBehavior.AllowGet);
+		[HttpPost]
+		[Authorize]
+		public JsonResult RemoveFromChapter(Guid? chapterId, Guid? materialId)
+		{
+			if (chapterId == null || materialId == null)
+				return Json(new { Success = false, Message = "BadRequest" }, JsonRequestBehavior.AllowGet);
 
-            var chapter = db.Chapters.Find(chapterId);
-            if (chapter == null)
-                return Json(new { Success = false, Message = "HttpNotFound" }, JsonRequestBehavior.AllowGet);
+			var chapter = db.Chapters.Find(chapterId);
+			if (chapter == null)
+				return Json(new { Success = false, Message = "HttpNotFound" }, JsonRequestBehavior.AllowGet);
 
-            else if (!isCourseCreator(chapter.CourseId))
-                return Json(new { Success = false, Message = "Unauthorized" }, JsonRequestBehavior.AllowGet);
+			else if (!isCourseCreator(chapter.CourseId))
+				return Json(new { Success = false, Message = "Unauthorized" }, JsonRequestBehavior.AllowGet);
 
-            var material = chapter.Materials.FirstOrDefault(m => m.Id == materialId);
-            if(material == null)
-                return Json(new { Success = false, Message = "HttpNotFound" }, JsonRequestBehavior.AllowGet);
+			var material = chapter.Materials.FirstOrDefault(m => m.Id == materialId);
+			if (material == null)
+				return Json(new { Success = false, Message = "HttpNotFound" }, JsonRequestBehavior.AllowGet);
 
-            chapter.Materials.Remove(material);
+			material.IsActive = false;
 
-            db.Entry(chapter).State = EntityState.Modified;
-            db.SaveChanges();
+			chapter.Materials.Remove(material);
 
-            return Json(new { Success = true, Message = "OK" }, JsonRequestBehavior.AllowGet);
-        }
+			db.Entry(material).State = EntityState.Modified;
+			db.Entry(chapter).State = EntityState.Modified;
+			db.SaveChanges();
 
-        protected override void Dispose(bool disposing)
+			return Json(new { Success = true, Message = "OK" }, JsonRequestBehavior.AllowGet);
+		}
+
+		//[HttpPost]
+		//[Authorize]
+		//public JsonResult Delete(Chapter chapter, Guid? materialId)
+		//{
+		//	if (materialId == null)
+		//		return Json(new { Success = false, Message = "BadRequest" }, JsonRequestBehavior.AllowGet);
+
+		//	var material = db.Materials.Find(materialId);
+		//	if (material == null)
+		//		return Json(new { Success = false, Message = "HttpNotFound" }, JsonRequestBehavior.AllowGet);
+
+		//	else if (!isCourseCreator(chapter.CourseId))
+		//		return Json(new { Success = false, Message = "Unauthorized" }, JsonRequestBehavior.AllowGet);
+
+		//	material.IsActive = false;
+
+		//	db.Entry(material).State = EntityState.Modified;
+		//	db.SaveChanges();
+
+		//	return Json(new { Success = true, Message = "OK" }, JsonRequestBehavior.AllowGet);
+		//}
+
+		protected override void Dispose(bool disposing)
         {
             if (disposing)
             {

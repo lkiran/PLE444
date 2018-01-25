@@ -1,81 +1,75 @@
 ﻿@using PLE444.Models
 @model PLE444.ViewModels.CommunityViewModel
 @{
-    ViewBag.Title = @Model.Community.Name;
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = @Model.Community.Name;
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @{ Html.RenderAction("Navigation", "Community", new { id = Model.Community.Id }); }
 
 
 <div class="panel panel-default">
-    <div class="panel-heading">
-        <h2 class="text-capitalize">@Model.Community.Name</h2>
+	<div class="panel-heading">
+		<h2 class="text-capitalize">@Model.Community.Name</h2>
 
-        @if (Model.Status ==Enums.StatusType.Creator)
-        {
-            <a class="pull-right mr-md" href="@Url.Action("Edit", "Community", new {id = Model.Community.Id})">
-                <small><i class="ti ti-pencil-alt"></i> Düzenle</small>
-            </a>
-        }
-        else
-        {
-            if (Model.Status == Enums.StatusType.Member)
-            {
-                <a class="pull-right text-danger" href="@Url.Action("Leave", "Community", new {id = Model.Community.Id})">
-                    <small><i class="ti ti-angle-double-left"></i> Gruptan Ayrıl</small>
-                </a>
-            }
-            else if (Model.Status == Enums.StatusType.Waiting)
-            {
-                <span class="text-info pull-right"><i class="ti ti-time"></i> Onay Bekliyor</span>
-            }
-            else
-            {
-                <a class="pull-right" href="@Url.Action("Join", "Community", new {id = Model.Community.Id})">
-                    <span><i class="ti ti-angle-double-right"></i>  Gruba Katıl</span>
-                </a>
-            }
-        }
-    </div>
-    <div class="panel-body">
-        <div class="col-md-9">
-            <dl class="dl-horizontal">
-                <dt>Ders İsmi</dt>
-                <dd>@Model.Community.Name</dd>
-            </dl>
+		@if (Model.Status == Enums.StatusType.Creator) {
+			<a class="pull-right mr-md" href="@Url.Action("Edit", "Community", new {id = Model.Community.Id})">
+				<small><i class="ti ti-pencil-alt"></i> Düzenle</small>
+			</a>
+		}
+		else {
+			if (Model.Status == Enums.StatusType.Member) {
+				<a class="pull-right text-danger" href="@Url.Action("Leave", "Community", new {id = Model.Community.Id})">
+					<small><i class="ti ti-angle-double-left"></i> Gruptan Ayrıl</small>
+				</a>
+			}
+			else if (Model.Status == Enums.StatusType.Waiting) {
+				<span class="text-info pull-right"><i class="ti ti-time"></i> Onay Bekliyor</span>
+			}
+			else {
+				<a class="pull-right" href="@Url.Action("Join", "Community", new {id = Model.Community.Id})">
+					<span><i class="ti ti-angle-double-right"></i>  Gruba Katıl</span>
+				</a>
+			}
+		}
+	</div>
+	<div class="panel-body">
+		<div class="col-md-9">
+			<dl class="dl-horizontal">
+				<dt>Ders İsmi</dt>
+				<dd>@Model.Community.Name</dd>
+			</dl>
 
-            <dl class="dl-horizontal">
-                <dt>Açıklama</dt>
-                <dd class="text-justify">@(new HtmlString(Model.Community.Description))</dd>
-            </dl>
+			<dl class="dl-horizontal">
+				<dt>Açıklama</dt>
+				<dd class="text-justify">@(new HtmlString(Model.Community.Description))</dd>
+			</dl>
 
-            <dl class="dl-horizontal">
-                <dt>@Model.MemberCount Katılımcı</dt>
-                <dd></dd>
-            </dl>
+			<dl class="dl-horizontal">
+				<dt>@Model.MemberCount Katılımcı</dt>
+				<dd></dd>
+			</dl>
 
-            @if (!Model.Community.IsOpen && Model.Status == Enums.StatusType.Creator)
-            {
-                <dl class="dl-horizontal">
-                    <dt>Katılım Linki</dt>
-                    <dd>
-                        <span class="text-info">
-                            @Url.Action("Join", "Community", routeValues: new {id = Model.Community.Id}, protocol: Request.Url?.Scheme)
-                        </span>
-                        <br/>
-                        <small>Üyelerin katılabilmesi için bu linki onlarla paylaşın.</small>
-                    </dd>
-                </dl>
-            }
-        </div>
-        <div class="col-md-3">
-            <div class="user pull-right">
-                <img alt="Profil Resmi" src="@Url.Content(Model.Community.Owner.UserPhoto())" />
-                <span>@Model.Community.Owner.FullName()</span>
-            </div>
-        </div>
-    </div>
+			@if (!Model.Community.IsOpen && Model.Status == Enums.StatusType.Creator) {
+				<dl class="dl-horizontal">
+					<dt>Katılım Linki</dt>
+					<dd>
+						<span class="text-info">
+							@Url.Action("Join", "Community", routeValues: new { id = Model.Community.Id }, protocol: Request.Url?.Scheme)
+						</span>
+						<br />
+						<small>Üyelerin katılabilmesi için bu linki onlarla paylaşın.</small>
+					</dd>
+				</dl>
+			}
+		</div>
+		<div class="col-md-3">
+			<div class="user pull-right">
+				<img alt="Profil Resmi" src="@Url.Content(Model.Community.Owner.UserPhoto())" />
+				<span>@Model.Community.Owner.FullName()</span>
+			</div>
+		</div>
+	</div>
 </div>
 
 

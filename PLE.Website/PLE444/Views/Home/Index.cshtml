@@ -1,27 +1,37 @@
-﻿@model List<PLE444.ViewModels.Entry>
+﻿@*@model List<PLE444.ViewModels.MainPage>*@
 
 @{
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>PLE</h1>
-    <h2>Personal Learning Environment
-        <small>Kişisel Öğrenme Ortamı</small>
-    </h2>    
+<div class="jumbotron" style="background-image: url('../../Content/img/ple2.jpg');" >
+    <h2 style="margin-left:130px">PLE</h2>
+    <h4 style="margin-left:130px">Kişisel Öğrenme Ortamı</h4>
+	<h6 style="margin-left:130px">Personal Learning Environment</h6>
 </div>
 
 <div class="row">
+	<div class="col-md-2">
+		
+	</div>
     <div class="col-md-4">
         <h2>Dersler</h2>
-        <p></p>
+        <p>
+			Yönettiğin ve katıldığın dersleri görmek için <a href="@Url.Action("List","Course")">buraya</a> tıkla.
+        </p>
     </div>
     <div class="col-md-4">
         <h2>Gruplar</h2>
-        <p></p>
+        <p>
+			Oluşturduğun ve katıldığın grupları görmek için <a href="@Url.Action("Index","Community")">buraya</a> tıkla.
+		</p>
     </div>
-    <div class="col-md-4">
+	<div class="col-md-3">
+
+	</div>
+    @*<div class="col-md-4">
         <h2>Alanlar</h2>
-        <p></p>
-    </div>
+        <p>
+        </p>
+    </div>*@
 </div>

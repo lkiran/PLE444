@@ -41,7 +41,7 @@ namespace PLE.Service.App_Start
 				//For Dev enviroment only (on production should be AllowInsecureHttp = false)
 				AllowInsecureHttp = true,
 				TokenEndpointPath = new PathString("/oauth/token"),
-				AccessTokenExpireTimeSpan = TimeSpan.FromDays(1), //Awailable for 1 day
+				AccessTokenExpireTimeSpan = TimeSpan.FromDays(90), //Awailable for 90 days
 				Provider = new PleOAuthProvider(),
 				AccessTokenFormat = new PleJwtFormat(ConfigurationManager.AppSettings["ServiceAddress"])
 			};

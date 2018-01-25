@@ -1,194 +1,185 @@
 ﻿@using Microsoft.Ajax.Utilities
 @model  PLE444.ViewModels.CourseMembers
 @{
-    ViewBag.Title = "Katılımcılar";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "Katılımcılar";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-
 
 @{ Html.RenderAction("Navigation", "Course", new { id = Model.Course.Id }); }
 
 @{
-    var active = Model.Members.Where(c => c.IsActive && c.DateJoin != null);
-    var waiting = Model.Members.Where(c => c.IsActive && c.DateJoin == null);
-    var leaved = Model.Members.Where(c => !c.IsActive);
+	var active = Model.Members.Where(c => c.IsActive && c.DateJoin != null);
+	var waiting = Model.Members.Where(c => c.IsActive && c.DateJoin == null);
+	var leaved = Model.Members.Where(c => !c.IsActive);
 }
 
 <div class="panel panel-success" data-widget='{"draggable": "false"}'>
-    <div class="panel-heading">
-        <h2>Aktif Katılımcılar</h2>
-        <em class="ml-md">@active.Count() kişi</em>
-    </div>
-    <div class="panel-body">
-       @if (active.Count() != 0)
-       {
-           <table class="table table-hover m-n" id="members">
-               <thead>
-               <tr>
-                   <th>Katılımcı</th>
-                   <th>Katıldığı Tarih</th>
-               </tr>
-               </thead>
-               <tbody>
-               @foreach (var cm in active)
-               {
-                   <tr>
-                       <td>
-                           <a href="@Url.Action("Profil", "User", new {id = cm.UserId})">
-                               <img alt="Kullanıcı Resmi" src="@Url.Content(cm.User.UserPhoto())" class="img-circle" style="height: 30px;"/>
-                               @cm.User.FullName()
-                           </a>
-                       </td>
-                       <td>@cm.DateJoin</td>
-                   </tr>
-               }
-               </tbody>
-           </table>
-       }
-       else
-       {
-        <em class="lead">Derste hiç katılımcı yok.</em>
-       }
-    </div>
+	<div class="panel-heading">
+		<h2>Aktif Katılımcılar</h2>
+		<em class="ml-md">@active.Count() kişi</em>
+	</div>
+	<div class="panel-body">
+		@if (active.Count() != 0) {
+			<table class="table table-hover m-n" id="members">
+				<thead>
+					<tr>
+						<th>Katılımcı</th>
+						<th>Katıldığı Tarih</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var cm in active) {
+						<tr>
+							<td>
+								<a href="@Url.Action("Profil", "User", new {id = cm.UserId})">
+									<img alt="Kullanıcı Resmi" src="@Url.Content(cm.User.UserPhoto())" class="img-circle" style="height: 30px;" />
+									@cm.User.FullName()
+								</a>
+							</td>
+							<td>@cm.DateJoin</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		}
+		else {
+			<em class="lead">Derste hiç katılımcı yok.</em>
+		}
+	</div>
 </div>
 
-@if (Model.CanEdit)
-{
-    <div class="panel panel-info" data-widget='{"draggable": "false"}'>
-        <div class="panel-heading">
-            <h2>Onay Bekleyen Katılımcılar</h2>
-            <em class="ml-md">@waiting.Count() kişi</em>
-        </div>
-        <div class="panel-body">
-            @if (waiting.Count() != 0)
-            {
-                <table class="table table-hover m-n" id="waiting">
-                    <thead>
-                    <tr>
-                        <th>
-                            <div class="icheck">
-                                <label class="checkbox-inline icheck">
-                                    <input type="checkbox" class="allWaitings" value=""/>
-                                </label>
-                            </div>
-                        </th>
-                        <th>Katılımcı</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach (var cm in waiting)
-                    {
-                        <tr>
-                            <td width="5%">
-                                <label class="checkbox-inline icheck">
-                                    <input type="checkbox" class="willBeAppoved" data-id="@cm.Id"/>
-                                </label>
-                            </td>
-                            <td>
-                                <a href="@Url.Action("Profil", "User", new {id = cm.UserId})">
-                                    <img alt="Kullanıcı Resmi" src="@Url.Content(cm.User.UserPhoto())" class="img-circle" style="height: 30px;"/>
-                                    @cm.User.FullName()
-                                </a>
-                            </td>
-                            <td>
-                                <a href="@Url.Action("Approve", "Course", new {id = cm.Id})">
-                                    <span class="text-success"><i class="ti ti-check"></i> Onayla</span>
-                                </a>
-                            </td>
-                        </tr>
-                    }
-                    </tbody>
-                </table>
-            }
-            else
-            {
-                <em class="lead">Onay bekleyen katılımcı yok.</em>
-            }
-        </div>
-        <div class="panel-footer" style="display: none;">
-            <a href="#" id="approveSelection">
-                <span class="text-success">
-                    <i class="ti ti-check"></i> Seçilenleri Onayla
-                </span>
-            </a>
-        </div>
-    </div>
+@if (Model.CanEdit) {
+	<div class="panel panel-info" data-widget='{"draggable": "false"}'>
+		<div class="panel-heading">
+			<h2>Onay Bekleyen Katılımcılar</h2>
+			<em class="ml-md">@waiting.Count() kişi</em>
+		</div>
+		<div class="panel-body">
+			@if (waiting.Count() != 0) {
+				<table class="table table-hover m-n" id="waiting">
+					<thead>
+						<tr>
+							<th>
+								<div class="icheck">
+									<label class="checkbox-inline icheck">
+										<input type="checkbox" class="allWaitings" value="" />
+									</label>
+								</div>
+							</th>
+							<th>Katılımcı</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var cm in waiting) {
+							if (cm.User==null){
+								continue;
+							}
+							<tr>
+								<td width="5%">
+									<label class="checkbox-inline icheck">
+										<input type="checkbox" class="willBeAppoved" data-id="@cm.Id" />
+									</label>
+								</td>
+								<td>
+									<a href="@Url.Action("Profil", "User", new {id = cm.UserId})">
+										<img alt="Kullanıcı Resmi" src="@Url.Content(cm.User.UserPhoto())" class="img-circle" style="height: 30px;" />
+										@cm.User.FullName()
+									</a>
+								</td>
+								<td>
+									<a href="@Url.Action("Approve", "Course", new {id = cm.Id})">
+										<span class="text-success"><i class="ti ti-check"></i> Onayla</span>
+									</a>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			}
+			else {
+				<em class="lead">Onay bekleyen katılımcı yok.</em>
+			}
+		</div>
+		<div class="panel-footer" style="display: none;">
+			<a href="#" id="approveSelection">
+				<span class="text-success">
+					<i class="ti ti-check"></i> Seçilenleri Onayla
+				</span>
+			</a>
+		</div>
+	</div>
 
-    <div class="panel panel-gray" data-widget='{"draggable": "false"}'>
-        <div class="panel-heading">
-            <h2>Ayrılan veya Çıkarılan Katılımcılar</h2>
-            <em class="ml-md">@leaved.Count() kişi</em>
-        </div>
-        <div class="panel-body">
-            @if (leaved.Count() != 0)
-            {
-                <table class="table table-hover m-n" id="leaved">
-                    <thead>
-                    <tr>
-                        <th>Katılımcı</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach (var cm in leaved)
-                    {
-                        <tr>
-                            <td>
-                                <a href="@Url.Action("Profil", "User", new {id = cm.UserId})">
-                                    <img alt="Kullanıcı Resmi" src="@Url.Content(cm.User.UserPhoto())" class="img-circle" style="height: 30px;"/>
-                                    @cm.User.FullName()
-                                </a>
-                            </td>
-                        </tr>
-                    }
-                    </tbody>
-                </table>
-            }
-            else
-            {
-                <em class="lead">Ayrılan veya çıkarılan katılımcı yok.</em>
-            }
-        </div>
-    </div>
+	<div class="panel panel-gray" data-widget='{"draggable": "false"}'>
+		<div class="panel-heading">
+			<h2>Ayrılan veya Çıkarılan Katılımcılar</h2>
+			<em class="ml-md">@leaved.Count() kişi</em>
+		</div>
+		<div class="panel-body">
+			@if (leaved.Count() != 0) {
+				<table class="table table-hover m-n" id="leaved">
+					<thead>
+						<tr>
+							<th>Katılımcı</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach (var cm in leaved) {
+							<tr>
+								<td>
+									<a href="@Url.Action("Profil", "User", new {id = cm.UserId})">
+										<img alt="Kullanıcı Resmi" src="@Url.Content(cm.User.UserPhoto())" class="img-circle" style="height: 30px;" />
+										@cm.User.FullName()
+									</a>
+								</td>
+							</tr>
+						}
+					</tbody>
+				</table>
+			}
+			else {
+				<em class="lead">Ayrılan veya çıkarılan katılımcı yok.</em>
+			}
+		</div>
+	</div>
 }
 
 @section scripts
 {
-<script>
-    $('input.willBeAppoved').on('ifChanged', function (event) {
-        if ($("input:checked.willBeAppoved").length === 0) {
-            $(this).closest(".panel").children(".panel-footer").slideUp();
-        } else {
-            $(this).closest(".panel").children(".panel-footer").slideDown();
-        }
-    });
+	<script>
+	$('input.willBeAppoved').on('ifChanged', function (event) {
+		if ($("input:checked.willBeAppoved").length === 0) {
+			$(this).closest(".panel").children(".panel-footer").slideUp();
+		} else {
+			$(this).closest(".panel").children(".panel-footer").slideDown();
+		}
+	});
 
-    $('input.allWaitings').on('ifChecked', function (event) {
-        $("input.willBeAppoved").iCheck('check');
-    });
-    $('input.allWaitings').on('ifUnchecked', function (event) {
-        $("input.willBeAppoved").iCheck('uncheck');
-    });
+	$('input.allWaitings').on('ifChecked', function (event) {
+		$("input.willBeAppoved").iCheck('check');
+	});
+	$('input.allWaitings').on('ifUnchecked', function (event) {
+		$("input.willBeAppoved").iCheck('uncheck');
+	});
 
-    $('#approveSelection').on('click', function (event) {
-        var approve = [];
-        $("input:checked.willBeAppoved").each(function(i, object) {
-            approve.push($(object).data('id'));
-        });
+	$('#approveSelection').on('click', function (event) {
+		var approve = [];
+		$("input:checked.willBeAppoved").each(function(i, object) {
+			approve.push($(object).data('id'));
+		});
 
-        $.ajax({
-            url: "@Url.Action("Approve", "Course")",
-            method: "POST",
-            data: { list : approve },
-            dataType: 'json',
-            success: function (data, statusText, xhr) {
-                location.reload();
-            },
-            error: function (data, statusText, xhr) {
-                location.reload();
-            }
-        });
-    });
-</script>
+		$.ajax({
+			url: "@Url.Action("Approve", "Course")",
+			method: "POST",
+			data: { list : approve },
+			dataType: 'json',
+			success: function (data, statusText, xhr) {
+				location.reload();
+			},
+			error: function (data, statusText, xhr) {
+				location.reload();
+			}
+		});
+	});
+	</script>
 }

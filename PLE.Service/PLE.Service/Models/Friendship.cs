@@ -3,17 +3,19 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PLE.Service.Models
 {
-    public class Friendship
-    {
-        public Friendship()
-        {
-            Id = Guid.NewGuid();
-        }
+	public class Friendship
+	{
+		public Friendship()
+		{
+			Id = Guid.NewGuid();
+		}
 
-        [Required]
-        public Guid Id { get; set; }
-        public string UserId { get; set; }
-        public string FriendId { get; set; }
-        public bool IsApproved { get; set; }
-    }
+		[Required]
+		public Guid Id { get; set; }
+		public string userID { get; set; }
+
+		public string FriendID { get; set; }
+
+		public bool isApproved { get; set; }
+	}
 }

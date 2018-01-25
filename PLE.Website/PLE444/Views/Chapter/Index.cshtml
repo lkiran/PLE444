@@ -12,81 +12,57 @@
 			<i class="ti ti-info-alt lead"></i>  Bu derse eklenmiş herhangi bir bölüm henüz yok.
 		</div>
 	}
-	foreach (var chapter in Model.ChapterList)
-	//.OrderByDescending(d=> d.OrderBy))
-	{
+	<div class="panel-default" id="accordionA">
+		@foreach (var chapter in Model.ChapterList) {
+			<div class="panel panel-default">
+				<div class="panel-heading" style="cursor: pointer" data-toggle="collapse" @*data-parent="#accordionA"*@ href="#@chapter.Id">
 
-		<div class="row">
-			@* <div class="col-md-9">*@
-			<div class="panel-group panel-default" id="accordionA">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						@*div class="panel panel-default" id="panel">*@
+					<h2>@chapter.Title</h2>
 
-						@*<div class="panel-heading">*@
+					@if (Model.canEdit) {
+						<div class="panel-ctrls" style="float: left">
+							<a class="button-icon ml-sm" title="Düzenle" href="@Url.Action("Edit","Chapter", new {id = chapter.Id})">
+								<i class="ti ti-pencil"></i>
+							</a>
 
-						<h2>@Html.DisplayFor(modelItem => chapter.Title)</h2>
-						@*<small>modelItem.Description</small>*@
-						@*<small> (@(new HtmlString(chapter.Description)))</small>*@
-
-						@if(Model.canEdit) {
-							//<div class="panel-footer">
-							<div class="pull-right">
-								<a href="@Url.Action("Add", "Material", new {chapterId = chapter.Id})" class="btn btn-primary-alt btn-sm ">
-									@*<i class="fa fa-plus"></i>*@
-									Materyal Ekle
-								</a>
-							</div>
-							// </div>
-						}
-
-					</div>
-
-					<a data-toggle="collapse" data-parent="#accordionA" Chapter="@chapter.Id" class="Chapter" href="#@chapter.Id">
-						<small class="text-danger"><span class="visible-lg visible-md">Materyaller</span></small>
-					</a>
-					@if(Model.canEdit) {
-
-						<a href="@Url.Action("Edit","Chapter", new {id = chapter.Id})">
-							<small><i class="fa fa-pencil-square-o ml-lg mr-xs"></i><span class="visible-lg visible-md">Düzenle</span></small>
-						</a>
-						<button data-chapter-id="@chapter.Id" class="btn-remove btn-link">
-							<small class="text-danger"><i class="fa fa-trash-o ml-xs mr-xs"></i><span class="visible-lg visible-md">Kaldır</span></small>
-						</button>
+							<a class="btn-remove button-icon ml-sm" title="Kaldır" data-chapter-id="@chapter.Id">
+								<i class="ti ti-trash"></i>
+							</a>
+						</div>
 					}
-					<div class="not-pull-right-xs text-xs-center">
-						<div class="col-xs-12">
-							@Html.DisplayFor(modelItem => chapter.DateAdded),
-							@{var h = new PLE444.Helpers.DataManipulationHelper(); }
-							@h.GetDeltaDate(chapter.DateAdded)
-						</div>
-					</div>
-
-					<div id="@chapter.Id" class="collapse">
-						<div style="background-color:white" class="panel-body">
-
-							@(new HtmlString(chapter.Description))
-
-							<ul style="list-style-type: none" ;>
-								@foreach (var material in chapter.Materials) {
-
-									<li>
-										<a class="ShowModal" href="#_" data-href="@Url.Action("Detail", "Material", new { id= material.Id })" data-toggle="modal" data-target="#myModal">
-											@material.Title
-										</a>
-									</li>
-								}
-							</ul>
-						</div>
+					<div class="not-pull-right-xs text-xs-center" title="@chapter.DateAdded">
+						@{var h = new PLE444.Helpers.DataManipulationHelper(); }
+						@h.GetDeltaDate(chapter.DateAdded)
 					</div>
 				</div>
+				<div id="@chapter.Id" class="collapse">
+					<div class="panel-body">
+						@(new HtmlString(chapter.Description))
+
+						<ul style="list-style-type: none" ;>
+							@foreach (var material in chapter.Materials) {
+								<li>
+									<a class="ShowModal" href="#_" data-href="@Url.Action("Detail", "Material", new { id= material.Id })" data-toggle="modal" data-target="#myModal">
+										@material.Title
+									</a>
+								</li>
+							}
+						</ul>
+					</div>
+					@if (Model.canEdit) {
+						<div class="panel-footer">
+							<div class="pull-right">
+								<a href="@Url.Action("Add", "Material", new {chapterId = chapter.Id})" class="btn btn-primary-alt btn-sm ">
+									<i class="fa fa-plus"></i> Materyal Ekle
+								</a>
+							</div>
+						</div>
+					}
+				</div>
 			</div>
-		</div>
-
-
-
-									}
-								}
+		}
+	</div>
+	}
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="text-center">
@@ -159,30 +135,4 @@
 			});
 		});
 	</script>
-	@* //eklenen kısım*@
-	<script>
-	var debugging = false;
-	$('.Index').click(function () {
-		$.ajax({
-			url: '@Url.Action("Read", "Chapter")',
-			dataType: 'json',
-			type: 'POST',
-			data: "IndexId=" + $(this).attr('IndexId') + "&CourseId=" + "@Model.CourseInfo.Id",
-
-
-			success: function (data) {
-			if (debugging)
-			alert(data.success);
-			},
-			error: function () {
-			if (debugging)
-			alert("error");
-			}
-			});
-			});
-	</script>
-	@* eklenen kısım*@
 }
-
-
-

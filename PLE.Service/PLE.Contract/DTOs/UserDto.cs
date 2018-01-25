@@ -2,9 +2,11 @@
 
 namespace PLE.Contract.DTOs
 {
-	public class UserDto
+	public class  UserDto
 	{
 		public string Id { get; set; }
+
+		public string Password { get; set; }
 
 		public TokenDto Token { get; set; }
 

@@ -14,8 +14,11 @@ using System.Diagnostics;
 using System.Net.Mail;
 using System.Security.Claims;
 using System.Security.Principal;
+using AutoMapper;
 using PLE.Contract.DTOs;
+using PLE.Website.Common;
 using PLE.Website.Service;
+using PLE444.ViewModels;
 using static PLE444.Helpers.ViewHelper;
 
 namespace PLE444.Controllers
@@ -28,8 +31,7 @@ namespace PLE444.Controllers
 		private readonly AuthService _authService;
 
 		public AccountController() {
-			var authToken = User.GetPrincipal()?.User?.Token.access_token;
-			_authService = new AuthService(authToken);
+			_authService = new AuthService();
 		}
 
 		public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager) {
@@ -59,35 +61,38 @@ namespace PLE444.Controllers
 		[HttpPost]
 		[AllowAnonymous]
 		public async Task<ActionResult> Login(LoginViewModel model, string returnUrl) {
-			if (!ModelState.IsValid) {
-				return View(model);
-			}
+			if (!ModelState.IsValid) return View(model);
+
 			var result = SignInStatus.Failure;
 			try {
-				var token = await _authService.GetAuthToken(model.Email, model.Password);
-
-				var user = _authService.User(model.Email);
+				var token = _authService.GetAuthToken(model.Email, model.Password);
+				_authService.UpdateClientToken(token);
+				var user = _authService.GetActiveUser();
 				user.Token = token;
+				Common.Token = token;
 
 				User.GetPrincipal().LoginUser(user);
 
 				result = SignInStatus.Success;
 				switch (result) {
-					case SignInStatus.Success: {
-							return !UserManager.IsEmailConfirmed(user.Id)
-								? RedirectToAction("WaitingConfirmation", new { userId = user.Id })
-								: RedirectToLocal(returnUrl);
-						}
+					case SignInStatus.Success:
+						if (model.RememberMe) 
+							_authService.SetAuthCookie();
+						
+						return string.IsNullOrWhiteSpace(returnUrl) ? RedirectToAction("Index", "Home") : RedirectToLocal(returnUrl);
+
 					case SignInStatus.LockedOut:
 						return View("Lockout");
+
 					case SignInStatus.RequiresVerification:
-						return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-					case SignInStatus.Failure:
+						return RedirectToAction("WaitingConfirmation", new { userId = user.Id });
+
 					default:
 						throw new Exception("Login Failure");
 				}
-			} catch (Exception e) {
-				ModelState.AddModelError("", "Invalid login attempt.");
+			}
+			catch (Exception e) {
+				ModelState.AddModelError("", "Giriş yapılırken bir hata oluştu");
 				return View(model);
 			}
 		}
@@ -138,7 +143,7 @@ namespace PLE444.Controllers
 		// GET: /Account/Register
 		[AllowAnonymous]
 		public ActionResult Register() {
-			return View();
+			return View(new RegisterViewModel());
 		}
 
 		//
@@ -146,51 +151,54 @@ namespace PLE444.Controllers
 		[HttpPost]
 		[AllowAnonymous]
 		[ValidateAntiForgeryToken]
-		public async Task<ActionResult> Register(RegisterViewModel model) {
-			if (ModelState.IsValid) {
-				var user = new ApplicationUser {
-					UserName = model.Email,
-					Email = model.Email,
-					FirstName = model.FirstName,
-					LastName = model.LastName,
-					PhoneNo = model.PhoneNo,
-					Mission = model.Mission,
-					Vision = model.Vision,
-					Gender = model.Gender
-				};
-				if (!model.photoBase64.IsNullOrWhiteSpace()) {
-					IList<string> data = model.photoBase64.Split(',').ToList<string>();
-					System.Diagnostics.Debug.WriteLine(data[1]);
-					byte[] bytes = Convert.FromBase64String(data[1]);
-					var fileName = Guid.NewGuid() + "." + data[0].Split('/')[1].Split(';')[0];
-					using (
-						var imageFile = new FileStream(Path.Combine(Server.MapPath("~/Uploads"), fileName),
-							FileMode.Create)) {
-						imageFile.Write(bytes, 0, bytes.Length);
-						imageFile.Flush();
-					}
+		public ActionResult Register(RegisterViewModel model) {
+			if (!ModelState.IsValid) return View(model);
+
+			var user = new UserDto {
+				Email = model.Email,
+				UserName = model.Email,
+				Password = model.Password,
+				FirstName = model.FirstName,
+				LastName = model.LastName,
+				PhoneNo = model.PhoneNo,
+				Mission = model.Mission,
+				Vision = model.Vision,
+				Gender = model.Gender
+			};
+			if (!model.photoBase64.IsNullOrWhiteSpace()) {
+				IList<string> data = model.photoBase64.Split(',').ToList();
+				Debug.WriteLine(data[1]);
+				byte[] bytes = Convert.FromBase64String(data[1]);
+				var fileName = Guid.NewGuid() + "." + data[0].Split('/')[1].Split(';')[0];
+				using (
+					var imageFile = new FileStream(Path.Combine(Server.MapPath("~/Uploads"), fileName),
+						FileMode.Create)) {
+					imageFile.Write(bytes, 0, bytes.Length);
+					imageFile.Flush();
+				}
+				user.ProfilePicture = "~/Uploads/" + fileName;
+			}
+
+			if (model.uploadFile != null && model.uploadFile.ContentLength > 0) {
+				if (Path.GetExtension(model.uploadFile.FileName)?.ToLower() == ".jpg"
+					|| Path.GetExtension(model.uploadFile.FileName)?.ToLower() == ".png"
+					|| Path.GetExtension(model.uploadFile.FileName)?.ToLower() == ".gif"
+					|| Path.GetExtension(model.uploadFile.FileName)?.ToLower() == ".jpeg") {
+					var fileName = Guid.NewGuid() + Path.GetExtension(model.uploadFile.FileName);
+					var imageFilePath = Path.Combine(Server.MapPath("~/Uploads"), fileName);
+					model.uploadFile.SaveAs(imageFilePath);
+
 					user.ProfilePicture = "~/Uploads/" + fileName;
 				}
-
-				if (model.uploadFile != null && model.uploadFile.ContentLength > 0) {
-					if (Path.GetExtension(model.uploadFile.FileName)?.ToLower() == ".jpg"
-						|| Path.GetExtension(model.uploadFile.FileName)?.ToLower() == ".png"
-						|| Path.GetExtension(model.uploadFile.FileName)?.ToLower() == ".gif"
-						|| Path.GetExtension(model.uploadFile.FileName)?.ToLower() == ".jpeg") {
-						var fileName = Guid.NewGuid().ToString() + Path.GetExtension(model.uploadFile.FileName);
-						var imageFilePath = Path.Combine(Server.MapPath("~/Uploads"), fileName);
-						model.uploadFile.SaveAs(imageFilePath);
-
-						user.ProfilePicture = "~/Uploads/" + fileName;
-					}
-				}
-
-				var result = await UserManager.CreateAsync(user, model.Password);
-				if (result.Succeeded)
-					return RedirectToAction("ResendConfirmation", new { userId = user.Id });
-
-				AddErrors(result);
 			}
+
+			var result = _authService.RegisterUser(user);
+
+			if (result.Status)
+				return RedirectToAction("ResendConfirmation", new { userId = result.UserId });
+
+			if (result.Errors.Any(e => e.Contains("already taken.")))
+				ModelState.AddModelError("Email", "Bu e-posta adresi zaten kayıtlı");
 
 			// If we got this far, something failed, redisplay form
 			return View(model);
@@ -287,7 +295,8 @@ namespace PLE444.Controllers
 				mail.Bcc.Add(user.Email);
 
 				await new EmailService().SendAsync(mail);
-			} catch (Exception) {
+			}
+			catch (Exception) {
 				Debug.WriteLine("E-mail could not be sent");
 			}
 
@@ -441,6 +450,7 @@ namespace PLE444.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult LogOff() {
+			_authService.DeleteAuthCookie();
 			User.GetPrincipal().LogoutUser();
 			return RedirectToAction("Index", "Home");
 		}

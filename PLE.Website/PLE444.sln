@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLE444", "PLE444\PLE444.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLE.Website.Service", "PLE.Website.Service\PLE.Website.Service.csproj", "{7DF5F085-DB4A-4F0C-A091-3122D1A8E988}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PLE.Website.Common", "PLE.Website.Common\PLE.Website.Common.csproj", "{399F62CB-A216-4A2F-86B1-28986C347C26}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{7DF5F085-DB4A-4F0C-A091-3122D1A8E988}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DF5F085-DB4A-4F0C-A091-3122D1A8E988}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DF5F085-DB4A-4F0C-A091-3122D1A8E988}.Release|Any CPU.Build.0 = Release|Any CPU
+		{399F62CB-A216-4A2F-86B1-28986C347C26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{399F62CB-A216-4A2F-86B1-28986C347C26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{399F62CB-A216-4A2F-86B1-28986C347C26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{399F62CB-A216-4A2F-86B1-28986C347C26}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -26,6 +26,5 @@ namespace PLE.Service.Controllers
 
 			return Ok(result);
 		}
-
 	}
 }

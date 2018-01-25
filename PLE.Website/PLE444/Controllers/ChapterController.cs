@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
 using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
+using System.Linq;
 using PLE444.Models;
+using System.Web.Mvc;
 using PLE444.ViewModels;
+using System.Data.Entity;
 
 namespace PLE444.Controllers
 {
@@ -17,12 +13,10 @@ namespace PLE444.Controllers
 		private PleDbContext db = new PleDbContext();
 
 		[Authorize]
-		public ActionResult Index(Guid? id)
-		{
+		public ActionResult Index(Guid? id) {
 			if (id == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			else
-			{
+			else {
 				var course = db.Courses.SingleOrDefault(i => i.Id == id);
 				if (course == null)
 					return HttpNotFound();
@@ -34,8 +28,7 @@ namespace PLE444.Controllers
 					.OrderByDescending(c => c.OrderBy)
 					.Include("Materials").ToList();
 
-				var model = new Chapters
-				{
+				var model = new Chapters {
 					canEdit = isCourseCreator(course),
 					CourseInfo = course,
 					ChapterList = chapters
@@ -46,13 +39,11 @@ namespace PLE444.Controllers
 		}
 
 		[Authorize]
-		public ActionResult Create(Guid id)
-		{
+		public ActionResult Create(Guid id) {
 			if (!isCourseCreator(id))
 				return RedirectToAction("Index", "Home");
 
-			var model = new Chapter
-			{
+			var model = new Chapter {
 				CourseId = id
 			};
 			return View(model);
@@ -61,15 +52,12 @@ namespace PLE444.Controllers
 		[HttpPost]
 		[Authorize]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create(Chapter chapter)
-		{
+		public ActionResult Create(Chapter chapter) {
 			if (!isCourseCreator(chapter.CourseId))
 				return RedirectToAction("Index", "Home");
 
-			else if (ModelState.IsValid)
-			{
-				var c = new Chapter
-				{
+			else if (ModelState.IsValid) {
+				var c = new Chapter {
 					DateAdded = DateTime.Now,
 					Title = chapter.Title,
 					OrderBy = chapter.OrderBy,
@@ -91,8 +79,7 @@ namespace PLE444.Controllers
 		}
 
 		[Authorize]
-		public ActionResult Edit(Guid? id)
-		{
+		public ActionResult Edit(Guid? id) {
 			if (id == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
@@ -109,17 +96,15 @@ namespace PLE444.Controllers
 		[HttpPost]
 		[Authorize]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit(Chapter model)
-		{
-			if (ModelState.IsValid)
-			{
+		public ActionResult Edit(Chapter model) {
+			if (ModelState.IsValid) {
 				if (!isCourseCreator(model.CourseId))
 					return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
 				var chapterDb = db.Chapters.Find(model.Id);
 				chapterDb.Description = model.Description;
 				chapterDb.Title = model.Title;
-                chapterDb.OrderBy = model.OrderBy;
+				chapterDb.OrderBy = model.OrderBy;
 
 				db.Entry(chapterDb).State = EntityState.Modified;
 				db.SaveChanges();
@@ -132,8 +117,7 @@ namespace PLE444.Controllers
 
 		[HttpPost]
 		[Authorize]
-		public JsonResult Delete(Guid? id)
-		{
+		public JsonResult Delete(Guid? id) {
 			if (id == null)
 				return Json(new { Success = false, Message = "BadRequest" }, JsonRequestBehavior.AllowGet);
 
@@ -152,8 +136,7 @@ namespace PLE444.Controllers
 			return Json(new { Success = true, Message = "OK" }, JsonRequestBehavior.AllowGet);
 		}
 
-		private bool isCourseCreator(Guid? courseId)
-		{
+		private bool isCourseCreator(Guid? courseId) {
 			if (courseId == null)
 				return false;
 
@@ -161,8 +144,7 @@ namespace PLE444.Controllers
 			return isCourseCreator(course);
 		}
 
-		private bool isCourseCreator(Course course)
-		{
+		private bool isCourseCreator(Course course) {
 			if (course == null)
 				return false;
 
@@ -171,8 +153,7 @@ namespace PLE444.Controllers
 			return true;
 		}
 
-		private bool isMember(Guid? courseId)
-		{
+		private bool isMember(Guid? courseId) {
 			if (courseId == null)
 				return false;
 
@@ -185,13 +166,11 @@ namespace PLE444.Controllers
 				return user.IsActive && user.DateJoin != null;
 		}
 
-		private bool isMember(Course course)
-		{
+		private bool isMember(Course course) {
 			return isMember(course.Id);
 		}
 
-		private bool isWaiting(Guid? courseId)
-		{
+		private bool isWaiting(Guid? courseId) {
 			var userId = User.GetPrincipal()?.User.Id;
 			var user = db.UserCourses.Where(c => c.Course.Id == courseId && c.IsActive).FirstOrDefault(u => u.UserId == userId);
 			if (user == null)

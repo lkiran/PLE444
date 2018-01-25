@@ -2,179 +2,184 @@
 @using PLE444.Helpers
 @model PLE444.ViewModels.CourseViewModel
 @{
-    ViewBag.Title = @Model.Course.Code;
-    Layout = "~/Views/Shared/_Layout.cshtml";
-     var h = new DataManipulationHelper(); 
+	ViewBag.Title = @Model.Course.Code;
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	var h = new DataManipulationHelper();
 }
 
 @{ Html.RenderAction("Navigation", "Course", new { id = Model.Course.Id }); }
 
 <div class="panel panel-default">
-    <div class="panel-heading">
-        <h2 class="text-capitalize">@Model.Course.Heading</h2>
-        
-        @if (Model.IsCourseCreator)
-        {
-            <a class="pull-right mr-md" href="@Url.Action("Edit", "Course", new {id = Model.Course.Id})">
-                <small><i class="ti ti-pencil-alt"></i> Düzenle</small>
-            </a>
-        }
-        else
-        {
-            if (Model.IsMember)
-            {
-                <a class="pull-right text-danger" href="@Url.Action("Leave", "Course", new {id = Model.Course.Id})">
-                    <small><i class="ti ti-angle-double-left"></i> Dersten Ayrıl</small>
-                </a>
-            }
-            else if (Model.IsWaiting)
-            {
-                <span class="text-info pull-right"><i class="ti ti-time"></i> Onay Bekliyor</span>
-            }
-            else
-            {
-                <a class="pull-right" href="@Url.Action("Join", "Course", new {id = Model.Course.Id})">
-                    <span><i class="ti ti-angle-double-right"></i>  Derse Katıl</span>
-                </a>
-            }
-        }
-    </div>
-    <div class="panel-body">
-        <div class="col-md-9">
-            <dl class="dl-horizontal">
-                <dt>Ders Kodu</dt>
-                <dd>@Model.Course.Code</dd>
-            </dl>
+	<div class="panel-heading">
+		<h2 class="text-capitalize">@Model.Course.Heading</h2>
 
-            <dl class="dl-horizontal">
-                <dt>Ders İsmi</dt>
-                <dd>@Model.Course.Name</dd>
-            </dl>
+		@if (Model.IsCourseCreator) {
+			if (Model.Course.IsCourseActive == false) {
+				<a class="button-icon ml-sm" title="Dersi Aktif Hale Getir" href="@Url.Action("Active", "Course", new { courseId = Model.Course.Id })">
+					<i class="ti ti-lock"></i>
+				</a>
+			}
+			else {
+				<a class="button-icon ml-sm " title="Dersi Pasif Hale Getir" href="@Url.Action("Active", "Course", new { courseId = Model.Course.Id })">
+					<i class="ti ti-unlock"></i>
+				</a>
+			}
+			<a class="pull-right mr-md" href="@Url.Action("Edit", "Course", new {id = Model.Course.Id})">
+				<small><i class="ti ti-pencil-alt"></i> Düzenle</small>
+			</a>
+		}
+		else {
+			if (Model.IsMember) {
+				<a class="pull-right text-danger" href="@Url.Action("Leave", "Course", new {id = Model.Course.Id})">
+					<small><i class="ti ti-angle-double-left"></i> Dersten Ayrıl</small>
+				</a>
+			}
+			else if (Model.IsWaiting) {
+				<span class="text-info pull-right"><i class="ti ti-time"></i> Onay Bekliyor</span>
+			}
+			else {
+				if (Model.Course.IsCourseActive == true) {
+					<a class="pull-right" href="@Url.Action("Join", "Course", new {id = Model.Course.Id})">
+						<span><i class="ti ti-angle-double-right"></i>  Derse Katıl</span>
+					</a>
+				}
 
-            <dl class="dl-horizontal">
-                <dt>Açıklama</dt>
-                <dd class="text-justify">@(new HtmlString(Model.Course.Description))</dd>
-            </dl>
+				else {
+					<span class="pull-right text-danger">Bu Ders Pasif</span>
+				}
+			}
+		}
+	</div>
+	<div class="panel-body">
+		<div class="col-md-9">
+			<dl class="dl-horizontal">
+				<dt>Ders Kodu</dt>
+				<dd>@Model.Course.Code</dd>
+			</dl>
 
-            <dl class="dl-horizontal">
-                <dt>@Model.MemberCount Katılımcı</dt>
-                <dd></dd>
-            </dl>
+			<dl class="dl-horizontal">
+				<dt>Ders İsmi</dt>
+				<dd>@Model.Course.Name</dd>
+			</dl>
 
-        @if (!Model.Course.CanEveryoneJoin && Model.IsCourseCreator)
-        {
-            <dl class="dl-horizontal">
-                <dt>Katılım Linki</dt>
-                <dd >
-                    <span class="text-info">
-                        @*Absolute URL for Course Join(id)*@
-                        @Url.Action("Join", "Course", routeValues: new { id = Model.Course.Id }, protocol: Request.Url?.Scheme)
-                    </span>
-                    <br />
-                    <small>Üyelerin katılabilmesi için bu linki onlarla paylaşın.</small>
-                </dd>
-            </dl>
-        }
-        </div>
-        <div class="col-md-3">
-            <div class="user pull-right">
-                <img alt="Profil Resmi" src="@Url.Content(Model.Course.Creator.UserPhoto())"/>
-                <span>@Model.Course.Creator.FullName()</span>
-            </div>
-        </div>
-    </div>
+			<dl class="dl-horizontal">
+				<dt>Açıklama</dt>
+				<dd class="text-justify">@(new HtmlString(Model.Course.Description))</dd>
+			</dl>
+
+			<dl class="dl-horizontal">
+				<dt>@Model.MemberCount Katılımcı</dt>
+				<dd></dd>
+			</dl>
+
+			@if (!Model.Course.CanEveryoneJoin && Model.IsCourseCreator) {
+				<dl class="dl-horizontal">
+					<dt>Katılım Linki</dt>
+					<dd>
+						<span class="text-info">
+							@*Absolute URL for Course Join(id)*@
+							@Url.Action("Join", "Course", routeValues: new { id = Model.Course.Id }, protocol: Request.Url?.Scheme)
+						</span>
+						<br />
+						<small>Üyelerin katılabilmesi için bu linki onlarla paylaşın.</small>
+					</dd>
+				</dl>
+			}
+		</div>
+		<div class="col-md-3">
+			<div class="user pull-right">
+				<img alt="Profil Resmi" src="@Url.Content(Model.Course.Creator.UserPhoto())" />
+				<span>@Model.Course.Creator.FullName()</span>
+			</div>
+		</div>
+	</div>
 </div>
 
 <div class="panel panel-default">
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-md-12">
-                <ul class="timeline">
-                    @foreach (var timelineEntry in Model.Course.Timeline)
-                    {
-                        <li class="@timelineEntry.ColorClass">
-                            <div class="timeline-icon"><i class="@timelineEntry.IconClass"></i>
-                            </div>
-                            <div class="timeline-body">
-                                <div class="timeline-header">
-                                    <a href="@Url.Action("Profil","User",new { id = timelineEntry.CreatorId })">
-                                        <img alt="Kullanıcı Resmi" class="img-circle" style="height: 30px;" src="@Url.Content(timelineEntry.Creator.UserPhoto())"/>
-                                        <span class="">@timelineEntry.Creator.FullName()</span>
-                                    </a>
-                                    <small class="ml-sm mr-sm">
-                                        @h.GetDeltaDate(@timelineEntry.DateCreated)
-                                    </small>
+	<div class="panel-body">
+		<div class="row">
+			<div class="col-md-12">
+				<ul class="timeline">
+					@foreach (var timelineEntry in Model.Course.Timeline) {
+						<li class="@timelineEntry.ColorClass">
+							<div class="timeline-icon">
+								<i class="@timelineEntry.IconClass"></i>
+							</div>
+							<div class="timeline-body">
+								<div class="timeline-header">
+									<a href="@Url.Action("Profil","User",new { id = timelineEntry.CreatorId })">
+										<img alt="Kullanıcı Resmi" class="img-circle" style="height: 30px;" src="@Url.Content(timelineEntry.Creator.UserPhoto())" />
+										<span class="">@timelineEntry.Creator.FullName()</span>
+									</a>
+									<small class="ml-sm mr-sm">
+										@h.GetDeltaDate(@timelineEntry.DateCreated)
+									</small>
 
-                                    
-                                    @if(Model.IsCourseCreator)
-                                    {
-                                        <a href="#" class="js-deleteEntry pull-right-lg pull-right-md" data-entry-id="@timelineEntry.Id">
-                                            <span class="text-danger">Sil</span>
-                                        </a>
-                                    }
-                                    
-                                    
-                                </div>
-                                <div class="timeline-content">
-                                    @if(!timelineEntry.Heading.IsNullOrWhiteSpace())
-                                    {
-                                        <h4>@timelineEntry.Heading</h4>
-                                    }
-                                    @if (!timelineEntry.Content.IsNullOrWhiteSpace())
-                                    {
-                                        <div class="pb-lg"> @(new HtmlString(@timelineEntry.Content))</div>
-                                    }
-                                </div>
-                            </div>
-                        </li>
-                    }
-                </ul>
-            </div>
-        </div>
-    </div>
+
+									@if (Model.IsCourseCreator) {
+										<a href="#" class="js-deleteEntry pull-right-lg pull-right-md" data-entry-id="@timelineEntry.Id">
+											<span class="text-danger">Sil</span>
+										</a>
+									}
+
+
+								</div>
+								<div class="timeline-content">
+									@if (!timelineEntry.Heading.IsNullOrWhiteSpace()) {
+										<h4>@timelineEntry.Heading</h4>
+									}
+									@if (!timelineEntry.Content.IsNullOrWhiteSpace()) {
+										<div class="pb-lg"> @(new HtmlString(@timelineEntry.Content))</div>
+									}
+								</div>
+							</div>
+						</li>
+					}
+				</ul>
+			</div>
+		</div>
+	</div>
 </div>
-
-
 
 @section scripts
 {
-<script>
-    $(".js-deleteEntry").on("click", function() {
-        var object = $(this);
-        bootbox.confirm({
-            title: "Onay",
-            message: "Bu öğeyix içerik akışından çıkarmak istiyor musunuz?",
-            buttons: {
-                confirm: {
-                    label: 'Evet, Çıkar',
-                    className: 'btn-danger-alt'
-                },
-                cancel: {
-                    label: 'Hayır',
-                    className: 'btn-info-alt'
-                }
-            },
-            callback: function(result) {
-                if (result) {
-                    $.ajax({
-                        //Delete(Guid entryId, Guid courseId)
-                        url: "@Url.Action("Delete","Timeline")",
-                        method: "POST",
-                        data: { 
-                            entryId : object.data('entry-id'), 
-                            courseId : "@Model.Course.Id"
-                        },
-                        dataType: 'json',
-                        success: function(data, statusText, xhr) {
-                        },
-                        error: function (data, statusText, xhr) {
-                            if(data.status == 200) //OK
-                                object.closest("li").slideUp();                          
-                        }
-                    });
-                }
-            }
-        });
-    });            
-</script>
+	<script>
+	$(".js-deleteEntry").on("click", function() {
+		var object = $(this);
+		bootbox.confirm({
+			title: "Onay",
+			message: "Bu öğeyix içerik akışından çıkarmak istiyor musunuz?",
+			buttons: {
+				confirm: {
+					label: 'Evet, Çıkar',
+					className: 'btn-danger-alt'
+				},
+				cancel: {
+					label: 'Hayır',
+					className: 'btn-info-alt'
+				}
+			},
+			callback: function(result) {
+				if (result) {
+					$.ajax({
+						//Delete(Guid entryId, Guid courseId)
+						url: "@Url.Action("Delete","Timeline")",
+						method: "POST",
+						data: {
+							entryId : object.data('entry-id'),
+							courseId : "@Model.Course.Id"
+						},
+						dataType: 'json',
+						success: function(data, statusText, xhr) {
+						},
+						error: function (data, statusText, xhr) {
+							if(data.status == 200) //OK
+								object.closest("li").slideUp();
+						}
+					});
+				}
+			}
+		});
+	});
+	</script>
 }
