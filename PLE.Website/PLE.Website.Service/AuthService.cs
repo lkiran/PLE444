@@ -20,7 +20,7 @@ namespace PLE.Website.Service
 		}
 
 		public TokenDto GetAuthToken(string username, string password) {
-			const string url = "http://localhost:54020/oauth/token";
+			const string url = "http://localhost/PLE.Service/oauth/token";
 			using (var httpClient = new HttpClient()) {
 				HttpContent content = new FormUrlEncodedContent(new[]
 				{

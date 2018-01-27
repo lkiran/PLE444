@@ -34,9 +34,9 @@
 					<a href="@Url.Action("RemoveMessage", "Course", new {messageId = message.ID, CId = Model.CId})">
 						<small class="text-danger">Kaldır</small>
 					</a>
-
-					<a class="replyBtn" data-parent-id="@message.ID" href="#"><small class="text-info">Cevapla</small></a>
 				}
+
+				<a class="replyBtn" data-parent-id="@message.ID" href="#"><small class="text-info">Cevapla</small></a>
 
 				<small>@dh.GetDeltaDate(message.DateSent)</small>
 			</div>

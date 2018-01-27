@@ -30,3 +30,14 @@ C:\Users\tutku\Source\Repos\PLE444\PLE.Service\PLE.Contract\obj\Debug\PLE.Contra
 C:\Users\tutku\Source\Repos\PLE444\PLE.Service\PLE.Contract\obj\Debug\PLE.Contract.csproj.CoreCompileInputs.cache
 C:\Users\tutku\Source\Repos\PLE444\PLE.Service\PLE.Contract\obj\Debug\PLE.Contract.dll
 C:\Users\tutku\Source\Repos\PLE444\PLE.Service\PLE.Contract\obj\Debug\PLE.Contract.pdb
+C:\Users\pc\Source\Repos\PLE444\PLE.Service\PLE.Contract\bin\Debug\PLE.Contract.dll.config
+C:\Users\pc\Source\Repos\PLE444\PLE.Service\PLE.Contract\bin\Debug\PLE.Contract.dll
+C:\Users\pc\Source\Repos\PLE444\PLE.Service\PLE.Contract\bin\Debug\PLE.Contract.pdb
+C:\Users\pc\Source\Repos\PLE444\PLE.Service\PLE.Contract\bin\Debug\EntityFramework.dll
+C:\Users\pc\Source\Repos\PLE444\PLE.Service\PLE.Contract\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\pc\Source\Repos\PLE444\PLE.Service\PLE.Contract\bin\Debug\EntityFramework.xml
+C:\Users\pc\Source\Repos\PLE444\PLE.Service\PLE.Contract\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\pc\Source\Repos\PLE444\PLE.Service\PLE.Contract\obj\Debug\PLE.Contract.csprojResolveAssemblyReference.cache
+C:\Users\pc\Source\Repos\PLE444\PLE.Service\PLE.Contract\obj\Debug\PLE.Contract.csproj.CoreCompileInputs.cache
+C:\Users\pc\Source\Repos\PLE444\PLE.Service\PLE.Contract\obj\Debug\PLE.Contract.dll
+C:\Users\pc\Source\Repos\PLE444\PLE.Service\PLE.Contract\obj\Debug\PLE.Contract.pdb

@@ -10,7 +10,7 @@ namespace PLE.Website.Service.Core
 	{
 		#region Fields
 		private readonly HttpClient _client;
-		private string defaultUri = "http://localhost:54020/";
+		private string defaultUri = "http://localhost/PLE.Service/";
 		public Uri BaseUri {
 			get => _client.BaseAddress;
 			set => _client.BaseAddress = value;

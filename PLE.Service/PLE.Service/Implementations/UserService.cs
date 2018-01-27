@@ -30,7 +30,7 @@ namespace PLE.Service.Implementations
 		public async Task<RegisterUserResponseDto> SaveAsync(UserDto user) {
 			var applicationUser = Mapper.Map<ApplicationUser>(user);
 			applicationUser.Id = Guid.NewGuid().ToString();
-
+			applicationUser.EmailConfirmed = true;
 			var result = await UserManager.CreateAsync(applicationUser, user.Password);
 			
 			return new RegisterUserResponseDto {

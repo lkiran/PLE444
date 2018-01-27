@@ -213,24 +213,24 @@ namespace PLE444.Controllers
 		[AllowAnonymous]
 		public async Task<ActionResult> ResendConfirmation(string userId) {
 
-			string code = await UserManager.GenerateEmailConfirmationTokenAsync(userId);
-			var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = userId, code = code }, protocol: Request.Url.Scheme);
+			//string code = await UserManager.GenerateEmailConfirmationTokenAsync(userId);
+			//var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = userId, code = code }, protocol: Request.Url.Scheme);
 
-			var user = await UserManager.FindByIdAsync(userId);
+			//var user = await UserManager.FindByIdAsync(userId);
 
-			var mail = new MailMessage {
-				Subject = "Hesap Onayı",
-				Body = ViewRenderer.RenderView("~/Views/Mail/ConfirmEmail.cshtml", new ViewDataDictionary()
-					{
-						{"confirmUrl", callbackUrl},
-						{"userName", user.FullName()}
-					}),
-				IsBodyHtml = true
-			};
+			//var mail = new MailMessage {
+			//	Subject = "Hesap Onayı",
+			//	Body = ViewRenderer.RenderView("~/Views/Mail/ConfirmEmail.cshtml", new ViewDataDictionary()
+			//		{
+			//			{"confirmUrl", callbackUrl},
+			//			{"userName", user.FullName()}
+			//		}),
+			//	IsBodyHtml = true
+			//};
 
-			mail.Bcc.Add(user.Email);
+			//mail.Bcc.Add(user.Email);
 
-			await new EmailService().SendAsync(mail);
+			//await new EmailService().SendAsync(mail);
 
 			return RedirectToAction("WaitingConfirmation", new { userId = userId });
 		}
