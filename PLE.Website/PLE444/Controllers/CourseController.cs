@@ -57,7 +57,7 @@ namespace PLE444.Controllers
 		}
 
 		public ActionResult List() {
-			var model = db.Courses.Where(c => c.CanEveryoneJoin).ToList();
+			var model = db.Courses.Where(c => c.CanEveryoneJoin && c.IsCourseActive).ToList();
 			return View(model);
 		}
 

@@ -19,19 +19,6 @@
 
 					<h2>@chapter.Title</h2>
 
-					@if (Model.canEdit)
-					{
-						<div class="panel-ctrls" style="float: left">
-							<a class="button-icon ml-sm" title="Düzenle" href="@Url.Action("Edit","Chapter", new {id = chapter.Id})">
-								<i class="ti ti-pencil"></i>
-							</a>
-
-							<a class="btn-remove button-icon ml-sm" title="Kaldır" data-chapter-id="@chapter.Id">
-								<i class="ti ti-trash"></i>
-							</a>
-						</div>
-					}
-					
 					<div class="not-pull-right-xs text-xs-center" title="@chapter.DateAdded">
 						@{var h = new PLE444.Helpers.DataManipulationHelper(); }
 						@h.GetDeltaDate(chapter.DateAdded)
@@ -56,6 +43,18 @@
 					</div>
 					@if (Model.canEdit) {
 						<div class="panel-footer">
+							@if (Model.canEdit)
+							{
+								<div class="panel-ctrls" style="float: left">
+									<a class="button-icon ml-sm" title="Düzenle" href="@Url.Action("Edit","Chapter", new {id = chapter.Id})">
+										<i class="ti ti-pencil"></i>
+									</a>
+
+									<a class="btn-remove button-icon ml-sm" title="Kaldır" data-chapter-id="@chapter.Id">
+										<i class="ti ti-trash"></i>
+									</a>
+								</div>
+							}
 							<div class="pull-right">
 								<a href="@Url.Action("Add", "Material", new {chapterId = chapter.Id})" class="btn btn-primary-alt btn-sm ">
 									<i class="fa fa-plus"></i> Materyal Ekle

@@ -46,39 +46,7 @@
 
 				<h2>@assignment.Title</h2>
 
-				@if (Model.CanEdit) {
-					<div class="panel-ctrls" style="float: left">
-						<a class="button-icon ml-sm" title="Düzenle" href="@Url.Action("Edit", "Assignment", new {id = assignment.Id, courseId = Model.CourseInfo.Id})">
-							<i class="ti ti-pencil"></i>
-						</a>
-
-						<a title="Kaldır" data-assignment-id="@assignment.Id" class="btn-remove button-icon ml-sm">
-							<i class="ti ti-trash"></i>
-						</a>
-
-						@if (assignment.IsFeedbackPublished == false) {
-							<a class="button-icon ml-sm" title="Geri Bildirimi Yayınla" href="@Url.Action("Publish", "Assignment", new {assignmentId = assignment.Id, courseId = Model.CourseInfo.Id})">
-								<i class="ti ti-announcement"></i>
-							</a>
-						}
-						else {
-							<a class="button-icon ml-sm " title="Geri Bildirimi Yayından Kaldır" href="@Url.Action("Publish", "Assignment", new {assignmentId = assignment.Id, courseId = Model.CourseInfo.Id})">
-								<i class="ti ti-announcement text-danger"></i>
-							</a>
-						}
-					</div>
-				}
-				else {
-					<small class="ml-md text">@message</small>
-
-					if (userUpload != null) {
-						<div class="panel-ctrls" style="float:left">
-							<a class="button-icon ml-sm" title="Yüklenen Ödevi İndir" href="@Url.Action("Download", "File", new {path = userUpload.FilePath, name = userUpload.Description})">
-								<i class="ti ti-download"></i>
-							</a>
-						</div>
-					}
-				}
+			
 				<div class="pull-right" title="@assignment.DateAdded">
 					@h.GetDeltaDate(assignment.DateAdded)
 				</div>
@@ -133,7 +101,44 @@
 				</div>
 
 				<div class="panel-footer">
+					@if (Model.CanEdit)
+					{
+						<div class="panel-ctrls" style="float: left">
+							<a class="button-icon ml-sm" title="Düzenle" href="@Url.Action("Edit", "Assignment", new {id = assignment.Id, courseId = Model.CourseInfo.Id})">
+								<i class="ti ti-pencil"></i>
+							</a>
 
+							<a title="Kaldır" data-assignment-id="@assignment.Id" class="btn-remove button-icon ml-sm">
+								<i class="ti ti-trash"></i>
+							</a>
+
+							@if (assignment.IsFeedbackPublished == false)
+							{
+								<a class="button-icon ml-sm" title="Geri Bildirimi Yayınla" href="@Url.Action("Publish", "Assignment", new {assignmentId = assignment.Id, courseId = Model.CourseInfo.Id})">
+									<i class="ti ti-announcement"></i>
+								</a>
+							}
+							else
+							{
+								<a class="button-icon ml-sm " title="Geri Bildirimi Yayından Kaldır" href="@Url.Action("Publish", "Assignment", new {assignmentId = assignment.Id, courseId = Model.CourseInfo.Id})">
+									<i class="ti ti-announcement text-danger"></i>
+								</a>
+							}
+						</div>
+					}
+					else
+					{
+						<small class="ml-md text">@message</small>
+
+						if (userUpload != null)
+						{
+							<div class="panel-ctrls" style="float:left">
+								<a class="button-icon ml-sm" title="Yüklenen Ödevi İndir" href="@Url.Action("Download", "File", new {path = userUpload.FilePath, name = userUpload.Description})">
+									<i class="ti ti-download"></i>
+								</a>
+							</div>
+					}
+				}
 					@if (Model.CanEdit) {
 						<a href="@Url.Action("DownloadAssignment", "Assignment", new {asssignmentId = assignment.Id})" class="pull-right">
 							<img src="@Url.Content("~/Content/img/FileIcons/zip.png")" alt="zip" style="height: 30px;" />
@@ -149,7 +154,7 @@
 							<input type="hidden" name="assignmentId" id="assignmentId" value="@assignment.Id">
 					}
 				}
-					<span>Teslim Tarihi: @assignment.Deadline</span>
+					<span class="ml-md">Teslim Tarihi: @assignment.Deadline</span>
 				</div>
 			</div>
 		</div>
