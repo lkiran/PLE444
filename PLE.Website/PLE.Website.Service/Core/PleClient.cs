@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -10,7 +11,8 @@ namespace PLE.Website.Service.Core
 	{
 		#region Fields
 		private readonly HttpClient _client;
-		private string defaultUri = "http://localhost/PLE.Service/";
+		private readonly string defaultUri = ConfigurationManager.AppSettings["ServiceUrl"];
+
 		public Uri BaseUri {
 			get => _client.BaseAddress;
 			set => _client.BaseAddress = value;

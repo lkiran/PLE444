@@ -200,6 +200,7 @@ namespace PLE444.Controllers
 				return HttpNotFound();
 			var c = db.Communities.Include("Discussions")
 				.Include("Discussions.Messages.Sender")
+				.Include("Discussions.Messages.Replies.Sender")
 				.Include("Discussions.Readings")
 				.FirstOrDefault(i => i.Id == CId);
 			if (c == null)

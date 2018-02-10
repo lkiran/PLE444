@@ -54,7 +54,7 @@
 			{
 				<div class="reply">
 					<a href="@Url.Action("Profil","User", new {id = reply.SenderId})">
-						<strong style="margin-left:10px;">@reply.Sender.FullName()</strong>
+						<strong style="margin-left:10px;">@(reply.Sender?.FullName() ?? reply.SenderId)</strong>
 					</a>
 					<div class="pull-right">
 						@if (Model.CurrentUserId == reply.SenderId || isCreator)

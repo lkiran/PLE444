@@ -118,7 +118,6 @@
 
 	});
 	$('.page-content').on('click', '.replyBtn', function (event) {
-		debugger;
 		var content = $(this).closest(".message").find(".content").html();
 		var parentId = $(this).data("parent-id");
 
@@ -127,7 +126,8 @@
 
 		$(this).closest(".panel-body").find(".replyDisplay").find(".content").html(content);
 		$(this).closest(".panel-body").find(".replyDisplay").find("input[name='ReplyId']").val(parentId);
-
+		
+		jQuery('.scrollbar-outer').scrollTop(0);
 		$(this).closest(".panel-body").find(".replyDisplay").slideDown();
 	});
 

@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using PLE.Contract.DTOs;
 using PLE.Website.Service.Core;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Runtime.InteropServices;
 using PLE.Contract.DTOs.Responses;
 
@@ -20,7 +21,8 @@ namespace PLE.Website.Service
 		}
 
 		public TokenDto GetAuthToken(string username, string password) {
-			const string url = "http://localhost/PLE.Service/oauth/token";
+			var url = ConfigurationManager.AppSettings["AuthTokenUrl"];
+
 			using (var httpClient = new HttpClient()) {
 				HttpContent content = new FormUrlEncodedContent(new[]
 				{
