@@ -28,10 +28,12 @@
 	<div class="col-md-9">
 		<div class="panel-group panel-default" id="accordionA">
 			@{var orderedDiscussions = Model.Discussion.OrderBy(o => o.Topic);}
-			@foreach (var discussion in orderedDiscussions.OrderByDescending(d => d.DateCreated)) {
+			@foreach (var discussion in orderedDiscussions.OrderByDescending(d => d.DateCreated))
+			{
 				var readings = discussion.Readings.FirstOrDefault(u => u.UserId == Model.CurrentUserId);
 				DateTime? lastRead = null;
-				if (readings != null) {
+				if (readings != null)
+				{
 					lastRead = readings.Date;
 				}
 				var unreads = new List<PLE444.Models.Message>();
@@ -45,10 +47,12 @@
 							<h2>@discussion.Topic</h2>
 
 							<div class="pull-right">
-								@if (discussion.Readings.Count != 0) {
+								@if (discussion.Readings.Count != 0)
+								{
 									<span>@discussion.Readings.Count kişi okudu</span>
 								}
-								@if (unreads.Count != 0) {
+								@if (unreads.Count != 0)
+								{
 									<span class="badge badge-warning">@unreads.Count okunmamış</span>
 								}
 							</div>
@@ -57,20 +61,28 @@
 
 					<div id="@discussion.ID" class="collapse">
 						<div class="panel-body">
-							<div class="message">
-								@if (Model.CurrentUserId == null) {
-									<p>Mesaj yollamak için yapın</p>
-								}
-								else {
-									@Html.Partial("SendMessage", new NewMessageViewModel { DiscussionId = discussion.ID, CId = Model.CId, CurrentUserId = Model.CurrentUserId })
-								}
-								@if (isCreator) {
-									<a href="@Url.Action("RemoveTitle", "Course", new {discussionId = discussion.ID, CId = Model.CId})">
-										<small class="text-danger">Başlığı Sil</small>
-									</a>
-								}
-							</div>
-							<hr>
+
+							@if (Model.IsActive == true)
+							{
+								<div class="message">
+									@if (Model.CurrentUserId == null)
+									{
+										<p>Mesaj yollamak için yapın</p>
+									}
+									else
+									{
+										@Html.Partial("SendMessage", new NewMessageViewModel { DiscussionId = discussion.ID, CId = Model.CId, CurrentUserId = Model.CurrentUserId })
+									}
+
+									@if (isCreator)
+									{
+										<a href="@Url.Action("RemoveTitle", "Course", new {discussionId = discussion.ID, CId = Model.CId})">
+											<small class="text-danger">Başlığı Sil</small>
+										</a>
+									}
+								</div>
+									<hr>
+							}
 
 							<div id="mess_@discussion.ID" data-isLoaded="false">
 								<p class="text-center text-info">
@@ -83,12 +95,15 @@
 			}
 		</div>
 	</div>
+	@if (Model.IsActive == true)
+	{
+		<div class="col-md-3">
+			<a href="@Url.Action("AddTitle", new { id = Model.CId })" class="btn btn-primary-alt btn-lg btn-block">
+				<i class="fa fa-plus fa-bold"></i> Başlık Ekle
+			</a>
+		</div>
+	}
 
-	<div class="col-md-3">
-		<a href="@Url.Action("AddTitle", new {id = Model.CId})" class="btn btn-primary-alt btn-lg btn-block">
-			<i class="fa fa-plus fa-bold"></i> Başlık Ekle
-		</a>
-	</div>
 </div>
 
 <script src="http://code.jquery.com/jquery-3.1.0.min.js"></script>
@@ -117,6 +132,7 @@
 		});
 
 	});
+	
 	$('.page-content').on('click', '.replyBtn', function (event) {
 		debugger;
 		var content = $(this).closest(".message").find(".content").html();

@@ -15,5 +15,7 @@ namespace PLE444.ViewModels
 			public string Role { get; set; }
 
 			public Discussion Discussion { get; set; }
+		    
+		    public bool isActive { get; set; }
 		}
 }

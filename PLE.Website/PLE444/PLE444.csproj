@@ -252,6 +252,18 @@
     <Compile Include="Migrations\201801251550475_migration.Designer.cs">
       <DependentUpon>201801251550475_migration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802121448231_isActive.cs" />
+    <Compile Include="Migrations\201802121448231_isActive.Designer.cs">
+      <DependentUpon>201802121448231_isActive.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802130851280_activeMaterial.cs" />
+    <Compile Include="Migrations\201802130851280_activeMaterial.Designer.cs">
+      <DependentUpon>201802130851280_activeMaterial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802131145240_activeDiscussionMessages.cs" />
+    <Compile Include="Migrations\201802131145240_activeDiscussionMessages.Designer.cs">
+      <DependentUpon>201802131145240_activeDiscussionMessages.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -2126,6 +2138,8 @@
     <Content Include="Scripts\jquery-3.2.1.slim.js" />
     <Content Include="Scripts\jquery-3.2.1.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -2258,6 +2272,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201801251550475_migration.resx">
       <DependentUpon>201801251550475_migration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802121448231_isActive.resx">
+      <DependentUpon>201802121448231_isActive.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802130851280_activeMaterial.resx">
+      <DependentUpon>201802130851280_activeMaterial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802131145240_activeDiscussionMessages.resx">
+      <DependentUpon>201802131145240_activeDiscussionMessages.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

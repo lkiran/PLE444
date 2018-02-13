@@ -18,7 +18,7 @@
 
 					<h2>@material.Title <em>(@chapter.Title)</em></h2>
 
-					@if (Model.CanEdit) {
+					@if (Model.CanEdit && Model.IsItActive) {
 						<div class="panel-ctrls" style="float: left">
 							<a class="button-icon ml-sm" title="Düzenle" href="@Url.Action("Update", "Material", new{chapterId = chapter.Id, id = material.Id})">
 								<i class="ti ti-pencil"></i>

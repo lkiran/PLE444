@@ -13,5 +13,7 @@ namespace PLE444.ViewModels
         public IEnumerable<Chapter> ChapterList { get; set; }
 
         public bool CanEdit { get; set; }
+
+		public bool IsItActive { get; set; }
     }
 }

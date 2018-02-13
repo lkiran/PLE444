@@ -19,13 +19,23 @@
 		<thead>
 			<tr>
 				<th></th>
-				@foreach (var gradeType in Model.GradeTypes) {
-					if (gradeType.IsActive) {
+				@foreach (var gradeType in Model.GradeTypes)
+				{
+					if (gradeType.IsActive)
+					{
 						<th class="text-center" title="@gradeType.Description
 Ağırlık: @gradeType.Effect%
 Max Score: @gradeType.MaxScore">
+							@if (Model.CourseInfo.IsCourseActive)
+							{
+								<a href="@Url.Action("EditGradeType", "Course", new {id = gradeType.Id})">@gradeType.Name</a>
+							}
 
-							<a href="@Url.Action("EditGradeType", "Course", new {id = gradeType.Id})">@gradeType.Name</a>
+							else
+							{
+								<span>@gradeType.Name</span>
+							}
+
 						</th>
 					}
 				}
@@ -37,8 +47,10 @@ Max Score: @gradeType.MaxScore">
 				var row = 0;
 				var column = 0;
 			}
-			@foreach (var cu in Model.CourseUsers) {
-				if (cu.UserId == null || !cu.IsActive) {
+			@foreach (var cu in Model.CourseUsers)
+			{
+				if (cu.UserId == null || !cu.IsActive)
+				{
 					continue;
 				}
 
@@ -51,33 +63,58 @@ Max Score: @gradeType.MaxScore">
 							<img alt="Kullanıcı Resmi" src="@Url.Content(cu.User.UserPhoto())" class="img-circle" style="height: 30px;" />
 							@cu.User.FullName()
 						</a>
-						<a class="js-ejectUser ml-sm" data-user-id="@cu.UserId" data-course-id="@cu.CourseId">
-							<small class="text-danger"> <i class="fa fa-ban"></i> Çıkar</small>
-						</a>
+						@if (Model.CourseInfo.IsCourseActive)
+						{
+							<a class="js-ejectUser ml-sm" data-user-id="@cu.UserId" data-course-id="@cu.CourseId">
+								<small class="text-danger"> <i class="fa fa-ban"></i> Çıkar</small>
+							</a>
+						}
+
 					</td>
 
 					@{ var gradesOfTheUser = Model.UserGrades.Where(u => u.UserId == cu.UserId).ToList(); }
 
-					@foreach (var gradeType in Model.GradeTypes) {
-						if (gradeType.IsActive) {
+					@foreach (var gradeType in Model.GradeTypes)
+					{
+						if (gradeType.IsActive)
+						{
 							var userGrade = gradesOfTheUser.FirstOrDefault(g => g.GradeTypeId == gradeType.Id);
 
 							<td class="text-center">
-								@if (userGrade == null) {
-									<a class="editable" href="#AddGrade" data-grade-type-id="@gradeType.Id" data-user-id="@cu.UserId">
-										<i class="fa fa-plus text-warning"></i>
-										<input type="text" style="display: none;" value="" data-x="@column" data-y="@row">
-									</a>
+								@if (Model.CourseInfo.IsCourseActive == true)
+								{
+									if (userGrade == null)
+									{
+										<a class="editable" href="#AddGrade" data-grade-type-id="@gradeType.Id" data-user-id="@cu.UserId">
+											<i class="fa fa-plus text-warning"></i>
+											<input type="text" style="display: none;" value="" data-x="@column" data-y="@row">
+										</a>
+									}
+
+									else
+									{
+										totalUserScore += (userGrade.Grade * gradeType.Effect / gradeType.MaxScore);
+
+										@*@Url.Action("ChangeGrade", "Course", new { gradeId = userGrade.Id })*@
+										<a class="editable" href="#EditGrade" data-id="@userGrade.Id" data-grade-type-id="@gradeType.Id" data-user-id="@cu.UserId">
+											<span>@userGrade.Grade</span>
+											<input type="text" style="display: none;" value="@userGrade.Grade" data-x="@column" data-y="@row">
+										</a>
+									}
 								}
-								else {
-									totalUserScore += (userGrade.Grade * gradeType.Effect / gradeType.MaxScore);
 
+								else
+								{
+									if (userGrade == null)
+									{
+										<span>0</span>
+									}
+									else
+									{
+										totalUserScore += (userGrade.Grade * gradeType.Effect / gradeType.MaxScore);
 
-									@*@Url.Action("ChangeGrade", "Course", new { gradeId = userGrade.Id })*@
-									<a class="editable" href="#EditGrade" data-id="@userGrade.Id" data-grade-type-id="@gradeType.Id" data-user-id="@cu.UserId">
 										<span>@userGrade.Grade</span>
-										<input type="text" style="display: none;" value="@userGrade.Grade" data-x="@column" data-y="@row">
-									</a>
+									}
 								}
 							</td>
 						}
@@ -92,9 +129,10 @@ Max Score: @gradeType.MaxScore">
 
 </div>
 
-
-<a href="@Url.Action("CreateGradeType", new {id = Model.CourseInfo.Id})" class="btn btn-primary-alt" id="dyna-del">Not Türü Ekle</a>
-
+@if (Model.CourseInfo.IsCourseActive == true)
+{
+	<a href="@Url.Action("CreateGradeType", new { id = Model.CourseInfo.Id })" class="btn btn-primary-alt" id="dyna-del">Not Türü Ekle</a>
+}
 
 
 @section scripts
