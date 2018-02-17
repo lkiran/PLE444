@@ -19,10 +19,15 @@ namespace PLE.Service.Controllers
 
 		[HttpGet]
 		[Route("User")]
-		public async Task<IHttpActionResult> GetUser(string userId = "") {
-			if (string.IsNullOrWhiteSpace(userId)) {
+		public async Task<IHttpActionResult> GetUser(string userId = "", string email = "") {
+			if (string.IsNullOrWhiteSpace(userId))
+			{
+				if (!string.IsNullOrWhiteSpace(email))
+					return Ok(_userService.GetByEmail(email));
+
 				if (User.Identity.GetUserId() == null)
 					return Unauthorized();
+
 				userId = User.Identity.GetUserId();
 			}
 
@@ -30,7 +35,6 @@ namespace PLE.Service.Controllers
 
 			if (user != null)
 				return Ok(user);
-
 			return NotFound();
 		}
 
@@ -75,11 +79,10 @@ namespace PLE.Service.Controllers
 					ModelState.AddModelError("", "User Id and Code are required");
 					return BadRequest(ModelState);
 				}
-
-
+				
 				var result = await _userService.VerifyEmail(userId, code);
 
-				return result.Succeeded ? Ok() : GetErrorResult(result);
+				return result.Succeeded ? Ok(true) : GetErrorResult(result);
 			}
 			catch (Exception e) {
 				return InternalServerError(e);
@@ -137,7 +140,7 @@ namespace PLE.Service.Controllers
 
 				var result = await _userService.ResetPassword(userId, newPassword, code);
 
-				return result.Succeeded ? Ok() : GetErrorResult(result);
+				return result.Succeeded ? Ok(true) : GetErrorResult(result);
 			}
 			catch (Exception e) {
 				return InternalServerError(e);

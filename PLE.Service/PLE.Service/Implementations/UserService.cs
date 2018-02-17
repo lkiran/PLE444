@@ -10,10 +10,8 @@ using Microsoft.AspNet.Identity;
 using PLE.Contract.DTOs.Responses;
 using Microsoft.AspNet.Identity.Owin;
 
-namespace PLE.Service.Implementations
-{
-	public class UserService
-	{
+namespace PLE.Service.Implementations {
+	public class UserService {
 		private readonly PleDbContext _db = new PleDbContext();
 		private ApplicationUserManager _userManager;
 
@@ -27,6 +25,10 @@ namespace PLE.Service.Implementations
 			return _db.Users.Find(userId);
 		}
 
+
+		public ApplicationUser GetByEmail(string email) {
+			return _db.Users.FirstOrDefault(u => u.Email == email);
+		}
 
 		public async Task<RegisterUserResponseDto> SaveAsync(UserDto user) {
 			var applicationUser = Mapper.Map<ApplicationUser>(user);
@@ -49,6 +51,7 @@ namespace PLE.Service.Implementations
 		}
 
 		public async Task<IdentityResult> VerifyEmail(Guid userId, string code) {
+			code = code.Replace(" ", "+");
 			var result = await UserManager.ConfirmEmailAsync(userId.ToString(), code);
 
 			return result;
@@ -69,10 +72,11 @@ namespace PLE.Service.Implementations
 		}
 
 		public async Task<IdentityResult> ResetPassword(Guid userId, string newPassword, string code) {
+			code = code.Replace(" ", "+");
 			var result = await UserManager.ResetPasswordAsync(userId.ToString(), code, newPassword);
 
 			return result;
-		} 
+		}
 		#endregion
 	}
 }

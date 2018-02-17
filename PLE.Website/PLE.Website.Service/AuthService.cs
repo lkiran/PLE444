@@ -9,10 +9,8 @@ using System.Configuration;
 using System.Runtime.InteropServices;
 using PLE.Contract.DTOs.Responses;
 
-namespace PLE.Website.Service
-{
-	public class AuthService : IDisposable
-	{
+namespace PLE.Website.Service {
+	public class AuthService : IDisposable {
 		private readonly PleClient _client;
 		private const string AuthTokenName = "PLE_Auth_Token";
 
@@ -20,6 +18,7 @@ namespace PLE.Website.Service
 			_client = new PleClient();
 		}
 
+		#region Auth Token
 		public TokenDto GetAuthToken(string username, string password) {
 			var url = ConfigurationManager.AppSettings["AuthTokenUrl"];
 
@@ -44,6 +43,7 @@ namespace PLE.Website.Service
 			Common.Common.Token = token;
 			_client.UpdateToken(token.access_token);
 		}
+		#endregion
 
 		public UserDto GetActiveUser() {
 			var result = _client.Get<UserDto>("api/accounts/User");
@@ -51,8 +51,8 @@ namespace PLE.Website.Service
 			return result;
 		}
 
-		public UserDto GetUser(string userId = "") {
-			var result = _client.Get<UserDto>($"api/accounts/User?userId={userId}");
+		public UserDto GetUser(string userId = "", string email = "") {
+			var result = _client.Get<UserDto>($"api/accounts/User?userId={userId}&email={email}");
 			return result;
 		}
 
@@ -61,7 +61,37 @@ namespace PLE.Website.Service
 			return result;
 		}
 
+		#region Email Verification
+		public string GetEmailVerificationCode(string userId) {
+			var result = _client.Get<string>($"api/accounts/EmailVerificationCode?userId={userId}");
+			return result;
+		}
 
+		public bool VerifyEmail(string userId, string code) {
+			var result = _client.Get<bool>($"api/accounts/ConfirmEmail?userId={userId}&code={code}");
+			return result;
+		}
+
+		public bool IsEmailConfirmed(string userId) {
+			var result = _client.Get<bool>($"api/accounts/IsEmailConfirmed?userId={userId}");
+			return result;
+		}
+		#endregion
+
+
+		#region Forgot Password 
+		public string GetPasswordResetCode(string userId) {
+			var result = _client.Get<string>($"api/accounts/PasswordResetCode?userId={userId}");
+			return result;
+		}
+
+		public bool ResetPassword(string userId, string newPassword, string code) {
+			var result = _client.Get<bool>($"api/accounts/PasswordReset?userId={userId}&code={code}&newPassword={newPassword}");
+			return result;
+		}
+		#endregion
+
+		#region Cookie
 		public void SetAuthCookie([Optional]TokenDto token) {
 			if (token == null)
 				token = Common.Common.Token;
@@ -86,8 +116,8 @@ namespace PLE.Website.Service
 
 		public bool CheckAuthCookieExist() => HttpContext.Current.Request.Cookies.Get(AuthTokenName) != null;
 
-		public void Dispose() {
+		#endregion
 
-		}
+		public void Dispose() { }
 	}
 }

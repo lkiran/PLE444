@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.2.6.1\build\Microsoft.Net.Compilers.props')" />
@@ -1791,7 +1791,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\css\.gitignore" />
     <Content Include="Content\demo\ajaxdemo.php" />
     <Content Include="Content\demo\countries.json" />
     <Content Include="Content\demo\source.json" />
@@ -1950,7 +1949,6 @@
     <Content Include="Content\plugins\bootstrap-tokenfield\less\tokenfield-typeahead.less" />
     <Content Include="Content\plugins\bootstrap-tokenfield\README.md" />
     <Content Include="Content\plugins\bootstrap-touchspin\.editorconfig" />
-    <Content Include="Content\plugins\bootstrap-touchspin\.gitignore" />
     <Content Include="Content\plugins\bootstrap-touchspin\.jshintrc" />
     <Content Include="Content\plugins\bootstrap-touchspin\.travis.yml" />
     <Content Include="Content\plugins\bootstrap-touchspin\bootstrap-touchspin.jquery.json" />
@@ -1959,7 +1957,6 @@
     <Content Include="Content\plugins\bootstrap-touchspin\LICENSE.md" />
     <Content Include="Content\plugins\bootstrap-touchspin\package.json" />
     <Content Include="Content\plugins\bootstrap-touchspin\README.md" />
-    <Content Include="Content\plugins\card\.gitignore" />
     <Content Include="Content\plugins\card\.gitmodules" />
     <Content Include="Content\plugins\card\bower.json" />
     <Content Include="Content\plugins\card\gulpfile.coffee" />
@@ -2011,7 +2008,6 @@
     <Content Include="Content\plugins\form-markdown\bower.json" />
     <Content Include="Content\plugins\form-markdown\less\bootstrap-markdown.less" />
     <Content Include="Content\plugins\form-markdown\README.md" />
-    <Content Include="Content\plugins\form-multiselect\.gitignore" />
     <Content Include="Content\plugins\form-multiselect\bower.json" />
     <Content Include="Content\plugins\form-multiselect\multi-select.jquery.json" />
     <Content Include="Content\plugins\form-multiselect\README.markdown" />
@@ -2038,7 +2034,6 @@
     <Content Include="Content\plugins\fullcalendar\demos\php\get-events.php" />
     <Content Include="Content\plugins\fullcalendar\demos\php\get-timezones.php" />
     <Content Include="Content\plugins\fullcalendar\demos\php\utils.php" />
-    <Content Include="Content\plugins\gridforms\.gitignore" />
     <Content Include="Content\plugins\gridforms\gridforms\gridforms.sass" />
     <Content Include="Content\plugins\gridforms\LICENSE" />
     <Content Include="Content\plugins\gridforms\media\lib\grid.sass" />
@@ -2048,7 +2043,6 @@
     <Content Include="Content\plugins\gridforms\README.md" />
     <Content Include="Content\plugins\iCheck\README.md" />
     <Content Include="Content\plugins\Ion.RangeSlider\PSD\sprite-skin.psd" />
-    <Content Include="Content\plugins\jquery-chained\.gitignore" />
     <Content Include="Content\plugins\jquery-chained\.jshintrc" />
     <Content Include="Content\plugins\jquery-chained\.travis.yml" />
     <Content Include="Content\plugins\jquery-chained\bower.json" />
@@ -2066,11 +2060,7 @@
     <Content Include="Content\plugins\jquery-fileupload\server\gae-go\app\main.go" />
     <Content Include="Content\plugins\jquery-fileupload\server\gae-python\app.yaml" />
     <Content Include="Content\plugins\jquery-fileupload\server\gae-python\main.py" />
-    <Content Include="Content\plugins\jquery-fileupload\server\node\.gitignore" />
     <Content Include="Content\plugins\jquery-fileupload\server\node\package.json" />
-    <Content Include="Content\plugins\jquery-fileupload\server\node\public\files\.gitignore" />
-    <Content Include="Content\plugins\jquery-fileupload\server\node\tmp\.gitignore" />
-    <Content Include="Content\plugins\jquery-fileupload\server\php\files\.gitignore" />
     <Content Include="Content\plugins\jquery-fileupload\server\php\files\.htaccess" />
     <Content Include="Content\plugins\jquery-fileupload\server\php\index.php" />
     <Content Include="Content\plugins\jquery-fileupload\server\php\UploadHandler.php" />
@@ -2092,7 +2082,6 @@
     <Content Include="Content\plugins\smartmenus\LICENSE-MIT" />
     <Content Include="Content\plugins\smartmenus\README.md" />
     <Content Include="Content\plugins\sparklines\jQuery Sparklines.url" />
-    <Content Include="Content\plugins\summernote\.gitignore" />
     <Content Include="Content\plugins\summernote\.jshintignore" />
     <Content Include="Content\plugins\summernote\.jshintrc" />
     <Content Include="Content\plugins\summernote\.travis.yml" />
@@ -2103,7 +2092,6 @@
     <Content Include="Content\plugins\summernote\src\less\elements.less" />
     <Content Include="Content\plugins\summernote\src\less\summernote.less" />
     <Content Include="Content\plugins\switchery\README.md" />
-    <Content Include="Content\plugins\malihu-custom-scrollbar\.gitignore" />
     <Content Include="Content\plugins\malihu-custom-scrollbar\bower.json" />
     <Content Include="Content\plugins\malihu-custom-scrollbar\package.json" />
     <Content Include="Content\plugins\malihu-custom-scrollbar\readme.md" />
