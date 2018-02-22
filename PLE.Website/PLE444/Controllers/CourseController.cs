@@ -536,7 +536,7 @@ namespace PLE444.Controllers
 
 			if (course == null)
 				return HttpNotFound();
-
+			
 			if (!isMember(course) && !isCourseCreator(course))
 				return RedirectToAction("Index", "Course", new { id = id });
 
@@ -545,7 +545,9 @@ namespace PLE444.Controllers
 				CId = course.Id,
 				CurrentUserId = User.Identity?.GetUserId(),
 				Role = isCourseCreator(course) ? "Creator" : "Member",
-				Discussion = course.Discussion.ToList()
+				Discussion = course.Discussion.ToList(),
+				IsActive = course.IsCourseActive
+				
 			};
 
 			return View(model);
@@ -649,12 +651,15 @@ namespace PLE444.Controllers
 
 			db.Entry(c).State = EntityState.Modified;
 			db.SaveChanges();
-			var model = new DiscussionMessages
-			{
+
+			var course = db.Courses.FirstOrDefault(i => i.Id == CId);
+
+			var model = new DiscussionMessages {
 				Discussion = d,
 				CurrentUserId = currentUser,
 				CId = (Guid)CId,
-				Role = isCourseCreator(c) ? "Creator" : "Member"
+				Role = isCourseCreator(c) ? "Creator" : "Member",
+				isActive = course.IsCourseActive
 			};
 			return PartialView(model);
 		}

@@ -33,11 +33,14 @@ namespace PLE444.Controllers
                     e, Materials = e.Materials.Where(m => m.IsActive)
                 }).AsEnumerable().Select(e => e.e).ToList();
 
-            var model = new CourseMaterials
-            {
-                CourseId = (Guid)id,
-                CanEdit = isCourseCreator(id),
-                ChapterList = chapters
+			var course = db.Courses.FirstOrDefault(i => i.Id == id);
+
+			var model = new CourseMaterials
+			{
+				CourseId = (Guid)id,
+				CanEdit = isCourseCreator(id),
+				ChapterList = chapters,
+				IsItActive = course.IsCourseActive
             };
             return View(model);
         }

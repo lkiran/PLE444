@@ -14,7 +14,7 @@
 	</div>
 }
 
-@if (Model.CanEdit){
+@if (Model.CanEdit && Model.CourseInfo.IsCourseActive == true){
 	<a href="@Url.Action("Create", "Assignment", new{id = Model.CourseInfo.Id})" class="btn btn-primary-alt center-block">
 		<i class="fa fa-plus"></i> Yeni Ödev Ekle
 	</a>
@@ -86,12 +86,22 @@
 										<td> @upload.DateUpload, @h.GetDeltaDate(upload.DateUpload)</td>
 
 										<td>
-											@using (Html.BeginForm("Feedback", "Assignment", FormMethod.Post)) {
-												@Html.AntiForgeryToken()
-												<input name="feedback" id="feedback" type="text" value="@upload.Feedback" />
-												<input type="hidden" name="uploadId" id="uploadId" value="@upload.Id">
-												<input class="btn btn-primary-alt pull-right mr-md" type="submit" value="Gönder" />
+											@if (Model.CourseInfo.IsCourseActive == true)
+											{
+												using (Html.BeginForm("Feedback", "Assignment", FormMethod.Post))
+												{
+													@Html.AntiForgeryToken()
+													<input name="feedback" id="feedback" type="text" value="@upload.Feedback" />
+													<input type="hidden" name="uploadId" id="uploadId" value="@upload.Id">
+													<input class="btn btn-primary-alt pull-right mr-md" type="submit" value="Gönder" />
+												}
 											}
+
+											else
+											{
+												<p>@upload.Feedback</p>
+											}
+
 										</td>
 									</tr>
 								</tbody>
@@ -103,29 +113,34 @@
 				<div class="panel-footer">
 					@if (Model.CanEdit)
 					{
-						<div class="panel-ctrls" style="float: left">
-							<a class="button-icon ml-sm" title="Düzenle" href="@Url.Action("Edit", "Assignment", new {id = assignment.Id, courseId = Model.CourseInfo.Id})">
-								<i class="ti ti-pencil"></i>
-							</a>
-
-							<a title="Kaldır" data-assignment-id="@assignment.Id" class="btn-remove button-icon ml-sm">
-								<i class="ti ti-trash"></i>
-							</a>
-
-							@if (assignment.IsFeedbackPublished == false)
-							{
-								<a class="button-icon ml-sm" title="Geri Bildirimi Yayınla" href="@Url.Action("Publish", "Assignment", new {assignmentId = assignment.Id, courseId = Model.CourseInfo.Id})">
-									<i class="ti ti-announcement"></i>
+						if (Model.CourseInfo.IsCourseActive == true)
+						{
+							<div class="panel-ctrls" style="float: left">
+								<a class="button-icon ml-sm" title="Düzenle" href="@Url.Action("Edit", "Assignment", new {id = assignment.Id, courseId = Model.CourseInfo.Id})">
+									<i class="ti ti-pencil"></i>
 								</a>
-							}
-							else
-							{
-								<a class="button-icon ml-sm " title="Geri Bildirimi Yayından Kaldır" href="@Url.Action("Publish", "Assignment", new {assignmentId = assignment.Id, courseId = Model.CourseInfo.Id})">
-									<i class="ti ti-announcement text-danger"></i>
+
+								<a title="Kaldır" data-assignment-id="@assignment.Id" class="btn-remove button-icon ml-sm">
+									<i class="ti ti-trash"></i>
 								</a>
-							}
-						</div>
+
+								@if (assignment.IsFeedbackPublished == false)
+								{
+									<a class="button-icon ml-sm" title="Geri Bildirimi Yayınla" href="@Url.Action("Publish", "Assignment", new {assignmentId = assignment.Id, courseId = Model.CourseInfo.Id})">
+										<i class="ti ti-announcement"></i>
+									</a>
+								}
+								else
+								{
+									<a class="button-icon ml-sm " title="Geri Bildirimi Yayından Kaldır" href="@Url.Action("Publish", "Assignment", new {assignmentId = assignment.Id, courseId = Model.CourseInfo.Id})">
+										<i class="ti ti-announcement text-danger"></i>
+									</a>
+								}
+							</div>
+						}
+
 					}
+
 					else
 					{
 						<small class="ml-md text">@message</small>

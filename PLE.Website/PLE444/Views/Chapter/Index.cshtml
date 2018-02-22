@@ -12,6 +12,14 @@
 			<i class="ti ti-info-alt lead"></i>  Bu derse eklenmiş herhangi bir bölüm henüz yok.
 		</div>
 	}
+
+	if (Model.canEdit && Model.CourseInfo.IsCourseActive == true)
+	{
+		<a href="@Url.Action("Create", "Chapter", new {id = Model.CourseInfo.Id})" class="btn btn-primary-alt center-block" id="dyna-del">
+			<i class="fa fa-plus"></i> Yeni Bölüm Ekle
+		</a>
+	}
+
 	<div class="panel-default" id="accordionA">
 		@foreach (var chapter in Model.ChapterList) {
 			<div class="panel panel-default">
@@ -41,7 +49,7 @@
 							}
 						</ul>
 					</div>
-					@if (Model.canEdit) {
+					@if (Model.canEdit && Model.CourseInfo.IsCourseActive == true) {
 						<div class="panel-footer">
 							@if (Model.canEdit)
 							{
@@ -74,12 +82,6 @@
 		</div>
 	</div>
 </div>
-
-@if (Model.canEdit) {
-	<a href="@Url.Action("Create", "Chapter", new {id = Model.CourseInfo.Id})" class="btn btn-primary-alt center-block" id="dyna-del">
-		<i class="fa fa-plus"></i> Yeni Bölüm Ekle
-	</a>
-}
 
 @section scripts
 {

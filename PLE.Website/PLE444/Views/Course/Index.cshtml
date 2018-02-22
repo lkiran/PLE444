@@ -23,13 +23,17 @@
 				<a class="button-icon ml-sm " title="Dersi Pasif Hale Getir" href="@Url.Action("Active", "Course", new { courseId = Model.Course.Id })">
 					<i class="ti ti-unlock"></i>
 				</a>
+
+				<a class="pull-right mr-md" href="@Url.Action("Edit", "Course", new {id = Model.Course.Id})">
+					<small><i class="ti ti-pencil-alt"></i> Düzenle</small>
+				</a>
 			}
-			<a class="pull-right mr-md" href="@Url.Action("Edit", "Course", new {id = Model.Course.Id})">
-				<small><i class="ti ti-pencil-alt"></i> Düzenle</small>
-			</a>
 		}
-		else {
-			if (Model.IsMember) {
+
+		else
+		{
+			if (Model.IsMember)
+			{
 				<a class="pull-right text-danger" href="@Url.Action("Leave", "Course", new {id = Model.Course.Id})">
 					<small><i class="ti ti-angle-double-left"></i> Dersten Ayrıl</small>
 				</a>
@@ -116,7 +120,7 @@
 									</small>
 
 
-									@if (Model.IsCourseCreator) {
+									@if (Model.IsCourseCreator && Model.Course.IsCourseActive == true) {
 										<a href="#" class="js-deleteEntry pull-right-lg pull-right-md" data-entry-id="@timelineEntry.Id">
 											<span class="text-danger">Sil</span>
 										</a>
