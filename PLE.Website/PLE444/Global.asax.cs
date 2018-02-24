@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Security.Claims;
 using System.Web.Helpers;
 using System.Web.Mvc;
@@ -7,10 +8,8 @@ using System.Web.Routing;
 using PLE.Website.Service;
 using PLE444.Models;
 
-namespace PLE444
-{
-	public class MvcApplication : System.Web.HttpApplication
-	{
+namespace PLE444 {
+	public class MvcApplication : System.Web.HttpApplication {
 		protected void Application_Start() {
 			AreaRegistration.RegisterAllAreas();
 			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
@@ -26,13 +25,17 @@ namespace PLE444
 		}
 
 		protected void Session_Start(object sender, EventArgs e) {
-			using (var authService = new AuthService()) {
-				var authToken = authService.GetAuthCookie();
-				if (authToken == null) return;
-				
-				authService.UpdateClientToken(authToken);
-				var user = authService.GetActiveUser();
-				User.GetPrincipal().LoginUser(user);
+			try {
+				using (var authService = new AuthService()) {
+					var authToken = authService.GetAuthCookie();
+					if (authToken == null) return;
+
+					authService.UpdateClientToken(authToken);
+					var user = authService.GetActiveUser();
+					User.GetPrincipal().LoginUser(user);
+				}
+			} catch (Exception ex) {
+				Debug.WriteLine($"User is not loged in on session start: {ex}");
 			}
 		}
 	}

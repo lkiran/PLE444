@@ -6,10 +6,8 @@ using System.Web.Mvc;
 using PLE444.ViewModels;
 using System.Data.Entity;
 
-namespace PLE444.Controllers
-{
-	public class ChapterController : Controller
-	{
+namespace PLE444.Controllers {
+	public class ChapterController : Controller {
 		private PleDbContext db = new PleDbContext();
 
 		[Authorize]
@@ -23,16 +21,13 @@ namespace PLE444.Controllers
 
 				if (!isMember(course) && !isCourseCreator(course))
 					return RedirectToAction("Index", "Course", new { id = course.Id });
-
-				var chapters = db.Chapters.Where(i => i.CourseId == id && i.IsActive)
-					.OrderByDescending(c => c.OrderBy)
-					.Include("Materials").ToList();
-
+				
 				var model = new Chapters {
 					canEdit = isCourseCreator(course),
 					CourseInfo = course,
-					ChapterList = chapters
 				};
+
+				model.ChapterList = db.Chapters.Where(i => i.CourseId == id && i.IsActive).OrderByDescending(c => c.OrderBy).Include("Materials").ToList();
 
 				return View(model);
 			}
