@@ -110,7 +110,7 @@ namespace PLE444.Controllers
 		#endregion
 
 		#region Discussions
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult Discussion(Guid? id) {
 			var community = db.Communities
 				.Include("Discussions")
@@ -136,14 +136,14 @@ namespace PLE444.Controllers
 		}
 
 		#region Title
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult AddTitle(string id) {
 			ViewBag.CommunityId = id;
 			return View();
 		}
 
 		[HttpPost]
-		[Authorize]
+		[PleAuthorization]
 		[ValidateAntiForgeryToken]
 		public ActionResult AddTitle(Discussion discussion, Guid? communityId) {
 			if (ModelState.IsValid) {
@@ -167,7 +167,7 @@ namespace PLE444.Controllers
 			return View();
 		}
 
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult RemoveTitle(Guid? discussionId, Guid? CId) {
 			if (CId == null || discussionId == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -194,7 +194,7 @@ namespace PLE444.Controllers
 
 		#region Messages
 		[HttpPost]
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult Read(Guid? discussionId, Guid? CId) {
 			if (discussionId == Guid.Empty || CId == Guid.Empty)
 				return HttpNotFound();
@@ -235,7 +235,7 @@ namespace PLE444.Controllers
 		}
 
 		[HttpPost]
-		[Authorize]
+		[PleAuthorization]
 		[ValidateAntiForgeryToken]
 		public ActionResult SendMessage(NewMessageViewModel model) {
 			if (!ModelState.IsValid)
@@ -269,7 +269,7 @@ namespace PLE444.Controllers
 		}
 
 
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult RemoveMessage(Guid? messageId, Guid? CId) {
 			if (messageId == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -298,7 +298,7 @@ namespace PLE444.Controllers
 		#endregion
 
 		#region Members
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult Members(Guid? id) {
 			if (id == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -319,7 +319,7 @@ namespace PLE444.Controllers
 			return View(model);
 		}
 
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult Join(Guid? id) {
 			var userId = User.GetPrincipal()?.User.Id;
 
@@ -348,7 +348,7 @@ namespace PLE444.Controllers
 			return RedirectToAction("Index", new { id = id });
 		}
 
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult Approve(Guid? id) {
 			if (id == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -368,7 +368,7 @@ namespace PLE444.Controllers
 			return RedirectToAction("Index", "Community", new { id = userCommunity.CommunityId });
 		}
 
-		[Authorize]
+		[PleAuthorization]
 		[HttpPost]
 		public ActionResult Approve(List<Guid> list) {
 			if (!list.Any())
@@ -392,7 +392,7 @@ namespace PLE444.Controllers
 			return new HttpStatusCodeResult(HttpStatusCode.OK);
 		}
 
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult Leave(Guid? id) {
 			var userId = User.GetPrincipal()?.User.Id;
 			var uc = db.UserCommunities.Where(u => u.UserId == userId).FirstOrDefault(c => c.Community.Id == id);

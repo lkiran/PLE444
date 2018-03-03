@@ -255,6 +255,7 @@
     <Compile Include="Models\Community.cs" />
     <Compile Include="Models\CommunityMembersViewModel.cs" />
     <Compile Include="Models\Enums.cs" />
+    <Compile Include="Models\PleAuthorizationAttribute.cs" />
     <Compile Include="Models\SendMessageParametersVm.cs" />
     <Compile Include="Models\Interfaces\IUserSession.cs" />
     <Compile Include="Models\Layout\SidebarList.cs" />

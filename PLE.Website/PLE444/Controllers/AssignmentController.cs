@@ -16,12 +16,12 @@ using System.Threading.Tasks;
 using static PLE444.Helpers.ViewHelper;
 
 namespace PLE444.Controllers {
-	[Authorize]
+	[PleAuthorization]
 	public class AssignmentController : Controller {
 		private PleDbContext db = new PleDbContext();
 		private EmailService ms = new EmailService();
 
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult Index(Guid? id) {
 			if (id == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -57,7 +57,7 @@ namespace PLE444.Controllers {
 		}
 
 		[HttpPost]
-		[Authorize]
+		[PleAuthorization]
 		[ValidateAntiForgeryToken]
 		public async Task<ActionResult> Create(AssignmentForm model) {
 			var course = db.Courses.Find(model.CourseId);
@@ -138,7 +138,7 @@ namespace PLE444.Controllers {
 		}
 
 		[HttpPost]
-		[Authorize]
+		[PleAuthorization]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(AssignmentForm model) {
 			if (ModelState.IsValid) {
@@ -163,7 +163,7 @@ namespace PLE444.Controllers {
 		}
 
 		[HttpPost]
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult Delete(Guid? id) {
 			if (id == null)
 				return Json(new { Success = false, Message = "BadRequest" }, JsonRequestBehavior.AllowGet);
@@ -184,7 +184,7 @@ namespace PLE444.Controllers {
 		}
 
 		[HttpPost]
-		[Authorize]
+		[PleAuthorization]
 		[ValidateAntiForgeryToken]
 		public ActionResult Feedback(int? uploadId, string feedback) {
 			if (uploadId == null || String.IsNullOrEmpty(feedback))
@@ -198,7 +198,7 @@ namespace PLE444.Controllers {
 			return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
 		}
 
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult Publish(Guid? assignmentId, Guid? courseId) {
 			var assignment = db.Assignments.Include("Course").SingleOrDefault(i => i.Id == assignmentId);
 
@@ -217,7 +217,7 @@ namespace PLE444.Controllers {
 		}
 
 		[HttpPost]
-		[Authorize]
+		[PleAuthorization]
 		[ValidateAntiForgeryToken]
 		public ActionResult Upload(Guid assignmentId, HttpPostedFileBase uploadFile) {
 			var a = db.Assignments.Include("Course").FirstOrDefault(i => i.Id == assignmentId);
@@ -265,7 +265,7 @@ namespace PLE444.Controllers {
 			return RedirectToAction("Index", "Assignment", new { id = a.Course.Id });
 		}
 
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult DownloadAssignment(Guid asssignmentId) {
 			var assignment = db.Assignments.Include("Uploads").Include("Uploads.Owner").FirstOrDefault(a => a.Id == asssignmentId);
 

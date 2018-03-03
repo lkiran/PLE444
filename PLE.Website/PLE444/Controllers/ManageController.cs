@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -10,7 +9,7 @@ using PLE444.Models;
 
 namespace PLE444.Controllers
 {
-    [Authorize]
+    [PleAuthorization]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;

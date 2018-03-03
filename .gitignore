@@ -9,3 +9,4 @@ _ReSharper.*
 packages
 Uploads
 sqlite3
+*.ide

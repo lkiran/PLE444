@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using PLE444.Models;
-using Microsoft.AspNet.Identity;
 using System.IO;
-using Microsoft.Ajax.Utilities;
 using PLE444.ViewModels;
 
 namespace PLE444.Controllers
@@ -18,7 +13,7 @@ namespace PLE444.Controllers
     {
         private PleDbContext db = new PleDbContext();
 
-        [Authorize]
+        [PleAuthorization]
         public ActionResult Index(Guid? id)
         {
             if (id == null)
@@ -45,7 +40,7 @@ namespace PLE444.Controllers
             return View(model);
         }
 
-        [Authorize]
+        [PleAuthorization]
         public ActionResult Add(Guid? chapterId)
         {
             if (chapterId == null)
@@ -64,7 +59,7 @@ namespace PLE444.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [PleAuthorization]
         [ValidateAntiForgeryToken]
         public ActionResult Add(MaterialForm model)
         {
@@ -120,7 +115,7 @@ namespace PLE444.Controllers
             return View(model);
         }
 
-        [Authorize]
+        [PleAuthorization]
         public ActionResult Update(Guid? chapterId, Guid? Id)
         {
             if (Id == null || chapterId == null)
@@ -147,7 +142,7 @@ namespace PLE444.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [PleAuthorization]
         [ValidateAntiForgeryToken]
         public ActionResult Update(MaterialForm model)
         {
@@ -212,7 +207,7 @@ namespace PLE444.Controllers
 
 
 		[HttpPost]
-		[Authorize]
+		[PleAuthorization]
 		public JsonResult RemoveFromChapter(Guid? chapterId, Guid? materialId)
 		{
 			if (chapterId == null || materialId == null)
@@ -241,7 +236,7 @@ namespace PLE444.Controllers
 		}
 
 		//[HttpPost]
-		//[Authorize]
+		//[PleAuthorization]
 		//public JsonResult Delete(Chapter chapter, Guid? materialId)
 		//{
 		//	if (materialId == null)

@@ -19,7 +19,7 @@ using PLE444.ViewModels;
 using static PLE444.Helpers.ViewHelper;
 
 namespace PLE444.Controllers {
-	[Authorize]
+	[PleAuthorization]
 	public class AccountController : Controller {
 		#region Fields
 		private ApplicationSignInManager _signInManager;

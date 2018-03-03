@@ -22,7 +22,7 @@ namespace PLE444.Controllers
         private PleDbContext db = new PleDbContext();
         private EmailService ms = new EmailService();
 
-        [Authorize]
+        [PleAuthorization]
         public ActionResult Profil(string id)
         {
             var currentUser = User.GetPrincipal()?.User.Id;
@@ -42,7 +42,7 @@ namespace PLE444.Controllers
             return View(userDetail);
         }
 
-        [Authorize]
+        [PleAuthorization]
         public ActionResult MyFriends()
         {
             var activeUserId = User.GetPrincipal()?.User.Id;
@@ -144,7 +144,7 @@ namespace PLE444.Controllers
             return View(model);
         }
 
-        [Authorize]
+        [PleAuthorization]
         public ActionResult MailBox()
         {
             var currentUser = User.GetPrincipal()?.User.Id;

@@ -10,7 +10,7 @@ namespace PLE444.Controllers {
 	public class ChapterController : Controller {
 		private PleDbContext db = new PleDbContext();
 
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult Index(Guid? id) {
 			if (id == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -33,7 +33,7 @@ namespace PLE444.Controllers {
 			}
 		}
 
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult Create(Guid id) {
 			if (!isCourseCreator(id))
 				return RedirectToAction("Index", "Home");
@@ -45,7 +45,7 @@ namespace PLE444.Controllers {
 		}
 
 		[HttpPost]
-		[Authorize]
+		[PleAuthorization]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(Chapter chapter) {
 			if (!isCourseCreator(chapter.CourseId))
@@ -73,7 +73,7 @@ namespace PLE444.Controllers {
 			return View(chapter);
 		}
 
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult Edit(Guid? id) {
 			if (id == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -89,7 +89,7 @@ namespace PLE444.Controllers {
 		}
 
 		[HttpPost]
-		[Authorize]
+		[PleAuthorization]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(Chapter model) {
 			if (ModelState.IsValid) {
@@ -111,7 +111,7 @@ namespace PLE444.Controllers {
 		}
 
 		[HttpPost]
-		[Authorize]
+		[PleAuthorization]
 		public JsonResult Delete(Guid? id) {
 			if (id == null)
 				return Json(new { Success = false, Message = "BadRequest" }, JsonRequestBehavior.AllowGet);

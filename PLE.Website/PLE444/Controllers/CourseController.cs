@@ -67,13 +67,13 @@ namespace PLE444.Controllers {
 			return PartialView(model);
 		}
 
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult Create() {
 			return View();
 		}
 
 		[HttpPost]
-		[Authorize]
+		[PleAuthorization]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(Course course) {
 			if (ModelState.IsValid) {
@@ -98,7 +98,7 @@ namespace PLE444.Controllers {
 		}
 
 		[HttpPost]
-		[Authorize]
+		[PleAuthorization]
 		[ValidateAntiForgeryToken]
 		public ActionResult CreateDuplicate(Course model) {
 			if (ModelState.IsValid) {
@@ -195,7 +195,7 @@ namespace PLE444.Controllers {
 		}
 
 
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult Edit(Guid? id) {
 			if (id == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -211,7 +211,7 @@ namespace PLE444.Controllers {
 		}
 
 		[HttpPost]
-		[Authorize]
+		[PleAuthorization]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(Course model) {
 			if (ModelState.IsValid) {
@@ -245,7 +245,7 @@ namespace PLE444.Controllers {
 		#endregion
 
 		#region Grades
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult Grades(Guid? courseId) {
 			if (courseId == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -276,7 +276,7 @@ namespace PLE444.Controllers {
 				return View("GradesForMember", model);
 		}
 
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult CreateGradeType(Guid? id) {
 			if (id == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -293,7 +293,7 @@ namespace PLE444.Controllers {
 		}
 
 		[HttpPost]
-		[Authorize]
+		[PleAuthorization]
 		[ValidateAntiForgeryToken]
 		public ActionResult CreateGradeType(GradeType model, Guid? courseId) {
 			if (model != null || courseId != null) {
@@ -327,7 +327,7 @@ namespace PLE444.Controllers {
 			return View();
 		}
 
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult EditGradeType(int? id) {
 			if (id == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -344,7 +344,7 @@ namespace PLE444.Controllers {
 		}
 
 		[HttpPost]
-		[Authorize]
+		[PleAuthorization]
 		[ValidateAntiForgeryToken]
 		public ActionResult EditGradeType(GradeType model) {
 			if (ModelState.IsValid) {
@@ -379,7 +379,7 @@ namespace PLE444.Controllers {
 			return View(model);
 		}
 
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult RemoveGradeType(int? id) {
 			if (!id.HasValue)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -407,7 +407,7 @@ namespace PLE444.Controllers {
 			return RedirectToAction("Grades", "Course", new { courseId = gradeType.CourseId });
 		}
 
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult ChangeGrade(int? gradeId) {
 			if (gradeId == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -424,7 +424,7 @@ namespace PLE444.Controllers {
 		}
 
 		[HttpPost]
-		[Authorize]
+		[PleAuthorization]
 		[ValidateAntiForgeryToken]
 		public ActionResult ChangeGrade(UserGrade model) {
 			if (ModelState.IsValid) {
@@ -437,7 +437,7 @@ namespace PLE444.Controllers {
 			return View(model);
 		}
 
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult AddGrade(int? gradeTypeId, string userId) {
 			if (gradeTypeId == null || userId.IsNullOrWhiteSpace())
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -456,7 +456,7 @@ namespace PLE444.Controllers {
 		}
 
 		[HttpPost]
-		[Authorize]
+		[PleAuthorization]
 		[ValidateAntiForgeryToken]
 		public ActionResult AddGrade(UserGrade model) {
 			if (ModelState.IsValid) {
@@ -469,7 +469,7 @@ namespace PLE444.Controllers {
 			return View(model);
 		}
 
-		[Authorize]
+		[PleAuthorization]
 		public JsonResult AddOrUpdateGradeJson(int gradeTypeId, string userId, float grade) {
 			if (userId.IsNullOrWhiteSpace())
 				return Json(new { Success = false, Message = "BadRequest" }, JsonRequestBehavior.AllowGet);
@@ -501,7 +501,7 @@ namespace PLE444.Controllers {
 			return Json(new { Success = true, Message = "OK", ID = model.Id }, JsonRequestBehavior.AllowGet);
 		}
 
-		[Authorize]
+		[PleAuthorization]
 		public JsonResult DeleteGradeJson(int? id) {
 			if (!id.HasValue)
 				return Json(new { Success = false, Message = "BadRequest" }, JsonRequestBehavior.AllowGet);
@@ -523,7 +523,7 @@ namespace PLE444.Controllers {
 			return Json(new { Success = true, Message = "OK" }, JsonRequestBehavior.AllowGet);
 		}
 
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult DeleteGrade(int? id) {
 			if (!id.HasValue)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -548,7 +548,7 @@ namespace PLE444.Controllers {
 		#endregion
 
 		#region Discussions
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult Discussion(Guid? id) {
 			var course = db.Courses.Include("Discussion")
 				.Include("Creator")
@@ -576,14 +576,14 @@ namespace PLE444.Controllers {
 		}
 
 		#region Title
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult AddTitle(string id) {
 			ViewBag.CourseId = id;
 			return View();
 		}
 
 		[HttpPost]
-		[Authorize]
+		[PleAuthorization]
 		[ValidateAntiForgeryToken]
 		public ActionResult AddTitle(Discussion discussion, Guid courseId) {
 			if (ModelState.IsValid) {
@@ -607,7 +607,7 @@ namespace PLE444.Controllers {
 			return View();
 		}
 
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult RemoveTitle(Guid? discussionId, Guid? CId) {
 			if (CId == null || discussionId == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -634,7 +634,7 @@ namespace PLE444.Controllers {
 
 		#region Messages
 		[HttpPost]
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult Read(Guid? discussionId, Guid? CId) {
 			if (discussionId == Guid.Empty || CId == Guid.Empty)
 				return HttpNotFound();
@@ -678,7 +678,7 @@ namespace PLE444.Controllers {
 		}
 
 		[HttpPost]
-		[Authorize]
+		[PleAuthorization]
 		[ValidateAntiForgeryToken]
 		//public ActionResult SendMessage(SendMessageParametersVm message)
 		public ActionResult SendMessage(NewMessageViewModel model) {
@@ -711,7 +711,7 @@ namespace PLE444.Controllers {
 			return RedirectToAction("Discussion", new { id = model.CId });
 		}
 
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult RemoveMessage(Guid? messageId, Guid? CId) {
 			if (messageId == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -738,7 +738,7 @@ namespace PLE444.Controllers {
 		#endregion
 
 		#region Members
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult Members(Guid? id) {
 			if (id == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -759,7 +759,7 @@ namespace PLE444.Controllers {
 			return View(model);
 		}
 
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult Join(Guid id) {
 			var userID = User.GetPrincipal()?.User.Id; ;
 			var c = db.Courses.FirstOrDefault(i => i.Id == id);
@@ -781,7 +781,7 @@ namespace PLE444.Controllers {
 			return RedirectToAction("Index", new { id = id });
 		}
 
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult Leave(Guid id) {
 			var userID = User.GetPrincipal()?.User.Id;
 			var c = db.Courses.FirstOrDefault(i => i.Id == id);
@@ -801,7 +801,7 @@ namespace PLE444.Controllers {
 			return RedirectToAction("Index", new { id = id });
 		}
 
-		[Authorize]
+		[PleAuthorization]
 		[HttpPost]
 		public ActionResult EjectUserFromCourse(string userId, Guid? courseId) {
 			if (userId.IsNullOrWhiteSpace() || courseId == null)
@@ -823,7 +823,7 @@ namespace PLE444.Controllers {
 			return Json(new { Success = true, Message = "OK" }, JsonRequestBehavior.AllowGet);
 		}
 
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult Approve(int? id) {
 			if (!id.HasValue)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
@@ -843,7 +843,7 @@ namespace PLE444.Controllers {
 			return RedirectToAction("Members", "Course", new { id = userCourse.CourseId });
 		}
 
-		[Authorize]
+		[PleAuthorization]
 		[HttpPost]
 		public ActionResult Approve(List<int> list) {
 			if (!list.Any())
@@ -867,7 +867,7 @@ namespace PLE444.Controllers {
 			return new HttpStatusCodeResult(HttpStatusCode.OK);
 		}
 
-		[Authorize]
+		[PleAuthorization]
 		public ActionResult Active(Guid? courseId) {
 			var course = db.Courses.SingleOrDefault(i => i.Id == courseId);
 
