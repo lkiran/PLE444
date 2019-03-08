@@ -10,3 +10,6 @@ packages
 Uploads
 sqlite3
 *.ide
+
+#IDE Folders
+**/.vs
