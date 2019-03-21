@@ -26,10 +26,12 @@ namespace PLE444.Controllers {
 					canEdit = isCourseCreator(course),
 					CourseInfo = course,
 				};
+                if(!isCourseCreator(course))
+				    model.ChapterList = db.Chapters.Where(i => i.CourseId == id && i.IsActive && !i.IsHided ).OrderByDescending(c => c.OrderBy).Include("Materials").ToList();
+                else
+                   model.ChapterList = db.Chapters.Where(i => i.CourseId == id && i.IsActive).OrderByDescending(c => c.OrderBy).Include("Materials").ToList();
 
-				model.ChapterList = db.Chapters.Where(i => i.CourseId == id && i.IsActive).OrderByDescending(c => c.OrderBy).Include("Materials").ToList();
-
-				return View(model);
+                return View(model);
 			}
 		}
 
@@ -56,7 +58,9 @@ namespace PLE444.Controllers {
 					DateAdded = DateTime.Now,
 					Title = chapter.Title,
 					OrderBy = chapter.OrderBy,
-					Description = chapter.Description
+					Description = chapter.Description,
+                    IsActive=chapter.IsActive
+
 				};
 
 				db.Chapters.Add(c);
@@ -172,5 +176,29 @@ namespace PLE444.Controllers {
 				return false;
 			return user.DateJoin == null;
 		}
-	}
+        [HttpPost]
+        [PleAuthorization]
+        public JsonResult ShowHide(Guid? id)
+        {
+            if (id == null)
+                return Json(new { Success = false, Message = "BadRequest" }, JsonRequestBehavior.AllowGet);
+
+            var chapter = db.Chapters.Find(id);
+            if (chapter == null)
+                return Json(new { Success = false, Message = "HttpNotFound" }, JsonRequestBehavior.AllowGet);
+
+            else if (!isCourseCreator(chapter.CourseId))
+                return Json(new { Success = false, Message = "Unauthorized" }, JsonRequestBehavior.AllowGet);
+
+            if (chapter.IsHided)
+                chapter.IsHided = false;
+            else
+                chapter.IsHided = true;
+
+            db.Entry(chapter).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return Json(new { Success = true, Message = "OK" ,Data=chapter.IsHided}, JsonRequestBehavior.AllowGet);
+        }
+    }
 }
