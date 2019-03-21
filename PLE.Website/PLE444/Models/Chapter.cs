@@ -15,7 +15,7 @@ namespace PLE444.Models
 		{
 			Id = Guid.NewGuid();
 			IsActive = true;
-            IsHided = false;
+            IsHidden = false;
 		}
 
 		[Required]
@@ -44,7 +44,7 @@ namespace PLE444.Models
 
 		public bool IsActive { get; set; }
 
-        public bool IsHided { get; set; }
+        public bool IsHidden { get; set; }
 
 		public virtual ICollection<Material> Materials { get; set; }
 	}

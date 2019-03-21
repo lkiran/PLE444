@@ -27,7 +27,7 @@ namespace PLE444.Controllers {
 					CourseInfo = course,
 				};
                 if(!isCourseCreator(course))
-				    model.ChapterList = db.Chapters.Where(i => i.CourseId == id && i.IsActive && !i.IsHided ).OrderByDescending(c => c.OrderBy).Include("Materials").ToList();
+				    model.ChapterList = db.Chapters.Where(i => i.CourseId == id && i.IsActive && !i.IsHidden ).OrderByDescending(c => c.OrderBy).Include("Materials").ToList();
                 else
                    model.ChapterList = db.Chapters.Where(i => i.CourseId == id && i.IsActive).OrderByDescending(c => c.OrderBy).Include("Materials").ToList();
 
@@ -54,13 +54,12 @@ namespace PLE444.Controllers {
 				return RedirectToAction("Index", "Home");
 
 			else if (ModelState.IsValid) {
-				var c = new Chapter {
-					DateAdded = DateTime.Now,
-					Title = chapter.Title,
-					OrderBy = chapter.OrderBy,
-					Description = chapter.Description,
-                    IsActive=chapter.IsActive
-
+                var c = new Chapter {
+                    DateAdded = DateTime.Now,
+                    Title = chapter.Title,
+                    OrderBy = chapter.OrderBy,
+                    Description = chapter.Description,
+                    IsHidden = chapter.IsHidden
 				};
 
 				db.Chapters.Add(c);
@@ -104,7 +103,7 @@ namespace PLE444.Controllers {
 				chapterDb.Description = model.Description;
 				chapterDb.Title = model.Title;
 				chapterDb.OrderBy = model.OrderBy;
-
+                chapterDb.IsHidden = model.IsHidden;
 				db.Entry(chapterDb).State = EntityState.Modified;
 				db.SaveChanges();
 
@@ -132,7 +131,7 @@ namespace PLE444.Controllers {
 			db.Entry(chapter).State = EntityState.Modified;
 			db.SaveChanges();
 
-			return Json(new { Success = true, Message = "OK" }, JsonRequestBehavior.AllowGet);
+			return Json(new { Success = true, Message = "OK"}, JsonRequestBehavior.AllowGet);
 		}
 
 		private bool isCourseCreator(Guid? courseId) {
@@ -176,29 +175,6 @@ namespace PLE444.Controllers {
 				return false;
 			return user.DateJoin == null;
 		}
-        [HttpPost]
-        [PleAuthorization]
-        public JsonResult ShowHide(Guid? id)
-        {
-            if (id == null)
-                return Json(new { Success = false, Message = "BadRequest" }, JsonRequestBehavior.AllowGet);
-
-            var chapter = db.Chapters.Find(id);
-            if (chapter == null)
-                return Json(new { Success = false, Message = "HttpNotFound" }, JsonRequestBehavior.AllowGet);
-
-            else if (!isCourseCreator(chapter.CourseId))
-                return Json(new { Success = false, Message = "Unauthorized" }, JsonRequestBehavior.AllowGet);
-
-            if (chapter.IsHided)
-                chapter.IsHided = false;
-            else
-                chapter.IsHided = true;
-
-            db.Entry(chapter).State = EntityState.Modified;
-            db.SaveChanges();
-
-            return Json(new { Success = true, Message = "OK" ,Data=chapter.IsHided}, JsonRequestBehavior.AllowGet);
-        }
+       
     }
 }

@@ -13,8 +13,7 @@
 		</div>
 	}
 
-	if (Model.canEdit && Model.CourseInfo.IsCourseActive == true)
-	{
+	if (Model.canEdit && Model.CourseInfo.IsCourseActive == true) {
 		<a href="@Url.Action("Create", "Chapter", new {id = Model.CourseInfo.Id})" class="btn btn-primary-alt center-block" id="dyna-del">
 			<i class="fa fa-plus"></i> Yeni Bölüm Ekle
 		</a>
@@ -30,10 +29,11 @@
 					<div class="not-pull-right-xs text-xs-center" title="@chapter.DateAdded">
 						@{var h = new PLE444.Helpers.DataManipulationHelper(); }
 						@h.GetDeltaDate(chapter.DateAdded)
+						@if (chapter.IsHidden) {
+							<i class="ti ti-lock" title="Gizli"></i>
+						}
 					</div>
 				</div>
-
-				
 
 				<div id="@chapter.Id" class="collapse">
 					<div class="panel-body">
@@ -51,29 +51,16 @@
 					</div>
 					@if (Model.canEdit && Model.CourseInfo.IsCourseActive == true) {
 						<div class="panel-footer">
-							@if (Model.canEdit)
-							{
-                            <div class="panel-ctrls" style="float: left">
-                                <a class="button-icon ml-sm" title="Düzenle" href="@Url.Action("Edit","Chapter", new {id = chapter.Id})">
-                                    <i class="ti ti-pencil"></i>
-                                </a>
+							@if (Model.canEdit) {
+								<div class="panel-ctrls" style="float: left">
+									<a class="button-icon ml-sm" title="Düzenle" href="@Url.Action("Edit","Chapter", new {id = chapter.Id})">
+										<i class="ti ti-pencil"></i>
+									</a>
 
-                                <a class="btn-remove button-icon ml-sm" title="Kaldır" data-chapter-id="@chapter.Id">
-                                    <i class="ti ti-trash"></i>
-                                </a>
-                                <a class="btn-activate button-icon ml-sm" title="Gizle/Göster" data-chapter-id="@chapter.Id">
-                                    @if(!chapter.IsHided)
-                                    {
-                                       <P>Gizle</P>
-                                    }
-                                    else
-                                    {
-                                       <P>Göster</P>
-                                    }
-
-                                      </a>
-      
-                                  </div>
+									<a class="btn-remove button-icon ml-sm" title="Kaldır" data-chapter-id="@chapter.Id">
+										<i class="ti ti-trash"></i>
+									</a>
+								</div>
 							}
 							<div class="pull-right">
 								<a href="@Url.Action("Add", "Material", new {chapterId = chapter.Id})" class="btn btn-primary-alt btn-sm ">
@@ -86,7 +73,7 @@
 			</div>
 		}
 	</div>
-	}
+}
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="text-center">
@@ -100,9 +87,7 @@
 	<script>
 		$(document).ready(function () {
 			$(".btn-remove").on("click", function () {
-
 				var object = $(this);
-
 				bootbox.confirm({
 					title: "Onay",
 					message: "Bölümü kaldırmak istediğinize emin misiniz?",
@@ -133,50 +118,7 @@
 
 					}
 				});
-            });
-         
-               
-            $(".btn-activate").on("click", function () {
-
-                var object = $(this);
-
-                bootbox.confirm({
-                    title: "Onay",
-                    message: "Bölümü gizlemek/göstermek istediğinize emin misiniz?",
-                    buttons: {
-                        confirm: {
-                            label: 'Evet',
-                            className: 'btn-danger-alt'
-                        },
-                        cancel: {
-                            label: 'Hayır',
-                            className: 'btn-info-alt'
-                        }
-                    },
-                    callback: function (result) {
-                        if (result) {
-                            $.ajax({
-                                url: "/Chapter/ShowHide/" + object.data('chapter-id'),
-                                method: "POST",
-                                dataType: 'json',
-                                success: function (response) {
-                                    if (response.Data)
-                                        object.children("p").html("Göster")
-                                    else
-                                        object.children("p").html("Gizle")
-                                    //console.log(object.children("p"));
-
-                                },
-                                error: function (response) {
-                                    console.log(response);
-                                }
-                            });
-                        }
-
-                    }
-                });
-            });
-
+			});
 			$(".ShowModal").on("click", function (e) {
 				e.preventDefault();
 				$.ajax({

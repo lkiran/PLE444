@@ -24,11 +24,11 @@ namespace PLE444.Models
         [Required]
         [ForeignKey("Course")]
         public Guid CourseId { get; set; }
-
+		
         public virtual Course Course { get; set; }
 
-        [Required]
-        [DisplayName("İsim")]
+		[Required(ErrorMessage = "İsim alanı boş bırakılamaz.")]
+		[DisplayName("İsim")]
         public string Name { get; set; }
 
         [DisplayName("Açıklama")]
