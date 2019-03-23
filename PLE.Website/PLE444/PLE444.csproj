@@ -248,6 +248,18 @@
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\UserHelper.cs" />
     <Compile Include="Helpers\ViewHelper.cs" />
+    <Compile Include="Migrations\201903101728198_course-term.cs" />
+    <Compile Include="Migrations\201903101728198_course-term.Designer.cs">
+      <DependentUpon>201903101728198_course-term.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903121704222_optional-copiedfrom.cs" />
+    <Compile Include="Migrations\201903121704222_optional-copiedfrom.Designer.cs">
+      <DependentUpon>201903121704222_optional-copiedfrom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903131644282_removed-copiedfrom.cs" />
+    <Compile Include="Migrations\201903131644282_removed-copiedfrom.Designer.cs">
+      <DependentUpon>201903131644282_removed-copiedfrom.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -256,6 +268,7 @@
     <Compile Include="Models\CommunityMembersViewModel.cs" />
     <Compile Include="Models\Enums.cs" />
     <Compile Include="Models\PleAuthorizationAttribute.cs" />
+    <Compile Include="Models\PleClaimsIdentity.cs" />
     <Compile Include="Models\SendMessageParametersVm.cs" />
     <Compile Include="Models\Interfaces\IUserSession.cs" />
     <Compile Include="Models\Layout\SidebarList.cs" />
@@ -282,7 +295,6 @@
     <Compile Include="Models\TimelineEntry.cs" />
     <Compile Include="Models\UserCommunity.cs" />
     <Compile Include="Models\UserGrade.cs" />
-    <Compile Include="Models\UserInterest.cs" />
     <Compile Include="Models\UserCourse.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -292,6 +304,7 @@
     <Compile Include="ViewModels\Chapters.cs" />
     <Compile Include="ViewModels\CourseGrades.cs" />
     <Compile Include="ViewModels\CourseMaterials.cs" />
+    <Compile Include="ViewModels\CreateCourseViewModel.cs" />
     <Compile Include="ViewModels\DiscussionMessages.cs" />
     <Compile Include="ViewModels\DiscussionViewModel.cs" />
     <Compile Include="ViewModels\MailBox.cs" />
@@ -2251,6 +2264,17 @@
       <Project>{7df5f085-db4a-4f0c-a091-3122d1a8e988}</Project>
       <Name>PLE.Website.Service</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201903101728198_course-term.resx">
+      <DependentUpon>201903101728198_course-term.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903121704222_optional-copiedfrom.resx">
+      <DependentUpon>201903121704222_optional-copiedfrom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903131644282_removed-copiedfrom.resx">
+      <DependentUpon>201903131644282_removed-copiedfrom.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Data.Entity;
-using System.Data.Entity.Core.Objects.DataClasses;
-using System.Diagnostics;
 using System.Linq;
 using System.Net;
-using System.Web;
+using System.Security.Claims;
 using System.Web.Mvc;
+using AutoMapper;
 using PLE444.Models;
 using Microsoft.AspNet.Identity;
-using System.IO;
 using Microsoft.Ajax.Utilities;
+using PLE.Contract.DTOs;
+using PLE.Contract.DTOs.Requests;
+using PLE.Contract.Enums;
 using PLE.Website.Service;
 using PLE444.ViewModels;
-using WebGrease.Css.Extensions;
 
-namespace PLE444.Controllers {
-	public class CourseController : Controller {
+namespace PLE444.Controllers
+{
+	public class CourseController : Controller
+	{
 		#region Fields
 		private PleDbContext db = new PleDbContext();
 		private CourseService _courseService;
@@ -34,12 +35,7 @@ namespace PLE444.Controllers {
 			if (id == null)
 				return RedirectToAction("List");
 
-			var course =
-				db.Courses
-					.Include("Creator")
-					.Include("Timeline")
-					.Include("Timeline.Creator")
-					.FirstOrDefault(c => c.Id == id);
+			var course = _courseService.Detail(id.Value);
 
 			if (course == null)
 				return HttpNotFound();
@@ -47,10 +43,9 @@ namespace PLE444.Controllers {
 
 			var model = new CourseViewModel {
 				Course = course,
-				IsCourseCreator = isCourseCreator(course),
-				IsMember = isMember(course),
+				IsCourseCreator = isCourseCreator(course.Id),
+				IsMember = isMember(course.Id),
 				IsWaiting = isWaiting(course.Id),
-				MemberCount = db.UserCourses.Count(uc => uc.CourseId == course.Id && uc.IsActive && uc.DateJoin != null)
 			};
 			return View(model);
 		}
@@ -75,125 +70,48 @@ namespace PLE444.Controllers {
 		[HttpPost]
 		[PleAuthorization]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create(Course course) {
-			if (ModelState.IsValid) {
-				course.CreatorId = User.GetPrincipal()?.User.Id;
-				course.DateCreated = DateTime.Now;
-				course.Timeline = new List<TimelineEntry>
-				{
-					new TimelineEntry
-					{
-						Heading = "Ders oluşturuldu",
-						CreatorId = User.GetPrincipal()?.User.Id,
-						DateCreated = DateTime.Now,
-						IconClass = "ti ti-plus"
-					}
-				};
+		public ActionResult Create(CreateCourseViewModel course) {
+			try {
+				if (!ModelState.IsValid)
+					return View(course);
 
-				course = db.Courses.Add(course);
-				db.SaveChanges();
-				return RedirectToAction("Index", new { id = course.Id });
+				var request = Mapper.Map<CourseDto>(course);
+				var id = _courseService.Create(request);
+
+				#region Add claim
+				var identity = User.GetPrincipal()?.Identity as PleClaimsIdentity;
+				identity?.AddClaim(new Claim(PleClaimType.Creator, id.ToString()));
+				#endregion
+
+				return RedirectToAction("Index", new { id });
+			} catch (Exception e) {
+				Console.Write(e.Message);
+				return View(course);
 			}
-			return View(course);
 		}
 
 		[HttpPost]
 		[PleAuthorization]
 		[ValidateAntiForgeryToken]
 		public ActionResult CreateDuplicate(Course model) {
-			if (ModelState.IsValid) {
-				var courseToDuplicate = db.Courses
-					.Include("Chapters")
-					.Include("Assignments")
-					.Include("Chapters.Materials")
-					.Include("Chapters.Materials.Documents")
-					.FirstOrDefault(c => c.Id == model.Id);
+			if (!ModelState.IsValid)
+				return View("Edit", model);
 
-				if (courseToDuplicate != null) {
-					var newCourse = new Course {
-						Code = courseToDuplicate.Code,
-						Name = model.Name,
-						Description = courseToDuplicate.Description,
-						CreatorId = User.GetPrincipal()?.User.Id,
-						DateCreated = DateTime.Now,
-						IsCourseActive = false,
-						Timeline = new List<TimelineEntry> {
-							new TimelineEntry {
-								Heading = "Ders oluşturuldu",
-								CreatorId = User.GetPrincipal()?.User.Id,
-								DateCreated = DateTime.Now,
-								IconClass = "ti ti-plus"
-							}
-						}
-					};
-					newCourse = db.Courses.Add(newCourse);
-					db.SaveChanges();
+			if (!isCourseCreator(model.Id))
+				return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
-					newCourse.Assignments = DuplicateAssignments(courseToDuplicate, newCourse.Id);
-					newCourse.Chapters = DuplicateChapters(courseToDuplicate, newCourse.Id);
-					db.Entry(newCourse).State = EntityState.Modified;
-					db.SaveChanges();
+			var request = new DuplicateCourseRequestDto {
+				Id = model.Id,
+				NewCode = model.Code,
+				NewName = model.Name
+			};
+			var newCourseId = _courseService.Duplicate(request);
 
-					return RedirectToAction("Index", new { id = newCourse.Id });
-				}
-			}
+			var identity = User.GetPrincipal()?.Identity as PleClaimsIdentity;
+			identity?.AddClaim(new Claim(PleClaimType.Creator, newCourseId.ToString()));
 
-			return View("Edit", model);
+			return RedirectToAction("Index", new { id = newCourseId });
 		}
-
-		private List<Chapter> DuplicateChapters(Course from, Guid to) {
-			var result = new List<Chapter>();
-
-			foreach (var baseChapter in from.Chapters) {
-				try {
-					var chapter = new Chapter {
-						CourseId = to,
-						DateAdded = DateTime.Now,
-						Description = baseChapter.Description,
-						Title = baseChapter.Title,
-						IsActive = false,
-						OrderBy = baseChapter.OrderBy,
-						Materials = baseChapter.Materials
-					};
-					//chapter = db.Chapters.Add(chapter);
-					//db.SaveChanges();
-
-					result.Add(chapter);
-				} catch (Exception ex) {
-					Debug.WriteLine(ex.Message);
-				}
-			}
-
-			return result;
-		}
-
-		private List<Assignment> DuplicateAssignments(Course from, Guid to) {
-			var result = new List<Assignment>();
-
-			foreach (var baseAssignment in from.Assignments) {
-				try {
-					var assignment = new Assignment {
-						CourseId = to,
-						DateAdded = DateTime.Now,
-						Description = baseAssignment.Description,
-						Title = baseAssignment.Title,
-						IsActive = false,
-						Deadline = DateTime.Now,
-						IsFeedbackPublished = false,
-						Uploads = new List<Document>()
-					};
-					//assignment = db.Assignments.Add(assignment);
-					//db.SaveChanges();
-
-					result.Add(assignment);
-				} catch (Exception ex) {
-					Debug.WriteLine(ex.Message);
-				}
-			}
-
-			return result;
-		}
-
 
 		[PleAuthorization]
 		public ActionResult Edit(Guid? id) {
@@ -890,31 +808,23 @@ namespace PLE444.Controllers {
 		private bool isCourseCreator(Guid? courseId) {
 			if (courseId == null)
 				return false;
-
-			var course = db.Courses.Find(courseId);
-			return isCourseCreator(course);
+			var identity = User.GetPrincipal()?.Identity as PleClaimsIdentity;
+			if (identity == null)
+				return false;
+			return identity.HasClaim(PleClaimType.Creator, courseId.ToString());
 		}
 
 		private bool isCourseCreator(Course course) {
-			if (course == null)
-				return false;
-
-			else if (course.CreatorId != User.GetPrincipal()?.User.Id)
-				return false;
-			return true;
+			return isCourseCreator(course.Id);
 		}
 
 		private bool isMember(Guid? courseId) {
 			if (courseId == null)
 				return false;
-
-			var userId = User.GetPrincipal()?.User.Id;
-			var user = db.UserCourses.Where(c => c.Course.Id == courseId).FirstOrDefault(u => u.UserId == userId);
-
-			if (user == null)
+			var identity = User.GetPrincipal()?.Identity as PleClaimsIdentity;
+			if (identity == null)
 				return false;
-			else
-				return user.IsActive && user.DateJoin != null;
+			return identity.HasClaim(PleClaimType.Member, courseId.ToString());
 		}
 
 		private bool isMember(Course course) {
@@ -922,11 +832,17 @@ namespace PLE444.Controllers {
 		}
 
 		private bool isWaiting(Guid? courseId) {
-			var userId = User.GetPrincipal()?.User.Id;
-			var user = db.UserCourses.Where(c => c.Course.Id == courseId && c.IsActive).FirstOrDefault(u => u.UserId == userId);
-			if (user == null)
+			if (courseId == null)
 				return false;
-			return user.DateJoin == null;
+			var identity = User.GetPrincipal()?.Identity as PleClaimsIdentity;
+			if (identity == null)
+				return false;
+			var waiting = identity.HasClaim(PleClaimType.Waiting, courseId.ToString());
+			if (!waiting)
+				return waiting;
+			identity.AddClaims(_courseService.GetClaims());
+			waiting = identity.HasClaim(PleClaimType.Waiting, courseId.ToString());
+			return waiting;
 		}
 
 		protected override void Dispose(bool disposing) {

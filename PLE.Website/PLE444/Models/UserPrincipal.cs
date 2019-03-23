@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Security.Principal;
 using System.Web;
 using PLE.Contract.DTOs;
+using PLE.Website.Service;
 
 
 namespace PLE444.Models
@@ -18,7 +19,7 @@ namespace PLE444.Models
 				user = (UserDto)HttpContext.Current.Session["User"];
 
 			User = user;
-			Identity = identity;
+			Identity = identity as PleClaimsIdentity;
 		}
 
 		public bool IsInRole(string role) {
@@ -43,10 +44,11 @@ namespace PLE444.Models
 				if (!claims.Any()) {
 					claims.Add(new Claim(ClaimTypes.Name, user.FullName()));
 					claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id));
+					claims.AddRange(new CourseService().GetClaims());
 				}
 			}
 
-			var identity = new ClaimsIdentity(claims,"PLE");
+			var identity = new PleClaimsIdentity(claims,"PLE");
 			HttpContext.Current.User = new UserPrincipal(identity, user);
 		}
 	}

@@ -17,6 +17,9 @@ namespace PLE444.Models
 		[Required]
 		public Guid Id { get; set; }
 
+		[HiddenInput]
+		public Guid? CopiedFromId { get; set; }
+		
 		[ForeignKey("Creator")]
 		public string CreatorId { get; set; }
 

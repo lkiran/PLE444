@@ -50,19 +50,23 @@
   <ItemGroup>
     <Compile Include="DTOs\AssignmentDto.cs" />
     <Compile Include="DTOs\ChapterDto.cs" />
+    <Compile Include="DTOs\ClaimDto.cs" />
     <Compile Include="DTOs\CommunityDto.cs" />
+    <Compile Include="DTOs\CourseDetailDto.cs" />
     <Compile Include="DTOs\CourseDto.cs" />
     <Compile Include="DTOs\DiscussionDto.cs" />
     <Compile Include="DTOs\DocumentDto.cs" />
     <Compile Include="DTOs\MaterialDto.cs" />
     <Compile Include="DTOs\MessageDto.cs" />
     <Compile Include="DTOs\ReadingDto.cs" />
+    <Compile Include="DTOs\Requests\DuplicateCourseRequestDto.cs" />
     <Compile Include="DTOs\Requests\GetUserRequest.cs" />
     <Compile Include="DTOs\Responses\RegisterUserResponseDto.cs" />
     <Compile Include="DTOs\SpaceDto.cs" />
     <Compile Include="DTOs\TimeLineEntryDto.cs" />
     <Compile Include="DTOs\TokenDto.cs" />
     <Compile Include="DTOs\UserDto.cs" />
+    <Compile Include="Enums\PleClaimType.cs" />
     <Compile Include="Enums\GenderType.cs" />
     <Compile Include="Enums\StatusTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

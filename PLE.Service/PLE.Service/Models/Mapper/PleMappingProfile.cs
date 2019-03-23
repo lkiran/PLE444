@@ -7,8 +7,8 @@ namespace PLE.Service.Models.Mapper
 	{
 		public PleMappingProfile() {
 			CreateMap<ApplicationUser, UserDto>().ReverseMap();
-			CreateMap<Space, SpaceDto>();
-			CreateMap<Course, CourseDto>();
+			CreateMap<Course, CourseDto>().ReverseMap();
+			CreateMap<Course, CourseDetailDto>();
 			CreateMap<Chapter, ChapterDto>();
 			CreateMap<Material, MaterialDto>();
 			CreateMap<Assignment, AssignmentDto>();
@@ -16,7 +16,7 @@ namespace PLE.Service.Models.Mapper
 			CreateMap<Message, MessageDto>();
 			CreateMap<Document, DocumentDto>();
 			CreateMap<Discussion.Reading, ReadingDto>();
-			CreateMap<TimelineEntry, TimeLineEntryDto>();
+			CreateMap<TimelineEntry, TimelineEntryDto>();
 			CreateMap<Community, CommunityDto>();
 		}
 	}
