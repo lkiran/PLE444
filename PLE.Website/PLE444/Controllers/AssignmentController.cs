@@ -39,11 +39,15 @@ namespace PLE444.Controllers {
 				CanUpload = isMember(course.Id),
 				CurrentUserId = User.GetPrincipal()?.User.Id
 			};
-			
-			model.AssignmentList = db.Assignments.Include("Uploads").Include("Uploads.Owner").Where(a => a.Course.Id == id).ToList();
 
-			return View(model);
-		}
+            if (!isCourseCreator(course))
+                model.AssignmentList = db.Assignments.Where(i => i.CourseId == id && i.IsActive && !i.IsHidden).Include("Uploads").ToList();
+            else
+
+                model.AssignmentList = db.Assignments.Where(i => i.CourseId == id && i.IsActive).Include("Uploads").ToList();
+
+            return View(model);
+        }
 
 		public ActionResult Create(Guid id) {
 			if (!isCourseCreator(id))
@@ -73,7 +77,9 @@ namespace PLE444.Controllers {
 					DateAdded = DateTime.Now,
 					Title = model.Title,
 					Description = model.Description,
-					Deadline = model.Deadline
+					Deadline = model.Deadline,
+                    IsHidden=model.IsHidden
+         
 				};
 				db.Assignments.Add(assignment);
 
@@ -152,7 +158,7 @@ namespace PLE444.Controllers {
 				assignment.Deadline = model.Deadline;
 				assignment.Description = model.Description;
 				assignment.Title = model.Title;
-
+                assignment.IsHidden = model.IsHidden;
 				db.Entry(assignment).State = EntityState.Modified;
 				db.SaveChanges();
 
