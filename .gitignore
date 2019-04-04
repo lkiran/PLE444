@@ -2,10 +2,12 @@
 *.ini
 *.user
 *.DS_Store
+*.csproj.user
 _ReSharper.*
 
 **/obj
 **/bin
+**/Migrations
 packages
 Uploads
 sqlite3
@@ -13,3 +15,4 @@ sqlite3
 
 #IDE Folders
 **/.vs
+*.user

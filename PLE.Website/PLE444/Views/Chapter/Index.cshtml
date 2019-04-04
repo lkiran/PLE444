@@ -13,8 +13,7 @@
 		</div>
 	}
 
-	if (Model.canEdit && Model.CourseInfo.IsCourseActive == true)
-	{
+	if (Model.canEdit && Model.CourseInfo.IsCourseActive == true) {
 		<a href="@Url.Action("Create", "Chapter", new {id = Model.CourseInfo.Id})" class="btn btn-primary-alt center-block" id="dyna-del">
 			<i class="fa fa-plus"></i> Yeni Bölüm Ekle
 		</a>
@@ -30,10 +29,11 @@
 					<div class="not-pull-right-xs text-xs-center" title="@chapter.DateAdded">
 						@{var h = new PLE444.Helpers.DataManipulationHelper(); }
 						@h.GetDeltaDate(chapter.DateAdded)
+						@if (chapter.IsHidden) {
+							<i class="ti ti-lock" title="Gizli"></i>
+						}
 					</div>
 				</div>
-
-				
 
 				<div id="@chapter.Id" class="collapse">
 					<div class="panel-body">
@@ -51,8 +51,7 @@
 					</div>
 					@if (Model.canEdit && Model.CourseInfo.IsCourseActive == true) {
 						<div class="panel-footer">
-							@if (Model.canEdit)
-							{
+							@if (Model.canEdit) {
 								<div class="panel-ctrls" style="float: left">
 									<a class="button-icon ml-sm" title="Düzenle" href="@Url.Action("Edit","Chapter", new {id = chapter.Id})">
 										<i class="ti ti-pencil"></i>
@@ -74,7 +73,7 @@
 			</div>
 		}
 	</div>
-	}
+}
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="text-center">
@@ -88,9 +87,7 @@
 	<script>
 		$(document).ready(function () {
 			$(".btn-remove").on("click", function () {
-
 				var object = $(this);
-
 				bootbox.confirm({
 					title: "Onay",
 					message: "Bölümü kaldırmak istediğinize emin misiniz?",
@@ -122,7 +119,6 @@
 					}
 				});
 			});
-
 			$(".ShowModal").on("click", function (e) {
 				e.preventDefault();
 				$.ajax({

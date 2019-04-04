@@ -26,10 +26,12 @@ namespace PLE444.Controllers {
 					canEdit = isCourseCreator(course),
 					CourseInfo = course,
 				};
+                if(!isCourseCreator(course))
+				    model.ChapterList = db.Chapters.Where(i => i.CourseId == id && i.IsActive && !i.IsHidden ).OrderByDescending(c => c.OrderBy).Include("Materials").ToList();
+                else
+                   model.ChapterList = db.Chapters.Where(i => i.CourseId == id && i.IsActive).OrderByDescending(c => c.OrderBy).Include("Materials").ToList();
 
-				model.ChapterList = db.Chapters.Where(i => i.CourseId == id && i.IsActive).OrderByDescending(c => c.OrderBy).Include("Materials").ToList();
-
-				return View(model);
+                return View(model);
 			}
 		}
 
@@ -52,11 +54,12 @@ namespace PLE444.Controllers {
 				return RedirectToAction("Index", "Home");
 
 			else if (ModelState.IsValid) {
-				var c = new Chapter {
-					DateAdded = DateTime.Now,
-					Title = chapter.Title,
-					OrderBy = chapter.OrderBy,
-					Description = chapter.Description
+                var c = new Chapter {
+                    DateAdded = DateTime.Now,
+                    Title = chapter.Title,
+                    OrderBy = chapter.OrderBy,
+                    Description = chapter.Description,
+                    IsHidden = chapter.IsHidden
 				};
 
 				db.Chapters.Add(c);
@@ -100,7 +103,7 @@ namespace PLE444.Controllers {
 				chapterDb.Description = model.Description;
 				chapterDb.Title = model.Title;
 				chapterDb.OrderBy = model.OrderBy;
-
+                chapterDb.IsHidden = model.IsHidden;
 				db.Entry(chapterDb).State = EntityState.Modified;
 				db.SaveChanges();
 
@@ -128,7 +131,7 @@ namespace PLE444.Controllers {
 			db.Entry(chapter).State = EntityState.Modified;
 			db.SaveChanges();
 
-			return Json(new { Success = true, Message = "OK" }, JsonRequestBehavior.AllowGet);
+			return Json(new { Success = true, Message = "OK"}, JsonRequestBehavior.AllowGet);
 		}
 
 		private bool isCourseCreator(Guid? courseId) {
@@ -172,5 +175,6 @@ namespace PLE444.Controllers {
 				return false;
 			return user.DateJoin == null;
 		}
-	}
+       
+    }
 }

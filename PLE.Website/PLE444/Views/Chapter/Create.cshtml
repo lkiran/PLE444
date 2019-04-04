@@ -10,8 +10,7 @@
 		<h2>Yeni Bölüm</h2>
 	</div>
 	<div class="panel-body">
-		@using (Html.BeginForm())
-		{
+		@using (Html.BeginForm()) {
 			@Html.AntiForgeryToken()
 
 			<div class="form-horizontal">
@@ -32,7 +31,6 @@
 					</div>
 				</div>
 
-
 				<div class="form-group">
 					@Html.LabelFor(model => model.OrderBy, htmlAttributes: new { @class = "control-label col-md-2" })
 					<div class="col-md-2">
@@ -40,7 +38,28 @@
 						@Html.ValidationMessageFor(model => model.OrderBy, "", new { @class = "text-danger" })
 					</div>
 				</div>
-
+				<div class="form-group">
+					<div class="control-label col-md-2">
+					</div>
+					<div class="col-md-10">
+						<table style="max-width: 100px;">
+							<tr>
+								<td><small class="m-sm">Göster</small></td>
+								<td class="m-sm">
+									<div class="demo-switches">
+										@Html.CheckBoxFor(model => model.IsHidden, htmlAttributes: new { @class = "bootstrap-switch",
+									   data_size = "mini",
+									   data_on_color = "success",
+									   data_off_color = "warning",
+									   data_on_text = "&nbsp;",
+									   data_off_text = "&nbsp" })
+									</div>
+								</td>
+								<td><small class="m-sm">Gizle</small></td>
+							</tr>
+						</table>
+					</div>
+				</div>
 
 				@Html.HiddenFor(model => model.CourseId)
 				<div class="pull-right">
