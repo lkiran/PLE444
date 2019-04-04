@@ -42,15 +42,22 @@
 			}
 		}
 		<div class="panel panel-@panelColor">
-			<div class="panel-heading" style="cursor: pointer" data-toggle="collapse" data-parent="#accordionA" class="Assignment" href="#@assignment.Id">
+            <div class="panel-heading" style="cursor: pointer" data-toggle="collapse" data-parent="#accordionA" class="Assignment" href="#@assignment.Id">
 
-				<h2>@assignment.Title</h2>
+                <h2>@assignment.Title</h2>
 
-			
-				<div class="pull-right" title="@assignment.DateAdded">
-					@h.GetDeltaDate(assignment.DateAdded)
-				</div>
-			</div>
+
+                <div class="pull-right" title="@assignment.DateAdded">
+                    @h.GetDeltaDate(assignment.DateAdded)
+
+                    @if (assignment.IsHidden)
+                    {
+                        <i class="ti ti-lock" title="Gizli"></i>
+                    }
+
+                </div>
+                
+            </div>
 
 
 			<div id="@assignment.Id" class="collapse">
