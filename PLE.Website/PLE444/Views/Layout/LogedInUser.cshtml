@@ -14,7 +14,76 @@
     </li>
 }
 else
-{
+{<li class="dropdown toolbar-icon-bg">
+	<a href="#" class="hasnotifications dropdown-toggle" data-toggle='dropdown'><span class="icon-bg"><i class="ti ti-bell"></i></span><span class="badge badge-deeporange">2</span></a>
+	<div class="dropdown-menu notifications arrow">
+		<div class="topnav-dropdown-header">
+			<span>Notifications</span>
+		</div>
+		<div class="scroll-pane">
+			<ul class="media-list scroll-content">
+				<li class="media notification-success">
+					<a href="#">
+						<div class="media-left">
+							<span class="notification-icon"><i class="ti ti-check"></i></span>
+						</div>
+						<div class="media-body">
+							<h4 class="notification-heading">Update 1.0.4 successfully pushed</h4>
+							<span class="notification-time">8 mins ago</span>
+						</div>
+					</a>
+				</li>
+				<li class="media notification-info">
+					<a href="#">
+						<div class="media-left">
+							<span class="notification-icon"><i class="ti ti-check"></i></span>
+						</div>
+						<div class="media-body">
+							<h4 class="notification-heading">Update 1.0.3 successfully pushed</h4>
+							<span class="notification-time">24 mins ago</span>
+						</div>
+					</a>
+				</li>
+				<li class="media notification-teal">
+					<a href="#">
+						<div class="media-left">
+							<span class="notification-icon"><i class="ti ti-check"></i></span>
+						</div>
+						<div class="media-body">
+							<h4 class="notification-heading">Update 1.0.2 successfully pushed</h4>
+							<span class="notification-time">16 hours ago</span>
+						</div>
+					</a>
+				</li>
+				<li class="media notification-indigo">
+					<a href="#">
+						<div class="media-left">
+							<span class="notification-icon"><i class="ti ti-check"></i></span>
+						</div>
+						<div class="media-body">
+							<h4 class="notification-heading">Update 1.0.1 successfully pushed</h4>
+							<span class="notification-time">2 days ago</span>
+						</div>
+					</a>
+				</li>
+				<li class="media notification-danger">
+					<a href="#">
+						<div class="media-left">
+							<span class="notification-icon"><i class="ti ti-arrow-up"></i></span>
+						</div>
+						<div class="media-body">
+							<h4 class="notification-heading">Initial Release 1.0</h4>
+							<span class="notification-time">4 days ago</span>
+						</div>
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div class="topnav-dropdown-footer">
+			<a href="#">See all notifications</a>
+		</div>
+	</div>
+</li>
     <li class="dropdown toolbar-icon-bg">
         <a href="@Url.Action("MailBox","User")" @*class="hasnotifications dropdown-toggle" data-toggle='dropdown'*@>
             <span class="icon-bg"><i class="ti ti-email"></i></span>@*<span class="badge badge-deeporange">2</span>*@
@@ -196,7 +265,7 @@ else
             <li><a href="#/"><i class="ti ti-settings"></i><span>Ayarlar</span></a></li>*@
             <li class="divider"></li>
             <li>
-                <a href="javascript:document.getElementById('logoutForm').submit()"><i class="ti ti-shift-left-alt"></i><span>Çıkış</span></a>
+                <a href="javascript:document.getElementById('logoutForm').submit()"><i class="ti ti-shift-right"></i><span>Çıkış</span></a>
                 @using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
                 {
                     @Html.AntiForgeryToken()

@@ -3715,7 +3715,7 @@ tbody.collapse.in {
 .tt-dropdown-menu {
   position: absolute;
   top: 100%;
-  left: 0% !important;
+  left: auto !important; /*Merve Düzenledi 0 dı */ 
   z-index: 9999 !important;
   display: none;
   float: left;
