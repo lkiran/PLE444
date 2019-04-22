@@ -3715,7 +3715,7 @@ tbody.collapse.in {
 .tt-dropdown-menu {
   position: absolute;
   top: 100%;
-  left: auto !important; /*Merve Düzenledi 0 dı */ 
+  /*left: 0 !important; /*Merve Sildi */ 
   z-index: 9999 !important;
   display: none;
   float: left;
@@ -26353,4 +26353,9 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
   cursor: pointer;
   width: 14px;
   height: 14px;
+}
+
+.operation-buttons {
+	padding-top: 5px;
+	padding-bottom: 10px;
 }

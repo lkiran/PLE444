@@ -1,4 +1,4 @@
-﻿@model PLE444.Models.Course
+﻿@model PLE444.ViewModels.CourseCreateViewModel
 
 @{
 	ViewBag.Title = "Ders Oluştur";
@@ -39,15 +39,19 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<div class="control-label col-md-2">
-					</div>
+					@Html.LabelFor(model => model.CanEveryoneJoin, htmlAttributes: new { @class = "control-label col-md-2" })
+
 					<div class="col-md-10">
 						<table style="max-width: 100px;">
 							<tr>
 								<td><small class="m-sm">Gizli</small></td>
 								<td class="m-sm">
 									<div class="demo-switches">
-										@Html.CheckBoxFor(model => model.CanEveryoneJoin, htmlAttributes: new { @class = "bootstrap-switch", data_size = "mini", data_on_color = "warning", data_off_color = "success", data_on_text = "&nbsp;", data_off_text = "&nbsp" })
+										@Html.CheckBoxFor(model => model.CanEveryoneJoin, htmlAttributes: new { @class = "bootstrap-switch", data_size = "mini",
+									   data_on_color = "success",
+									   data_off_color = "warning",
+									   data_on_text = "&nbsp;",
+									   data_off_text = "&nbsp" })
 									</div>
 								</td>
 								<td><small class="m-sm">Görünür</small></td>
@@ -58,7 +62,7 @@
 
 				<div class="form-group">
 					<div class="col-md-offset-2 col-md-10">
-						<input type="submit" value="Oluştur" class="btn btn-success  pull-right" />
+						<input type="submit" value="Oluştur" class="btn btn-success pull-right" />
 					</div>
 				</div>
 			</div>
@@ -86,6 +90,6 @@
 				]
 			});
 		});
-	</script>
+	</script>@Scripts.Render("~/bundles/jqueryval")
 }
 

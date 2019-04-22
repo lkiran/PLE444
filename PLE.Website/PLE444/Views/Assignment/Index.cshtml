@@ -15,9 +15,16 @@
 }
 
 @if (Model.CanEdit && Model.CourseInfo.IsCourseActive == true){
-	<a href="@Url.Action("Create", "Assignment", new{id = Model.CourseInfo.Id})" class="btn btn-primary-alt center-block">
-		<i class="fa fa-plus"></i> Yeni Ödev Ekle
-	</a>
+
+	
+<div class="row operation-buttons">
+	<div class=" col-md-offset-10 col-md-2">
+		<a href="@Url.Action("Create","Assignment", new{id = Model.CourseInfo.Id})" class="btn btn-primary center-block">
+			<i class="fa fa-plus"></i> Yeni Ödev Ekle
+		</a>
+	</div>
+</div>
+	
 }
 
 <div class="panel-default" id="accordionA">
@@ -212,7 +219,10 @@
 								method: "POST",
 								dataType: 'json',
 								success: function (response) {
-									object.parent("div").parent("div").parent("div").slideUp();
+									console.log(response);
+									//object.parent("div").parent("div").parent("div").slideUp();
+									object.parent("div").parent("div").parent("div").parent("div").remove();
+
 								},
 								error: function (response) {
 									console.log(response);

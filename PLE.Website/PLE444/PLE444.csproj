@@ -248,6 +248,18 @@
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\UserHelper.cs" />
     <Compile Include="Helpers\ViewHelper.cs" />
+    <Compile Include="Migrations\201903251037509_hidden.cs" />
+    <Compile Include="Migrations\201903251037509_hidden.Designer.cs">
+      <DependentUpon>201903251037509_hidden.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904041314523_assignment.cs" />
+    <Compile Include="Migrations\201904041314523_assignment.Designer.cs">
+      <DependentUpon>201904041314523_assignment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904141234273_header.cs" />
+    <Compile Include="Migrations\201904141234273_header.Designer.cs">
+      <DependentUpon>201904141234273_header.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -2251,6 +2263,17 @@
       <Project>{7df5f085-db4a-4f0c-a091-3122d1a8e988}</Project>
       <Name>PLE.Website.Service</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201903251037509_hidden.resx">
+      <DependentUpon>201903251037509_hidden.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904041314523_assignment.resx">
+      <DependentUpon>201904041314523_assignment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904141234273_header.resx">
+      <DependentUpon>201904141234273_header.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
