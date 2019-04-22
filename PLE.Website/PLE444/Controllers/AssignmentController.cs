@@ -88,17 +88,21 @@ namespace PLE444.Controllers {
 
 				db.SaveChanges();
 
-				var emails = db.UserCourses
+				var joinedUsers = db.UserCourses
 					.Where(uc => uc.CourseId == model.CourseId && uc.IsActive && uc.DateJoin != null)
 					.Include(uc => uc.User)
-					.Select(uc => uc.User)
-					.Select(u => u.Email);
+					.Select(uc => uc.User).ToList();
+				List<string> emails = new List<string>();
+				foreach (var item in joinedUsers) {
+					emails.Add(item.Email);
+				}
 
 				//Send email to participants if there any
 				if (emails != null || emails.Any()) {
-					var mail = new MailMessage() {
-						Subject = course.Heading + " dersine " + model.Title + " ödevi eklendi.",
-						Body = ViewRenderer.RenderView("~/Views/Mail/NewAssignment.cshtml", new ViewDataDictionary()
+					try {
+						var mail = new MailMessage() {
+							Subject = course.Heading + " dersine " + model.Title + " ödevi eklendi.",
+							Body = ViewRenderer.RenderView("~/Views/Mail/NewAssignment.cshtml", new ViewDataDictionary()
 						{
 							{"title", model.Title},
 							{"deadline", model.Deadline},
@@ -106,13 +110,18 @@ namespace PLE444.Controllers {
 							{"course", course.Heading},
 							{"courseId", assignment.Id}
 						})
-					};
+						};
 
-					mail.IsBodyHtml = true;
-					foreach (var receiver in emails.ToList())
-						mail.Bcc.Add(receiver);
+						mail.IsBodyHtml = true;
+						foreach (var receiver in emails.ToList())
+							mail.Bcc.Add(receiver);
 
-					await ms.SendAsync(mail);
+						await ms.SendAsync(mail);
+					}
+					catch(Exception ex) {
+						Console.WriteLine(ex.ToString());
+					}
+					
 				}
 
 				return RedirectToAction("Index", "Assignment", new { id = model.CourseId });

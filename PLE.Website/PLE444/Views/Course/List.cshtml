@@ -5,10 +5,19 @@
 	ViewBag.Title = "Ders Listesi";
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<a href="@Url.Action("Create","Course")" class="btn btn-primary-alt center-block">
-	<i class="fa fa-plus"></i> Yeni Ders Ekle
-</a>
+<div class="row">
+	<div class="col-md-3">
+		<h2>Dersler</h2>
+	</div>
+</div>
+	
+<div class="row operation-buttons">
+	<div class=" col-md-offset-10 col-md-2">
+		<a href="@Url.Action("Create","Course")" class="btn btn-primary center-block">
+			<i class="fa fa-plus"></i> Yeni Ders Ekle
+		</a>
+	</div>
+</div>
 
 <div class="panel panel-default" data-widget='{"draggable": "false"}'>
 	<div class="panel-heading">

@@ -27,9 +27,9 @@ namespace PLE444.Controllers {
 					CourseInfo = course,
 				};
                 if(!isCourseCreator(course))
-				    model.ChapterList = db.Chapters.Where(i => i.CourseId == id && i.IsActive && !i.IsHidden ).OrderByDescending(c => c.OrderBy).Include("Materials").ToList();
+				    model.ChapterList = db.Chapters.Where(i => i.CourseId == id && i.IsActive && !i.IsHidden ).OrderByDescending(c => c.OrderBy).ThenBy(x=>x.DateAdded).Include("Materials").ToList();
                 else
-                   model.ChapterList = db.Chapters.Where(i => i.CourseId == id && i.IsActive).OrderByDescending(c => c.OrderBy).Include("Materials").ToList();
+                   model.ChapterList = db.Chapters.Where(i => i.CourseId == id && i.IsActive).OrderByDescending(c => c.OrderBy).ThenBy(x => x.DateAdded).Include("Materials").ToList();
 
                 return View(model);
 			}

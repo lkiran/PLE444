@@ -3,6 +3,7 @@
 
 *@
 <!DOCTYPE html>
+
 <html lang="tr">
 <head>
 	<meta charset="utf-8">
@@ -14,6 +15,9 @@
 	<meta name="description" content="Description Here">
 	<meta name="author" content="Author Name Here">
 	<link type='text/css' href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600' rel='stylesheet'>
+
+	<script type="text/javascript" src="~/Scripts/moment.js"></script>
+	<script src="~/Scripts/moment-with-locales.js"></script>
 	@Styles.Render("~/Content/fonts/font-awesome/css/font-awesome.min.css") <!-- Font Awesome -->
 	@Styles.Render("~/Content/fonts/themify-icons/themify-icons.css") <!-- Themify Icons -->
 	@Styles.Render("~/Content/css/styles.css") <!-- Core CSS with all styles -->
@@ -24,6 +28,9 @@
 	@Styles.Render("~/Content/plugins/summernote/dist/summernote.css")
 	@Styles.Render("~/Content/plugins/switchery/switchery.css")
 	@Styles.Render("~/Content/plugins/jquery-scrollbar/jquery.scrollbar.css")
+	@Styles.Render("~/Content/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css")
+
+
 
 	@RenderSection("styles", required: false)
 
@@ -67,95 +74,95 @@
 				<a href="#"><span class="icon-bg"><i class="ti ti-search"></i></span></a>
 			</li>
 			@*<li class="dropdown toolbar-icon-bg">
-				<a href="#" class="hasnotifications dropdown-toggle" data-toggle='dropdown'>
-					Derslerim <i class="ti-angle-down"></i>
+					<a href="#" class="hasnotifications dropdown-toggle" data-toggle='dropdown'>
+						Derslerim <i class="ti-angle-down"></i>
 
-				</a>
-				<div class="dropdown-menu notifications arrow">
-					<div class="topnav-dropdown-header">
-						<span>Notifications</span>
+					</a>
+					<div class="dropdown-menu notifications arrow">
+						<div class="topnav-dropdown-header">
+							<span>Notifications</span>
+						</div>
+						<div class="scroll-pane">
+							<ul class="media-list scroll-content">
+								<li class="media notification-success">
+									<a href="#">
+										<div class="media-left">
+											<span class="notification-icon"><i class="ti ti-check"></i></span>
+										</div>
+										<div class="media-body">
+											<h4 class="notification-heading">Update 1.0.4 successfully pushed</h4>
+											<span class="notification-time">8 mins ago</span>
+										</div>
+									</a>
+								</li>
+								<li class="media notification-info">
+									<a href="#">
+										<div class="media-left">
+											<span class="notification-icon"><i class="ti ti-check"></i></span>
+										</div>
+										<div class="media-body">
+											<h4 class="notification-heading">Update 1.0.3 successfully pushed</h4>
+											<span class="notification-time">24 mins ago</span>
+										</div>
+									</a>
+								</li>
+								<li class="media notification-teal">
+									<a href="#">
+										<div class="media-left">
+											<span class="notification-icon"><i class="ti ti-check"></i></span>
+										</div>
+										<div class="media-body">
+											<h4 class="notification-heading">Update 1.0.2 successfully pushed</h4>
+											<span class="notification-time">16 hours ago</span>
+										</div>
+									</a>
+								</li>
+								<li class="media notification-indigo">
+									<a href="#">
+										<div class="media-left">
+											<span class="notification-icon"><i class="ti ti-check"></i></span>
+										</div>
+										<div class="media-body">
+											<h4 class="notification-heading">Update 1.0.1 successfully pushed</h4>
+											<span class="notification-time">2 days ago</span>
+										</div>
+									</a>
+								</li>
+								<li class="media notification-danger">
+									<a href="#">
+										<div class="media-left">
+											<span class="notification-icon"><i class="ti ti-arrow-up"></i></span>
+										</div>
+										<div class="media-body">
+											<h4 class="notification-heading">Initial Release 1.0</h4>
+											<span class="notification-time">4 days ago</span>
+										</div>
+									</a>
+								</li>
+							</ul>
+						</div>
+						<div class="topnav-dropdown-footer">
+							<a href="#">See all notifications</a>
+						</div>
 					</div>
-					<div class="scroll-pane">
-						<ul class="media-list scroll-content">
-							<li class="media notification-success">
-								<a href="#">
-									<div class="media-left">
-										<span class="notification-icon"><i class="ti ti-check"></i></span>
-									</div>
-									<div class="media-body">
-										<h4 class="notification-heading">Update 1.0.4 successfully pushed</h4>
-										<span class="notification-time">8 mins ago</span>
-									</div>
-								</a>
-							</li>
-							<li class="media notification-info">
-								<a href="#">
-									<div class="media-left">
-										<span class="notification-icon"><i class="ti ti-check"></i></span>
-									</div>
-									<div class="media-body">
-										<h4 class="notification-heading">Update 1.0.3 successfully pushed</h4>
-										<span class="notification-time">24 mins ago</span>
-									</div>
-								</a>
-							</li>
-							<li class="media notification-teal">
-								<a href="#">
-									<div class="media-left">
-										<span class="notification-icon"><i class="ti ti-check"></i></span>
-									</div>
-									<div class="media-body">
-										<h4 class="notification-heading">Update 1.0.2 successfully pushed</h4>
-										<span class="notification-time">16 hours ago</span>
-									</div>
-								</a>
-							</li>
-							<li class="media notification-indigo">
-								<a href="#">
-									<div class="media-left">
-										<span class="notification-icon"><i class="ti ti-check"></i></span>
-									</div>
-									<div class="media-body">
-										<h4 class="notification-heading">Update 1.0.1 successfully pushed</h4>
-										<span class="notification-time">2 days ago</span>
-									</div>
-								</a>
-							</li>
-							<li class="media notification-danger">
-								<a href="#">
-									<div class="media-left">
-										<span class="notification-icon"><i class="ti ti-arrow-up"></i></span>
-									</div>
-									<div class="media-body">
-										<h4 class="notification-heading">Initial Release 1.0</h4>
-										<span class="notification-time">4 days ago</span>
-									</div>
-								</a>
-							</li>
-						</ul>
-					</div>
-					<div class="topnav-dropdown-footer">
-						<a href="#">See all notifications</a>
-					</div>
-				</div>
-			</li>*@
+				</li>*@
 
-			
+
 			@{ Html.RenderAction("LogedInUser", "Layout"); }
 
 			@*<li class="dropdown toolbar-icon-bg">
-				<a href="#" class="dropdown-toggle username" data-toggle="dropdown">
-					<img class="img-circle" src="http://placehold.it/300&text=Placeholder" alt="" />
-				</a>
-				<ul class="dropdown-menu userinfo arrow">
-					<li><a href="#/"><i class="ti ti-user"></i><span>Profile</span><span class="badge badge-info pull-right">80%</span></a></li>
-					<li><a href="#/"><i class="ti ti-panel"></i><span>Account</span></a></li>
-					<li><a href="#/"><i class="ti ti-settings"></i><span>Settings</span></a></li>
-		
-					<li class="divider"></li>
-					<li><a href="#/"><i class="ti ti-shift-right"></i><span>Sign Out</span></a></li>
-				</ul>
-			</li>*@
+					<a href="#" class="dropdown-toggle username" data-toggle="dropdown">
+						<img class="img-circle" src="http://placehold.it/300&text=Placeholder" alt="" />
+					</a>
+					<ul class="dropdown-menu userinfo arrow">
+						<li><a href="#/"><i class="ti ti-user"></i><span>Profile</span><span class="badge badge-info pull-right">80%</span></a></li>
+						<li><a href="#/"><i class="ti ti-panel"></i><span>Account</span></a></li>
+						<li><a href="#/"><i class="ti ti-settings"></i><span>Settings</span></a></li>
+
+						<li class="divider"></li>
+						<li><a href="#/"><i class="ti ti-shift-right"></i><span>Sign Out</span></a></li>
+					</ul>
+				</li>*@
 
 		</ul>
 
@@ -197,34 +204,34 @@
 
 	<div id="wrapper">
 		<div id="layout-static">
-			@*<div class="static-sidebar-wrapper sidebar-midnightblue">
-					<div class="static-sidebar">
-						<div class="sidebar scrollbar-outer" id="SidebarDiv" style="height: calc(100vh - 60px)">
-							<div class="widget">
-							</div>
-							<div class="widget" id="widget-sidebar">
-								<nav role="navigation" class="widget-body">
-									<ul class="acc-menu">
-										<li>
-											<a href="@Url.Action("List","Course")"><i class="ti ti-book"></i><span>Dersler</span></a>
-											<ul class="" style="display: block;">
-												@{ Html.RenderAction("Courses", "Layout"); }
+			@*burası*@<div class="static-sidebar-wrapper sidebar-midnightblue">
+				<div class="static-sidebar">
+					<div class="sidebar scrollbar-outer" id="SidebarDiv" style="height: calc(100vh - 60px)">
+						<div class="widget">
+						</div>
+						<div class="widget" id="widget-sidebar">
+							<nav role="navigation" class="widget-body">
+								<ul class="acc-menu">
+									<li>
+										<a href="@Url.Action("List","Course")"><i class="ti ti-book"></i><span>Dersler</span></a>
+										<ul class="" style="display: block;">
+											@{ Html.RenderAction("Courses", "Layout"); }
 
-											</ul>
-										</li>
-										<li>
-											<a href="@Url.Action("List","Community")"><i class="ti ti-comments"></i><span>Gruplar</span></a>
-											<ul class="" style="display: block;">
-												@{ Html.RenderAction("Communities", "Layout"); }
-											</ul>
-										</li>
+										</ul>
+									</li>
+									<li>
+										<a href="@Url.Action("List","Community")"><i class="ti ti-comments"></i><span>Gruplar</span></a>
+										<ul class="" style="display: block;">
+											@{ Html.RenderAction("Communities", "Layout"); }
+										</ul>
+									</li>
 
-									</ul>
-								</nav>
-							</div>
+								</ul>
+							</nav>
 						</div>
 					</div>
-				</div>*@
+				</div>
+			</div>@*bitis*@
 			<div class="static-content-wrapper">
 				<div class="static-content">
 					<div class="page-content">
@@ -290,6 +297,11 @@
 	@Scripts.Render("~/Scripts/bootbox.js")
 	@Scripts.Render("~/Content/plugins/jQuery.dotdotdot/jquery.dotdotdot.min.js")
 	@Scripts.Render("~/Content/plugins/jquery-scrollbar/jquery.scrollbar.min.js")
+	@Scripts.Render("~/Content/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js")
+	@Scripts.Render("~/Content/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js")
+
+	@Scripts.Render("~/Content/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.tr.js")
+	@Scripts.Render("~/Content/plugins/fullcalendar/moment.min.js")
 
 
 
@@ -297,7 +309,6 @@
 
 
 
-	
 
 
 
@@ -344,6 +355,19 @@
 						the last character of the truncated text. */
 					noEllipsis: []
 				}
+			});
+		});
+		$(function () {
+			var date = new Date();
+			date.setDate(date.getDate());
+			$('.datetimepicker1').datetimepicker({
+
+				startDate: date,
+				inline: true,
+				format: 'dd.mm.yyyy hh:ii',
+				autoclose: true,
+				sideBySide: true,
+				language: 'tr'
 			});
 		});
 	</script>
