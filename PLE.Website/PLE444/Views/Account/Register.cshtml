@@ -1,20 +1,21 @@
 ﻿@model PLE444.ViewModels.RegisterViewModel
 @{
-	ViewBag.Title = "Kayıt";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Kayıt";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @section styles
 {
-	<style>
+    @*22.04.2019 Z.G .cropit-preview'ın with ve hegight ını 250 den 100 e çektim *@
+    <style>
 	  .cropit-preview {
 		background-image: url(@Url.Content("~/Content/img/pp.jpg"));
 		background-size: cover;
 		border: 1px solid #ccc;
 		margin-top: 7px;
 		border-radius: 50%;
-		width: 250px;
-		height: 250px;
+        width: 100px;
+		height: 100px;
 		margin: 0 auto;
 	  }
 
@@ -40,157 +41,186 @@
 
 	.image-editor table tr td > i {
 		font-size: 16px;
-		margin-left: 10px;
-		margin-right: 10px;
+		margin-left: 20px;
+		margin-right: 20px;
 	}
-	</style>
+    </style>
 }
 
 <div class="panel panel-default">
-	<div class="panel-heading">
-		<h2>Yeni Kayıt</h2>
-	</div>
-	<div class="panel-body">
-		@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" })) {
-			@Html.AntiForgeryToken()
+    <div class="panel-heading">
+        <h2>Yeni Kayıt</h2>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form", enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
 
-			@Html.ValidationSummary("", new { @class = "text-danger" })
-			<div class="form-group">
-				@Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-				<div class="col-md-4">
-					@Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-				</div>
-			</div>
+            @Html.ValidationSummary("", new { @class = "text-danger" })
 
-			<div class="form-group">
-				<div class="row m-n">
-					@Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-					<div class="col-md-3">
-						@Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-					</div>
+            //22.04.2019 Z.G -- yeri değişti
+            <div class="form-group">
+                @Html.LabelFor(model => model.uploadFile, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-5">
 
-					@Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-					<div class="col-md-3">
-						@Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-					</div>
-				</div>
-			</div>
+                    <div class="image-editor ">
+                        <input type="file" class="cropit-image-input">
 
-			<hr />
+                        <div class="cropit-preview"></div>
+                        <table>
+                            <tr>
+                                <td class="text-center" title="Saat yönünün tersinde çevir" style="width: 4%;">
+                                    <i class="fa fa-rotate-left rotate-ccw-btn"></i>
+                                </td>
 
-			<div class="form-group">
-				<div class="row m-n">
-					@Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
-					<div class="col-md-3">
-						@Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
-					</div>
+                                <td class="text-center" style="width: 4%;"><i class="fa fa-search-minus"></i></td>
+                                <td><input type="range" class="cropit-image-zoom-input form-control slider" id="zoomSlider"></td>
+                                <td class="text-center" style="width: 4%;"><i class="fa  fa-search-plus"></i></td>
 
-					@Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
-					<div class="col-md-3">
-						@Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
-					</div>
-				</div>
-			</div>
+                                <td class="text-center" title="Saat yönünde çevir" style="width: 4%;">
+                                    <i class="fa fa-rotate-right rotate-cw-btn"></i>
+                                </td>
+                            </tr>
+                        </table>
+                        <a class="btn btn-primary-alt" id="selectImage"><i class="fa fa-file-image-o"></i> Seç</a>
+                        <input type="hidden" name="image-data" class="hidden-image-data" />
+                    </div>
+                </div>
+            </div>
+            //End
 
-			<div class="form-group">
-				@Html.LabelFor(m => m.Gender, new { @class = "col-md-2 control-label" })
-				<div class="col-md-3">
-					@Html.DropDownList("Gender", EnumHelper.GetSelectList(typeof(PLE444.Models.GenderType), PLE444.Models.GenderType.Belirtilmedi), new { @class = "form-control" })
-				</div>
-			</div>
+            <div class="form-group">
 
-			<div class="form-group">
-				@Html.LabelFor(model => model.uploadFile, htmlAttributes: new { @class = "control-label col-md-2" })
-				<div class="col-md-5">
-					<a class="btn btn-primary-alt" id="selectImage"><i class="fa fa-file-image-o"></i> Seç</a>
-					<div class="image-editor ">
-						<input type="file" class="cropit-image-input">
+                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                <div class="col-md-4">
+                    <div>
 
-						<div class="cropit-preview"></div>
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    </div>
 
-						<table>
-							<tr>
-								<td class="text-center" title="Saat yönünün tersinde çevir" style="width: 10%;">
-									<i class="fa fa-rotate-left rotate-ccw-btn"></i>
-								</td>
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger", placeholder = "E-Posta" })
 
-								<td class="text-center" style="width: 10%;"><i class="fa fa-search-minus"></i></td>
-								<td><input type="range" class="cropit-image-zoom-input form-control slider" id="zoomSlider"></td>
-								<td class="text-center" style="width: 10%;"><i class="fa  fa-search-plus"></i></td>
+                </div>
+            </div>
+            <div class="form-group">
 
-								<td class="text-center" title="Saat yönünde çevir" style="width: 10%;">
-									<i class="fa fa-rotate-right rotate-cw-btn"></i>
-								</td>
-							</tr>
-						</table>
+                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+                <div class="col-md-4">
+                    <div>
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger", placeholder = "Şifre" })
+                </div>
+            </div>
 
-						<input type="hidden" name="image-data" class="hidden-image-data" />
-					</div>
-				</div>
-			</div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+                <div class="col-md-4">
+                    <div>
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger", placeholder = "Şifre Tekrar" })
+                </div>
+            </div>
 
-			<div class="form-group">
-				@Html.LabelFor(m => m.PhoneNo, new { @class = "col-md-2 control-label" })
-				<div class="col-md-4">
-					@Html.TextBoxFor(m => m.PhoneNo, new { @class = "form-control" })
-				</div>
-			</div>
+            <hr />
 
-			<hr />
+            <div class="form-group">
 
-			<div class="form-group">
-				@Html.LabelFor(m => m.Vision, new { @class = "col-md-2 control-label" })
-				<div class="col-md-8">
-					@Html.TextAreaFor(m => m.Vision, new { @class = "form-control" })
-				</div>
-			</div>
-			<div class="form-group">
-				@Html.LabelFor(m => m.Mission, new { @class = "col-md-2 control-label" })
-				<div class="col-md-8">
-					@Html.TextAreaFor(m => m.Mission, new { @class = "form-control" })
-				</div>
-			</div>
+                @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-4">
+                    <div>
+                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger", placeholder = "İsim" })
+                </div>
 
-			<input type="hidden" name="photoBase64" value="" />
+            </div>
 
-			<div class="form-group">
-				<div class="col-md-offset-2 col-md-8">
-					<input type="submit" value="Kayıt Ol" class="btn btn-success" />
-				</div>
-			</div>
+            <div class="form-group">
 
-		}
-	</div>
+                @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-4">
+                    <div>
+                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                    </div>
+                    @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger", placeholder = "Soyisim" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Gender, new { @class = "col-md-2 control-label" })
+                <div class="col-md-4">
+                    @Html.DropDownList("Gender", EnumHelper.GetSelectList(typeof(PLE444.Models.GenderType), PLE444.Models.GenderType.Belirtilmedi), new { @class = "form-control" })
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.PhoneNo, new { @class = "col-md-2 control-label" })
+                <div class="col-md-4">
+                    @Html.TextBoxFor(m => m.PhoneNo, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Vision, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.TextAreaFor(m => m.Vision, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Mission, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.TextAreaFor(m => m.Mission, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <input type="hidden" name="photoBase64" value="" />
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-8">
+                    <input type="submit" value="Kayıt Ol" class="btn btn-success" />
+                </div>
+            </div>
+
+        }
+    </div>
 </div>
 
 @section scripts
 {
-	@Scripts.Render("~/Content/plugins/cropit-master/dist/jquery.cropit.js")
+    @Scripts.Render("~/Content/plugins/cropit-master/dist/jquery.cropit.js")
 
-	<script>
-		$(function () {
-			$('.image-editor').cropit();
+    <script>
+        $(function () {
+            $('.image-editor').cropit();
 
-			$('form').submit(function (e) {
-				// Move cropped image data to hidden input
-				var imageData = $('.image-editor').cropit('export');
-				$("form").find('input[name="photoBase64"]').val(imageData);
-			});
+            $('form').submit(function (e) {
+                // Move cropped image data to hidden input
+                var imageData = $('.image-editor').cropit('export');
+                $("form").find('input[name="photoBase64"]').val(imageData);
+            });
 
-			$('.rotate-cw-btn').click(function () {
-				console.log("cw");
-				$('.image-editor').cropit('rotateCW');
-			});
-			$('.rotate-ccw-btn').click(function () {
-				console.log("ccw");
-				$('.image-editor').cropit('rotateCCW');
-			});
+            $('.rotate-cw-btn').click(function () {
+                console.log("cw");
+                $('.image-editor').cropit('rotateCW');
+            });
+            $('.rotate-ccw-btn').click(function () {
+                console.log("ccw");
+                $('.image-editor').cropit('rotateCCW');
+            });
 
-			$('#selectImage').click(function () {
-				$('.cropit-image-input').click();
-			});
-		});
-	</script>
+            $('#selectImage').click(function () {
+                $('.cropit-image-input').click();
+            });
+        });
+    </script>
+    @Scripts.Render("~/bundles/jqueryval")
 }
+
 
 
