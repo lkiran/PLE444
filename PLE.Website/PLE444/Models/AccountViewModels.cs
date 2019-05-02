@@ -51,12 +51,12 @@ namespace PLE444.Models
 
 	public class LoginViewModel
 	{
-		[Required]
+		[Required(ErrorMessage ="E-Posta alanı boş bırakılamaz.")]
 		[Display(Name = "E-Posta")]
-		[EmailAddress]
+		[EmailAddress(ErrorMessage = "Lütfen E-Posta adresinizi geçerli formata giriniz.")]
 		public string Email { get; set; }
 
-		[Required]
+		[Required(ErrorMessage = "Şifre alanı boş bırakılamaz.")]
 		[DataType(DataType.Password)]
 		[Display(Name = "Şifre")]
 		public string Password { get; set; }
@@ -67,13 +67,13 @@ namespace PLE444.Models
 
 	public class ResetPasswordViewModel
 	{
-		[Required]
-		[EmailAddress]
+		[Required(ErrorMessage = "E-Posta alanı boş bırakılamaz.")]
+		[EmailAddress(ErrorMessage = "Lütfen E-Posta adresinizi geçerli formata giriniz.")]
 		[Display(Name = "E-Posta")]
 		public string Email { get; set; }
 
-		[Required]
-		[StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+		[Required(ErrorMessage = "Şifre alanı boş bırakılamaz.")]
+		[StringLength(100, ErrorMessage = " {0} en az {2} karakter uzunluğunda olmalıdır.", MinimumLength = 6)]
 		[DataType(DataType.Password)]
 		[Display(Name = "Şifre")]
 		public string Password { get; set; }
@@ -88,8 +88,8 @@ namespace PLE444.Models
 
 	public class ForgotPasswordViewModel
 	{
-		[Required]
-		[EmailAddress]
+		[Required(ErrorMessage = "E-Posta alanı boş bırakılamaz.")]
+		[EmailAddress(ErrorMessage = "Lütfen E-Posta adresinizi geçerli formata giriniz.")]
 		[Display(Name = "Email")]
 		public string Email { get; set; }
 	}

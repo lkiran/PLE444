@@ -4563,25 +4563,88 @@ tbody.collapse.in {
 
 .dropdown-menu,
 .tt-dropdown-menu {
-	position: absolute;
-	top: 100%;
-	left: 0% !important;
-	z-index: 9999 !important;
-	display: none;
-	float: left;
-	min-width: 160px;
-	padding: 5px 0;
-	margin: 2px 0 0;
-	list-style: none;
-	font-size: 14px;
-	text-align: left;
-	background-color: #ffffff;
-	border: 1px solid #cccccc;
-	border: 1px solid #e0e0e0;
-	border-radius: 2px;
-	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
-	background-clip: padding-box;
+  position: absolute;
+  top: 100%;
+  /*left: 0 !important; /*Merve Sildi */ 
+  z-index: 9999 !important;
+  display: none;
+  float: left;
+  min-width: 160px;
+  padding: 5px 0;
+  margin: 2px 0 0;
+  list-style: none;
+  font-size: 14px;
+  text-align: left;
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border: 1px solid #e0e0e0;
+  border-radius: 2px;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+  background-clip: padding-box;
+}
+.dropdown-menu.pull-right,
+.tt-dropdown-menu.pull-right {
+  right: 0;
+  left: auto;
+}
+.dropdown-menu .divider,
+.tt-dropdown-menu .divider {
+  height: 1px;
+  margin: 9px 0;
+  overflow: hidden;
+  background-color: #eeeeee;
+}
+.dropdown-menu > li > a,
+.tt-dropdown-menu > li > a,
+.tt-suggestion > p {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: normal;
+  line-height: 1.45;
+  color: #616161;
+  white-space: nowrap;
+}
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus,
+.tt-dropdown-menu > li > a:hover,
+.tt-dropdown-menu > li > a:focus {
+  text-decoration: none;
+  color: #212121;
+  background-color: #f5f5f5;
+}
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > a:hover,
+.dropdown-menu > .active > a:focus,
+.tt-dropdown-menu > .active > a,
+.tt-dropdown-menu > .active > a:hover,
+.tt-dropdown-menu > .active > a:focus,
+.tt-suggestion > p:hover,
+.tt-suggestion > p:focus,
+.tt-suggestion.tt-cursor > p {
+  color: #ffffff;
+  text-decoration: none;
+  outline: 0;
+  background-color: #f5f5f5;
+}
+.dropdown-menu > .disabled > a,
+.dropdown-menu > .disabled > a:hover,
+.dropdown-menu > .disabled > a:focus,
+.tt-dropdown-menu > .disabled > a,
+.tt-dropdown-menu > .disabled > a:hover,
+.tt-dropdown-menu > .disabled > a:focus {
+  color: #bdbdbd;
+}
+.dropdown-menu > .disabled > a:hover,
+.dropdown-menu > .disabled > a:focus,
+.tt-dropdown-menu > .disabled > a:hover,
+.tt-dropdown-menu > .disabled > a:focus {
+  text-decoration: none;
+  background-color: transparent;
+  background-image: none;
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+  cursor: not-allowed;
 }
 
 	.dropdown-menu.pull-right,
@@ -31120,4 +31183,9 @@ span[data-style="panel-brown"] {
 	cursor: pointer;
 	width: 14px;
 	height: 14px;
+}
+
+.operation-buttons {
+	padding-top: 5px;
+	padding-bottom: 10px;
 }

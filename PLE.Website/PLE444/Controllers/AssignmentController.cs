@@ -39,11 +39,15 @@ namespace PLE444.Controllers {
 				CanUpload = isMember(course.Id),
 				CurrentUserId = User.GetPrincipal()?.User.Id
 			};
-			
-			model.AssignmentList = db.Assignments.Include("Uploads").Include("Uploads.Owner").Where(a => a.Course.Id == id).ToList();
 
-			return View(model);
-		}
+            if (!isCourseCreator(course))
+                model.AssignmentList = db.Assignments.Where(i => i.CourseId == id && i.IsActive && !i.IsHidden).Include("Uploads").ToList();
+            else
+
+                model.AssignmentList = db.Assignments.Where(i => i.CourseId == id && i.IsActive).Include("Uploads").ToList();
+
+            return View(model);
+        }
 
 		public ActionResult Create(Guid id) {
 			if (!isCourseCreator(id))
@@ -73,7 +77,9 @@ namespace PLE444.Controllers {
 					DateAdded = DateTime.Now,
 					Title = model.Title,
 					Description = model.Description,
-					Deadline = model.Deadline
+					Deadline = model.Deadline,
+                    IsHidden=model.IsHidden
+         
 				};
 				db.Assignments.Add(assignment);
 
@@ -82,17 +88,21 @@ namespace PLE444.Controllers {
 
 				db.SaveChanges();
 
-				var emails = db.UserCourses
+				var joinedUsers = db.UserCourses
 					.Where(uc => uc.CourseId == model.CourseId && uc.IsActive && uc.DateJoin != null)
 					.Include(uc => uc.User)
-					.Select(uc => uc.User)
-					.Select(u => u.Email);
+					.Select(uc => uc.User).ToList();
+				List<string> emails = new List<string>();
+				foreach (var item in joinedUsers) {
+					emails.Add(item.Email);
+				}
 
 				//Send email to participants if there any
 				if (emails != null || emails.Any()) {
-					var mail = new MailMessage() {
-						Subject = course.Heading + " dersine " + model.Title + " ödevi eklendi.",
-						Body = ViewRenderer.RenderView("~/Views/Mail/NewAssignment.cshtml", new ViewDataDictionary()
+					try {
+						var mail = new MailMessage() {
+							Subject = course.Heading + " dersine " + model.Title + " ödevi eklendi.",
+							Body = ViewRenderer.RenderView("~/Views/Mail/NewAssignment.cshtml", new ViewDataDictionary()
 						{
 							{"title", model.Title},
 							{"deadline", model.Deadline},
@@ -100,13 +110,18 @@ namespace PLE444.Controllers {
 							{"course", course.Heading},
 							{"courseId", assignment.Id}
 						})
-					};
+						};
 
-					mail.IsBodyHtml = true;
-					foreach (var receiver in emails.ToList())
-						mail.Bcc.Add(receiver);
+						mail.IsBodyHtml = true;
+						foreach (var receiver in emails.ToList())
+							mail.Bcc.Add(receiver);
 
-					await ms.SendAsync(mail);
+						await ms.SendAsync(mail);
+					}
+					catch(Exception ex) {
+						Console.WriteLine(ex.ToString());
+					}
+					
 				}
 
 				return RedirectToAction("Index", "Assignment", new { id = model.CourseId });
@@ -152,7 +167,7 @@ namespace PLE444.Controllers {
 				assignment.Deadline = model.Deadline;
 				assignment.Description = model.Description;
 				assignment.Title = model.Title;
-
+                assignment.IsHidden = model.IsHidden;
 				db.Entry(assignment).State = EntityState.Modified;
 				db.SaveChanges();
 

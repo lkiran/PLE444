@@ -15,9 +15,16 @@
 }
 
 @if (Model.CanEdit && Model.CourseInfo.IsCourseActive == true){
-	<a href="@Url.Action("Create", "Assignment", new{id = Model.CourseInfo.Id})" class="btn btn-primary-alt center-block">
-		<i class="fa fa-plus"></i> Yeni Ödev Ekle
-	</a>
+
+	
+<div class="row operation-buttons">
+	<div class=" col-md-offset-10 col-md-2">
+		<a href="@Url.Action("Create","Assignment", new{id = Model.CourseInfo.Id})" class="btn btn-primary center-block">
+			<i class="fa fa-plus"></i> Yeni Ödev Ekle
+		</a>
+	</div>
+</div>
+	
 }
 
 <div class="panel-default" id="accordionA">
@@ -42,15 +49,22 @@
 			}
 		}
 		<div class="panel panel-@panelColor">
-			<div class="panel-heading" style="cursor: pointer" data-toggle="collapse" data-parent="#accordionA" class="Assignment" href="#@assignment.Id">
+            <div class="panel-heading" style="cursor: pointer" data-toggle="collapse" data-parent="#accordionA" class="Assignment" href="#@assignment.Id">
 
-				<h2>@assignment.Title</h2>
+                <h2>@assignment.Title</h2>
 
-			
-				<div class="pull-right" title="@assignment.DateAdded">
-					@h.GetDeltaDate(assignment.DateAdded)
-				</div>
-			</div>
+
+                <div class="pull-right" title="@assignment.DateAdded">
+                    @h.GetDeltaDate(assignment.DateAdded)
+
+                    @if (assignment.IsHidden)
+                    {
+                        <i class="ti ti-lock" title="Gizli"></i>
+                    }
+
+                </div>
+                
+            </div>
 
 
 			<div id="@assignment.Id" class="collapse">
@@ -205,7 +219,10 @@
 								method: "POST",
 								dataType: 'json',
 								success: function (response) {
-									object.parent("div").parent("div").parent("div").slideUp();
+									console.log(response);
+									//object.parent("div").parent("div").parent("div").slideUp();
+									object.parent("div").parent("div").parent("div").parent("div").remove();
+
 								},
 								error: function (response) {
 									console.log(response);

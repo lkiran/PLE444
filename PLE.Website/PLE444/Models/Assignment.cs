@@ -45,9 +45,11 @@ namespace PLE444.Models
 		public DateTime Deadline { get; set; }
 
 		public DateTime DateAdded { get; set; }
+        public bool IsHidden { get; set; }
 
-		public virtual ICollection<Document> Uploads { get; set; }
+        public virtual ICollection<Document> Uploads { get; set; }
 
 		public bool IsFeedbackPublished { get; set; }
-	}
+       
+    }
 }

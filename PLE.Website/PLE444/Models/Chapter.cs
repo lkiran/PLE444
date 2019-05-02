@@ -15,9 +15,10 @@ namespace PLE444.Models
 		{
 			Id = Guid.NewGuid();
 			IsActive = true;
+            IsHidden = false;
 		}
 
-		[Required]
+		[Required ]
 		public Guid Id { get; set; }
 
 		[HiddenInput]
@@ -26,7 +27,7 @@ namespace PLE444.Models
 		[ForeignKey("CourseId")]
 		public virtual Course Course { get; set; }
 
-		[Required]
+		[Required(ErrorMessage = "Ders başlığı girilmesi zorunludur")]
 		[DisplayName("Başlık")]
 		public string Title { get; set; }
 
@@ -42,6 +43,8 @@ namespace PLE444.Models
 		public DateTime DateAdded { get; set; }
 
 		public bool IsActive { get; set; }
+
+        public bool IsHidden { get; set; }
 
 		public virtual ICollection<Material> Materials { get; set; }
 	}

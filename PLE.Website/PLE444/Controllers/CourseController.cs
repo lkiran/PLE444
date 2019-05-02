@@ -118,11 +118,18 @@ namespace PLE444.Controllers
 			if (id == null)
 				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-			var model = db.Courses.FirstOrDefault(c => c.Id == id);
-			if (model == null)
+			var course = db.Courses.FirstOrDefault(c => c.Id == id);
+			if (course == null)
 				return HttpNotFound();
+			var model = new CourseCreateViewModel {
+				CanEveryoneJoin = course.CanEveryoneJoin,
+				Code = course.Code,
+				Description = course.Description,
+				Name = course.Name,
+				Id = course.Id,
 
-			if (!isCourseCreator(model))
+			};
+			if (!isCourseCreator(course))
 				return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
 			return View(model);
@@ -131,9 +138,9 @@ namespace PLE444.Controllers
 		[HttpPost]
 		[PleAuthorization]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit(Course model) {
+		public ActionResult Edit(CourseCreateViewModel courseModel) {
 			if (ModelState.IsValid) {
-				var course = db.Courses.FirstOrDefault(c => c.Id == model.Id);
+				var course = db.Courses.FirstOrDefault(c => c.Id == courseModel.Id);
 
 				if (course == null)
 					return HttpNotFound();
@@ -141,10 +148,10 @@ namespace PLE444.Controllers
 				if (!isCourseCreator(course))
 					return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
-				course.CanEveryoneJoin = model.CanEveryoneJoin;
-				course.Code = model.Code;
-				course.Name = model.Name;
-				course.Description = model.Description;
+				course.CanEveryoneJoin = courseModel.CanEveryoneJoin;
+				course.Code = courseModel.Code;
+				course.Name = courseModel.Name;
+				course.Description = courseModel.Description;
 				course.Timeline.Add(new TimelineEntry {
 					ColorClass = "timeline-primary",
 					CreatorId = course.CreatorId,
@@ -155,10 +162,10 @@ namespace PLE444.Controllers
 
 				db.Entry(course).State = EntityState.Modified;
 				db.SaveChanges();
-				return RedirectToAction("Index", new { id = model.Id });
+				return RedirectToAction("Index", new { id = courseModel.Id });
 
 			}
-			return View(model);
+			return View(courseModel);
 		}
 		#endregion
 
