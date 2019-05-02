@@ -16,6 +16,27 @@ namespace PLE.Website.Service
 		public CourseService() {
 			_client = new PleClient();
 		}
+
+		public bool Join(Guid courseId) {
+			var result = _client.Get<bool>($"api/course/Join/{courseId}");
+			return result;
+		}
+
+		public bool Leave(Guid courseId) {
+			var result = _client.Get<bool>($"api/course/Leave/{courseId}");
+			return result;
+		}
+
+		public bool Approve(List<int> ids) {
+			var result = _client.Get<bool>($"api/course/Approve/{string.Join(",", ids)}");
+			return result;
+		}
+
+		public bool Eject(string userId, Guid courseId) {
+			var result = _client.Get<bool>($"api/course/Eject?user={userId}&from={courseId}");
+			return result;
+		}
+
 		public Guid Create(CourseDto request) {
 			var result = _client.Post<Guid>("api/course/Create", request);
 			return result;

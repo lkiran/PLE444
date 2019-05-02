@@ -10,6 +10,7 @@ using AutoMapper;
 using Microsoft.AspNet.Identity;
 using PLE.Contract.DTOs;
 using PLE.Contract.DTOs.Requests;
+using PLE.Contract.DTOs.Responses;
 using PLE.Contract.Enums;
 using PLE.Service.Models;
 
@@ -44,29 +45,101 @@ namespace PLE.Service.Implementations
 			return result;
 		}
 
-		public Guid Create(CourseDto request) {
-			var course = Mapper.Map<Course>(request);
-			course.Id = Guid.NewGuid();
-			course.DateCreated = DateTime.Now;
-			course.Timeline = new List<TimelineEntry>
+		public bool Join(string userId, Guid courseId) {
+			var course = GetActiveCourseById(courseId);
+			var uc = _db.UserCourses.FirstOrDefault(i => i.UserId == userId.ToString() && i.Course.CopiedFromId == course.CopiedFromId);
+
+			if (uc == null) {
+				uc = new UserCourse {
+					UserId = userId,
+					Course = course
+				};
+
+				_db.UserCourses.Add(uc);
+			} else {
+				uc.IsActive = true;
+				_db.Entry(uc).State = EntityState.Modified;
+			}
+
+			_db.SaveChanges();
+
+			return true;
+		}
+
+		public bool Leave(string userId, Guid courseId) {
+			var uc = _db.UserCourses.FirstOrDefault(i => i.UserId == userId.ToString() && i.Course.Id == courseId)
+					 ?? throw new Exception($"The user membership is not found for the user with id={userId} and the course with id={courseId}");
+
+			uc.IsActive = false;
+			uc.DateJoin = null;
+
+			_db.Entry(uc).State = EntityState.Modified;
+			_db.SaveChanges();
+
+			return true;
+		}
+
+		public bool Eject(string userId, Guid courseId) {
+			var uc = _db.UserCourses.FirstOrDefault(c => c.CourseId == courseId && c.UserId == userId.ToString())
+					 ?? throw new Exception($"The user membership is not found for the user with id={userId} and the course with id={courseId}");
+
+			uc.IsActive = false;
+			uc.DateJoin = null;
+
+			_db.Entry(uc).State = EntityState.Modified;
+			_db.SaveChanges();
+
+			return true;
+		}
+
+		public bool Approve(int membershipId) {
+			var userCourse = _db.UserCourses.FirstOrDefault(uc => uc.Id == membershipId)
+				?? throw new Exception($"The user membership with id={membershipId} is not found");
+
+			userCourse.DateJoin = DateTime.Now;
+
+			_db.Entry(userCourse).State = EntityState.Modified;
+			_db.SaveChanges();
+
+			return true;
+		}
+
+		public bool Approve(List<int> membershipIds) {
+			var memberships = _db.UserCourses.Where(uc => membershipIds.Contains(uc.Id));
+			foreach (var membership in memberships) {
+				membership.DateJoin = DateTime.Now;
+				_db.Entry(membership).State = EntityState.Modified;
+			}
+
+			_db.SaveChanges();
+
+			return true;
+		}
+
+
+		public Guid Create(CourseDto course) {
+			var mappedCourse = Mapper.Map<Course>(course);
+			mappedCourse.Id = Guid.NewGuid();
+			mappedCourse.DateCreated = DateTime.Now;
+			mappedCourse.Timeline = new List<TimelineEntry>
 			{
 				new TimelineEntry
 				{
 					Heading = "Ders oluşturuldu",
-					CreatorId = course.CreatorId,
+					CreatorId = mappedCourse.CreatorId,
 					DateCreated = DateTime.Now,
 					IconClass = "ti ti-plus"
 				}
 			};
 
-			course = _db.Courses.Add(course);
+			mappedCourse = _db.Courses.Add(mappedCourse);
 			_db.SaveChanges();
 
-			course.CopiedFromId = course.Id;
-			_db.Entry(course).State = EntityState.Modified;
+			mappedCourse.CopiedFromId = mappedCourse.Id;
+			_db.Entry(mappedCourse).State = EntityState.Modified;
 			_db.SaveChanges();
 
-			return course.Id;
+			return mappedCourse.Id;
 		}
 
 		public Guid Duplicate(DuplicateCourseRequestDto request) {
@@ -75,9 +148,9 @@ namespace PLE.Service.Implementations
 				.Include("Chapters")
 				.Include("Assignments")
 				.Include("Chapters.Materials")
-				.FirstOrDefault(c => c.Id == request.Id && c.IsCourseActive);
+				.FirstOrDefault(c => c.Id == request.Id);
 			if (courseToDuplicate == null)
-				throw new Exception($"An active Course term with id={request.Id} cannot be found");
+				throw new Exception($"A course with id={request.Id} cannot be found");
 
 			#region Duplicate Course
 			var newCourse = new Course {
@@ -147,12 +220,6 @@ namespace PLE.Service.Implementations
 			_db.Entry(newCourse).State = EntityState.Modified;
 			_db.SaveChanges();
 
-			#region Deactivate other terms
-			var terms = _db.Courses.Where(c => c.CopiedFromId == newCourse.CopiedFromId && c.Id != newCourse.Id).ToList();
-			terms.ForEach(t => t.IsCourseActive = false);
-			_db.SaveChanges();
-			#endregion
-
 			return newCourse.Id;
 		}
 
@@ -192,5 +259,15 @@ namespace PLE.Service.Implementations
 				.Concat(GetCreatorClaims(userId))
 				.Concat(GetMemberClaims(userId));
 		}
+
+		#region Private Methods
+
+		private Course GetActiveCourseById(Guid courseId) {
+			return _db.Courses.FirstOrDefault(i => i.Id == courseId && i.IsCourseActive)
+				   ?? throw new Exception($"Active course wit id={courseId} does not exist");
+		}
+
+
+		#endregion
 	}
 }

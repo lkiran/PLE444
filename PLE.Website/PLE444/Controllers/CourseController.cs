@@ -350,7 +350,7 @@ namespace PLE444.Controllers
 				db.SaveChanges();
 
 				var courseId = db.GradeTypes.Find(model.GradeTypeId).CourseId;
-				return RedirectToAction("Grades", "Course", new { courseId = courseId });
+				return RedirectToAction("Grades", "Course", new { courseId });
 			}
 			return View(model);
 		}
@@ -382,7 +382,7 @@ namespace PLE444.Controllers
 				db.SaveChanges();
 
 				var courseId = db.GradeTypes.Find(model.GradeTypeId).CourseId;
-				return RedirectToAction("Grades", "Course", new { courseId = courseId });
+				return RedirectToAction("Grades", "Course", new { courseId });
 			}
 			return View(model);
 		}
@@ -479,7 +479,7 @@ namespace PLE444.Controllers
 				return HttpNotFound();
 
 			if (!isMember(course) && !isCourseCreator(course))
-				return RedirectToAction("Index", "Course", new { id = id });
+				return RedirectToAction("Index", "Course", new { id });
 
 			var model = new DiscussionViewModel {
 				CId = course.Id,
@@ -679,65 +679,44 @@ namespace PLE444.Controllers
 
 		[PleAuthorization]
 		public ActionResult Join(Guid id) {
-			var userID = User.GetPrincipal()?.User.Id; ;
-			var c = db.Courses.FirstOrDefault(i => i.Id == id);
+			try {
+				var result = _courseService.Join(id);
+				if (result == false)
+					throw new Exception("An error has occured while joining the course");
+			} catch (Exception e) {
 
-			var uc = db.UserCourses.Where(u => u.UserId == userID).FirstOrDefault(i => i.Course.Id == id);
-
-			if (uc == null) {
-				uc = new UserCourse();
-				uc.UserId = userID;
-				uc.Course = c;
-
-				db.UserCourses.Add(uc);
-			} else {
-				uc.IsActive = true;
-				db.Entry(uc).State = EntityState.Modified;
+				throw;
 			}
-
-			db.SaveChanges();
-			return RedirectToAction("Index", new { id = id });
+			return RedirectToAction("Index", new { id });
 		}
 
 		[PleAuthorization]
 		public ActionResult Leave(Guid id) {
-			var userID = User.GetPrincipal()?.User.Id;
-			var c = db.Courses.FirstOrDefault(i => i.Id == id);
+			try {
+				var result = _courseService.Leave(id);
+				if (result == false)
+					throw new Exception("An error has occured while leaving the course");
+			} catch (Exception e) {
 
-			var uc = db.UserCourses.Where(u => u.UserId == userID).FirstOrDefault(i => i.Course.Id == id);
-
-			if (uc == null)
-				return HttpNotFound();
-
-			uc.IsActive = false;
-			uc.DateJoin = null;
-
-			db.Entry(uc).State = EntityState.Modified;
-			db.SaveChanges();
-
-
-			return RedirectToAction("Index", new { id = id });
+				throw;
+			}
+			return RedirectToAction("Index", new { id });
 		}
 
 		[PleAuthorization]
 		[HttpPost]
-		public ActionResult EjectUserFromCourse(string userId, Guid? courseId) {
-			if (userId.IsNullOrWhiteSpace() || courseId == null)
-				return Json(new { Success = false, Message = "BadRequest" }, JsonRequestBehavior.AllowGet);
+		public ActionResult EjectUserFromCourse(string userId, Guid courseId) {
+			try {
+				if (!isCourseCreator(courseId))
+					return Json(new { Success = false, Message = "Unauthorized" }, JsonRequestBehavior.AllowGet);
 
-			var uc = db.UserCourses.FirstOrDefault(c => c.CourseId == courseId && c.UserId == userId);
-			if (uc == null)
-				return Json(new { Success = false, Message = "HttpNotFound" }, JsonRequestBehavior.AllowGet);
+				var result = _courseService.Eject(userId, courseId);
+				if (result == false)
+					throw new Exception("An error has occured while leaving the course");
+			} catch (Exception e) {
 
-			if (!isCourseCreator(uc.CourseId))
-				return Json(new { Success = false, Message = "Unauthorized" }, JsonRequestBehavior.AllowGet);
-
-			uc.IsActive = false;
-			uc.DateJoin = null;
-
-			db.Entry(uc).State = EntityState.Modified;
-			db.SaveChanges();
-
+				throw;
+			}
 			return Json(new { Success = true, Message = "OK" }, JsonRequestBehavior.AllowGet);
 		}
 
