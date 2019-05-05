@@ -1,17 +1,10 @@
 ﻿@model PLE444.Models.Discussion
 @{
-	ViewBag.Title = "AddTitle";
-	Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "AddTitle";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="panel panel-default">
-<<<<<<< HEAD
-	<div class="panel-heading">
-		<h2>Ders</h2>
-	</div>
-	<div class="panel-body">
-		@using (Html.BeginForm("AddTitle", "Course", FormMethod.Post, new { enctype = "multipart/form-data" })) {
-			@Html.AntiForgeryToken()
     <div class="panel-heading">
         <h2>Ders</h2>
     </div>
@@ -32,31 +25,41 @@
 
                 </div>
 
-			<div class="form-horizontal">
-				@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-				<div class="form-group">
-					@Html.LabelFor(model => model.Topic, htmlAttributes: new { @class = "control-label col-md-2" })
-					<div class="col-md-10">
-						@Html.EditorFor(model => model.Topic, new { htmlAttributes = new { @class = "form-control" } })
-						@Html.ValidationMessageFor(model => model.Topic, "", new { @class = "text-danger" })
-					</div>
-				</div>
+                <input type="hidden" name="courseId" id="courseId" value="@ViewBag.CourseId">
 
-				<input type="hidden" name="courseId" id="courseId" value="@ViewBag.CourseId">
-
-				<div class="form-group">
-					<div class="col-md-offset-2 col-md-8">
-						<input type="submit" value="EKLE" class="btn btn-default" />
-					</div>
-				</div>
-			</div>
-		}
-	</div>
-	<div class="panel-footer"></div>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-8">
+                        <input type="submit" value="EKLE" class="btn btn-default" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="control-label col-md-2">
+                    </div>
+                    <div class="col-md-10">
+                        <table style="max-width: 100px;">
+                            <tr>
+                                <td><small class="m-sm">Göster</small></td>
+                                <td class="m-sm">
+                                    <div class="demo-switches">
+                                        @Html.CheckBoxFor(model => model.IsHidden, htmlAttributes: new { @class = "bootstrap-switch",
+                                       data_size = "mini",
+                                       data_on_color = "success",
+                                       data_off_color = "warning",
+                                       data_on_text = "&nbsp;",
+                                       data_off_text = "&nbsp" })
+                                    </div>
+                                </td>
+                                <td><small class="m-sm">Gizle</small></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="panel-footer"></div>
 </div>
-@section scripts
-{
-	@Scripts.Render("~/bundles/jqueryval")
+
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 				<div class="form-group">
