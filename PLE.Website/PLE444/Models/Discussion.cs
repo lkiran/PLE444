@@ -25,16 +25,16 @@ namespace PLE444.Models
         public Discussion()
         {
             ID = Guid.NewGuid();
-           
-            IsHidden = false;
         }
 
         public Guid ID { get; set; }
+		[Required(ErrorMessage = "Tartışma konusu girilmesi zorunludur")]
+		[DisplayName("Konu")]
+		public string Topic { get; set; }
 
      
         public string Topic { get; set; }
 
-        
         [ForeignKey("Creator")]
         public string CreatorId { get; set; }
 
@@ -45,9 +45,5 @@ namespace PLE444.Models
         public virtual ICollection<Message> Messages { get; set; }
         
         public virtual ICollection<Reading> Readings { get; set; }
-        //zennur güler 04.05.2019
-        public bool IsHidden { get; set; }
-  
-
     }
 }
