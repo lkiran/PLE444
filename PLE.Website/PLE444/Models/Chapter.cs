@@ -27,7 +27,7 @@ namespace PLE444.Models
 		[ForeignKey("CourseId")]
 		public virtual Course Course { get; set; }
 
-		[Required(ErrorMessage = "Bölüm başlığı girilmesi zorunludur")]
+		[Required(ErrorMessage = "Ders başlığı girilmesi zorunludur")]
 		[DisplayName("Başlık")]
 		public string Title { get; set; }
 
