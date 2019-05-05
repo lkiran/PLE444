@@ -5,7 +5,6 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<script src="~/Content/plugins/fullcalendar/lib/jquery-ui.custom.min.js"></script>
 
 <div class="panel panel-default">
 	<div class="panel-heading">
@@ -54,18 +53,18 @@
 					<div class="col-md-10">
 						<table style="max-width: 100px;">
 							<tr>
-								<td><small class="m-sm">Gizle</small></td>
+								<td><small class="m-sm">Göster</small></td>
 								<td class="m-sm">
 									<div class="demo-switches">
 										@Html.CheckBoxFor(model => model.IsHidden, htmlAttributes: new { @class = "bootstrap-switch",
 									   data_size = "mini",
-									   data_on_color = "success",
-									   data_off_color = "warning",
+									   data_on_color = "warning",
+									   data_off_color = "success",
 									   data_on_text = "&nbsp;",
 									   data_off_text = "&nbsp" })
 									</div>
 								</td>
-								<td><small class="m-sm">Göster</small></td>
+								<td><small class="m-sm">Gizle</small></td>
 							</tr>
 						</table>
 					</div>

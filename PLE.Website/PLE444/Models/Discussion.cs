@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
@@ -26,8 +28,9 @@ namespace PLE444.Models
         }
 
         public Guid ID { get; set; }
-
-        public string Topic { get; set; }
+		[Required(ErrorMessage = "Tartışma konusu girilmesi zorunludur")]
+		[DisplayName("Konu")]
+		public string Topic { get; set; }
 
         [ForeignKey("Creator")]
         public string CreatorId { get; set; }

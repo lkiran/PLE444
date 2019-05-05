@@ -39,7 +39,11 @@
 								<td><small class="m-sm">Görünür</small></td>
 								<td class="m-sm">
 									<div class="demo-switches">
-										@Html.CheckBoxFor(model => model.IsHiden, htmlAttributes: new { @class = "bootstrap-switch", data_size = "mini", data_on_color = "success", data_off_color = "warning", data_on_text = "&nbsp;", data_off_text = "&nbsp" })
+										@Html.CheckBoxFor(model => model.IsHiden, htmlAttributes: new { @class = "bootstrap-switch", data_size = "mini",
+									   data_on_color = "warning",
+									   data_off_color = "success",
+									   data_on_text = "&nbsp;",
+									   data_off_text = "&nbsp" })
 									</div>
 								</td>
 								<td><small class="m-sm">Gizli</small></td>
@@ -94,4 +98,5 @@
 			});
 		});
 	</script>
+	@Scripts.Render("~/bundles/jqueryval")
 }

@@ -29,6 +29,7 @@
 	@Styles.Render("~/Content/plugins/switchery/switchery.css")
 	@Styles.Render("~/Content/plugins/jquery-scrollbar/jquery.scrollbar.css")
 	@Styles.Render("~/Content/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css")
+	<script src="~/Content/plugins/fullcalendar/lib/jquery-ui.custom.min.js"></script>
 
 
 
@@ -46,7 +47,7 @@
 
 </head>
 <body class="animated-content">
-	<header id="topnav" class="navbar navbar-default navbar-fixed-top" role="banner">
+	@*<header id="topnav" class="navbar navbar-default navbar-fixed-top" role="banner">
 
 		<div class="logo-area">
 			<span id="trigger-sidebar" class="toolbar-trigger toolbar-icon-bg">
@@ -145,7 +146,7 @@
 							<a href="#">See all notifications</a>
 						</div>
 					</div>
-				</li>*@
+				</li> yorumsonuuu
 
 
 			@{ Html.RenderAction("LogedInUser", "Layout"); }
@@ -162,12 +163,12 @@
 						<li class="divider"></li>
 						<li><a href="#/"><i class="ti ti-shift-right"></i><span>Sign Out</span></a></li>
 					</ul>
-				</li>*@
+				</li> yorumm sonuuu
 
 		</ul>
 
-	</header>
-	@*
+	</header> *@
+	
 			<header id="topnav" class="navbar navbar-default navbar-fixed-top navbar-indigo" role="banner">
 			<div class="logo-area">
 				<span id="trigger-sidebar" class="toolbar-trigger toolbar-icon-bg">
@@ -180,13 +181,13 @@
 
 				<a title="Ana Sayfa" class="toolbar-icon-bg" href="@Url.Action("Index","Home")"><h3 style="color: white; line-height: 25px;">PLE</h3></a>
 
-				<div class="toolbar-icon-bg hidden-xs" id="toolbar-search">
+				@*<div class="toolbar-icon-bg hidden-xs" id="toolbar-search">
 				<div class="input-group">
 					<span class="input-group-btn"><button class="btn" type="button"><i class="ti ti-search"></i></button></span>
 					<input type="text" class="form-control" placeholder="Grup, Soru veya Ders ara...">
 					<span class="input-group-btn"><button class="btn" type="button"><i class="ti ti-close"></i></button></span>
 				</div>
-			</div>
+			</div>*@
 			</div><!-- logo-area -->
 			<ul class="nav navbar-nav toolbar pull-right">
 				<li class="toolbar-icon-bg visible-xs-block" id="trigger-toolbar-search">
@@ -200,7 +201,7 @@
 				@{ Html.RenderAction("LogedInUser", "Layout"); }
 			</ul>
 		</header>
-	*@
+	
 
 	<div id="wrapper">
 		<div id="layout-static">

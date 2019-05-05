@@ -29,7 +29,8 @@ namespace PLE444.Models
 		[ForeignKey("Course")]
 		public Guid CourseId { get; set; }
 
-		[Required]
+		
+		[Required(ErrorMessage = "Ödev başlığı girilmesi zorunludur")]
 		[DisplayName("Başlık")]
 		public string Title { get; set; }
 
@@ -41,7 +42,7 @@ namespace PLE444.Models
 		[Required]
 		[DisplayName("Teslim Tarihi")]
 		[DataType(DataType.Date)]
-		[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm:ss}", ApplyFormatInEditMode = true)]
+		[DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}", ApplyFormatInEditMode = true)]
 		public DateTime Deadline { get; set; }
 
 		public DateTime DateAdded { get; set; }
