@@ -5,12 +5,32 @@
 }
 
 <div class="panel panel-default">
+<<<<<<< HEAD
 	<div class="panel-heading">
 		<h2>Ders</h2>
 	</div>
 	<div class="panel-body">
 		@using (Html.BeginForm("AddTitle", "Course", FormMethod.Post, new { enctype = "multipart/form-data" })) {
 			@Html.AntiForgeryToken()
+    <div class="panel-heading">
+        <h2>Ders</h2>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm("AddTitle", "Course", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-horizontal">
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Topic, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Topic, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Topic, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
 
 			<div class="form-horizontal">
 				@Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -37,4 +57,6 @@
 @section scripts
 {
 	@Scripts.Render("~/bundles/jqueryval")
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }

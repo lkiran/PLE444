@@ -32,6 +32,9 @@ namespace PLE444.Models
 		[DisplayName("Konu")]
 		public string Topic { get; set; }
 
+     
+        public string Topic { get; set; }
+
         [ForeignKey("Creator")]
         public string CreatorId { get; set; }
 
