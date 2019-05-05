@@ -248,9 +248,17 @@
     <Compile Include="Helpers\FileHelper.cs" />
     <Compile Include="Helpers\UserHelper.cs" />
     <Compile Include="Helpers\ViewHelper.cs" />
-    <Compile Include="Migrations\201905051807360_deneme.cs" />
-    <Compile Include="Migrations\201905051807360_deneme.Designer.cs">
-      <DependentUpon>201905051807360_deneme.cs</DependentUpon>
+    <Compile Include="Migrations\201903141323052_init.cs" />
+    <Compile Include="Migrations\201903141323052_init.Designer.cs">
+      <DependentUpon>201903141323052_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903301249287_yeni.cs" />
+    <Compile Include="Migrations\201903301249287_yeni.Designer.cs">
+      <DependentUpon>201903301249287_yeni.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903301404072_assignment.cs" />
+    <Compile Include="Migrations\201903301404072_assignment.Designer.cs">
+      <DependentUpon>201903301404072_assignment.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -2257,8 +2265,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201905051807360_deneme.resx">
-      <DependentUpon>201905051807360_deneme.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201903141323052_init.resx">
+      <DependentUpon>201903141323052_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903301249287_yeni.resx">
+      <DependentUpon>201903301249287_yeni.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903301404072_assignment.resx">
+      <DependentUpon>201903301404072_assignment.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
