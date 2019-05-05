@@ -42,8 +42,5 @@ namespace PLE444.Models
 		public virtual ICollection<TimelineEntry> Timeline { get; set; }
 
 		public string Heading => Code + " - " + Name;
-        public bool IsHidden { get; set; }
-
-     
-    }
+	}
 }

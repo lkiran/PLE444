@@ -15,6 +15,5 @@ namespace PLE444.ViewModels
 		public List<Discussion> Discussion { get; set; }
 
 		public bool IsActive { get; set; }
-        public bool IsHidden { get; set; }
 	}
 }
