@@ -6,8 +6,10 @@ using System.Web.Mvc;
 using PLE444.ViewModels;
 using System.Data.Entity;
 
-namespace PLE444.Controllers {
-	public class ChapterController : Controller {
+namespace PLE444.Controllers
+{
+	public class ChapterController : Controller
+	{
 		private PleDbContext db = new PleDbContext();
 
 		[PleAuthorization]
@@ -21,17 +23,19 @@ namespace PLE444.Controllers {
 
 				if (!isMember(course) && !isCourseCreator(course))
 					return RedirectToAction("Index", "Course", new { id = course.Id });
-				
+
 				var model = new Chapters {
 					canEdit = isCourseCreator(course),
 					CourseInfo = course,
+					ChapterList = db.Chapters
+						.OrderByDescending(c => c.OrderBy).ThenBy(x => x.DateAdded)
+						.Include("Materials"),
 				};
-                if(!isCourseCreator(course))
-				    model.ChapterList = db.Chapters.Where(i => i.CourseId == id && i.IsActive && !i.IsHidden ).OrderByDescending(c => c.OrderBy).ThenBy(x=>x.DateAdded).Include("Materials").ToList();
-                else
-                   model.ChapterList = db.Chapters.Where(i => i.CourseId == id && i.IsActive).OrderByDescending(c => c.OrderBy).ThenBy(x => x.DateAdded).Include("Materials").ToList();
+				model.ChapterList = !isCourseCreator(course)
+					? model.ChapterList.Where(i => i.CourseId == id && i.IsActive && !i.IsHidden)
+					: model.ChapterList.Where(i => i.CourseId == id && i.IsActive);
 
-                return View(model);
+				return View(model);
 			}
 		}
 
@@ -54,12 +58,12 @@ namespace PLE444.Controllers {
 				return RedirectToAction("Index", "Home");
 
 			else if (ModelState.IsValid) {
-                var c = new Chapter {
-                    DateAdded = DateTime.Now,
-                    Title = chapter.Title,
-                    OrderBy = chapter.OrderBy,
-                    Description = chapter.Description,
-                    IsHidden = chapter.IsHidden
+				var c = new Chapter {
+					DateAdded = DateTime.Now,
+					Title = chapter.Title,
+					OrderBy = chapter.OrderBy,
+					Description = chapter.Description,
+					IsHidden = chapter.IsHidden
 				};
 
 				db.Chapters.Add(c);
@@ -103,7 +107,7 @@ namespace PLE444.Controllers {
 				chapterDb.Description = model.Description;
 				chapterDb.Title = model.Title;
 				chapterDb.OrderBy = model.OrderBy;
-                chapterDb.IsHidden = model.IsHidden;
+				chapterDb.IsHidden = model.IsHidden;
 				db.Entry(chapterDb).State = EntityState.Modified;
 				db.SaveChanges();
 
@@ -131,7 +135,7 @@ namespace PLE444.Controllers {
 			db.Entry(chapter).State = EntityState.Modified;
 			db.SaveChanges();
 
-			return Json(new { Success = true, Message = "OK"}, JsonRequestBehavior.AllowGet);
+			return Json(new { Success = true, Message = "OK" }, JsonRequestBehavior.AllowGet);
 		}
 
 		private bool isCourseCreator(Guid? courseId) {
@@ -175,6 +179,6 @@ namespace PLE444.Controllers {
 				return false;
 			return user.DateJoin == null;
 		}
-       
-    }
+
+	}
 }
