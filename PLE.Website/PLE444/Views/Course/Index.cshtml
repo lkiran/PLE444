@@ -92,10 +92,10 @@
 
 				@if ((Model.IsCourseCreator || Model.IsMember) && (Model.Course.Terms?.Any() ?? false)) {
 					<div class="pull-md-bottom mt-lg">
-						<b class="">Dönemler</b>
+						<b class="">Diğer Dönemler</b>
 						<br />
 						@foreach (var term in Model.Course.Terms.OrderBy(t => t.DateCreated)) {
-							<a href="@Url.Action("Index", "Chapter", new {id = term.Id})">@term.Name</a>
+							<a href="@Url.Action("Index", "Chapter", new {id = term.Id})">@term.Code @term.Name</a>
 							<br />
 						}
 					</div>
@@ -125,21 +125,19 @@
 										@h.GetDeltaDate(@timelineEntry.DateCreated)
 									</small>
 
-
 									@if (Model.IsCourseCreator && Model.Course.IsCourseActive == true) {
 										<a href="#" class="js-deleteEntry pull-right-lg pull-right-md" data-entry-id="@timelineEntry.Id">
 											<span class="text-danger">Sil</span>
 										</a>
 									}
-
-
 								</div>
+
 								<div class="timeline-content">
 									@if (!timelineEntry.Heading.IsNullOrWhiteSpace()) {
-										<h4>@timelineEntry.Heading</h4>
+										<h4>@Html.Raw(timelineEntry.Heading)</h4>
 									}
 									@if (!timelineEntry.Content.IsNullOrWhiteSpace()) {
-										<div class="pb-lg"> @(new HtmlString(@timelineEntry.Content))</div>
+										<div class="pb-lg"> @Html.Raw(timelineEntry.Content)</div>
 									}
 								</div>
 							</div>

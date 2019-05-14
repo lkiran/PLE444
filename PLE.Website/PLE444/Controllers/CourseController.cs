@@ -488,17 +488,26 @@ namespace PLE444.Controllers
 			if (!isMember(course) && !isCourseCreator(course))
 				return RedirectToAction("Index", "Course", new { id });
 
-			var model = new DiscussionViewModel {
+
+         
+
+            var model = new DiscussionViewModel {
 				CId = course.Id,
 				CurrentUserId = User.Identity?.GetUserId(),
 				Role = isCourseCreator(course) ? "Creator" : "Member",
-				Discussion = course.Discussion.ToList(),
-				IsActive = course.IsCourseActive
+				//Discussion = course.Discussion.ToList(),
+             
+            IsActive = course.IsCourseActive,
+            };
 
-			};
+            if (!isCourseCreator(course))
+                model.Discussion = course.Discussion.Where(i => i.IsHidden==false).ToList();
+            else
+                model.Discussion = course.Discussion.ToList();
 
-			return View(model);
-		}
+
+            return View(model);
+        }
 
 		#region Title
 		[PleAuthorization]
@@ -517,6 +526,8 @@ namespace PLE444.Controllers
 				d.CreatorId = User.Identity.GetUserId();
 				d.Topic = discussion.Topic;
 
+                d.IsHidden = discussion.IsHidden;
+
 				db.Discussions.Add(d);
 
 				var c = db.Courses.Find(courseId);
@@ -528,8 +539,9 @@ namespace PLE444.Controllers
 
 				return RedirectToAction("Discussion", new { id = courseId });
 			}
+           
 
-			return View();
+            return View();
 		}
 
 		[PleAuthorization]

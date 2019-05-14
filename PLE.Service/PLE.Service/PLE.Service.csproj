@@ -220,6 +220,15 @@
     <Compile Include="Implementations\CommunityService.cs" />
     <Compile Include="Implementations\CourseService.cs" />
     <Compile Include="Implementations\UserService.cs" />
+    <Compile Include="Migrations\201905141737178_14may.cs" />
+    <Compile Include="Migrations\201905141737178_14may.Designer.cs">
+      <DependentUpon>201905141737178_14may.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905141858312_discussionhiden.cs" />
+    <Compile Include="Migrations\201905141858312_discussionhiden.Designer.cs">
+      <DependentUpon>201905141858312_discussionhiden.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Answer.cs" />
     <Compile Include="Models\Assignment.cs" />
     <Compile Include="Models\Chapter.cs" />
@@ -285,6 +294,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Service\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201905141737178_14may.resx">
+      <DependentUpon>201905141737178_14may.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905141858312_discussionhiden.resx">
+      <DependentUpon>201905141858312_discussionhiden.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

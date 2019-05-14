@@ -23,8 +23,7 @@ namespace PLE.Service.Controllers
 		[Authorize]
 		[Route("Create")]
 		public IHttpActionResult Create(CourseDto request) {
-			try
-			{
+			try {
 				request.CreatorId = User.Identity.GetUserId();
 				var result = _courseService.Create(request);
 				return Ok(result);
@@ -79,6 +78,62 @@ namespace PLE.Service.Controllers
 		public IHttpActionResult GetByUser(Guid id) {
 			try {
 				var result = _courseService.Detail(id);
+				return Ok(result);
+			} catch (Exception e) {
+				return InternalServerError(e);
+			}
+		}
+
+		[HttpGet]
+		[Route("Join/{courseId}")]
+		public IHttpActionResult Join(Guid courseId) {
+			try {
+				if (User.Identity.GetUserId() == null)
+					return Unauthorized();
+				var userId = User.Identity.GetUserId();
+				var result = _courseService.Join(userId, courseId);
+				return Ok(result);
+			} catch (Exception e) {
+				return InternalServerError(e);
+			}
+		}
+
+		[HttpGet]
+		[Route("Leave/{courseId}")]
+		public IHttpActionResult Leave(Guid courseId) {
+			try {
+				if (User.Identity.GetUserId() == null)
+					return Unauthorized();
+				var userId = User.Identity.GetUserId();
+				var result = _courseService.Leave(userId, courseId);
+				return Ok(result);
+			} catch (Exception e) {
+				return InternalServerError(e);
+			}
+		}
+
+		[HttpGet]
+		[Route("Approve/{ids}")]
+		public IHttpActionResult Approve(string ids) {
+			try {
+				if (User.Identity.GetUserId() == null)
+					return Unauthorized();
+				var userId = User.Identity.GetUserId();
+				var membershipIds = ids.Split(',').Select(int.Parse).ToList();
+				var result = _courseService.Approve(membershipIds);
+				return Ok(result);
+			} catch (Exception e) {
+				return InternalServerError(e);
+			}
+		}
+
+		[HttpGet]
+		[Route("Eject")]
+		public IHttpActionResult Approve(string user, Guid @from) {
+			try {
+				if (User.Identity.GetUserId() == null)
+					return Unauthorized();
+				var result = _courseService.Eject(user, @from);
 				return Ok(result);
 			} catch (Exception e) {
 				return InternalServerError(e);

@@ -46,6 +46,7 @@ namespace PLE.Website.Service
 			var result = _client.Post<Guid>("api/course/Duplicate", request);
 			return result;
 		}
+		
 		public List<CourseDto> GetCourseListByUser([Optional]string userId) {
 			var result = _client.Get<List<CourseDto>>($"api/course/ListByUser/{userId}");
 			if (result == null)
@@ -59,8 +60,7 @@ namespace PLE.Website.Service
 			return result;
 		}
 
-
-
+		
 		public List<Claim> GetClaims() {
 			var result = _client.Get<List<ClaimDto>>("api/course/GetClaims");
 			return result.Select(c => new Claim(c.Key, c.Value)).ToList();

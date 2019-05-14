@@ -155,9 +155,10 @@ namespace PLE.Service.Implementations
 			#region Duplicate Course
 			var newCourse = new Course {
 				CopiedFromId = courseToDuplicate.CopiedFromId,
+				Description = courseToDuplicate.Description,
+				CanEveryoneJoin = courseToDuplicate.CanEveryoneJoin,
 				Code = request.NewCode,
 				Name = request.NewName,
-				Description = courseToDuplicate.Description,
 				CreatorId = userId,
 				DateCreated = DateTime.Now,
 				IsCourseActive = false,
@@ -165,7 +166,7 @@ namespace PLE.Service.Implementations
 				Chapters = new List<Chapter>(),
 				Timeline = new List<TimelineEntry> {
 					new TimelineEntry {
-						Heading = "Ders oluşturuldu",
+						Heading = $"<b>{courseToDuplicate.Name}</b> dersi için yeni dönem oluşturuldu",
 						CreatorId =  userId,
 						DateCreated = DateTime.Now,
 						IconClass = TimelineEntry.Icon.Plus
@@ -242,7 +243,7 @@ namespace PLE.Service.Implementations
 
 		public IEnumerable<ClaimDto> GetMemberClaims(string userId) {
 			var courses = _db.UserCourses.Where(uc => uc.UserId == userId && uc.IsActive && uc.DateJoin != null).Select(uc => uc.Course).ToList();
-			foreach (var userCourse in courses) // Include terms of courses
+			foreach (var userCourse in courses.ToList()) // Include terms of courses
 				courses.AddRange(_db.Courses.Where(c => c.CopiedFromId == userCourse.CopiedFromId));
 
 			return courses.Distinct().Select(t => new ClaimDto { Key = PleClaimType.Member, Value = t.Id.ToString() });
