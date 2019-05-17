@@ -1,8 +1,4 @@
-﻿@*
-	@Html.ActionLink("Contact", "Contact", "Home")
-
-*@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html lang="tr">
 <head>
@@ -28,25 +24,11 @@
 	@Styles.Render("~/Content/plugins/jquery-scrollbar/jquery.scrollbar.css")
 	@Styles.Render("~/Content/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css")
 	<script src="~/Content/plugins/fullcalendar/lib/jquery-ui.custom.min.js"></script>
-
-
-
 	@RenderSection("styles", required: false)
-
-
-
-
-	<!--[if lt IE 10]>
-		<script type="text/javascript" src="assets/js/media.match.min.js"></script>
-		<script type="text/javascript" src="assets/js/respond.min.js"></script>
-		<script type="text/javascript" src="assets/js/placeholder.min.js"></script>
-	<![endif]-->
-	<!-- The following CSS are included as plugins and can be removed if unused-->
-
 </head>
-<body class="animated-content">
-	@*<header id="topnav" class="navbar navbar-default navbar-fixed-top" role="banner">
 
+<body class="animated-content">
+	<header id="topnav" class="navbar navbar-default navbar-fixed-top navbar-indigo" role="banner">
 		<div class="logo-area">
 			<span id="trigger-sidebar" class="toolbar-trigger toolbar-icon-bg">
 				<a data-toggle="tooltips" data-placement="right" title="Toggle Sidebar">
@@ -56,154 +38,26 @@
 				</a>
 			</span>
 
-			<a class="navbar-brand" href="index.html">Avenxo</a>
+			<a title="Ana Sayfa" class="toolbar-icon-bg" href="@Url.Action("Index","Home")"><h3 style="color: white; line-height: 25px;">PLE</h3></a>
+		</div>
 
-			<div class="toolbar-icon-bg hidden-xs" id="toolbar-search">
-				<div class="input-group">
-					<span class="input-group-btn"><button class="btn" type="button"><i class="ti ti-search"></i></button></span>
-					<input type="text" class="form-control" placeholder="Search...">
-					<span class="input-group-btn"><button class="btn" type="button"><i class="ti ti-close"></i></button></span>
-				</div>
-			</div>
-
-		</div><!-- logo-area -->
 		<ul class="nav navbar-nav toolbar pull-right">
-
 			<li class="toolbar-icon-bg visible-xs-block" id="trigger-toolbar-search">
 				<a href="#"><span class="icon-bg"><i class="ti ti-search"></i></span></a>
 			</li>
-			@*<li class="dropdown toolbar-icon-bg">
-					<a href="#" class="hasnotifications dropdown-toggle" data-toggle='dropdown'>
-						Derslerim <i class="ti-angle-down"></i>
 
-					</a>
-					<div class="dropdown-menu notifications arrow">
-						<div class="topnav-dropdown-header">
-							<span>Notifications</span>
-						</div>
-						<div class="scroll-pane">
-							<ul class="media-list scroll-content">
-								<li class="media notification-success">
-									<a href="#">
-										<div class="media-left">
-											<span class="notification-icon"><i class="ti ti-check"></i></span>
-										</div>
-										<div class="media-body">
-											<h4 class="notification-heading">Update 1.0.4 successfully pushed</h4>
-											<span class="notification-time">8 mins ago</span>
-										</div>
-									</a>
-								</li>
-								<li class="media notification-info">
-									<a href="#">
-										<div class="media-left">
-											<span class="notification-icon"><i class="ti ti-check"></i></span>
-										</div>
-										<div class="media-body">
-											<h4 class="notification-heading">Update 1.0.3 successfully pushed</h4>
-											<span class="notification-time">24 mins ago</span>
-										</div>
-									</a>
-								</li>
-								<li class="media notification-teal">
-									<a href="#">
-										<div class="media-left">
-											<span class="notification-icon"><i class="ti ti-check"></i></span>
-										</div>
-										<div class="media-body">
-											<h4 class="notification-heading">Update 1.0.2 successfully pushed</h4>
-											<span class="notification-time">16 hours ago</span>
-										</div>
-									</a>
-								</li>
-								<li class="media notification-indigo">
-									<a href="#">
-										<div class="media-left">
-											<span class="notification-icon"><i class="ti ti-check"></i></span>
-										</div>
-										<div class="media-body">
-											<h4 class="notification-heading">Update 1.0.1 successfully pushed</h4>
-											<span class="notification-time">2 days ago</span>
-										</div>
-									</a>
-								</li>
-								<li class="media notification-danger">
-									<a href="#">
-										<div class="media-left">
-											<span class="notification-icon"><i class="ti ti-arrow-up"></i></span>
-										</div>
-										<div class="media-body">
-											<h4 class="notification-heading">Initial Release 1.0</h4>
-											<span class="notification-time">4 days ago</span>
-										</div>
-									</a>
-								</li>
-							</ul>
-						</div>
-						<div class="topnav-dropdown-footer">
-							<a href="#">See all notifications</a>
-						</div>
-					</div>
-				</li> yorumsonuuu
-
-
+			<li class="toolbar-icon-bg hidden-xs" id="trigger-fullscreen">
+				<a href="#" title="Tam Ekran" class="toggle-fullscreen"><span class="icon-bg"><i class="ti ti-fullscreen"></i></span></a>
+			</li>
+			
 			@{ Html.RenderAction("LogedInUser", "Layout"); }
-
-			@*<li class="dropdown toolbar-icon-bg">
-					<a href="#" class="dropdown-toggle username" data-toggle="dropdown">
-						<img class="img-circle" src="http://placehold.it/300&text=Placeholder" alt="" />
-					</a>
-					<ul class="dropdown-menu userinfo arrow">
-						<li><a href="#/"><i class="ti ti-user"></i><span>Profile</span><span class="badge badge-info pull-right">80%</span></a></li>
-						<li><a href="#/"><i class="ti ti-panel"></i><span>Account</span></a></li>
-						<li><a href="#/"><i class="ti ti-settings"></i><span>Settings</span></a></li>
-
-						<li class="divider"></li>
-						<li><a href="#/"><i class="ti ti-shift-right"></i><span>Sign Out</span></a></li>
-					</ul>
-				</li> yorumm sonuuu
-
 		</ul>
+	</header>
 
-	</header> *@
-	
-			<header id="topnav" class="navbar navbar-default navbar-fixed-top navbar-indigo" role="banner">
-			<div class="logo-area">
-				<span id="trigger-sidebar" class="toolbar-trigger toolbar-icon-bg">
-					<a data-toggle="tooltips" data-placement="right" title="Toggle Sidebar">
-						<span class="icon-bg">
-							<i class="ti ti-menu"></i>
-						</span>
-					</a>
-				</span>
-
-				<a title="Ana Sayfa" class="toolbar-icon-bg" href="@Url.Action("Index","Home")"><h3 style="color: white; line-height: 25px;">PLE</h3></a>
-
-				@*<div class="toolbar-icon-bg hidden-xs" id="toolbar-search">
-				<div class="input-group">
-					<span class="input-group-btn"><button class="btn" type="button"><i class="ti ti-search"></i></button></span>
-					<input type="text" class="form-control" placeholder="Grup, Soru veya Ders ara...">
-					<span class="input-group-btn"><button class="btn" type="button"><i class="ti ti-close"></i></button></span>
-				</div>
-			</div>*@
-			</div><!-- logo-area -->
-			<ul class="nav navbar-nav toolbar pull-right">
-				<li class="toolbar-icon-bg visible-xs-block" id="trigger-toolbar-search">
-						<a href="#"><span class="icon-bg"><i class="ti ti-search"></i></span></a>
-					</li>
-
-				<li class="toolbar-icon-bg hidden-xs" id="trigger-fullscreen">
-					<a href="#" alt="Tam Ekran" class="toggle-fullscreen"><span class="icon-bg"><i class="ti ti-fullscreen"></i></span></a>
-				</li>
-
-				@{ Html.RenderAction("LogedInUser", "Layout"); }
-			</ul>
-		</header>
-	
 
 	<div id="wrapper">
 		<div id="layout-static">
-			@*burası*@<div class="static-sidebar-wrapper sidebar-midnightblue">
+			<div class="static-sidebar-wrapper sidebar-midnightblue">
 				<div class="static-sidebar">
 					<div class="sidebar scrollbar-outer" id="SidebarDiv" style="height: calc(100vh - 60px)">
 						<div class="widget">
@@ -230,7 +84,7 @@
 						</div>
 					</div>
 				</div>
-			</div>@*bitis*@
+			</div>
 			<div class="static-content-wrapper">
 				<div class="static-content">
 					<div class="page-content">
@@ -244,17 +98,6 @@
 										@RenderBody()
 									</div>
 								</div>
-								@*<div class="col-md-3">
-										<div class="panel panel-default" data-widget='{"draggable": "false"}'>
-											<div class="panel-heading">
-												<h2>Panel</h2>
-												<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
-											</div>
-											<div class="panel-body">
-												Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.
-											</div>
-										</div>
-									</div>*@
 							</div>
 						</div>
 					</div> <!-- #page-content -->
@@ -270,11 +113,7 @@
 		</div>
 	</div>
 
-
-
 	<!-- Load site level scripts -->
-	<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script> -->
 	@Scripts.Render("~/Content/js/jquery-1.10.2.min.js")<!-- Load jQuery -->
 	@Scripts.Render("~/Content/js/jqueryui-1.10.3.min.js")	<!-- Load jQueryUI -->
 	@Scripts.Render("~/Content/js/bootstrap.min.js")<!-- Load Bootstrap -->
@@ -311,41 +150,19 @@
 			});
 
 			$(".ellipsis").dotdotdot({
-				/*	The text to add as ellipsis. */
 				ellipsis: '...',
-
-				/*	Wrap-option fallback to 'letter' for long words */
 				fallbackToLetter: true,
-
-				/*	jQuery-selector for the element to keep and put after the ellipsis. */
 				after: null,
-
-				/*	Whether to update the ellipsis: true/'window' */
 				watch: true,
-
-				/*	Optionally set a max-height, can be a number or function.
-					If null, the height will be measured. */
 				height: 48,
-
-				/*	Deviation for the height-option. */
 				tolerance: 0,
-
-				/*	Callback function that is fired after the ellipsis is added,
-					receives two parameters: isTruncated(boolean), orgContent(string). */
 				callback: function (isTruncated, orgContent) { },
-
 				lastCharacter: {
-
-					/*	Remove these characters from the end of the truncated text. */
 					remove: [' ', ',', ';', '.', '!', '?'],
-
-					/*	Don't add an ellipsis if this array contains
-						the last character of the truncated text. */
 					noEllipsis: []
 				}
 			});
-		});
-		$(function () {
+
 			var date = new Date();
 			date.setDate(date.getDate());
 			$('.date-time-picker').datetimepicker({
@@ -369,11 +186,10 @@
 			});
 		});
 	</script>
-
-
 	<!-- End loading site level scripts -->
+
 	<!-- Load page level scripts-->
-	<!-- End loading page level scripts-->
 	@RenderSection("scripts", required: false)
+	<!-- End loading page level scripts-->
 </body>
 </html>

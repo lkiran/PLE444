@@ -6,6 +6,8 @@ namespace PLE.Contract.DTOs
 	{
 		public string Id { get; set; }
 
+		public RoleType Role { get; set; }
+
 		public string Password { get; set; }
 
 		public TokenDto Token { get; set; }
@@ -28,8 +30,10 @@ namespace PLE.Contract.DTOs
 
 		public string Mission { get; set; }
 
-		public string FullName() => FirstName + " " + LastName;
+		public string FullName() => $"{FirstName} {LastName}";
 
-		public string UserPhoto() => string.IsNullOrWhiteSpace(ProfilePicture) ? "~/Content/img/pp.jpg" : ProfilePicture;
+		public string UserPhoto() => string.IsNullOrWhiteSpace(ProfilePicture) 
+			? "~/Content/img/pp.jpg" 
+			: ProfilePicture;
 	}
 }

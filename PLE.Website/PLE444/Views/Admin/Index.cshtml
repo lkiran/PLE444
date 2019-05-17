@@ -1,0 +1,36 @@
+﻿@model PLE444.ViewModels.AdminIndexViewModel
+@{
+	ViewBag.Title = "Administration";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+	<div class="col-md-3">
+		<div class="info-tile tile-orange" style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);">
+			<a href="@Url.Action("Users","Admin")">
+				<div class="tile-icon"><i class="ti ti-id-badge"></i></div>
+				<div class="tile-heading"><span>Kullanıcılar</span></div>
+				<div class="tile-body"><span>@Model.UserCount</span> <small>kişi</small></div>
+			</a>
+		</div>
+	</div>
+
+	<div class="col-md-3">
+		<div class="info-tile tile-success" style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);">
+			<a href="@Url.Action("Courses","Admin")" >
+				<div class="tile-icon"><i class="ti ti-book"></i></div>
+				<div class="tile-heading"><span>Dersler</span></div>
+				<div class="tile-body"><span>@Model.CourseCount</span> <small>adet</small></div>
+			</a>
+		</div>
+	</div>
+
+	<div class="col-md-3">
+		<div class="info-tile tile-info" style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);">
+			<a href="@Url.Action("Groups","Admin")">
+				<div class="tile-icon"><i class="ti ti-comments"></i></div>
+				<div class="tile-heading"><span>Gruplar</span></div>
+				<div class="tile-body"><span>@Model.GroupCount</span> <small>adet</small></div></a>
+		</div>
+	</div>
+</div>

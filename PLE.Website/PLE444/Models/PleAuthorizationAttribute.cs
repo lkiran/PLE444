@@ -2,6 +2,7 @@
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using PLE.Contract.Enums;
 using PLE.Website.Common;
 
 namespace PLE444.Models {
@@ -9,7 +10,7 @@ namespace PLE444.Models {
 		public string AccessLevel { get; set; }
 
 		protected override bool AuthorizeCore(HttpContextBase httpContext) {
-			return Common.Token != null;
+			return  Common.Token != null;
 		}
 
 		protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext) {
@@ -23,6 +24,12 @@ namespace PLE444.Models {
 								UriFormat.SafeUnescaped)
 						})
 				);
+		}
+	}
+
+	public class PleAdminAuthorizationAttribute : PleAuthorizationAttribute {
+		protected override bool AuthorizeCore(HttpContextBase httpContext) {
+			return base.AuthorizeCore(httpContext) && httpContext.User.GetPrincipal().User.Role == RoleType.Admin;
 		}
 	}
 }

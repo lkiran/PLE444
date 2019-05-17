@@ -69,6 +69,7 @@
     <Compile Include="DTOs\UserDto.cs" />
     <Compile Include="Enums\PleClaimType.cs" />
     <Compile Include="Enums\GenderType.cs" />
+    <Compile Include="Enums\RoleType.cs" />
     <Compile Include="Enums\StatusTypes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

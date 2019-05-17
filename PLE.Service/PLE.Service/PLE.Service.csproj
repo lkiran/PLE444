@@ -228,6 +228,10 @@
     <Compile Include="Migrations\201905141858312_discussionhiden.Designer.cs">
       <DependentUpon>201905141858312_discussionhiden.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905171334359_user-roles.cs" />
+    <Compile Include="Migrations\201905171334359_user-roles.Designer.cs">
+      <DependentUpon>201905171334359_user-roles.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Answer.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -301,6 +305,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905141858312_discussionhiden.resx">
       <DependentUpon>201905141858312_discussionhiden.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905171334359_user-roles.resx">
+      <DependentUpon>201905171334359_user-roles.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,5 +1,4 @@
-﻿@using Microsoft.Ajax.Utilities
-@using PLE444.Helpers
+﻿@using PLE444.Helpers
 @model PLE444.ViewModels.CourseViewModel
 @{
 	ViewBag.Title = @Model.Course.Code;
@@ -45,6 +44,7 @@
 			}
 		}
 	</div>
+
 	<div class="panel-body">
 		<div class="row display-flex">
 			<div class="col-md-9">
@@ -133,10 +133,10 @@
 								</div>
 
 								<div class="timeline-content">
-									@if (!timelineEntry.Heading.IsNullOrWhiteSpace()) {
+									@if (!string.IsNullOrEmpty(timelineEntry.Heading)) {
 										<h4>@Html.Raw(timelineEntry.Heading)</h4>
 									}
-									@if (!timelineEntry.Content.IsNullOrWhiteSpace()) {
+									@if (!string.IsNullOrEmpty(timelineEntry.Content)) {
 										<div class="pb-lg"> @Html.Raw(timelineEntry.Content)</div>
 									}
 								</div>

@@ -1,0 +1,65 @@
+﻿@model  List<PLE444.Models.Course>
+@{
+	ViewBag.Title = " Desler";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles
+{
+	@Styles.Render("~/Content/plugins/datatables/dataTables.bootstrap.css",
+					"~/Content/plugins/datatables/dataTables.themify.css")
+}
+
+<div class="row">
+	<div class="col-md-3">
+		<div class="info-tile tile-success" style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);">
+			<a href="@Url.Action("Courses","Admin")">
+				<div class="tile-icon"><i class="ti ti-book"></i></div>
+				<div class="tile-heading"><span>Dersler</span></div>
+				<div class="tile-body"><span>@Model.Count</span> <small>adet</small></div>
+			</a>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+
+		<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+			<table class="table table-hover m-n">
+				<thead>
+					<tr>
+						<th></th>
+						<th class="">Açılış Tarihi</th>
+						<th class="">Durumu</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var course in Model) {
+						<tr>
+							<td class="">@course.Heading</td>
+							<td class="">@course.DateCreated</td>
+							<td class="">@(course.IsCourseActive ? "Aktif" : "Kapalı")</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+@section scripts
+{
+	@Scripts.Render("~/Content/plugins/datatables/jquery.dataTables.js")
+
+	<script>
+		$(document).ready(function () {
+			$('.table ')
+				.dataTable({
+					"aaSorting": [],
+					"paging": false,
+					"dom": '<"panel-heading"f><"panel-body"<"table-responsive"t>>'
+				});
+		});
+	</script>
+}

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity.EntityFramework;
+using PLE.Contract.Enums;
 
 namespace PLE444.Models
 {
@@ -45,9 +46,8 @@ namespace PLE444.Models
 		public string UserPhoto() {
 			return ProfilePicture.IsNullOrWhiteSpace() ? "~/Content/img/pp.jpg" : ProfilePicture;
 		}
-
-		//public int RoleId { get; set; }
-		// public virtual Role Role { get; set; }
+		
+		public RoleType Role { get; set; }
 
 	}
 	public class PleDbContext : IdentityDbContext<ApplicationUser>
