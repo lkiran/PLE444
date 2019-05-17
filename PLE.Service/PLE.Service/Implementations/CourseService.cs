@@ -243,10 +243,16 @@ namespace PLE.Service.Implementations
 
 		public IEnumerable<ClaimDto> GetMemberClaims(string userId) {
 			var courses = _db.UserCourses.Where(uc => uc.UserId == userId && uc.IsActive && uc.DateJoin != null).Select(uc => uc.Course).ToList();
+
+			return courses.Distinct().Select(t => new ClaimDto { Key = PleClaimType.Member, Value = t.Id.ToString() });
+		}
+		
+		public IEnumerable<ClaimDto> GetViewerClaims(string userId) {
+			var courses = _db.UserCourses.Where(uc => uc.UserId == userId && uc.IsActive && uc.DateJoin != null).Select(uc => uc.Course).ToList();
 			foreach (var userCourse in courses.ToList()) // Include terms of courses
 				courses.AddRange(_db.Courses.Where(c => c.CopiedFromId == userCourse.CopiedFromId));
 
-			return courses.Distinct().Select(t => new ClaimDto { Key = PleClaimType.Member, Value = t.Id.ToString() });
+			return courses.Distinct().Select(t => new ClaimDto { Key = PleClaimType.Viewer, Value = t.Id.ToString() });
 		}
 
 		public IEnumerable<ClaimDto> GetCreatorClaims(string userId) {
@@ -258,6 +264,7 @@ namespace PLE.Service.Implementations
 			return new List<ClaimDto>()
 				.Concat(GetWaitingClaims(userId))
 				.Concat(GetCreatorClaims(userId))
+				.Concat(GetViewerClaims(userId))
 				.Concat(GetMemberClaims(userId));
 		}
 

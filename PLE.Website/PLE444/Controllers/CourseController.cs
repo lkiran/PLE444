@@ -58,6 +58,7 @@ namespace PLE444.Controllers
 
 		[ChildActionOnly]
 		public ActionResult Navigation(Guid? id) {
+			
 			var model = db.Courses.SingleOrDefault(i => i.Id == id);
 			return PartialView(model);
 		}
@@ -488,26 +489,23 @@ namespace PLE444.Controllers
 			if (!isMember(course) && !isCourseCreator(course))
 				return RedirectToAction("Index", "Course", new { id });
 
-
-         
-
-            var model = new DiscussionViewModel {
+			var model = new DiscussionViewModel {
 				CId = course.Id,
 				CurrentUserId = User.Identity?.GetUserId(),
 				Role = isCourseCreator(course) ? "Creator" : "Member",
 				//Discussion = course.Discussion.ToList(),
-             
-            IsActive = course.IsCourseActive,
-            };
 
-            if (!isCourseCreator(course))
-                model.Discussion = course.Discussion.Where(i => i.IsHidden==false).ToList();
-            else
-                model.Discussion = course.Discussion.ToList();
+				IsActive = course.IsCourseActive,
+			};
+
+			if (!isCourseCreator(course))
+				model.Discussion = course.Discussion.Where(i => i.IsHidden == false).ToList();
+			else
+				model.Discussion = course.Discussion.ToList();
 
 
-            return View(model);
-        }
+			return View(model);
+		}
 
 		#region Title
 		[PleAuthorization]
@@ -526,7 +524,7 @@ namespace PLE444.Controllers
 				d.CreatorId = User.Identity.GetUserId();
 				d.Topic = discussion.Topic;
 
-                d.IsHidden = discussion.IsHidden;
+				d.IsHidden = discussion.IsHidden;
 
 				db.Discussions.Add(d);
 
@@ -539,9 +537,9 @@ namespace PLE444.Controllers
 
 				return RedirectToAction("Discussion", new { id = courseId });
 			}
-           
 
-            return View();
+
+			return View();
 		}
 
 		[PleAuthorization]
@@ -684,8 +682,8 @@ namespace PLE444.Controllers
 			if (course == null)
 				return HttpNotFound();
 
-			if (!isMember(course) && !isCourseCreator(course))
-				return RedirectToAction("Index", "Course", new { id = course.Id });
+			if (!isViewer(course) && !isMember(course) && !isCourseCreator(course))
+				return RedirectToAction("Index", "Course", new {id = course.Id});
 
 			var model = new CourseMembers {
 				Members = db.UserCourses.Include("User").Where(uc => uc.CourseId == id).ToList(),
@@ -819,8 +817,7 @@ namespace PLE444.Controllers
 		private bool isMember(Guid? courseId) {
 			if (courseId == null)
 				return false;
-			var identity = User.GetPrincipal()?.Identity as PleClaimsIdentity;
-			if (identity == null)
+			if (!(User.GetPrincipal()?.Identity is PleClaimsIdentity identity))
 				return false;
 			return identity.HasClaim(PleClaimType.Member, courseId.ToString());
 		}
@@ -829,11 +826,22 @@ namespace PLE444.Controllers
 			return isMember(course.Id);
 		}
 
+		private bool isViewer(Course course) {
+			return isViewer(course.Id);
+		}
+
+		private bool isViewer(Guid? courseId) {
+			if (courseId == null)
+				return false;
+			if (!(User.GetPrincipal()?.Identity is PleClaimsIdentity identity))
+				return false;
+			return identity.HasClaim(PleClaimType.Viewer, courseId.ToString());
+		}
+
 		private bool isWaiting(Guid? courseId) {
 			if (courseId == null)
 				return false;
-			var identity = User.GetPrincipal()?.Identity as PleClaimsIdentity;
-			if (identity == null)
+			if (!(User.GetPrincipal()?.Identity is PleClaimsIdentity identity))
 				return false;
 			var waiting = identity.HasClaim(PleClaimType.Waiting, courseId.ToString());
 			if (!waiting)

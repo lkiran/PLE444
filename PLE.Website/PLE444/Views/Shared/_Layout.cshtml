@@ -303,18 +303,7 @@
 	@Scripts.Render("~/Content/plugins/fullcalendar/moment.min.js")
 
 
-
-
-
-
-
-
-
-
-
-
 	<script>
-
 		$(document).ready(function () {
 			jQuery('.scrollbar-outer').scrollbar({
 				"ignoreMobile": true,
@@ -359,11 +348,21 @@
 		$(function () {
 			var date = new Date();
 			date.setDate(date.getDate());
-			$('.datetimepicker1').datetimepicker({
+			$('.date-time-picker').datetimepicker({
 
 				startDate: date,
 				inline: true,
-				format: 'dd.mm.yyyy hh:ii',
+				format: 'yyyy-mm-dd hh:ii',
+				autoclose: true,
+				sideBySide: true,
+				language: 'tr'
+			});
+
+			$('.date-picker').datetimepicker({
+
+				startDate: date,
+				inline: true,
+				format: 'yyyy-mm-dd',
 				autoclose: true,
 				sideBySide: true,
 				language: 'tr'

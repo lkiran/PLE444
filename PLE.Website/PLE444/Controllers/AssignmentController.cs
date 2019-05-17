@@ -13,13 +13,24 @@ using PLE444.Models;
 using PLE444.ViewModels;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using PLE.Contract.Enums;
+using PLE.Website.Service;
 using static PLE444.Helpers.ViewHelper;
 
 namespace PLE444.Controllers {
 	[PleAuthorization]
 	public class AssignmentController : Controller {
+		#region Fields
 		private PleDbContext db = new PleDbContext();
+		private CourseService _courseService;
 		private EmailService ms = new EmailService();
+		#endregion
+
+		#region Ctor
+		public AssignmentController() {
+			_courseService = new CourseService();
+		} 
+		#endregion
 
 		[PleAuthorization]
 		public ActionResult Index(Guid? id) {
@@ -30,7 +41,7 @@ namespace PLE444.Controllers {
 			if (course == null)
 				return HttpNotFound();
 
-			if (!isMember(id) && !isCourseCreator(course))
+			if (!isViewer(id) && !isMember(id) && !isCourseCreator(course))
 				return RedirectToAction("Index", "Course", new { id = id });
 
 			var model = new CourseAssignments {
@@ -308,46 +319,43 @@ namespace PLE444.Controllers {
 			return File(memoryStream, "application/octet-stream", DateTime.Now + ".zip");
 		}
 
+		#region Private Methods
 		private bool isCourseCreator(Guid? courseId) {
 			if (courseId == null)
 				return false;
-
-			var course = db.Courses.Find(courseId);
-			return isCourseCreator(course);
+			var identity = User.GetPrincipal()?.Identity as PleClaimsIdentity;
+			if (identity == null)
+				return false;
+			return identity.HasClaim(PleClaimType.Creator, courseId.ToString());
 		}
 
 		private bool isCourseCreator(Course course) {
-			if (course == null)
-				return false;
-
-			else if (course.CreatorId != User.GetPrincipal()?.User.Id)
-				return false;
-			return true;
+			return isCourseCreator(course.Id);
 		}
 
 		private bool isMember(Guid? courseId) {
 			if (courseId == null)
 				return false;
-
-			var userId = User.GetPrincipal()?.User.Id;
-			var user = db.UserCourses.Where(c => c.Course.Id == courseId).FirstOrDefault(u => u.UserId == userId);
-
-			if (user == null)
+			if (!(User.GetPrincipal()?.Identity is PleClaimsIdentity identity))
 				return false;
-			else
-				return user.IsActive && user.DateJoin != null;
+			return identity.HasClaim(PleClaimType.Member, courseId.ToString());
 		}
 
 		private bool isMember(Course course) {
 			return isMember(course.Id);
 		}
 
-		private bool isWaiting(Guid? courseId) {
-			var userId = User.GetPrincipal()?.User.Id;
-			var user = db.UserCourses.Where(c => c.Course.Id == courseId && c.IsActive).FirstOrDefault(u => u.UserId == userId);
-			if (user == null)
-				return false;
-			return user.DateJoin == null;
+		private bool isViewer(Course course) {
+			return isViewer(course.Id);
 		}
+
+		private bool isViewer(Guid? courseId) {
+			if (courseId == null)
+				return false;
+			if (!(User.GetPrincipal()?.Identity is PleClaimsIdentity identity))
+				return false;
+			return identity.HasClaim(PleClaimType.Viewer, courseId.ToString());
+		}
+		#endregion
 	}
 }
