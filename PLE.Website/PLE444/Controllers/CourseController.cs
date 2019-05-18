@@ -39,19 +39,21 @@ namespace PLE444.Controllers
 			if (id == null)
 				return RedirectToAction("List");
 
-			var course = _courseService.Detail(id.Value);
+			try {
+				var course = _courseService.Detail(id.Value);
+				course.Timeline = course.Timeline.OrderByDescending(e => e.DateCreated).ToList();
 
-			if (course == null)
-				return HttpNotFound();
-			course.Timeline = course.Timeline.OrderByDescending(e => e.DateCreated).ToList();
+				var model = new CourseViewModel {
+					Course = course,
+					IsCourseCreator = isCourseCreator(course.Id),
+					IsMember = isMember(course.Id),
+					IsWaiting = isWaiting(course.Id),
+				};
 
-			var model = new CourseViewModel {
-				Course = course,
-				IsCourseCreator = isCourseCreator(course.Id),
-				IsMember = isMember(course.Id),
-				IsWaiting = isWaiting(course.Id),
-			};
-			return View(model);
+				return View(model);
+			} catch (Exception e) {
+				return RedirectToAction("Index", "Home");
+			}
 		}
 
 		public ActionResult List() {
@@ -111,7 +113,7 @@ namespace PLE444.Controllers
 					}
 				}
 				#endregion
-				
+
 				return RedirectToAction("Index", new { id });
 			} catch (Exception e) {
 				Console.Write(e.Message);

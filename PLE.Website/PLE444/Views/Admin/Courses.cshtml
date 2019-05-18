@@ -40,10 +40,14 @@
 						<tr>
 							<td class="">@course.Heading</td>
 							<td class="">@course.DateCreated</td>
-							<td class="">@(course.IsCourseActive ? "Aktif" : "Kapalı")</td>
+							<td class="">@(course.IsCourseActive ? "Aktif" : "Kapalı")@(course.IsBanned ? ", Kilitli" : string.Empty)</td>
 							<td class="">
-								<a href="@Url.Action("ViewCourse","Admin", new{id = course.Id})" title="Dersi kapat"><i class="fa fa-ban"></i></a>
-								<a href="@Url.Action("ViewCourse","Admin", new{id = course.Id})" title="Derse Git" class="ml-md"><i class="ti ti-eye"></i></a>
+								@if (course.IsBanned) {
+									<a href="@Url.Action("RemoveBanCourse", "Admin", new {id = course.Id})" title="Kilidi kaldır"><i class="ti ti-unlock"></i></a>
+								} else {
+									<a href="@Url.Action("BanCourse", "Admin", new {id = course.Id})" title="Kilitle"><i class="ti ti-lock"></i></a>
+								}
+								<a href="@Url.Action("ViewCourse", "Admin", new {id = course.Id})" title="Derse Git" class="ml-md"><i class="ti ti-eye"></i></a>
 							</td>
 						</tr>
 					}

@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Web;
 using System.Web.Mvc;
+using Microsoft.Owin.Security;
+using PLE.Contract.DTOs;
 using PLE.Contract.Enums;
+using PLE.Website.Service;
 using PLE444.Models;
 using PLE444.ViewModels;
 
@@ -14,11 +18,13 @@ namespace PLE444.Controllers.Admin
 	{
 		#region Fields
 		private readonly PleDbContext _db;
+		private readonly CourseService _courseService;
 		#endregion
 
 		#region Ctor
 		public AdminController() {
 			_db = new PleDbContext();
+			_courseService = new CourseService();
 		}
 		#endregion
 
@@ -40,7 +46,9 @@ namespace PLE444.Controllers.Admin
 
 		// GET: Admin/Courses
 		public ActionResult Courses() {
-			var courses = _db.Courses.OrderByDescending(c => c.DateCreated);
+			var courses = _db.Courses
+				.OrderBy(c => c.IsBanned)
+				.ThenByDescending(c => c.DateCreated);
 			return View(courses.ToList());
 		}
 
@@ -53,13 +61,34 @@ namespace PLE444.Controllers.Admin
 		// GET: Admin/ViewCourse
 		public ActionResult ViewCourse(Guid id) {
 			#region Add claim
-			var identity = User.GetPrincipal()?.Identity as PleClaimsIdentity;
-			identity?.AddClaim(new Claim(PleClaimType.Creator, id.ToString()));
-			identity?.AddClaim(new Claim(PleClaimType.Member, id.ToString()));
-			identity?.AddClaim(new Claim(PleClaimType.Viewer, id.ToString()));
-			#endregion
+			var claims = HttpContext.Session["Claims"] as List<Claim> ?? new List<Claim>();
+			var user = HttpContext.Session["User"] as UserDto;
 
+			if (user != null) {
+				if (!claims.Any()) {
+					claims.Add(new Claim(PleClaimType.Creator, id.ToString()));
+				}
+			}
+
+			var identity = new PleClaimsIdentity(claims,"PLE");
+			HttpContext.User = new UserPrincipal(identity, user);
+			#endregion
+	
 			return RedirectToAction("Index", "Course", new { id });
+		}
+
+		// GET: Admin/BanCourse
+		public ActionResult BanCourse(Guid id) {
+			_courseService.Ban(id);
+
+			return RedirectToAction("Courses", "Admin");
+		}
+
+		// GET: Admin/RemoveBanCourse
+		public ActionResult RemoveBanCourse(Guid id) {
+			_courseService.RemoveBan(id);
+
+			return RedirectToAction("Courses", "Admin");
 		}
 	}
 }

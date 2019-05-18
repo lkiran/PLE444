@@ -18,10 +18,18 @@ namespace PLE.Service.Implementations
 {
 	public class CourseService
 	{
-		private readonly PleDbContext _db = new PleDbContext();
+		#region Fields
+		private readonly PleDbContext _db;
+		#endregion
+
+		#region Ctor
+		public CourseService() {
+			_db = new PleDbContext();
+		}
+		#endregion
 
 		public CourseDto Get(Guid id) {
-			var course = _db.Courses.FirstOrDefault(c => c.Id == id);
+			var course = _db.Courses.FirstOrDefault(c => c.Id == id && !c.IsBanned);
 			if (course == null)
 				throw new Exception($"Course with id={id} cannot be found");
 			var result = Mapper.Map<CourseDto>(course);
@@ -34,7 +42,7 @@ namespace PLE.Service.Implementations
 				.Include("Creator")
 				.Include("Timeline")
 				.Include("Timeline.Creator")
-				.FirstOrDefault(c => c.Id == id);
+				.FirstOrDefault(c => c.Id == id && !c.IsBanned);
 			if (course == null)
 				throw new Exception($"Course with id={id} cannot be found");
 			var result = Mapper.Map<CourseDetailDto>(course);
@@ -45,77 +53,17 @@ namespace PLE.Service.Implementations
 			return result;
 		}
 
-		public bool Join(string userId, Guid courseId) {
-			var course = GetActiveCourseById(courseId);
-			var uc = _db.UserCourses.FirstOrDefault(i => i.UserId == userId.ToString() && i.Course.CopiedFromId == course.CopiedFromId);
+		public List<CourseDto> GetCourseListByUser(string userId) {
+			var joinedCourses = _db.UserCourses
+				.Where(uc => uc.UserId == userId && uc.IsActive && uc.Course.IsCourseActive && !uc.Course.IsBanned)
+				.Select(c => c.Course);
+			var createdCourses = _db.Courses.Where(c => c.CreatorId == userId && !c.IsBanned);
+			var data = joinedCourses.Union(createdCourses);
 
-			if (uc == null) {
-				uc = new UserCourse {
-					UserId = userId,
-					Course = course
-				};
+			var result = Mapper.Map<List<CourseDto>>(data.ToList());
 
-				_db.UserCourses.Add(uc);
-			} else {
-				uc.IsActive = true;
-				_db.Entry(uc).State = EntityState.Modified;
-			}
-
-			_db.SaveChanges();
-
-			return true;
+			return result;
 		}
-
-		public bool Leave(string userId, Guid courseId) {
-			var uc = _db.UserCourses.FirstOrDefault(i => i.UserId == userId.ToString() && i.Course.Id == courseId)
-					 ?? throw new Exception($"The user membership is not found for the user with id={userId} and the course with id={courseId}");
-
-			uc.IsActive = false;
-			uc.DateJoin = null;
-
-			_db.Entry(uc).State = EntityState.Modified;
-			_db.SaveChanges();
-
-			return true;
-		}
-
-		public bool Eject(string userId, Guid courseId) {
-			var uc = _db.UserCourses.FirstOrDefault(c => c.CourseId == courseId && c.UserId == userId.ToString())
-					 ?? throw new Exception($"The user membership is not found for the user with id={userId} and the course with id={courseId}");
-
-			uc.IsActive = false;
-			uc.DateJoin = null;
-
-			_db.Entry(uc).State = EntityState.Modified;
-			_db.SaveChanges();
-
-			return true;
-		}
-
-		public bool Approve(int membershipId) {
-			var userCourse = _db.UserCourses.FirstOrDefault(uc => uc.Id == membershipId)
-				?? throw new Exception($"The user membership with id={membershipId} is not found");
-
-			userCourse.DateJoin = DateTime.Now;
-
-			_db.Entry(userCourse).State = EntityState.Modified;
-			_db.SaveChanges();
-
-			return true;
-		}
-
-		public bool Approve(List<int> membershipIds) {
-			var memberships = _db.UserCourses.Where(uc => membershipIds.Contains(uc.Id));
-			foreach (var membership in memberships) {
-				membership.DateJoin = DateTime.Now;
-				_db.Entry(membership).State = EntityState.Modified;
-			}
-
-			_db.SaveChanges();
-
-			return true;
-		}
-
 
 		public Guid Create(CourseDto course) {
 			var mappedCourse = Mapper.Map<Course>(course);
@@ -224,31 +172,120 @@ namespace PLE.Service.Implementations
 			return newCourse.Id;
 		}
 
-		public List<CourseDto> GetCourseListByUser(string userId) {
-			var joinedCourses = _db.UserCourses
-				.Where(uc => uc.UserId == userId && uc.IsActive && uc.Course.IsCourseActive)
-				.Select(c => c.Course);
-			var createdCourses = _db.Courses.Where(c => c.CreatorId == userId);
-			var data = joinedCourses.Union(createdCourses);
+		public bool Ban(Guid courseId) {
+			var course = _db.Courses.FirstOrDefault(c => c.Id == courseId)
+						?? throw new Exception($"A course with id={courseId} does not exist");
+			course.IsBanned = true;
 
-			var result = Mapper.Map<List<CourseDto>>(data.ToList());
+			_db.Entry(course).State = EntityState.Modified;
+			_db.SaveChanges();
 
-			return result;
+			return true;
 		}
 
+		public bool RemoveBan(Guid courseId) {
+			var course = _db.Courses.FirstOrDefault(c => c.Id == courseId)
+			             ?? throw new Exception($"A course with id={courseId} does not exist");
+			course.IsBanned = false;
+
+			_db.Entry(course).State = EntityState.Modified;
+			_db.SaveChanges();
+
+			return true;
+		}
+
+		#region Membership
+		public bool Join(string userId, Guid courseId) {
+			var course = GetActiveCourseById(courseId);
+			var uc = _db.UserCourses.FirstOrDefault(i => i.UserId == userId.ToString() && i.Course.CopiedFromId == course.CopiedFromId);
+
+			if (uc == null) {
+				uc = new UserCourse {
+					UserId = userId,
+					Course = course
+				};
+
+				_db.UserCourses.Add(uc);
+			} else {
+				uc.IsActive = true;
+				_db.Entry(uc).State = EntityState.Modified;
+			}
+
+			_db.SaveChanges();
+
+			return true;
+		}
+
+		public bool Leave(string userId, Guid courseId) {
+			var uc = _db.UserCourses.FirstOrDefault(i => i.UserId == userId.ToString() && i.Course.Id == courseId)
+					 ?? throw new Exception($"The user membership is not found for the user with id={userId} and the course with id={courseId}");
+
+			uc.IsActive = false;
+			uc.DateJoin = null;
+
+			_db.Entry(uc).State = EntityState.Modified;
+			_db.SaveChanges();
+
+			return true;
+		}
+
+		public bool Eject(string userId, Guid courseId) {
+			var uc = _db.UserCourses.FirstOrDefault(c => c.CourseId == courseId && c.UserId == userId.ToString())
+					 ?? throw new Exception($"The user membership is not found for the user with id={userId} and the course with id={courseId}");
+
+			uc.IsActive = false;
+			uc.DateJoin = null;
+
+			_db.Entry(uc).State = EntityState.Modified;
+			_db.SaveChanges();
+
+			return true;
+		}
+
+		public bool Approve(int membershipId) {
+			var userCourse = _db.UserCourses.FirstOrDefault(uc => uc.Id == membershipId)
+				?? throw new Exception($"The user membership with id={membershipId} is not found");
+
+			userCourse.DateJoin = DateTime.Now;
+
+			_db.Entry(userCourse).State = EntityState.Modified;
+			_db.SaveChanges();
+
+			return true;
+		}
+
+		public bool Approve(List<int> membershipIds) {
+			var memberships = _db.UserCourses.Where(uc => membershipIds.Contains(uc.Id));
+			foreach (var membership in memberships) {
+				membership.DateJoin = DateTime.Now;
+				_db.Entry(membership).State = EntityState.Modified;
+			}
+
+			_db.SaveChanges();
+
+			return true;
+		}
+
+		#endregion
+
+		#region Claims
 		public IEnumerable<ClaimDto> GetWaitingClaims(string userId) {
-			var userCourses = _db.UserCourses.Where(uc => uc.UserId == userId && uc.IsActive && uc.DateJoin == null);
+			var userCourses = _db.UserCourses.Where(uc => uc.UserId == userId && uc.IsActive && !uc.Course.IsBanned && uc.DateJoin == null);
 			return userCourses.Select(t => new ClaimDto { Key = PleClaimType.Waiting, Value = t.CourseId.ToString() });
 		}
 
 		public IEnumerable<ClaimDto> GetMemberClaims(string userId) {
-			var courses = _db.UserCourses.Where(uc => uc.UserId == userId && uc.IsActive && uc.DateJoin != null).Select(uc => uc.Course).ToList();
+			var courses = _db.UserCourses
+				.Where(uc => uc.UserId == userId && uc.IsActive && !uc.Course.IsBanned && uc.DateJoin != null)
+				.Select(uc => uc.Course).ToList();
 
 			return courses.Distinct().Select(t => new ClaimDto { Key = PleClaimType.Member, Value = t.Id.ToString() });
 		}
-		
+
 		public IEnumerable<ClaimDto> GetViewerClaims(string userId) {
-			var courses = _db.UserCourses.Where(uc => uc.UserId == userId && uc.IsActive && uc.DateJoin != null).Select(uc => uc.Course).ToList();
+			var courses = _db.UserCourses
+				.Where(uc => uc.UserId == userId && uc.IsActive && !uc.Course.IsBanned && uc.DateJoin != null)
+				.Select(uc => uc.Course).ToList();
 			foreach (var userCourse in courses.ToList()) // Include terms of courses
 				courses.AddRange(_db.Courses.Where(c => c.CopiedFromId == userCourse.CopiedFromId));
 
@@ -256,7 +293,7 @@ namespace PLE.Service.Implementations
 		}
 
 		public IEnumerable<ClaimDto> GetCreatorClaims(string userId) {
-			var courses = _db.Courses.Where(c => c.CreatorId == userId);
+			var courses = _db.Courses.Where(c => c.CreatorId == userId && !c.IsBanned);
 			return courses.Select(t => new ClaimDto { Key = PleClaimType.Creator, Value = t.Id.ToString() });
 		}
 
@@ -267,15 +304,13 @@ namespace PLE.Service.Implementations
 				.Concat(GetViewerClaims(userId))
 				.Concat(GetMemberClaims(userId));
 		}
+		#endregion
 
 		#region Private Methods
-
 		private Course GetActiveCourseById(Guid courseId) {
-			return _db.Courses.FirstOrDefault(i => i.Id == courseId && i.IsCourseActive)
-				   ?? throw new Exception($"Active course wit id={courseId} does not exist");
+			return _db.Courses.FirstOrDefault(i => i.Id == courseId && i.IsCourseActive && !i.IsBanned)
+				   ?? throw new Exception($"Active course with id={courseId} does not exist");
 		}
-
-
 		#endregion
 	}
 }

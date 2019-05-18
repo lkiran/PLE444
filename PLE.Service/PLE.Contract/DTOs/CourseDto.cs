@@ -25,6 +25,8 @@ namespace PLE.Contract.DTOs
 
 		public bool CanEveryoneJoin { get; set; }
 
+		public bool IsCourseActive { get; set; }
+
 		public bool IsBanned { get; set; }
 		
 		public virtual ICollection<ChapterDto> Chapters { get; set; }
@@ -33,8 +35,6 @@ namespace PLE.Contract.DTOs
 
 		public virtual ICollection<DiscussionDto> Discussion { get; set; }
 
-		public string Heading => Code + " - " + Name;
-
-		public bool IsCourseActive { get; set; }
+		public string Heading => $"{Code} - {Name}";
 	}
 }
