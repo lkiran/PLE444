@@ -1,0 +1,20 @@
+﻿@model ViewDataDictionary
+@{ Layout = "~/Views/Mail/_MailLayout.cshtml"; }
+
+@section Content{
+	<tr>
+		<td style="text-align:center;">
+			<h2 style="color: #00acc1; font-weight:lighter;">Yeni Ders Oluşturuldu</h2>
+			<br />
+			<h3 style="font-weight:lighter;">@(Model["course"] as string)</h3>
+		<td>
+	</tr>
+
+	<tr>
+		<td>
+			<p style="text-align:justify;">
+				@(new HtmlString(Model["description"] as String))
+			</p>
+		</td>
+	</tr>
+}

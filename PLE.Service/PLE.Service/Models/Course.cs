@@ -36,6 +36,8 @@ namespace PLE.Service.Models
 		public bool CanEveryoneJoin { get; set; }
 
 		public bool IsCourseActive { get; set; }
+		
+		public bool IsBanned { get; set; }
 
 		public virtual ICollection<Chapter> Chapters { get; set; }
 

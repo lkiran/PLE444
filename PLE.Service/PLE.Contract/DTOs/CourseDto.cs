@@ -25,6 +25,8 @@ namespace PLE.Contract.DTOs
 
 		public bool CanEveryoneJoin { get; set; }
 
+		public bool IsBanned { get; set; }
+		
 		public virtual ICollection<ChapterDto> Chapters { get; set; }
 
 		public virtual ICollection<AssignmentDto> Assignments { get; set; }

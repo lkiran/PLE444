@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Web.Mvc;
 using PLE.Contract.Enums;
 using PLE444.Models;
@@ -46,6 +48,18 @@ namespace PLE444.Controllers.Admin
 		public ActionResult Groups() {
 			var groups = _db.Communities.OrderByDescending(c => c.DateCreated);
 			return View(groups.ToList());
+		}
+
+		// GET: Admin/ViewCourse
+		public ActionResult ViewCourse(Guid id) {
+			#region Add claim
+			var identity = User.GetPrincipal()?.Identity as PleClaimsIdentity;
+			identity?.AddClaim(new Claim(PleClaimType.Creator, id.ToString()));
+			identity?.AddClaim(new Claim(PleClaimType.Member, id.ToString()));
+			identity?.AddClaim(new Claim(PleClaimType.Viewer, id.ToString()));
+			#endregion
+
+			return RedirectToAction("Index", "Course", new { id });
 		}
 	}
 }

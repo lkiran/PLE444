@@ -61,6 +61,7 @@
     <Compile Include="DTOs\ReadingDto.cs" />
     <Compile Include="DTOs\Requests\DuplicateCourseRequestDto.cs" />
     <Compile Include="DTOs\Requests\GetUserRequest.cs" />
+    <Compile Include="DTOs\Requests\MailDto.cs" />
     <Compile Include="DTOs\Responses\ResponseDto.cs" />
     <Compile Include="DTOs\Responses\RegisterUserResponseDto.cs" />
     <Compile Include="DTOs\SpaceDto.cs" />

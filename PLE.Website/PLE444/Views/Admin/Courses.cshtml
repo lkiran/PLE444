@@ -32,6 +32,7 @@
 						<th></th>
 						<th class="">Açılış Tarihi</th>
 						<th class="">Durumu</th>
+						<th class=""></th>
 					</tr>
 				</thead>
 				<tbody>
@@ -40,6 +41,10 @@
 							<td class="">@course.Heading</td>
 							<td class="">@course.DateCreated</td>
 							<td class="">@(course.IsCourseActive ? "Aktif" : "Kapalı")</td>
+							<td class="">
+								<a href="@Url.Action("ViewCourse","Admin", new{id = course.Id})" title="Dersi kapat"><i class="fa fa-ban"></i></a>
+								<a href="@Url.Action("ViewCourse","Admin", new{id = course.Id})" title="Derse Git" class="ml-md"><i class="ti ti-eye"></i></a>
+							</td>
 						</tr>
 					}
 				</tbody>

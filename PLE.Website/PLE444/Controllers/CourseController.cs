@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Web.Mvc;
 using AutoMapper;
@@ -13,7 +14,9 @@ using PLE.Contract.DTOs;
 using PLE.Contract.DTOs.Requests;
 using PLE.Contract.Enums;
 using PLE.Website.Service;
+using PLE444.Helpers;
 using PLE444.ViewModels;
+using System.Threading.Tasks;
 
 namespace PLE444.Controllers
 {
@@ -22,6 +25,7 @@ namespace PLE444.Controllers
 		#region Fields
 		private PleDbContext db = new PleDbContext();
 		private CourseService _courseService;
+		private EmailService ms = new EmailService();
 		#endregion
 
 		#region Ctor
@@ -58,7 +62,7 @@ namespace PLE444.Controllers
 
 		[ChildActionOnly]
 		public ActionResult Navigation(Guid? id) {
-			
+
 			var model = db.Courses.SingleOrDefault(i => i.Id == id);
 			return PartialView(model);
 		}
@@ -71,7 +75,7 @@ namespace PLE444.Controllers
 		[HttpPost]
 		[PleAuthorization]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create(CreateCourseViewModel course) {
+		public async Task<ActionResult> Create(CreateCourseViewModel course) {
 			try {
 				if (!ModelState.IsValid)
 					return View(course);
@@ -84,6 +88,30 @@ namespace PLE444.Controllers
 				identity?.AddClaim(new Claim(PleClaimType.Creator, id.ToString()));
 				#endregion
 
+				#region Inform Admins
+				var admins = db.Users.Where(u => u.Role == RoleType.Admin);
+				if (admins.Any()) {
+					try {
+						var mail = new MailMessage() {
+							Subject = "Yeni Ders Oluşturuldu",
+							Body = ViewHelper.ViewRenderer.RenderView("~/Views/Mail/NewCourse.cshtml", new ViewDataDictionary {
+								{"description", course.Description},
+								{"course", course.Heading},
+								{"courseId", course.Id}
+							})
+						};
+
+						mail.IsBodyHtml = true;
+						foreach (var receiver in admins.Select(a => a.Email).ToList())
+							mail.Bcc.Add(receiver);
+
+						await ms.SendAsync(mail);
+					} catch (Exception ex) {
+						Console.WriteLine(ex.ToString());
+					}
+				}
+				#endregion
+				
 				return RedirectToAction("Index", new { id });
 			} catch (Exception e) {
 				Console.Write(e.Message);
@@ -110,6 +138,7 @@ namespace PLE444.Controllers
 
 			var identity = User.GetPrincipal()?.Identity as PleClaimsIdentity;
 			identity?.AddClaim(new Claim(PleClaimType.Creator, newCourseId.ToString()));
+
 
 			return RedirectToAction("Index", new { id = newCourseId });
 		}
@@ -683,7 +712,7 @@ namespace PLE444.Controllers
 				return HttpNotFound();
 
 			if (!isViewer(course) && !isMember(course) && !isCourseCreator(course))
-				return RedirectToAction("Index", "Course", new {id = course.Id});
+				return RedirectToAction("Index", "Course", new { id = course.Id });
 
 			var model = new CourseMembers {
 				Members = db.UserCourses.Include("User").Where(uc => uc.CourseId == id).ToList(),
