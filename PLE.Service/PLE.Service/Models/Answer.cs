@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Web.Mvc;
 
 namespace PLE.Service.Models
 {
@@ -10,13 +9,7 @@ namespace PLE.Service.Models
 		[Key]
 		public Guid Id { get; set; }
 
-		[ForeignKey("User")]
-		public string UserId { get; set; }
-
-		public ApplicationUser User { get; set; }
-
-		public DateTime AnsweredOn { get; set; }
-
-		public Dictionary<int,string> Answers { get; set; }
+		[AllowHtml]
+		public string Content { get; set; }
 	}
 }

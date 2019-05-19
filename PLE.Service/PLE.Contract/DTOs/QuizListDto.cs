@@ -1,25 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Web.Mvc;
 
-namespace PLE.Service.Models
+namespace PLE.Contract.DTOs
 {
-	public class Quiz
+	public class QuizListDto
 	{
-		public Quiz() {
-			AvailableTill = DateTime.MinValue;
-		}
-
-		[Key]
 		public Guid Id { get; set; }
-
-		public bool IsDeleted { get; set; }
 
 		public string Name { get; set; }
 
-		[AllowHtml]
 		public string Description { get; set; }
 
 		public DateTime AvailableOn { get; set; }
@@ -35,12 +23,9 @@ namespace PLE.Service.Models
 
 		public TimeSpan TimeSpan { get; set; }
 
-		[ForeignKey("Course")]
 		public Guid CourseId { get; set; }
 
-		public Course Course { get; set; }
-
-		public virtual ICollection<Question> Questions { get; set; }
+		public CourseDto Course { get; set; }
 
 		public bool CanAnswer => DateTime.Now < AvailableTill;
 	}

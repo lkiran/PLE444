@@ -207,12 +207,14 @@
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\CommunityController.cs" />
+    <Compile Include="Controllers\QuizController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\ServiceController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ViewRenderer.cs" />
+    <Compile Include="Implementations\QuizService.cs" />
     <Compile Include="Implementations\MailService.cs" />
     <Compile Include="Implementations\CommunityService.cs" />
     <Compile Include="Implementations\CourseService.cs" />
@@ -232,6 +234,14 @@
     <Compile Include="Migrations\201905181209149_ban-course.cs" />
     <Compile Include="Migrations\201905181209149_ban-course.Designer.cs">
       <DependentUpon>201905181209149_ban-course.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905181800144_quiz.cs" />
+    <Compile Include="Migrations\201905181800144_quiz.Designer.cs">
+      <DependentUpon>201905181800144_quiz.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905181822378_answers.cs" />
+    <Compile Include="Migrations\201905181822378_answers.Designer.cs">
+      <DependentUpon>201905181822378_answers.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Answer.cs" />
@@ -257,6 +267,7 @@
     <Compile Include="Models\Space.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Models\TimelineEntry.cs" />
+    <Compile Include="Models\UserAnswer.cs" />
     <Compile Include="Models\UserCommunity.cs" />
     <Compile Include="Models\UserCourse.cs" />
     <Compile Include="Models\UserGrade.cs" />
@@ -317,6 +328,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905181209149_ban-course.resx">
       <DependentUpon>201905181209149_ban-course.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905181800144_quiz.resx">
+      <DependentUpon>201905181800144_quiz.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905181822378_answers.resx">
+      <DependentUpon>201905181822378_answers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

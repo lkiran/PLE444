@@ -18,10 +18,16 @@ namespace PLE.Service.Models.Mapper
 			CreateMap<Document, DocumentDto>().ReverseMap();
 			CreateMap<Community, CommunityDto>().ReverseMap();
 			CreateMap<Contract.Enums.RoleType, ApplicationUser.RoleType>().ReverseMap();
+			CreateMap<Question, Question>().ReverseMap();
+			CreateMap<Answer, AnswerDto>().ReverseMap();
+			CreateMap<Quiz, QuizDto>().ReverseMap();
+			CreateMap<Question.AnswerType, QuestionDto.AnswerType>().ReverseMap();
+			CreateMap<Question.EvaluationType, QuestionDto.EvaluationType>().ReverseMap();
 
 			/* Non-reverseble mappings */
 			CreateMap<Discussion.Reading, ReadingDto>();
 			CreateMap<TimelineEntry, TimelineEntryDto>();
+			CreateMap<Quiz, QuizListDto>();
 		}
 	}
 }

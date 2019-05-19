@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
 
-namespace PLE.Service.Models
+namespace PLE.Contract.DTOs
 {
-	public class Question
+	public class QuestionDto
 	{
+		public QuestionDto() {
+			AnswerOptions = new List<AnswerDto>();
+			UserAnswers = new List<UserAnswerDto>();
+		}
+
 		public enum AnswerType
 		{
 			NotSpecified = 0,
@@ -23,22 +26,18 @@ namespace PLE.Service.Models
 			Manual
 		}
 
-		[Key]
 		public Guid Id { get; set; }
-		
-		public bool IsDeleted { get; set; }
 
 		public string Title { get; set; }
 
-		[AllowHtml]
 		public string Description { get; set; }
 
 		public AnswerType Answering { get; set; }
 
 		public EvaluationType Evaluation { get; set; }
 
-		public ICollection<Answer> AnswerOptions { get; set; }
-		
-		public virtual ICollection<UserAnswer> UserAnswers { get; set; }
+		public List<AnswerDto> AnswerOptions { get; set; }
+
+		public virtual List<UserAnswerDto> UserAnswers { get; set; }
 	}
 }
