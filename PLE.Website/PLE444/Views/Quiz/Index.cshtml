@@ -1,7 +1,97 @@
-﻿
+﻿@model PLE444.ViewModels.QuizListViewModel
 @{
-    ViewBag.Title = "Index";
+	ViewBag.Title = "Testler";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+@{ Html.RenderAction("Navigation", "Course", new { id = Model.Course.Id }); }
 
+@if (Model != null) {
+	if (!Model.Quizzes.Any()) {
+		<div class="alert alert-dismissable alert-info">
+			<i class="ti ti-info-alt lead"></i>  Bu derse eklenmiş herhangi bir test henüz yok.
+		</div>
+	}
+
+	if (Model.IsCreator && Model.Course.IsCourseActive) {
+		<a href="@Url.Action("Create", "Quiz", new {id = Model.Course.Id})" class="btn btn-primary-alt center-block" id="dyna-del">
+			<i class="fa fa-plus"></i> Yeni Test Ekle
+		</a>
+	}
+
+	<div class="panel-default" id="accordionA">
+		@foreach (var quiz in Model.Quizzes) {
+			<div class="panel panel-@(quiz.CanAnswer ? "success" : "default")">
+				<div class="panel-heading" style="cursor: pointer" data-toggle="collapse" href="#@quiz.Id">
+
+					<h2>@quiz.Name</h2>
+
+					<div class="not-pull-right-xs text-xs-center">
+						<i class="ti ti-time" title="Testin Başlangıç ve Bitiş tarihleri"></i>
+						<strong>Başlangıç</strong> @quiz.AvailableOn • <strong>Bitiş</strong> @quiz.AvailableTill
+						@if (!quiz.CanAnswer) {
+							<i class="ti ti-lock" title="Gizli"></i>
+						}
+					</div>
+				</div>
+
+				<div id="@quiz.Id" class="collapse">
+					<div class="panel-body">
+						@(new HtmlString(quiz.Description))
+					</div>
+					<div class="panel-footer">
+						@if (Model.IsCreator) {
+							<a class="button-icon ml-sm" title="Düzenle" href="@Url.Action("Edit","Quiz", new {id = quiz.Id})">
+								<i class="ti ti-pencil"></i> Düzenle
+							</a>
+
+							if (quiz.IsPublished) {
+								<a class="button-icon ml-sm" title="Katılımcılardan gizle" href="@Url.Action("Hide", "Quiz", new {id = quiz.Id})">
+									<i class="ti ti-lock"></i> Gizle
+								</a>
+							} else {
+								<a class="button-icon ml-sm" title="Katılımcıların görebileceği duruma getir" href="@Url.Action("Show", "Quiz", new {id = quiz.Id})">
+									<i class="ti ti-unlock"></i> Göster
+								</a>
+							}
+						} else if (quiz.CanAnswer) {
+							<a class="btn btn-primary pull-right" title="Testi cevaplamaya başla" href="@Url.Action("Index","Quiz", new {id = quiz.Id})">
+								<i class="ti ti-pencil-alt"></i> Cevapla
+							</a>
+						}
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+}
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="text-center">
+			<i class="fa fa-circle-o-notch fa-spin" style="font-size: 50px; color: white;"></i>
+		</div>
+	</div>
+</div>
+
+@section scripts
+{
+	<script>
+		$(document).ready(function () {
+			$(".ShowModal").on("click", function (e) {
+				e.preventDefault();
+				$.ajax({
+					url: $(this).data("href"),
+					method: "GET",
+					dataType: 'json',
+					success: function (response) {
+						$(".modal-dialog").html(response.responseText);
+					},
+					error: function (response) {
+						$(".modal-dialog").html(response.responseText);
+					}
+				});
+
+			});
+		});
+	</script>
+}

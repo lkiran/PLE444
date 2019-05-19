@@ -8,6 +8,9 @@ namespace PLE444.Models
 	{
 		public PleWebsiteMappingProfile() {
 			CreateMap<CreateCourseViewModel, CourseDto>().ReverseMap();
+			CreateMap<QuizViewModel, QuizDto>().ReverseMap();
+			CreateMap<QuestionViewModel, QuestionDto>().ReverseMap();
+			CreateMap<AnswerOptionViewModel, AnswerDto>().ReverseMap();
 		}
 	}
 }

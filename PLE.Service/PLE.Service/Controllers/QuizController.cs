@@ -34,7 +34,7 @@ namespace PLE.Service.Controllers
 				return InternalServerError(e);
 			}
 		}
-
+		
 		[HttpGet]
 		[Route("ListByCourse/{courseId}")]
 		public IHttpActionResult ListByCourse(Guid courseId) {
@@ -101,9 +101,24 @@ namespace PLE.Service.Controllers
 			}
 		}
 
+		[HttpGet]
+		[Route("Question/{id}")]
+		public IHttpActionResult Question(Guid id) {
+			try {
+				var question = _quizService.GetQuestion(id);
+				var result = Mapper.Map<QuestionDto>(question);
+				var quiz = Mapper.Map<QuizDto>(_quizService.GetQuizOfQuestion(question));
+				result.Quiz = quiz;
+
+				return Ok(result);
+			} catch (Exception e) {
+				return InternalServerError(e);
+			}
+		}
+
 		[HttpPost]
 		[Authorize]
-		[Route("AddQuestion/{quizId}")]
+		[Route("Question/Add/{quizId}")]
 		public IHttpActionResult AddQuestion([FromBody]QuestionDto request, [FromUri]Guid quizId) {
 			try {
 				var question = Mapper.Map<Question>(request);
@@ -117,8 +132,8 @@ namespace PLE.Service.Controllers
 
 		[HttpPost]
 		[Authorize]
-		[Route("UpdateQuestion")]
-		public IHttpActionResult Update(QuestionDto request) {
+		[Route("Question/Update")]
+		public IHttpActionResult UpdateQuestion(QuestionDto request) {
 			try {
 				var question = Mapper.Map<Question>(request);
 				question = _quizService.UpdateQuestion(question);
@@ -143,9 +158,67 @@ namespace PLE.Service.Controllers
 			}
 		}
 
+		[HttpGet]
+		[Route("Question/Answer/{id}")]
+		public IHttpActionResult Answer(Guid id) {
+			try {
+				var answer = _quizService.GetAnswer(id);
+				var result = Mapper.Map<AnswerDto>(answer);
+				var question = Mapper.Map<QuestionDto>(_quizService.GetQuestionOfAnswerOption(answer));
+				result.Question = question;
+
+				return Ok(result);
+			} catch (Exception e) {
+				return InternalServerError(e);
+			}
+		}
+
+
 		[HttpPost]
 		[Authorize]
-		[Route("Answer/{questionId}")]
+		[Route("Question/Answer/Add/{questionId}")]
+		public IHttpActionResult AddAnswer([FromBody]AnswerDto request, [FromUri]Guid questionId) {
+			try {
+				var answer = Mapper.Map<Answer>(request);
+				var result = _quizService.AddAnswer(answer, questionId);
+
+				return Ok(result);
+			} catch (Exception e) {
+				return InternalServerError(e);
+			}
+		}
+
+		[HttpPost]
+		[Authorize]
+		[Route("Question/Answer/Update")]
+		public IHttpActionResult UpdateAnswer(AnswerDto request) {
+			try {
+				var answer = Mapper.Map<Answer>(request);
+				answer = _quizService.UpdateAnswer(answer);
+				var result = Mapper.Map<AnswerDto>(answer);
+
+				return Ok(result);
+			} catch (Exception e) {
+				return InternalServerError(e);
+			}
+		}
+
+		[HttpDelete]
+		[Authorize]
+		[Route("Question/Answer/{answerId}")]
+		public IHttpActionResult DeleteAnswer(Guid answerId) {
+			try {
+				_quizService.RemoveAnswerOption(answerId);
+
+				return Ok();
+			} catch (Exception e) {
+				return InternalServerError(e);
+			}
+		}
+		
+		[HttpPost]
+		[Authorize]
+		[Route("Question/Answer/{questionId}")]
 		public IHttpActionResult SaveUserAnswer([FromUri]Guid questionId, [FromBody]List<AnswerDto> request) {
 			try {
 				var userId = User.Identity.GetUserId();

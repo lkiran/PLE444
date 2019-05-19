@@ -5,6 +5,8 @@ namespace PLE.Contract.DTOs
 	public class QuizListDto
 	{
 		public Guid Id { get; set; }
+		
+		public bool IsPublished { get; set; }
 
 		public string Name { get; set; }
 
@@ -27,6 +29,6 @@ namespace PLE.Contract.DTOs
 
 		public CourseDto Course { get; set; }
 
-		public bool CanAnswer => DateTime.Now < AvailableTill;
+		public bool CanAnswer => DateTime.Now >= AvailableOn && DateTime.Now < AvailableTill && IsPublished;
 	}
 }

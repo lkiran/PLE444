@@ -10,12 +10,15 @@ namespace PLE.Service.Models
 	{
 		public Quiz() {
 			AvailableTill = DateTime.MinValue;
+			Questions = new List<Question>();
 		}
 
 		[Key]
 		public Guid Id { get; set; }
 
 		public bool IsDeleted { get; set; }
+
+		public bool IsPublished { get; set; }
 
 		public string Name { get; set; }
 
@@ -42,6 +45,6 @@ namespace PLE.Service.Models
 
 		public virtual ICollection<Question> Questions { get; set; }
 
-		public bool CanAnswer => DateTime.Now < AvailableTill;
+		public bool CanAnswer => DateTime.Now >= AvailableOn && DateTime.Now < AvailableTill && IsPublished && !IsDeleted;
 	}
 }

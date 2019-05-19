@@ -243,6 +243,10 @@
     <Compile Include="Migrations\201905181822378_answers.Designer.cs">
       <DependentUpon>201905181822378_answers.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905191950075_quiz-publish.cs" />
+    <Compile Include="Migrations\201905191950075_quiz-publish.Designer.cs">
+      <DependentUpon>201905191950075_quiz-publish.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Answer.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -334,6 +338,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905181822378_answers.resx">
       <DependentUpon>201905181822378_answers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905191950075_quiz-publish.resx">
+      <DependentUpon>201905191950075_quiz-publish.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

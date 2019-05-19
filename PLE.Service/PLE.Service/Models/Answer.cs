@@ -6,6 +6,10 @@ namespace PLE.Service.Models
 {
 	public class Answer
 	{
+		public Answer() {
+			Id = new Guid();
+		}
+
 		[Key]
 		public Guid Id { get; set; }
 

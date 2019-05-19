@@ -1,0 +1,167 @@
+﻿@using System.Web.UI.WebControls
+@using PLE.Contract.DTOs
+@model PLE444.ViewModels.QuestionViewModel
+
+@{
+	ViewBag.Title = "Soru Ekle";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-default">
+	@using (Html.BeginForm()) {
+		<div class="panel-heading">
+			@if (Model.Id == Guid.Empty) {
+				<h2>Yeni Soru</h2>
+			} else {
+				<h2>@Model.Title</h2>
+			}
+		</div>
+		<div class="panel-body">
+			@Html.AntiForgeryToken()
+			@Html.HiddenFor(model => model.QuizId)
+
+			<div class="form-horizontal">
+				@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+				<div class="form-group">
+					@Html.LabelFor(model => model.Title, new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						@Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						@Html.TextAreaFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @style = "background-color:white;" } })
+					</div>
+					@Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+				</div>
+
+				<div class="form-group">
+					@Html.LabelFor(model => model.Answering, new { @class = "control-label col-md-2" })
+					<div class="col-sm-8">
+						<label class="radio-inline icheck">
+
+							@Html.RadioButtonFor(model => model.Answering, "SingleSelection")
+							Tek seçenek
+						</label>
+						@*<label class="radio-inline icheck">
+							@Html.RadioButtonFor(model => model.Answering, "MultipleSelection")
+							Çoklu seçmeli
+						</label>*@
+						<label class="radio-inline icheck">
+							@Html.RadioButtonFor(model => model.Answering, "ShortAnswer")
+							Açık cevap
+						</label>
+					</div>
+					@Html.ValidationMessageFor(model => model.Answering, "", new { @class = "text-danger" })
+				</div>
+			</div>
+
+			@if (Model.AnswerOptions.Any()) {
+				<hr />
+				<div class="row">
+					<div class="col-md-2 text-right">Cevap Seçenekleri</div>
+					<div class="col-md-10">
+
+						<table class="table table-striped m-n">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>İçerik</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+								@foreach (var answerOption in Model.AnswerOptions) {
+									var row = Model.AnswerOptions.IndexOf(answerOption) + 1;
+									<tr>
+										<td>@row</td>
+										<td>@Html.Raw(answerOption.Content)</td>
+										<td>
+											<a href="@Url.Action("EditAnswerOption", "Quiz", new { id = answerOption.Id })" class="pull-right"><i class="ti ti-pencil"></i> Düzenle</a>
+										</td>
+									</tr>
+								}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			} else if (Model.Id != Guid.Empty && Model.Answering != QuestionDto.AnswerType.ShortAnswer) {
+				<div class="alert alert-info">
+					<i class="ti ti-info-alt"></i>&nbsp; Bu sorunun içinde hiç cevap seçeneği yok. <a href="@Url.Action("AddAnswerOption", "Quiz", new { questionId = Model.Id })">
+						<strong>Cevap Seçeneği Ekle</strong>
+					</a>
+				</div>
+			}
+		</div>
+		<div class="panel-footer">
+			<a class="btn btn-default" href="@Url.Action("Edit", "Quiz", new {id = Model.QuizId})">
+				<i class="ti ti-angle-left"></i> Teste Git
+			</a>
+			<button type="submit" class="btn btn-success pull-right">
+				<i class="ti ti-save"></i> Kaydet
+			</button>
+			@if (Model.Id != Guid.Empty) {
+				if (Model.Answering != QuestionDto.AnswerType.ShortAnswer) {
+					<a href="@Url.Action("AddAnswerOption", "Quiz", new { questionId = Model.Id })" class="btn btn-primary pull-right mr-md" title="Cevap Seçeneği Ekle">
+						<i class="ti ti-plus"></i> Cevap Seçeneği Ekle
+					</a>
+				}
+
+				<a class="btn-remove btn btn-danger pull-right mr-md" title="Sil" data-question-id="@Model.Id">
+					<i class="ti ti-trash"></i> Sil
+				</a>
+			}
+
+		</div>
+	}
+</div>
+
+@section scripts
+{
+	@Scripts.Render("~/bundles/jqueryval")
+	<script>
+		$(document).ready(function() {
+			$('#Description').summernote({
+				focus: true,
+				codemirror: {
+					theme: 'united'
+				},
+				toolbar: [
+					// [groupName, [list of button]]
+					['style', ['bold', 'italic', 'underline', 'clear', 'codeview']],
+					['font', ['strikethrough', 'superscript', 'subscript']],
+					['fontsize', ['fontsize']],
+					['color', ['color']],
+					['para', ['ul', 'ol', 'paragraph']],
+					['height', ['height']],
+				]
+			});
+
+			$(".btn-remove").on("click", function() {
+				var object = $(this);
+				bootbox.confirm({
+					title: "Onay",
+					message: "Soruyu kaldırmak istediğinize emin misiniz?",
+					buttons: {
+						confirm: {
+							label: 'Evet, Kaldır',
+							className: 'btn-danger-alt'
+						},
+						cancel: {
+							label: 'Hayır',
+							className: 'btn-info-alt'
+						}
+					},
+					callback: function(result) {
+						if (result) {
+							window.location.replace(`@Url.Action("DeleteQuestion", "Quiz")/${object.data('question-id')}`);
+						}
+					}
+				});
+			});
+		});
+	</script>
+}

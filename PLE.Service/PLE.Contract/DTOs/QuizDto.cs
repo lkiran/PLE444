@@ -11,6 +11,8 @@ namespace PLE.Contract.DTOs
 		}
 
 		public Guid Id { get; set; }
+		
+		public bool IsPublished { get; set; }
 
 		public string Name { get; set; }
 
@@ -35,6 +37,6 @@ namespace PLE.Contract.DTOs
 
 		public List<QuestionDto> Questions { get; set; }
 
-		public bool CanAnswer => DateTime.Now < AvailableTill;
+		public bool CanAnswer => DateTime.Now >= AvailableOn && DateTime.Now < AvailableTill && IsPublished;
 	}
 }

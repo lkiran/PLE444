@@ -18,9 +18,9 @@ namespace PLE.Service.Models.Mapper
 			CreateMap<Document, DocumentDto>().ReverseMap();
 			CreateMap<Community, CommunityDto>().ReverseMap();
 			CreateMap<Contract.Enums.RoleType, ApplicationUser.RoleType>().ReverseMap();
-			CreateMap<Question, Question>().ReverseMap();
 			CreateMap<Answer, AnswerDto>().ReverseMap();
 			CreateMap<Quiz, QuizDto>().ReverseMap();
+			CreateMap<Question, QuestionDto>().ReverseMap();
 			CreateMap<Question.AnswerType, QuestionDto.AnswerType>().ReverseMap();
 			CreateMap<Question.EvaluationType, QuestionDto.EvaluationType>().ReverseMap();
 

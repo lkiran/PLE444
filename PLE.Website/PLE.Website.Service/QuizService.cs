@@ -41,14 +41,20 @@ namespace PLE.Website.Service
 			Client.Delete(url);
 		}
 
+		public QuestionDto GetQuestion(Guid id) {
+			var url = $"Api/Quiz/Question/{id}";
+			var response = Client.Get<QuestionDto>(url);
+			return response;
+		}
+
 		public Guid AddQuestion(QuestionDto request, Guid quizId) {
-			var url = $"Api/Quiz/AddQuestion/{quizId}";
+			var url = $"Api/Quiz/Question/Add/{quizId}";
 			var response = Client.Post<Guid>(url, request);
 			return response;
 		}
 
-		public QuestionDto Update(QuestionDto request) {
-			var url = $"Api/Quiz/UpdateQuestion";
+		public QuestionDto UpdateQuestion(QuestionDto request) {
+			var url = $"Api/Quiz/Question/Update";
 			var response = Client.Post<QuestionDto>(url, request);
 			return response;
 		}
@@ -58,8 +64,33 @@ namespace PLE.Website.Service
 			Client.Delete(url);
 		}
 
+		public AnswerDto GetAnswer(Guid id) {
+			var url = $"Api/Quiz/Question/Answer/{id}";
+			var response = Client.Get<AnswerDto>(url);
+			return response;
+		}
+
+		public Guid AddAnswer(AnswerDto answer, Guid id) {
+			var url = $"Api/Quiz/Question/Answer/Add/{id}";
+			var response = Client.Post<Guid>(url, answer);
+
+			return response;
+		}
+
+		public AnswerDto UpdateAnswer(AnswerDto answer) {
+			var url = $"Api/Quiz/Question/Answer/Update";
+			var response = Client.Post<AnswerDto>(url, answer);
+
+			return response;
+		}
+
+		public void RemoveAnswerOption(Guid answerId) {
+			var url = $"Api/Quiz/Question/Answer/{answerId}";
+			Client.Delete(url);
+		}
+
 		public List<UserAnswerDto> SaveUserAnswer(Guid questionId, List<AnswerDto> request) {
-			var url = $"Api/Quiz/Answer/{questionId}";
+			var url = $"Api/Quiz/Question/Answer/{questionId}";
 			var response = Client.Post<List<UserAnswerDto>>(url, request);
 			return response;
 		}

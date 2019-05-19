@@ -7,6 +7,11 @@ namespace PLE.Service.Models
 {
 	public class Question
 	{
+		public Question() {
+			AnswerOptions = new List<Answer>();
+			UserAnswers = new List<UserAnswer>();
+		}
+
 		public enum AnswerType
 		{
 			NotSpecified = 0,
@@ -25,7 +30,7 @@ namespace PLE.Service.Models
 
 		[Key]
 		public Guid Id { get; set; }
-		
+
 		public bool IsDeleted { get; set; }
 
 		public string Title { get; set; }
@@ -38,7 +43,7 @@ namespace PLE.Service.Models
 		public EvaluationType Evaluation { get; set; }
 
 		public ICollection<Answer> AnswerOptions { get; set; }
-		
+
 		public virtual ICollection<UserAnswer> UserAnswers { get; set; }
 	}
 }

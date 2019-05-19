@@ -35,6 +35,8 @@ namespace PLE.Contract.DTOs
 		public AnswerType Answering { get; set; }
 
 		public EvaluationType Evaluation { get; set; }
+		
+		public QuizDto Quiz { get; set; }
 
 		public List<AnswerDto> AnswerOptions { get; set; }
 

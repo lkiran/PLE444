@@ -23,7 +23,7 @@ namespace PLE.Service.Implementations
 		public List<QuizListDto> List(Guid courseId, bool forCreator = false) {
 			var quizzes = _db.Quizzes.Where(quiz => quiz.CourseId == courseId && !quiz.IsDeleted);
 			if (!forCreator)
-				quizzes = quizzes.Where(q => q.AvailableOn >= DateTime.Now);
+				quizzes = quizzes.Where(q => q.IsPublished);
 
 			var result = Mapper.Map<List<QuizListDto>>(quizzes);
 
@@ -31,7 +31,10 @@ namespace PLE.Service.Implementations
 		}
 
 		public Quiz GetQuiz(Guid quizId) {
-			var quiz = _db.Quizzes.FirstOrDefault(q => q.Id == quizId && !q.IsDeleted)
+			var quiz = _db.Quizzes
+				           .Include("Questions")
+				           .Include("Questions.AnswerOptions")
+				           .FirstOrDefault(q => q.Id == quizId && !q.IsDeleted)
 				?? throw new Exception($"Quiz with id={quizId} cannot be found");
 
 			return quiz;
@@ -48,6 +51,7 @@ namespace PLE.Service.Implementations
 
 		public Quiz Update(Quiz quiz) {
 			var model = GetQuiz(quiz.Id);
+			model.IsPublished = quiz.IsPublished;
 			model.AvailableOn = quiz.AvailableOn;
 			model.AvailableTill = quiz.AvailableTill;
 			model.Description = quiz.Description;
@@ -69,13 +73,21 @@ namespace PLE.Service.Implementations
 
 		#region Questions
 		public Question GetQuestion(Guid questionId) {
-			var question = _db.Questions.FirstOrDefault(q => q.Id == questionId && !q.IsDeleted)
+			var question = _db.Questions
+							   .Include("AnswerOptions")
+							   .FirstOrDefault(q => q.Id == questionId && !q.IsDeleted)
 					   ?? throw new Exception($"Question with id={questionId} cannot be found");
 
 			return question;
 		}
 
+		public Quiz GetQuizOfQuestion(Question model) {
+			return _db.Quizzes.Include("Questions").FirstOrDefault(q => q.Questions.Any(a => a.Id == model.Id))
+				   ?? throw new Exception($"Related Quiz of question with id={model.Id} cannot be found");
+		}
+
 		public Guid AddQuestion(Question question, Guid quizId) {
+			question.Id = Guid.NewGuid();
 			question = _db.Questions.Add(question);
 
 			var quiz = GetQuiz(quizId);
@@ -91,6 +103,7 @@ namespace PLE.Service.Implementations
 			var model = GetQuestion(question.Id);
 			model.Title = question.Title;
 			model.Description = question.Description;
+			model.Answering = question.Answering;
 
 			_db.Entry(model).State = EntityState.Modified;
 			_db.SaveChanges();
@@ -119,6 +132,58 @@ namespace PLE.Service.Implementations
 				: answer;
 		}
 
+		public Question GetQuestionOfAnswerOption(Answer model) {
+			return _db.Questions.FirstOrDefault(q => q.AnswerOptions.Any(a => a.Id == model.Id))
+				   ?? throw new Exception($"Related Question of answer with id={model.Id} cannot be found");
+		}
+
+		private Answer CreateAnswer(Answer answer) {
+			answer.Id = Guid.NewGuid();
+			answer = _db.Answers.Add(answer);
+			_db.SaveChanges();
+
+			return answer;
+		}
+
+		public Guid AddAnswer(Answer answer, Guid questionId) {
+			var question = GetQuestion(questionId);
+			answer = CreateAnswer(answer);
+			question.AnswerOptions.Add(answer);
+
+			_db.Entry(question).State = EntityState.Modified;
+			_db.SaveChanges();
+
+			return answer.Id;
+		}
+
+		public Answer UpdateAnswer(Answer answer) {
+			var model = GetAnswer(answer.Id);
+			model.Content = answer.Content;
+
+			_db.Entry(model).State = EntityState.Modified;
+			_db.SaveChanges();
+
+			return model;
+		}
+
+		public void RemoveAnswerOption(Guid answerId) {
+			var answer = GetAnswer(answerId);
+			var question = GetQuestionOfAnswerOption(answer);
+			question.AnswerOptions.Remove(answer);
+
+			_db.Entry(question).State = EntityState.Modified;
+			_db.SaveChanges();
+		}
+		#endregion
+
+		#region User Answers
+		private UserAnswer SaveUserAnswer(Question question, string userId, Answer answer) {
+			answer = CreateAnswer(answer);
+			var ua = AddUserAnswer(question, answer, userId);
+
+			return ua;
+		}
+
 		public List<UserAnswer> SaveUserAnswer(Guid questionId, string userId, List<Answer> answers) {
 			var question = GetQuestion(questionId);
 			if (question.Answering != Question.AnswerType.ShortAnswer)
@@ -140,13 +205,6 @@ namespace PLE.Service.Implementations
 			}
 		}
 
-		private UserAnswer SaveUserAnswer(Question question, string userId, Answer answer) {
-			answer = CreateAnswer(answer);
-			var ua = AddUserAnswer(question, answer, userId);
-
-			return ua;
-		}
-
 		private UserAnswer SaveUserAnswer(Question question, string userId, Guid answerId) {
 			var answer = GetAnswer(answerId);
 			var ua = AddUserAnswer(question, answer, userId);
@@ -160,9 +218,7 @@ namespace PLE.Service.Implementations
 
 			return userAnswers;
 		}
-		#endregion
 
-		#region Private Methods
 		private UserAnswer AddUserAnswer(Question question, Answer answer, string userId) {
 			var ua = new UserAnswer {
 				Answer = answer,
@@ -177,18 +233,6 @@ namespace PLE.Service.Implementations
 			_db.SaveChanges();
 
 			return ua;
-		}
-
-		private Answer CreateAnswer(Answer answer) {
-			answer = _db.Answers.Add(answer);
-			_db.SaveChanges();
-
-			return answer;
-		}
-
-		private Quiz GetQuizOfQuestion(Question model) {
-			return _db.Quizzes.FirstOrDefault(q => q.Questions.Contains(model))
-				   ?? throw new Exception($"Related Quiz of question with id={model.Id} cannot be found");
 		}
 		#endregion
 	}

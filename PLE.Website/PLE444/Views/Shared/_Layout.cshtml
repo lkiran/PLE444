@@ -166,7 +166,6 @@
 			var date = new Date();
 			date.setDate(date.getDate());
 			$('.date-time-picker').datetimepicker({
-
 				startDate: date,
 				inline: true,
 				format: 'yyyy-mm-dd hh:ii',
@@ -176,7 +175,6 @@
 			});
 
 			$('.date-picker').datetimepicker({
-
 				startDate: date,
 				inline: true,
 				format: 'yyyy-mm-dd',
@@ -184,6 +182,23 @@
 				sideBySide: true,
 				language: 'tr'
 			});
+
+			$('.text-editor').summernote({
+				focus: true,
+				codemirror: {
+					theme: 'united'
+				},
+				toolbar: [
+					// [groupName, [list of button]]
+					['style', ['bold', 'italic', 'underline', 'clear', 'codeview']],
+					['font', ['strikethrough', 'superscript', 'subscript']],
+					['fontsize', ['fontsize']],
+					['color', ['color']],
+					['para', ['ul', 'ol', 'paragraph']],
+					['height', ['height']],
+				]
+			});
+
 		});
 	</script>
 	<!-- End loading site level scripts -->
