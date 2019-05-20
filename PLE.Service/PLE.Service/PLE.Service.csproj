@@ -251,6 +251,10 @@
     <Compile Include="Migrations\201905201337300_useranswer-question.Designer.cs">
       <DependentUpon>201905201337300_useranswer-question.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905201658264_letter-grade.cs" />
+    <Compile Include="Migrations\201905201658264_letter-grade.Designer.cs">
+      <DependentUpon>201905201658264_letter-grade.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Answer.cs" />
     <Compile Include="Models\Assignment.cs" />
@@ -265,6 +269,7 @@
     <Compile Include="Models\Friendship.cs" />
     <Compile Include="Models\GradeType.cs" />
     <Compile Include="Models\Interest.cs" />
+    <Compile Include="Models\LetterGrade.cs" />
     <Compile Include="Models\Mapper\PleMappingProfile.cs" />
     <Compile Include="Models\Material.cs" />
     <Compile Include="Models\Message.cs" />
@@ -348,6 +353,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905201337300_useranswer-question.resx">
       <DependentUpon>201905201337300_useranswer-question.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905201658264_letter-grade.resx">
+      <DependentUpon>201905201658264_letter-grade.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -257,6 +257,7 @@
     <Compile Include="Models\Community.cs" />
     <Compile Include="Models\CommunityMembersViewModel.cs" />
     <Compile Include="Models\Enums.cs" />
+    <Compile Include="Models\LetterGrade.cs" />
     <Compile Include="Models\PleAuthorizationAttribute.cs" />
     <Compile Include="Models\PleClaimsIdentity.cs" />
     <Compile Include="ViewModels\AnswerViewModel.cs" />
@@ -2234,6 +2235,7 @@
     <Content Include="Views\Quiz\AnswerOption.cshtml" />
     <Content Include="Views\Quiz\Solve.cshtml" />
     <Content Include="Views\Quiz\Detail.cshtml" />
+    <Content Include="Views\Course\LetterGrade.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

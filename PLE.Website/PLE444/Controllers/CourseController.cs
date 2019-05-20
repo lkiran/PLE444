@@ -223,7 +223,8 @@ namespace PLE444.Controllers
 				CourseInfo = course,
 				CurrentUserId = User.Identity.GetUserId(),
 				UserGrades = ug,
-				GradeTypes = db.GradeTypes.Where(c => c.Course.Id == courseId).ToList(),
+				LetterGrades = db.LetterGrades.Where(c => c.Course.Id == courseId && c.IsActive).ToList(),
+				GradeTypes = db.GradeTypes.Where(c => c.Course.Id == courseId && c.IsActive).ToList(),
 				CourseUsers = courseUsers
 			};
 
@@ -233,136 +234,7 @@ namespace PLE444.Controllers
 				return View("GradesForMember", model);
 		}
 
-		[PleAuthorization]
-		public ActionResult CreateGradeType(Guid? id) {
-			if (id == null)
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-			var course = db.Courses.Find(id);
 
-			if (course == null)
-				return HttpNotFound();
-
-			if (!isCourseCreator(course))
-				return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
-
-			ViewBag.CourseId = id;
-			return View(new GradeType());
-		}
-
-		[HttpPost]
-		[PleAuthorization]
-		[ValidateAntiForgeryToken]
-		public ActionResult CreateGradeType(GradeType model, Guid? courseId) {
-			if (model != null || courseId != null) {
-				var course = db.Courses.FirstOrDefault(i => i.Id == courseId);
-
-				if (course == null)
-					return HttpNotFound();
-
-				if (!isCourseCreator(course))
-					return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
-
-				model.Course = course;
-
-				db.GradeTypes.Add(model);
-
-				course.Timeline.Add(new TimelineEntry {
-					ColorClass = "timeline-primary",
-					CreatorId = course.CreatorId,
-					DateCreated = DateTime.Now,
-					IconClass = "ti ti-plus",
-					Heading = "Not eklendi",
-					Content = model.Name + " isminde, %" + model.Effect + " ortalamaya etkisi olan " + model.Description + " notu eklendi."
-				});
-
-				db.Entry(course).State = EntityState.Modified;
-				db.SaveChanges();
-
-				return RedirectToAction("Grades", new { courseId = model.Course.Id });
-			}
-
-			return View();
-		}
-
-		[PleAuthorization]
-		public ActionResult EditGradeType(int? id) {
-			if (id == null)
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-			var model = db.GradeTypes.Find(id);
-
-			if (model == null)
-				return HttpNotFound();
-
-			if (!isCourseCreator(model.Course))
-				return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
-
-			return View(model);
-		}
-
-		[HttpPost]
-		[PleAuthorization]
-		[ValidateAntiForgeryToken]
-		public ActionResult EditGradeType(GradeType model) {
-			if (ModelState.IsValid) {
-				var gradeType = db.GradeTypes.Find(model.Id);
-
-				if (gradeType == null)
-					return HttpNotFound();
-
-				if (!isCourseCreator(gradeType.Course))
-					return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
-
-				gradeType.Effect = model.Effect;
-				gradeType.Description = model.Description;
-				gradeType.Name = model.Name;
-				gradeType.MaxScore = model.MaxScore;
-
-				gradeType.Course.Timeline.Add(new TimelineEntry {
-					ColorClass = "timeline-warning",
-					CreatorId = gradeType.Course.CreatorId,
-					DateCreated = DateTime.Now,
-					IconClass = "ti ti-pencil",
-					Heading = model.Name + " notu değiştirildi"
-				});
-
-				db.Entry(gradeType).State = EntityState.Modified;
-				db.SaveChanges();
-
-				var course = db.Courses.FirstOrDefault(i => i.Id == model.CourseId);
-				return RedirectToAction("Grades", new { courseId = course.Id });
-			}
-
-			return View(model);
-		}
-
-		[PleAuthorization]
-		public ActionResult RemoveGradeType(int? id) {
-			if (!id.HasValue)
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-			var gradeType = db.GradeTypes.Find(id);
-			if (gradeType == null)
-				return HttpNotFound();
-
-			else if (!isCourseCreator(gradeType.CourseId))
-				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-
-			gradeType.IsActive = false;
-
-			gradeType.Course.Timeline.Add(new TimelineEntry {
-				ColorClass = "timeline-danger",
-				CreatorId = gradeType.Course.CreatorId,
-				DateCreated = DateTime.Now,
-				IconClass = "ti ti-trash",
-				Heading = gradeType.Name + " notu silindi"
-			});
-
-			db.Entry(gradeType).State = EntityState.Modified;
-			db.SaveChanges();
-
-			return RedirectToAction("Grades", "Course", new { courseId = gradeType.CourseId });
-		}
 
 		[PleAuthorization]
 		public ActionResult ChangeGrade(int? gradeId) {
@@ -502,6 +374,230 @@ namespace PLE444.Controllers
 			return RedirectToAction("Grades", "Course", new { courseId = gradeType.CourseId });
 		}
 
+		#region Grade Type
+		[PleAuthorization]
+		public ActionResult CreateGradeType(Guid? id) {
+			if (id == null)
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+			var course = db.Courses.Find(id);
+
+			if (course == null)
+				return HttpNotFound();
+
+			if (!isCourseCreator(course))
+				return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+			ViewBag.CourseId = id;
+			return View(new GradeType());
+		}
+
+		[HttpPost]
+		[PleAuthorization]
+		[ValidateAntiForgeryToken]
+		public ActionResult CreateGradeType(GradeType model, Guid? courseId) {
+			if (model != null || courseId != null) {
+				var course = db.Courses.FirstOrDefault(i => i.Id == courseId);
+
+				if (course == null)
+					return HttpNotFound();
+
+				if (!isCourseCreator(course))
+					return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+				model.Course = course;
+
+				db.GradeTypes.Add(model);
+
+				course.Timeline.Add(new TimelineEntry {
+					ColorClass = "timeline-primary",
+					CreatorId = course.CreatorId,
+					DateCreated = DateTime.Now,
+					IconClass = "ti ti-plus",
+					Heading = "Not eklendi",
+					Content = model.Name + " isminde, %" + model.Effect + " ortalamaya etkisi olan " + model.Description + " notu eklendi."
+				});
+
+				db.Entry(course).State = EntityState.Modified;
+				db.SaveChanges();
+
+				return RedirectToAction("Grades", new { courseId = model.Course.Id });
+			}
+
+			return View();
+		}
+
+		[PleAuthorization]
+		public ActionResult EditGradeType(int? id) {
+			if (id == null)
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+			var model = db.GradeTypes.Find(id);
+
+			if (model == null)
+				return HttpNotFound();
+
+			if (!isCourseCreator(model.Course))
+				return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+			return View(model);
+		}
+
+		[HttpPost]
+		[PleAuthorization]
+		[ValidateAntiForgeryToken]
+		public ActionResult EditGradeType(GradeType model) {
+			if (ModelState.IsValid) {
+				var gradeType = db.GradeTypes.Find(model.Id);
+
+				if (gradeType == null)
+					return HttpNotFound();
+
+				if (!isCourseCreator(gradeType.Course))
+					return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+				gradeType.Effect = model.Effect;
+				gradeType.Description = model.Description;
+				gradeType.Name = model.Name;
+				gradeType.MaxScore = model.MaxScore;
+
+				gradeType.Course.Timeline.Add(new TimelineEntry {
+					ColorClass = "timeline-warning",
+					CreatorId = gradeType.Course.CreatorId,
+					DateCreated = DateTime.Now,
+					IconClass = "ti ti-pencil",
+					Heading = model.Name + " notu değiştirildi"
+				});
+
+				db.Entry(gradeType).State = EntityState.Modified;
+				db.SaveChanges();
+
+				var course = db.Courses.FirstOrDefault(i => i.Id == model.CourseId);
+				return RedirectToAction("Grades", new { courseId = course.Id });
+			}
+
+			return View(model);
+		}
+
+		[PleAuthorization]
+		public ActionResult RemoveGradeType(int? id) {
+			if (!id.HasValue)
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+			var gradeType = db.GradeTypes.Find(id);
+			if (gradeType == null)
+				return HttpNotFound();
+
+			else if (!isCourseCreator(gradeType.CourseId))
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+			gradeType.IsActive = false;
+
+			gradeType.Course.Timeline.Add(new TimelineEntry {
+				ColorClass = "timeline-danger",
+				CreatorId = gradeType.Course.CreatorId,
+				DateCreated = DateTime.Now,
+				IconClass = "ti ti-trash",
+				Heading = gradeType.Name + " notu silindi"
+			});
+
+			db.Entry(gradeType).State = EntityState.Modified;
+			db.SaveChanges();
+
+			return RedirectToAction("Grades", "Course", new { courseId = gradeType.CourseId });
+		}
+
+		#endregion
+
+		#region Letter Grade
+		public ActionResult CreateLetterGrade(Guid id) {
+			var course = db.Courses.Find(id);
+
+			if (course == null)
+				return HttpNotFound();
+
+			if (!isCourseCreator(course))
+				return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+			var model = new LetterGrade {
+				CourseId = id
+			};
+
+			return View("LetterGrade", model);
+		}
+
+		[HttpPost]
+		[PleAuthorization]
+		[ValidateAntiForgeryToken]
+		public ActionResult CreateLetterGrade(LetterGrade model) {
+			var course = db.Courses.FirstOrDefault(i => i.Id == model.CourseId);
+			if (course == null)
+				return HttpNotFound();
+
+			if (!isCourseCreator(course))
+				return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+			model.Id = Guid.NewGuid();
+			model.Course = course;
+
+			db.LetterGrades.Add(model);
+			db.SaveChanges();
+
+			return RedirectToAction("Grades", new { courseId = model.Course.Id });
+		}
+
+		[PleAuthorization]
+		public ActionResult EditLetterGrade(Guid id) {
+			var model = db.LetterGrades.Find(id);
+			if (model == null)
+				return HttpNotFound();
+
+			if (!isCourseCreator(model.Course))
+				return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+
+			return View("LetterGrade", model);
+		}
+
+		[HttpPost]
+		[PleAuthorization]
+		[ValidateAntiForgeryToken]
+		public ActionResult EditLetterGrade(LetterGrade model) {
+			if (!ModelState.IsValid)
+				return View("LetterGrade", model);
+
+			var letterGrade = db.LetterGrades.Find(model.Id);
+			if (letterGrade == null)
+				return HttpNotFound();
+
+			if (!isCourseCreator(letterGrade.Course))
+				return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
+			
+			letterGrade.Name = model.Name;
+			letterGrade.From = model.From;
+			letterGrade.To = model.To;
+
+			db.Entry(letterGrade).State = EntityState.Modified;
+			db.SaveChanges();
+
+			return RedirectToAction("Grades", new { courseId = model.CourseId });
+		}
+
+		[PleAuthorization]
+		public ActionResult DeleteLetterGrade(Guid id) {
+			var letterGrade = db.LetterGrades.Find(id);
+			if (letterGrade == null)
+				return HttpNotFound();
+
+			else if (!isCourseCreator(letterGrade.CourseId))
+				return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+
+			letterGrade.IsActive = false;
+
+			db.Entry(letterGrade).State = EntityState.Modified;
+			db.SaveChanges();
+
+			return RedirectToAction("Grades", "Course", new { courseId = letterGrade.CourseId });
+		}
+		#endregion
 		#endregion
 
 		#region Discussions

@@ -5,41 +5,58 @@
 	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@section styles
-{
+@section styles {
 	@Styles.Render("~/Content/plugins/datatables/dataTables.bootstrap.css",
 					"~/Content/plugins/datatables/dataTables.themify.css")
 }
 
 @{ Html.RenderAction("Navigation", "Course", new { id = Model.CourseInfo.Id }); }
 
-<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+@if (Model.LetterGrades != null && Model.LetterGrades.Any()) {
+	<div class="well">
+		<table class="table table-condensed m-n">
+			<thead>
+				<tr>
+					@foreach (var letterGrade in Model.LetterGrades.OrderByDescending(l => l.To)) {
+						<th class="text-center ml-sm">
+							<a href="@Url.Action("EditLetterGrade",new {id = letterGrade.Id})" title="Harf notunu düzenle">@letterGrade.Name <i class="ti ti-pencil"></i></a>
+						</th>
+					}
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					@foreach (var letterGrade in Model.LetterGrades.OrderByDescending(l => l.To)) {
+						<td class="text-center">
+							<span>@letterGrade.From - @letterGrade.To</span>
+						</td>
+					}
+				</tr>
+			</tbody>
+		</table>
+	</div>
+}
 
+<div class="panel panel-default">
 	<table class="table table-hover m-n" id="gradeTbl">
 		<thead>
 			<tr>
 				<th></th>
-				@foreach (var gradeType in Model.GradeTypes)
-				{
-					if (gradeType.IsActive)
-					{
+				@foreach (var gradeType in Model.GradeTypes) {
+					if (gradeType.IsActive) {
 						<th class="text-center" title="@gradeType.Description
 Ağırlık: @gradeType.Effect%
 Max Score: @gradeType.MaxScore">
-							@if (Model.CourseInfo.IsCourseActive)
-							{
+							@if (Model.CourseInfo.IsCourseActive) {
 								<a href="@Url.Action("EditGradeType", "Course", new {id = gradeType.Id})">@gradeType.Name</a>
-							}
-
-							else
-							{
+							} else {
 								<span>@gradeType.Name</span>
 							}
-
 						</th>
 					}
 				}
 				<th class="text-center">Toplam</th>
+				<th class="text-center">Harf Notu</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -47,10 +64,8 @@ Max Score: @gradeType.MaxScore">
 				var row = 0;
 				var column = 0;
 			}
-			@foreach (var cu in Model.CourseUsers)
-			{
-				if (cu.UserId == null || !cu.IsActive)
-				{
+			@foreach (var cu in Model.CourseUsers) {
+				if (cu.UserId == null || !cu.IsActive) {
 					continue;
 				}
 
@@ -63,8 +78,7 @@ Max Score: @gradeType.MaxScore">
 							<img alt="Kullanıcı Resmi" src="@Url.Content(cu.User.UserPhoto())" class="img-circle" style="height: 30px;" />
 							@cu.User.FullName()
 						</a>
-						@if (Model.CourseInfo.IsCourseActive)
-						{
+						@if (Model.CourseInfo.IsCourseActive) {
 							<a class="js-ejectUser ml-sm" data-user-id="@cu.UserId" data-course-id="@cu.CourseId">
 								<small class="text-danger"> <i class="fa fa-ban"></i> Çıkar</small>
 							</a>
@@ -74,45 +88,30 @@ Max Score: @gradeType.MaxScore">
 
 					@{ var gradesOfTheUser = Model.UserGrades.Where(u => u.UserId == cu.UserId).ToList(); }
 
-					@foreach (var gradeType in Model.GradeTypes)
-					{
-						if (gradeType.IsActive)
-						{
+					@foreach (var gradeType in Model.GradeTypes) {
+						if (gradeType.IsActive) {
 							var userGrade = gradesOfTheUser.FirstOrDefault(g => g.GradeTypeId == gradeType.Id);
 
 							<td class="text-center">
-								@if (Model.CourseInfo.IsCourseActive == true)
-								{
-									if (userGrade == null)
-									{
+								@if (Model.CourseInfo.IsCourseActive) {
+									if (userGrade == null) {
 										<a class="editable" href="#AddGrade" data-grade-type-id="@gradeType.Id" data-user-id="@cu.UserId">
 											<i class="fa fa-plus text-warning"></i>
 											<input type="text" style="display: none;" value="" data-x="@column" data-y="@row">
 										</a>
-									}
-
-									else
-									{
+									} else {
 										totalUserScore += (userGrade.Grade * gradeType.Effect / gradeType.MaxScore);
 
-										@*@Url.Action("ChangeGrade", "Course", new { gradeId = userGrade.Id })*@
 										<a class="editable" href="#EditGrade" data-id="@userGrade.Id" data-grade-type-id="@gradeType.Id" data-user-id="@cu.UserId">
 											<span>@userGrade.Grade</span>
 											<input type="text" style="display: none;" value="@userGrade.Grade" data-x="@column" data-y="@row">
 										</a>
 									}
-								}
-
-								else
-								{
-									if (userGrade == null)
-									{
+								} else {
+									if (userGrade == null) {
 										<span>0</span>
-									}
-									else
-									{
+									} else {
 										totalUserScore += (userGrade.Grade * gradeType.Effect / gradeType.MaxScore);
-
 										<span>@userGrade.Grade</span>
 									}
 								}
@@ -121,22 +120,26 @@ Max Score: @gradeType.MaxScore">
 						column++;
 					}
 					<td class="text-center">@(Math.Round((totalUserScore), 2))</td>
+					<td class="text-center">
+						@{ var letter = Model.LetterGrades.OrderByDescending(l => l.To).FirstOrDefault(l => l.From <= totalUserScore); }
+						@if (letter != null) {
+							<b>@letter.Name</b>
+						}
+					</td>
 				</tr>
 				row++;
 			}
 		</tbody>
 	</table>
-
 </div>
 
-@if (Model.CourseInfo.IsCourseActive == true)
-{
-	<a href="@Url.Action("CreateGradeType", new { id = Model.CourseInfo.Id })" class="btn btn-primary-alt" id="dyna-del">Not Türü Ekle</a>
+@if (Model.CourseInfo.IsCourseActive) {
+	<a href="@Url.Action("CreateGradeType", new { id = Model.CourseInfo.Id })" class="btn btn-primary-alt mr-md" id="dyna-del">Not Türü Ekle</a>
+	<a href="@Url.Action("CreateLetterGrade", new { id = Model.CourseInfo.Id })" class="btn btn-primary-alt" id="dyna-del">Harf Notu Ekle</a>
 }
 
 
-@section scripts
-{
+@section scripts {
 	@Scripts.Render("~/Content/plugins/datatables/jquery.dataTables.js")
 
 	<script>
@@ -343,7 +346,6 @@ Max Score: @gradeType.MaxScore">
 				$(".js-ejectUser")
 					.on("click",
 						function() {
-
 							var object = $(this);
 
 							bootbox.confirm({

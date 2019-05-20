@@ -68,6 +68,8 @@ namespace PLE444.Models
 
 		public DbSet<GradeType> GradeTypes { get; set; }
 
+		public DbSet<LetterGrade> LetterGrades { get; set; }
+		
 		public DbSet<Material> Materials { get; set; }
 
 		public DbSet<Message> Messages { get; set; }

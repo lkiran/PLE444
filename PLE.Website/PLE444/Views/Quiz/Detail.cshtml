@@ -6,6 +6,10 @@
 	var quiz = Model.Quiz;
 }
 
+@section styles {
+	@Styles.Render("~/Content/plugins/datatables/dataTables.bootstrap.css",
+		"~/Content/plugins/datatables/dataTables.themify.css")
+}
 
 <div class="panel panel-@(quiz.CanAnswer ? "success" : "default")">
 	<div class="panel-heading">
