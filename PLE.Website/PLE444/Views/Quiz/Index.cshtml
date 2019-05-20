@@ -25,13 +25,13 @@
 				<div class="panel-heading" style="cursor: pointer" data-toggle="collapse" href="#@quiz.Id">
 
 					<h2>@quiz.Name</h2>
+					@if (!quiz.IsPublished) {
+						<i class="ti ti-lock ml-md" title="Katılımcılardan gizlenmiş durumda"></i>
+					}
 
 					<div class="not-pull-right-xs text-xs-center">
 						<i class="ti ti-time" title="Testin Başlangıç ve Bitiş tarihleri"></i>
 						<strong>Başlangıç</strong> @quiz.AvailableOn • <strong>Bitiş</strong> @quiz.AvailableTill
-						@if (!quiz.CanAnswer) {
-							<i class="ti ti-lock" title="Gizli"></i>
-						}
 					</div>
 				</div>
 
@@ -41,21 +41,25 @@
 					</div>
 					<div class="panel-footer">
 						@if (Model.IsCreator) {
-							<a class="button-icon ml-sm" title="Düzenle" href="@Url.Action("Edit","Quiz", new {id = quiz.Id})">
+							<a class="button-icon ml-md" title="Detayını görüntüle" href="@Url.Action("Detail", "Quiz", new {id = quiz.Id})">
+								<i class="ti ti-menu-alt"></i> Detay
+							</a>
+
+							<a class="button-icon ml-md" title="Düzenle" href="@Url.Action("Edit", "Quiz", new {id = quiz.Id})">
 								<i class="ti ti-pencil"></i> Düzenle
 							</a>
 
 							if (quiz.IsPublished) {
-								<a class="button-icon ml-sm" title="Katılımcılardan gizle" href="@Url.Action("Hide", "Quiz", new {id = quiz.Id})">
+								<a class="button-icon ml-md" title="Katılımcılardan gizle" href="@Url.Action("Hide", "Quiz", new {id = quiz.Id})">
 									<i class="ti ti-lock"></i> Gizle
 								</a>
 							} else {
-								<a class="button-icon ml-sm" title="Katılımcıların görebileceği duruma getir" href="@Url.Action("Show", "Quiz", new {id = quiz.Id})">
+								<a class="button-icon ml-md" title="Katılımcıların görebileceği duruma getir" href="@Url.Action("Show", "Quiz", new {id = quiz.Id})">
 									<i class="ti ti-unlock"></i> Göster
 								</a>
 							}
 						} else if (quiz.CanAnswer) {
-							<a class="btn btn-primary pull-right" title="Testi cevaplamaya başla" href="@Url.Action("Index","Quiz", new {id = quiz.Id})">
+							<a class="btn btn-primary pull-right" title="Testi cevaplamaya başla" href="@Url.Action("Solve","Quiz", new {id = quiz.Id})">
 								<i class="ti ti-pencil-alt"></i> Cevapla
 							</a>
 						}

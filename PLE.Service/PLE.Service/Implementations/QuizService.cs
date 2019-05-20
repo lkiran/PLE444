@@ -30,11 +30,28 @@ namespace PLE.Service.Implementations
 			return result;
 		}
 
+
+		public List<UserAnswer> GetUserAnswers(Guid quizId, string userId = null) {
+			var quiz = GetQuiz(quizId);
+			var result = new List<UserAnswer>();
+			foreach (var question in quiz.Questions) {
+				var r = _db.UserAnswers
+					.Include("Answer")
+					.Include("User")
+					.Where(a => a.QuestionId == question.Id);
+				result.AddRange(r);
+			}
+			if (!string.IsNullOrEmpty(userId))
+				result = result.Where(a => a.UserId == userId).ToList();
+
+			return result;
+		}
+
 		public Quiz GetQuiz(Guid quizId) {
 			var quiz = _db.Quizzes
-				           .Include("Questions")
-				           .Include("Questions.AnswerOptions")
-				           .FirstOrDefault(q => q.Id == quizId && !q.IsDeleted)
+						   .Include("Questions")
+						   .Include("Questions.AnswerOptions")
+						   .FirstOrDefault(q => q.Id == quizId && !q.IsDeleted)
 				?? throw new Exception($"Quiz with id={quizId} cannot be found");
 
 			return quiz;
@@ -177,17 +194,8 @@ namespace PLE.Service.Implementations
 		#endregion
 
 		#region User Answers
-		private UserAnswer SaveUserAnswer(Question question, string userId, Answer answer) {
-			answer = CreateAnswer(answer);
-			var ua = AddUserAnswer(question, answer, userId);
-
-			return ua;
-		}
-
 		public List<UserAnswer> SaveUserAnswer(Guid questionId, string userId, List<Answer> answers) {
 			var question = GetQuestion(questionId);
-			if (question.Answering != Question.AnswerType.ShortAnswer)
-				throw new Exception($"Question with id={questionId} is not set for AnswerType.ShortAnswer");
 
 			var quiz = GetQuizOfQuestion(question);
 			if (!quiz.CanAnswer)
@@ -203,6 +211,13 @@ namespace PLE.Service.Implementations
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
+		}
+
+		private UserAnswer SaveUserAnswer(Question question, string userId, Answer answer) {
+			answer = CreateAnswer(answer);
+			var ua = AddUserAnswer(question, answer, userId);
+
+			return ua;
 		}
 
 		private UserAnswer SaveUserAnswer(Question question, string userId, Guid answerId) {
@@ -221,15 +236,13 @@ namespace PLE.Service.Implementations
 
 		private UserAnswer AddUserAnswer(Question question, Answer answer, string userId) {
 			var ua = new UserAnswer {
-				Answer = answer,
+				Id = Guid.NewGuid(),
 				AnsweredOn = DateTime.Now,
+				Question = question,
+				Answer = answer,
 				UserId = userId
 			};
 			ua = _db.UserAnswers.Add(ua);
-
-			question.UserAnswers.Add(ua);
-			_db.Entry(question).State = EntityState.Modified;
-
 			_db.SaveChanges();
 
 			return ua;

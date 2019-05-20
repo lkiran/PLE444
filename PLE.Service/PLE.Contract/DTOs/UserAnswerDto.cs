@@ -8,7 +8,12 @@ namespace PLE.Contract.DTOs
 		
 		public string UserId { get; set; }
 
+
 		public UserDto User { get; set; }
+		
+		public Guid QuestionId { get; set; }
+	
+		public QuestionDto Question { get; set; }
 
 		public DateTime AnsweredOn { get; set; }
 		

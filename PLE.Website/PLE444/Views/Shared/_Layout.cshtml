@@ -49,7 +49,7 @@
 			<li class="toolbar-icon-bg hidden-xs" id="trigger-fullscreen">
 				<a href="#" title="Tam Ekran" class="toggle-fullscreen"><span class="icon-bg"><i class="ti ti-fullscreen"></i></span></a>
 			</li>
-			
+
 			@{ Html.RenderAction("LogedInUser", "Layout"); }
 		</ul>
 	</header>
@@ -141,12 +141,31 @@
 	@Scripts.Render("~/Content/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.tr.js")
 	@Scripts.Render("~/Content/plugins/fullcalendar/moment.min.js")
 
+	<!-- Load page level scripts-->
+	@RenderSection("scripts", required: false)
+	<!-- End loading page level scripts-->
 
 	<script>
 		$(document).ready(function () {
-			jQuery('.scrollbar-outer').scrollbar({
+			$('.scrollbar-outer').scrollbar({
 				"ignoreMobile": true,
 				"scrollx": "element"
+			});
+
+			$('.text-editor').summernote({
+				focus: true,
+				codemirror: {
+					theme: 'united'
+				},
+				toolbar: [
+					// [groupName, [list of button]]
+					['style', ['bold', 'italic', 'underline', 'clear', 'codeview']],
+					['font', ['strikethrough', 'superscript', 'subscript']],
+					['fontsize', ['fontsize']],
+					['color', ['color']],
+					['para', ['ul', 'ol', 'paragraph']],
+					['height', ['height']],
+				]
 			});
 
 			$(".ellipsis").dotdotdot({
@@ -182,29 +201,10 @@
 				sideBySide: true,
 				language: 'tr'
 			});
-
-			$('.text-editor').summernote({
-				focus: true,
-				codemirror: {
-					theme: 'united'
-				},
-				toolbar: [
-					// [groupName, [list of button]]
-					['style', ['bold', 'italic', 'underline', 'clear', 'codeview']],
-					['font', ['strikethrough', 'superscript', 'subscript']],
-					['fontsize', ['fontsize']],
-					['color', ['color']],
-					['para', ['ul', 'ol', 'paragraph']],
-					['height', ['height']],
-				]
-			});
-
 		});
 	</script>
 	<!-- End loading site level scripts -->
 
-	<!-- Load page level scripts-->
-	@RenderSection("scripts", required: false)
-	<!-- End loading page level scripts-->
+
 </body>
 </html>

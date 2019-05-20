@@ -1,0 +1,91 @@
+﻿@model PLE444.ViewModels.QuizDetailViewModel
+
+@{
+	ViewBag.Title = "Test Detayı";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+	var quiz = Model.Quiz;
+}
+
+
+<div class="panel panel-@(quiz.CanAnswer ? "success" : "default")">
+	<div class="panel-heading">
+		<h2>@quiz.Name</h2>
+		@if (!quiz.IsPublished) {
+			<i class="ti ti-lock ml-md" title="Katılımcılardan gizlenmiş durumda"></i>
+		}
+
+		<div class="not-pull-right-xs text-xs-center">
+			<i class="ti ti-time" title="Testin Başlangıç ve Bitiş tarihleri"></i>
+			<strong>Başlangıç</strong> @quiz.AvailableOn • <strong>Bitiş</strong> @quiz.AvailableTill
+		</div>
+	</div>
+
+	<div id="@quiz.Id">
+		<div class="panel-body">
+			@(new HtmlString(quiz.Description))
+
+			<hr />
+
+		</div>
+		<div class="panel-footer">
+			<a class="button-icon ml-sm" title="Düzenle" href="@Url.Action("Edit","Quiz", new {id = quiz.Id})">
+				<i class="ti ti-pencil"></i> Düzenle
+			</a>
+
+			@if (quiz.IsPublished) {
+				<a class="button-icon ml-md" title="Katılımcılardan gizle" href="@Url.Action("Hide", "Quiz", new {id = quiz.Id})">
+					<i class="ti ti-lock"></i> Gizle
+				</a>
+			} else {
+				<a class="button-icon ml-md" title="Katılımcıların görebileceği duruma getir" href="@Url.Action("Show", "Quiz", new {id = quiz.Id})">
+					<i class="ti ti-unlock"></i> Göster
+				</a>
+			}
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default">
+	<table class="table m-n">
+		<thead>
+			<tr>
+				<th>Katılımcı</th>
+				<th>Soru Başlığı</th>
+				<th>Cevap</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			@foreach (var ua in Model.Answers.OrderBy(u => u.User.FullName())) {
+				<tr>
+					<td>
+						<img class="img-circle" src="@Url.Content(ua.User.UserPhoto())" style="height: 30px;" />
+						<span>@ua.User.FullName()</span>
+					</td>
+					<td>
+						@ua.Question.Title
+					</td>
+					<td>
+						@Html.Raw(ua.Answer.Content)
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
+
+@section scripts
+{
+	@Scripts.Render("~/Content/plugins/datatables/jquery.dataTables.js")
+
+	<script>
+		$(document).ready(function () {
+			$('.table ')
+				.dataTable({
+					"aaSorting": [],
+					"paging": false,
+					"dom": '<"panel-heading"f><"panel-body"<"table-responsive"t>>'
+				});
+		});
+	</script>
+}

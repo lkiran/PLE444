@@ -49,7 +49,13 @@ namespace PLE444.Controllers
 			return View(model);
 		}
 
-
+		public ActionResult Detail(Guid id) {
+			var model = new QuizDetailViewModel();
+			model.Quiz = _quizService.Detail(id);
+			model.Answers = _quizService.GetUserAnswersForCreator(id);
+			
+			return View(model);
+		}
 		public ActionResult Create(Guid id) {
 			var model = new QuizViewModel {
 				CourseId = id,
@@ -142,7 +148,7 @@ namespace PLE444.Controllers
 			if (!isCourseCreator(course))
 				return new HttpStatusCodeResult(HttpStatusCode.Unauthorized);
 
-			
+
 			quiz.IsPublished = true;
 			quiz = _quizService.Update(quiz);
 
@@ -238,17 +244,17 @@ namespace PLE444.Controllers
 
 
 		public ActionResult AddAnswerOption(Guid questionId) {
-			var model = new AnswerViewModel() {
+			var model = new AnswerOptionViewModel() {
 				QuestionId = questionId,
 			};
-			return View("Answer", model);
+			return View("AnswerOption", model);
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult AddAnswerOption(AnswerViewModel model) {
+		public ActionResult AddAnswerOption(AnswerOptionViewModel model) {
 			if (!ModelState.IsValid)
-				return View("Answer", model);
+				return View("AnswerOption", model);
 
 			var question = _quizService.GetQuestion(model.QuestionId);
 			var course = _courseService.Detail(question.Quiz.CourseId);
@@ -271,16 +277,16 @@ namespace PLE444.Controllers
 
 		public ActionResult EditAnswerOption(Guid id) {
 			var answerOption = _quizService.GetAnswer(id);
-			var model = Mapper.Map<AnswerViewModel>(answerOption);
+			var model = Mapper.Map<AnswerOptionViewModel>(answerOption);
 
-			return View("Answer", model);
+			return View("AnswerOption", model);
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult EditAnswerOption(AnswerViewModel model) {
+		public ActionResult EditAnswerOption(AnswerOptionViewModel model) {
 			if (!ModelState.IsValid)
-				return View("Answer", model);
+				return View("AnswerOption", model);
 
 			var answer = new AnswerDto {
 				Id = model.Id,
@@ -297,6 +303,50 @@ namespace PLE444.Controllers
 		public ActionResult DeleteAnswer() {
 			throw new NotImplementedException();
 		}
+
+
+		public ActionResult Solve(Guid id) {
+			var model = new SolveViewModel {
+				Quiz = _quizService.Detail(id),
+				Answers = _quizService.GetUserAnswers(id)
+			};
+			return View(model);
+		}
+
+		[HttpPost]
+		public ActionResult Solve(List<SolveResultViewModel> model) {
+			var result = new Dictionary<string, bool>();
+			foreach (var answer in model) {
+				try {
+					if (!answer.IsValid)
+						continue;
+
+					var request = new List<AnswerDto>();
+					switch (answer.AnswerType) {
+						case QuestionDto.AnswerType.ShortAnswer:
+							request.Add(new AnswerDto {
+								Content = answer.Value
+							});
+							break;
+						case QuestionDto.AnswerType.SingleSelection:
+							request.Add(new AnswerDto {
+								Id = new Guid(answer.Value)
+							});
+							break;
+					}
+					_quizService.SaveUserAnswer(answer.QuestionId, request);
+					result.Add(answer.QuestionId.ToString(), true);
+				} catch (Exception e) {
+					result.Add(answer.QuestionId.ToString(), false);
+				}
+			}
+
+			return Json(new {
+				Success = result.All(r => r.Value),
+				Data = result
+			}, JsonRequestBehavior.AllowGet);
+		}
+
 
 		#region Private Methods
 		private bool isCourseCreator(Guid? courseId) {

@@ -1,0 +1,108 @@
+﻿@using PLE.Contract.DTOs
+@model PLE444.ViewModels.SolveViewModel
+@{
+	ViewBag.Title = "Test";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-default">
+	@using (Html.BeginForm("Solve", "Quiz", FormMethod.Post, new { id = "quiz-form" })) {
+		@Html.AntiForgeryToken()
+		@Html.HiddenFor(model => model.Quiz.Id)
+
+		<div class="panel-heading">
+			<h2>@Model.Quiz.Name</h2>
+		</div>
+		<div class="panel-body">
+			@Html.Raw(Model.Quiz.Description)
+
+			@foreach (var question in Model.Quiz.Questions) {
+				<hr />
+				<div class="question" id="@question.Id">
+					<p class="lead"><b>@question.Title</b></p>
+					@Html.Raw(question.Description)
+					
+					@{ var answer = Model.Answers.FirstOrDefault(ua => ua.QuestionId == question.Id);}
+					@if (answer == null) {
+						if (question.Answering == QuestionDto.AnswerType.ShortAnswer) {
+							@Html.TextArea($"answer-{question.Id}", new { @class = "form-control text-editor", @style = "background-color:white;", data_type = QuestionDto.AnswerType.ShortAnswer })
+						} else {
+							<table class="table table-striped m-n">
+								<tbody>
+									@foreach (var answerOption in question.AnswerOptions) {
+										<tr>
+											<td width="50px">
+												<label class="radio-inline icheck">
+													@Html.RadioButton($"answer-{question.Id}", answerOption.Id, false, new { data_type = QuestionDto.AnswerType.SingleSelection })
+												</label>
+											</td>
+											<td>@Html.Raw(answerOption.Content)</td>
+										</tr>
+									}
+								</tbody>
+							</table>
+						}
+					} else {
+						<div class="well">
+							@Html.Raw(answer.Answer.Content)
+						</div>
+					}
+				</div>
+			}
+		</div>
+
+		<div class="panel-footer">
+
+
+			<button type="submit" class="btn btn-success pull-right">
+				<i class="ti ti-save"></i> Kaydet
+			</button>
+		</div>
+	}
+</div>
+
+@section scripts
+{
+	<script>
+		$(document).ready(function() {
+			var quizForm = $('#quiz-form');
+			quizForm.submit(function(e) {
+				e.preventDefault();
+				var userAnswers = [];
+				$('.question').each(function(index, value) {
+					var userAnswer = {}
+					userAnswer.QuestionId = $(value).attr('id');
+					var answer = $(`[name=answer-${userAnswer.QuestionId}]`);
+					if (answer.length === 0)
+						return;
+
+					userAnswer.AnswerType = $(answer[0]).data('type');
+					if (userAnswer.AnswerType === '@QuestionDto.AnswerType.SingleSelection')
+						userAnswer.Value = $(`[name=answer-${userAnswer.QuestionId}]:checked`).val();
+					if (userAnswer.AnswerType === '@QuestionDto.AnswerType.ShortAnswer')
+						userAnswer.Value = $(answer).code();
+
+					userAnswers.push(userAnswer);
+				});
+
+				console.log(userAnswers);
+
+				$.ajax({
+					url: quizForm.attr('action'),
+					dataType: 'json',
+					type: 'post',
+					contentType: 'application/json ',
+					data: JSON.stringify(userAnswers),
+					success: function( data, textStatus, jQxhr ) {
+						console.log(data);
+						window.location.replace('@Url.Action("Index", "Quiz", new { id = Model.Quiz.CourseId })');
+					},
+					error: function( jqXhr, textStatus, errorThrown ){
+						console.log( errorThrown );
+						window.location.replace('@Url.Action("Index", "Quiz", new { id = Model.Quiz.CourseId })');
+					}
+				});
+			});
+		});
+	</script>
+}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace PLE.Contract.DTOs
 {
@@ -28,7 +29,7 @@ namespace PLE.Contract.DTOs
 		public Guid CourseId { get; set; }
 
 		public CourseDto Course { get; set; }
-
+		
 		public bool CanAnswer => DateTime.Now >= AvailableOn && DateTime.Now < AvailableTill && IsPublished;
 	}
 }

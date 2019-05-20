@@ -260,7 +260,9 @@
     <Compile Include="Models\PleAuthorizationAttribute.cs" />
     <Compile Include="Models\PleClaimsIdentity.cs" />
     <Compile Include="ViewModels\AnswerViewModel.cs" />
+    <Compile Include="ViewModels\AnswerOptionViewModel.cs" />
     <Compile Include="ViewModels\QuestionViewModel.cs" />
+    <Compile Include="ViewModels\QuizDetailViewModel.cs" />
     <Compile Include="ViewModels\QuizListViewModel.cs" />
     <Compile Include="Models\SendMessageParametersVm.cs" />
     <Compile Include="Models\Interfaces\IUserSession.cs" />
@@ -308,6 +310,8 @@
     <Compile Include="ViewModels\QuizViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\NewMessageViewModel.cs" />
+    <Compile Include="ViewModels\SolveViewModel.cs" />
+    <Compile Include="ViewModels\SolveResultViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -2227,7 +2231,9 @@
     <Content Include="Views\Quiz\Create.cshtml" />
     <Content Include="Views\Quiz\Edit.cshtml" />
     <Content Include="Views\Quiz\Question.cshtml" />
-    <Content Include="Views\Quiz\Answer.cshtml" />
+    <Content Include="Views\Quiz\AnswerOption.cshtml" />
+    <Content Include="Views\Quiz\Solve.cshtml" />
+    <Content Include="Views\Quiz\Detail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

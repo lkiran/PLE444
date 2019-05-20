@@ -13,6 +13,8 @@ namespace PLE.Contract.DTOs
 		public Guid Id { get; set; }
 		
 		public bool IsPublished { get; set; }
+		
+		public bool AnsweredByUser { get; set; }
 
 		public string Name { get; set; }
 

@@ -34,13 +34,40 @@ namespace PLE.Service.Controllers
 				return InternalServerError(e);
 			}
 		}
-		
+
 		[HttpGet]
 		[Route("ListByCourse/{courseId}")]
 		public IHttpActionResult ListByCourse(Guid courseId) {
 			try {
 				var quizzes = _quizService.List(courseId);
 				var result = Mapper.Map<List<QuizListDto>>(quizzes);
+
+				return Ok(result);
+			} catch (Exception e) {
+				return InternalServerError(e);
+			}
+		}
+
+		[HttpGet]
+		[Route("GetUserAnswers/{quizId}")]
+		public IHttpActionResult GetUserAnswers(Guid quizId) {
+			try {
+				var userId = User.Identity.GetUserId();
+				var userAnswers = _quizService.GetUserAnswers(quizId, userId);
+				var result = Mapper.Map<List<UserAnswerDto>>(userAnswers);
+
+				return Ok(result);
+			} catch (Exception e) {
+				return InternalServerError(e);
+			}
+		}
+
+		[HttpGet]
+		[Route("GetUserAnswersForCreator/{quizId}")]
+		public IHttpActionResult GetUserAnswersForCreator(Guid quizId) {
+			try {
+				var userAnswers = _quizService.GetUserAnswers(quizId);
+				var result = Mapper.Map<List<UserAnswerDto>>(userAnswers);
 
 				return Ok(result);
 			} catch (Exception e) {
@@ -215,7 +242,7 @@ namespace PLE.Service.Controllers
 				return InternalServerError(e);
 			}
 		}
-		
+
 		[HttpPost]
 		[Authorize]
 		[Route("Question/Answer/{questionId}")]

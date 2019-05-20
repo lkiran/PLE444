@@ -23,6 +23,18 @@ namespace PLE.Website.Service
 			var response = Client.Get<List<QuizListDto>>(url);
 			return response;
 		}
+		
+		public List<UserAnswerDto> GetUserAnswersForCreator(Guid quizId) {
+			var url = $"Api/Quiz/GetUserAnswersForCreator/{quizId}";
+			var response = Client.Get<List<UserAnswerDto>>(url);
+			return response;
+		}
+		
+		public List<UserAnswerDto> GetUserAnswers(Guid quizId) {
+			var url = $"Api/Quiz/GetUserAnswers/{quizId}";
+			var response = Client.Get<List<UserAnswerDto>>(url);
+			return response;
+		}
 
 		public Guid Create(QuizDto request) {
 			var url = $"Api/Quiz/Create";

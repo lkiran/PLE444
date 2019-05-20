@@ -14,6 +14,11 @@ namespace PLE.Service.Models
 
 		public ApplicationUser User { get; set; }
 
+		[ForeignKey("Question")]
+		public Guid QuestionId { get; set; }
+	
+		public Question Question { get; set; }
+
 		public DateTime AnsweredOn { get; set; }
 		
 		[ForeignKey("Answer")]

@@ -7,7 +7,6 @@ namespace PLE.Contract.DTOs
 	{
 		public QuestionDto() {
 			AnswerOptions = new List<AnswerDto>();
-			UserAnswers = new List<UserAnswerDto>();
 		}
 
 		public enum AnswerType
@@ -40,6 +39,5 @@ namespace PLE.Contract.DTOs
 
 		public List<AnswerDto> AnswerOptions { get; set; }
 
-		public virtual List<UserAnswerDto> UserAnswers { get; set; }
 	}
 }

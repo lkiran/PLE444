@@ -17,6 +17,8 @@ namespace PLE.Service.Models
 		public Guid Id { get; set; }
 
 		public bool IsDeleted { get; set; }
+		
+		public bool AnsweredByUser { get; set; }
 
 		public bool IsPublished { get; set; }
 

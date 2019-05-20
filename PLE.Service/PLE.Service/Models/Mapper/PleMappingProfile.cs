@@ -23,6 +23,7 @@ namespace PLE.Service.Models.Mapper
 			CreateMap<Question, QuestionDto>().ReverseMap();
 			CreateMap<Question.AnswerType, QuestionDto.AnswerType>().ReverseMap();
 			CreateMap<Question.EvaluationType, QuestionDto.EvaluationType>().ReverseMap();
+			CreateMap<UserAnswer, UserAnswerDto>().ReverseMap();
 
 			/* Non-reverseble mappings */
 			CreateMap<Discussion.Reading, ReadingDto>();

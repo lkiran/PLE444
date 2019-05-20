@@ -9,7 +9,6 @@ namespace PLE.Service.Models
 	{
 		public Question() {
 			AnswerOptions = new List<Answer>();
-			UserAnswers = new List<UserAnswer>();
 		}
 
 		public enum AnswerType
@@ -43,7 +42,5 @@ namespace PLE.Service.Models
 		public EvaluationType Evaluation { get; set; }
 
 		public ICollection<Answer> AnswerOptions { get; set; }
-
-		public virtual ICollection<UserAnswer> UserAnswers { get; set; }
 	}
 }
