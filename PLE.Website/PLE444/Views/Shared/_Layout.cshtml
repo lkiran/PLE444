@@ -66,12 +66,19 @@
 							<nav role="navigation" class="widget-body">
 								<ul class="acc-menu">
 									<li>
-										<a href="@Url.Action("List","Course")"><i class="ti ti-book"></i><span>Dersler</span></a>
+										<a href="@Url.Action("List","Course")"><i class="ti ti-book"></i><span>Aktif Dersler</span></a>
 										<ul class="" style="display: block;">
 											@{ Html.RenderAction("Courses", "Layout"); }
 
 										</ul>
 									</li>
+									<li>
+										<a href="@Url.Action("LockedCorseList","Course")"><i class="ti ti-book"></i><span>Pasif Dersler</span></a>
+										<ul class="" style="display: block;">
+											@{ Html.RenderAction("LockedCourses", "Layout"); }
+										</ul>
+									</li>
+
 									<li>
 										<a href="@Url.Action("List","Community")"><i class="ti ti-comments"></i><span>Gruplar</span></a>
 										<ul class="" style="display: block;">

@@ -33,7 +33,18 @@ namespace PLE444.Controllers
 			};
 			return PartialView(model);
 		}
-
+		[ChildActionOnly]
+		public ActionResult LockedCourses() {
+			var userId = User.GetPrincipal()?.User?.Id;
+			if (userId.IsNullOrWhiteSpace())
+				return PartialView(new SidebarList<CourseDto>());
+			var data = _courseService.GetLockedCourseListByUser();
+			var model = new SidebarList<CourseDto> {
+				Items = data,
+				ActiveUserId = userId
+			};
+			return PartialView(model);
+		}
 		[ChildActionOnly]
 		public ActionResult Communities() {
 			var userId = User.GetPrincipal()?.User?.Id;

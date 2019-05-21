@@ -86,7 +86,7 @@
 								method: "POST",
 								dataType: 'json',
 								success: function(response) {
-									object.parent("div").parent("div").slideUp();
+									object.parent("div").parent("div").parent("div").slideUp();
 								},
 								error: function(response) {
 									console.log(response);

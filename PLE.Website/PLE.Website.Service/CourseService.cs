@@ -18,7 +18,13 @@ namespace PLE.Website.Service
 
 			return result;
 		}
+		public List<CourseDto> GetLockedCourseListByUser([Optional]string userId) {
+			var result = Client.Get<List<CourseDto>>($"api/course/LockedCourseListByUser/{userId}");
+			if (result == null)
+				result = new List<CourseDto>();
 
+			return result;
+		}
 		public CourseDetailDto Detail(Guid id) {
 			var result = Client.Get<CourseDetailDto>($"api/course/Detail/{id}");
 			return result;

@@ -49,7 +49,21 @@ namespace PLE.Service.Controllers
 				return InternalServerError(e);
 			}
 		}
-		
+		[HttpGet]
+		[Route("LockedCourseListByUser/{userId?}")]
+		public IHttpActionResult LockedCourseListByUser(string userId = null) {
+			try {
+				if (string.IsNullOrWhiteSpace(userId)) {
+					if (User.Identity.GetUserId() == null)
+						return Unauthorized();
+					userId = User.Identity.GetUserId();
+				}
+				var result = _courseService.GetLockedCourseListByUser(userId);
+				return Ok(result);
+			} catch (Exception e) {
+				return InternalServerError(e);
+			}
+		}
 		[HttpGet]
 		[Authorize]
 		[Route("GetClaims")]

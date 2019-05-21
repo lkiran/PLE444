@@ -57,7 +57,19 @@ namespace PLE.Service.Implementations
 			var joinedCourses = _db.UserCourses
 				.Where(uc => uc.UserId == userId && uc.IsActive && uc.Course.IsCourseActive && !uc.Course.IsBanned)
 				.Select(c => c.Course);
-			var createdCourses = _db.Courses.Where(c => c.CreatorId == userId && !c.IsBanned);
+			var createdCourses = _db.Courses.Where(c => c.CreatorId == userId  && c.IsCourseActive && !c.IsBanned);
+			var data = joinedCourses.Union(createdCourses);
+
+			var result = Mapper.Map<List<CourseDto>>(data.ToList());
+
+			return result;
+		}
+
+		public List<CourseDto> GetLockedCourseListByUser(string userId) {
+			var joinedCourses = _db.UserCourses
+				.Where(uc => uc.UserId == userId && uc.IsActive && uc.Course.IsCourseActive && !uc.Course.IsBanned)
+				.Select(c => c.Course);
+			var createdCourses = _db.Courses.Where(c => c.CreatorId == userId && !c.IsCourseActive && !c.IsBanned);
 			var data = joinedCourses.Union(createdCourses);
 
 			var result = Mapper.Map<List<CourseDto>>(data.ToList());
