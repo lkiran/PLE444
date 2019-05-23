@@ -53,7 +53,7 @@ namespace PLE444.Controllers
 			var model = new QuizDetailViewModel();
 			model.Quiz = _quizService.Detail(id);
 			model.Answers = _quizService.GetUserAnswersForCreator(id);
-			
+
 			return View(model);
 		}
 		public ActionResult Create(Guid id) {
@@ -171,8 +171,11 @@ namespace PLE444.Controllers
 		}
 
 
-		public ActionResult Delete() {
-			throw new NotImplementedException();
+		public ActionResult Delete(Guid id) {
+			var quiz = _quizService.Detail(id);
+			_quizService.DeleteQuiz(id);
+
+			return RedirectToAction("Index", "Quiz", new { id = quiz.CourseId });
 		}
 
 
@@ -239,7 +242,10 @@ namespace PLE444.Controllers
 
 
 		public ActionResult DeleteQuestion(Guid id) {
-			throw new NotImplementedException();
+			var question = _quizService.GetQuestion(id);
+			_quizService.DeleteQuestion(question.Id);
+
+			return RedirectToAction("Edit", "Quiz", new { id = question.Quiz.Id });
 		}
 
 
@@ -300,8 +306,11 @@ namespace PLE444.Controllers
 		}
 
 
-		public ActionResult DeleteAnswer() {
-			throw new NotImplementedException();
+		public ActionResult DeleteAnswer(Guid id) {
+			var answer = _quizService.GetAnswer(id);
+			_quizService.RemoveAnswerOption(id);
+
+			return RedirectToAction("EditQuestion", "Quiz", new { id = answer.Question.Id });
 		}
 
 
