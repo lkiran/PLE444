@@ -299,6 +299,7 @@
     <Content Include="Views\MailTemplates\ResetPassword.cshtml" />
     <Content Include="Views\MailTemplates\_MailLayout.cshtml" />
     <Content Include="Views\MailTemplates\NewCourse.cshtml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
