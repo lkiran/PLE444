@@ -55,7 +55,7 @@ namespace PLE444.Controllers {
                 model.AssignmentList = db.Assignments.Where(i => i.CourseId == id && i.IsActive && !i.IsHidden).Include("Uploads").ToList();
             else
 
-                model.AssignmentList = db.Assignments.Where(i => i.CourseId == id && i.IsActive).Include("Uploads").ToList();
+                model.AssignmentList = db.Assignments.Where(i => i.CourseId == id && i.IsActive).Include("Uploads").Include("Uploads.Owner").ToList();
 
             return View(model);
         }
