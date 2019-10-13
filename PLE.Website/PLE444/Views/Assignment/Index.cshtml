@@ -84,15 +84,17 @@
 										</td>
 										<td>
 											@if (Model.CourseInfo.IsCourseActive == true) {
-												using (Html.BeginForm("Feedback", "Assignment", FormMethod.Post)) {
-													@Html.AntiForgeryToken()
-													<input name="feedback" id="feedback" type="text" value="@upload.Feedback" />
-													<input type="hidden" name="uploadId" id="uploadId" value="@upload.Id">
-													<input class="btn btn-primary-alt pull-right mr-md" type="submit" value="Gönder" />
-												}
+
 											} else {
 												<p>@upload.Feedback</p>
 											}
+										</td>
+										<td>
+											<a class="btn-feedback @(string.IsNullOrWhiteSpace(upload.Feedback) ? string.Empty : "text-success")"
+											   uploadId="@upload.Id"
+											   value="@upload.Feedback">
+												Geri Bildirim
+											</a>
 										</td>
 									</tr>
 								</tbody>
@@ -155,51 +157,96 @@
 	}
 </div>
 
+@using (Html.BeginForm("Feedback", "Assignment", FormMethod.Post, new { id = "form-feedback" })) {
+	@Html.AntiForgeryToken()
+}
+
 @section scripts
 {
 	<script>
-		$(document).ready(function () {
-			$(".btn-remove").on("click", function () {
+		$(document).ready(function() {
 
-				var object = $(this);
-
-				bootbox.confirm({
-					title: "Onay",
-					message: "Ödevi kaldırmak istediğinize emin misiniz?",
-					buttons: {
-						confirm: {
-							label: 'Evet, Kaldır',
-							className: 'btn-danger-alt'
-						},
-						cancel: {
-							label: 'Hayır',
-							className: 'btn-info-alt'
+			$(".btn-feedback").on("click",
+				function() {
+					var object = $(this);
+					bootbox.prompt({
+						size: "small",
+						title: "Geri Bildirim",
+						inputType: "textarea",
+						value: object.attr("value"),
+						callback: function(result) {
+							var form = $('#form-feedback');
+							var token = $('input[name="__RequestVerificationToken"]', form).val();
+							if (result) {
+								$.ajax({
+									url: "@Url.Action("Feedback", "Assignment")",
+									method: "POST",
+									dataType: 'json',
+									data: {
+										__RequestVerificationToken: token,
+										uploadId: object.attr("uploadId"),
+										feedback: result
+									},
+									success: function(response) {
+										toastr.success('Geri bildirim kaydedildi');
+										if (result === " ")
+											object.removeClass("text-success");
+										else
+											object.addClass("text-success");
+										object.attr("value", result);
+									},
+									error: function(response) {
+										console.log(response);
+										toastr.error('Geri bildirim kaydedilirken bir hata oluştu');
+									}
+								});
+							}
 						}
-					},
-					size: "small",
-					callback: function (result) {
-						if (result) {
-							$.ajax({
-								url: "@Url.Action("Delete", "Assignment")" + "/" + object.data('assignment-id'),
-								method: "POST",
-								dataType: 'json',
-								success: function (response) {
-									console.log(response);
-									//object.parent("div").parent("div").parent("div").slideUp();
-									object.parent("div").parent("div").parent("div").parent("div").remove();
-
-								},
-								error: function (response) {
-									console.log(response);
-								}
-							});
-						}
-
-					}
+					});
 				});
-			});
 
-			$('.filer_input').each(function () {
+			$(".btn-remove").on("click",
+				function() {
+
+					var object = $(this);
+
+
+					bootbox.confirm({
+						title: "Onay",
+						message: "Ödevi kaldırmak istediğinize emin misiniz?",
+						buttons: {
+							confirm: {
+								label: 'Evet, Kaldır',
+								className: 'btn-danger-alt'
+							},
+							cancel: {
+								label: 'Hayır',
+								className: 'btn-info-alt'
+							}
+						},
+						size: "small",
+						callback: function(result) {
+							if (result) {
+								$.ajax({
+									url: "@Url.Action("Delete", "Assignment")" + "/" + object.data('assignment-id'),
+									method: "POST",
+									dataType: 'json',
+									success: function(response) {
+										console.log(response);
+										object.parent("div").parent("div").parent("div").parent("div").remove();
+
+									},
+									error: function(response) {
+										console.log(response);
+									}
+								});
+							}
+
+						}
+					});
+				});
+
+			$('.filer_input').each(function() {
 				$(this).filer({
 					captions: {
 						button: "Seç",
@@ -209,7 +256,7 @@
 				});
 			});
 
-			$('.jFiler-input').each(function () {
+			$('.jFiler-input').each(function() {
 				$(this).addClass("pull-right");
 			});
 		});

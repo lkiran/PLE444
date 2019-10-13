@@ -213,15 +213,19 @@ namespace PLE444.Controllers {
 		[PleAuthorization]
 		[ValidateAntiForgeryToken]
 		public ActionResult Feedback(int? uploadId, string feedback) {
-			if (uploadId == null || String.IsNullOrEmpty(feedback))
-				return new HttpStatusCodeResult(HttpStatusCode.NotFound);
-			var a = db.Documents.Find(uploadId);
-			a.Feedback = feedback;
+			if (uploadId == null)
+				return Json(new { Success = false, Message = "BadRequest" }, JsonRequestBehavior.AllowGet);
 
+			var document = db.Documents.Find(uploadId);
+			if (document == null)
+				return Json(new { Success = false, Message = "HttpNotFound" }, JsonRequestBehavior.AllowGet);
 
-			db.Entry(a).State = EntityState.Modified;
+			document.Feedback = feedback;
+
+			db.Entry(document).State = EntityState.Modified;
 			db.SaveChanges();
-			return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
+
+			return Json(new { Success = true, Message = "OK" }, JsonRequestBehavior.AllowGet);
 		}
 
 		[PleAuthorization]
