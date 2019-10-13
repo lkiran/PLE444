@@ -1787,6 +1787,9 @@
     <Content Include="Content\plugins\tables-fixedheader\js\dataTables.fixedHeader.js" />
     <Content Include="Content\plugins\tables-fixedheader\js\dataTables.fixedHeader.min.js" />
     <Content Include="Content\plugins\tables-fixedheader\Readme.txt" />
+    <Content Include="Content\plugins\toastr\toastr.css" />
+    <Content Include="Content\plugins\toastr\toastr.min.css" />
+    <Content Include="Content\plugins\toastr\toastr.min.js" />
     <Content Include="Content\plugins\velocityjs\velocity.min.js" />
     <Content Include="Content\plugins\velocityjs\velocity.ui.min.js" />
     <Content Include="Content\plugins\wijets\wijets.js" />
@@ -2113,6 +2116,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\plugins\toastr\toastr.js.map" />
     <None Include="Properties\PublishProfiles\PLE.pubxml" />
     <None Include="Properties\PublishProfiles\PLE444.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
@@ -2175,7 +2179,6 @@
     <Content Include="Views\Assignment\Index.cshtml" />
     <Content Include="Views\Chapter\Create.cshtml" />
     <Content Include="Views\Chapter\Index.cshtml" />
-    <Content Include="Views\Course\Create.cshtml" />
     <Content Include="Views\Course\CourseDelete.cshtml" />
     <Content Include="Views\Course\Edit.cshtml" />
     <Content Include="Views\Course\GradesForMember.cshtml" />
@@ -2236,6 +2239,7 @@
     <Content Include="Views\Quiz\Solve.cshtml" />
     <Content Include="Views\Quiz\Detail.cshtml" />
     <Content Include="Views\Course\LetterGrade.cshtml" />
+    <Content Include="Views\Course\Create.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
