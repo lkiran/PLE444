@@ -64,3 +64,4 @@
 *.cs linguist-detectable=true
 *.html linguist-detectable=false
 *.htm linguist-detectable=false
+*.js linguist-detectable=false
