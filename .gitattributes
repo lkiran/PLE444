@@ -10,8 +10,7 @@
 # default for csharp files.
 # Note: This is only used by command line
 ###############################################################################
-#*.cs     diff=csharp
-
+*.cs text diff=csharp
 ###############################################################################
 # Set the merge driver for project and solution files
 #
@@ -61,3 +60,7 @@
 #*.PDF   diff=astextplain
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
+
+*.cs linguist-detectable=true
+*.html linguist-detectable=false
+*.htm linguist-detectable=false
