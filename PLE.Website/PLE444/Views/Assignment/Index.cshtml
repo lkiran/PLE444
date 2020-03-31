@@ -58,7 +58,7 @@
 			<div id="@assignment.Id" class="collapse">
 				<div class="panel-body">
 					<p>@(new HtmlString(assignment.Description))</p>
-					@if (assignment.IsFeedbackPublished && userUpload != null && !string.IsNullOrEmpty(userUpload.Feedback)) {
+					@if (assignment.IsFeedbackPublished && !string.IsNullOrEmpty(userUpload?.Feedback)) {
 						<strong class="text-info">Geri Bildirim</strong>
 						<p class="text-info">@userUpload.Feedback</p>
 					}
