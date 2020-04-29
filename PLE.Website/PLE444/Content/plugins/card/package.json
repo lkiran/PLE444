@@ -31,7 +31,7 @@
     "run-sequence": "^0.3.6"
   },
   "dependencies": {
-    "jquery": "~2.1.1",
+    "jquery": "~3.5.0",
     "jquery.payment": "~1.0.3"
   }
 }
