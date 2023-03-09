@@ -1,0 +1,99 @@
+﻿@model PLE444.Models.LetterGrade
+@{
+	ViewBag.Title = "Harf Notu";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-default">
+	@using (Html.BeginForm()) {
+		@Html.AntiForgeryToken()
+		@Html.HiddenFor(model => model.CourseId)
+
+		<div class="panel-heading">
+			@if (Model.Id == Guid.Empty) {
+				<h2>Yeni Harf Notu</h2>
+			} else {
+				<h2>@Model.Name</h2>
+			}
+		</div>
+
+		<div class="panel-body">
+			<div class="form-horizontal">
+				@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+				<div class="form-group">
+					@Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.LabelFor(model => model.From, new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						@Html.EditorFor(model => model.From, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.From, "", new { @class = "text-danger" })
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.LabelFor(model => model.To, new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						@Html.EditorFor(model => model.To, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.To, "", new { @class = "text-danger" })
+					</div>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="panel-footer">
+			<a class="btn btn-default" href="@Url.Action("Grades", "Course", new {courseId = Model.CourseId})">
+				<i class="ti ti-angle-left"></i> Notlara Git
+			</a>
+
+			<button type="submit" class="btn btn-success pull-right">
+				<i class="ti ti-save"></i> Kaydet
+			</button>
+
+			@if (Model.Id != Guid.Empty) {
+				<a class="btn-remove btn btn-danger pull-right mr-md" title="Sil" data-letter-id="@Model.Id">
+					<i class="ti ti-trash"></i> Sil
+				</a>
+			}
+
+		</div>
+	}
+</div>
+
+
+@section scripts
+{
+	@Scripts.Render("~/bundles/jqueryval")
+	<script>
+		$(document).ready(function() {
+			$(".btn-remove").on("click", function() {
+				var object = $(this);
+				bootbox.confirm({
+					title: "Onay",
+					message: "Harf notunu kaldırmak istediğinize emin misiniz?",
+					buttons: {
+						confirm: {
+							label: 'Evet, Kaldır',
+							className: 'btn-danger-alt'
+						},
+						cancel: {
+							label: 'Hayır',
+							className: 'btn-info-alt'
+						}
+					},
+					callback: function(result) {
+						if (result) {
+							window.location.replace(`@Url.Action("DeleteLetterGrade", "Course")/${object.data('letter-id')}`);
+						}
+					}
+				});
+			});
+		});
+	</script>
+}

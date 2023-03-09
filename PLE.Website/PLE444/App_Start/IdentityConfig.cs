@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using PLE444.Models;
 using Microsoft.Owin;
 using System.Net.Mail;
@@ -10,38 +11,39 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace PLE444 {
-	public class EmailService : IIdentityMessageService, IDisposable {
-		public Task SendAsync(IdentityMessage message) {
-			var client = new SmtpClient {
-				Host = "atmaca.cc.boun.edu.tr",
-				Credentials = new System.Net.NetworkCredential("cet", "4M36xo"),
-				Port = 25,
-				EnableSsl = true
+	public class EmailService : IIdentityMessageService, IDisposable
+	{
+		private String from;
+		private SmtpClient smtpClient;
+
+		public EmailService()
+		{
+			from = ConfigurationManager.AppSettings["SmtpFrom"];
+			smtpClient = new SmtpClient {
+				Host = ConfigurationManager.AppSettings["SmtpHost"],
+				Credentials = new System.Net.NetworkCredential(ConfigurationManager.AppSettings["SmtpUser"], ConfigurationManager.AppSettings["SmtpPassword"]),
+				Port = Convert.ToInt32(ConfigurationManager.AppSettings["SmtpPort"]),
+				EnableSsl = Convert.ToBoolean(ConfigurationManager.AppSettings["SmtpUseSsl"])
 			};
+		}
 
-			const string sentFrom = "cet@boun.edu.tr";
-
-			// Create the message:
-			var mail = new MailMessage(sentFrom, message.Destination) {
+		public Task SendAsync(IdentityMessage message) {
+	
+			var mail = new MailMessage(from, message.Destination) {
 				Subject = message.Subject,
 				Body = message.Body
 			};
 
-			return client.SendMailAsync(mail);
+			return smtpClient.SendMailAsync(mail);
 		}
 
 		public Task SendAsync(MailMessage message) {
-			var client = new SmtpClient {
-				Host = "atmaca.cc.boun.edu.tr",
-				Credentials = new System.Net.NetworkCredential("cet", "4M36xo"),
-				Port = 25,
-				EnableSsl = true
-			};
+		
 
-			message.From = new MailAddress("cet@boun.edu.tr");
+			message.From = new MailAddress(from);
 			message.IsBodyHtml = true;
 
-			return client.SendMailAsync(message);
+			return smtpClient.SendMailAsync(message);
 		}
 
 		public void Dispose() {

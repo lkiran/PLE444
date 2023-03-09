@@ -15,6 +15,32 @@
 
 @{ Html.RenderAction("Navigation", "Course", new { id = Model.CourseInfo.Id }); }
 
+
+@if (Model.LetterGrades != null && Model.LetterGrades.Any()) {
+	<div class="well">
+		<table class="table table-condensed m-n">
+			<thead>
+				<tr>
+					@foreach (var letterGrade in Model.LetterGrades.OrderByDescending(l => l.To)) {
+						<th class="text-center ml-sm">
+							@letterGrade.Name
+						</th>
+					}
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					@foreach (var letterGrade in Model.LetterGrades.OrderByDescending(l => l.To)) {
+						<td class="text-center">
+							<span>@letterGrade.From - @letterGrade.To</span>
+						</td>
+					}
+				</tr>
+			</tbody>
+		</table>
+	</div>
+}
+
 <div class="panel panel-default" data-widget='{"draggable": "false"}'>
 
 	<table class="table table-hover m-n" id="gradeTbl">
@@ -31,6 +57,7 @@ Max Score: @gradeType.MaxScore">
 					}
 				}
 				<th class="text-center">Toplam</th>
+				<th class="text-center">Harf Notu</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -46,38 +73,43 @@ Max Score: @gradeType.MaxScore">
 				var totalUserScore = 0f;
 				var classCurrentUser = @Model.CurrentUserId == cu.UserId ? "success" : "";
 
-				<tr class="@classCurrentUser">
-					<td>
-						@if (cu.UserId == Model.CurrentUserId) {
-							<a href="@Url.Action("Profil", "User", new {id = cu.UserId})">
-								<img alt="Kullanıcı Resmi" src="@Url.Content(cu.User.UserPhoto())" class="img-circle" style="height: 30px;" />
-								@cu.User.FullName()
-							</a>
-						}
-					</td>
-
-					@{ var gradesOfTheUser = Model.UserGrades.Where(u => u.UserId == cu.UserId).ToList(); }
-
-					@foreach (var gradeType in Model.GradeTypes) {
-						if (gradeType.IsActive) {
-							var userGrade = gradesOfTheUser.FirstOrDefault(g => g.GradeTypeId == gradeType.Id);
-
-							<td class="text-center">
-								@if (userGrade == null) {
-									<span> <i class="fa fa-minus"></i></span>
-								}
-								else {
-									totalUserScore += (userGrade.Grade * gradeType.Effect / gradeType.MaxScore);
-									<span> @userGrade.Grade </span>
-								}
-							</td>
-						}
-						column++;
+			<tr class="@classCurrentUser">
+				<td>
+					@if (cu.UserId == Model.CurrentUserId) {
+						<a href="@Url.Action("Profil", "User", new {id = cu.UserId})">
+							<img alt="Kullanıcı Resmi" src="@Url.Content(cu.User.UserPhoto())" class="img-circle" style="height: 30px;" />
+							@cu.User.FullName()
+						</a>
 					}
-					<td class="text-center">@(Math.Round((totalUserScore), 2))</td>
-				</tr>
-							row++;
-						}
+				</td>
+
+				@{ var gradesOfTheUser = Model.UserGrades.Where(u => u.UserId == cu.UserId).ToList(); }
+
+				@foreach (var gradeType in Model.GradeTypes) {
+					if (gradeType.IsActive) {
+						var userGrade = gradesOfTheUser.FirstOrDefault(g => g.GradeTypeId == gradeType.Id);
+
+						<td class="text-center">
+							@if (userGrade == null) {
+								<span> <i class="fa fa-minus"></i></span>
+							} else {
+								totalUserScore += (userGrade.Grade * gradeType.Effect / gradeType.MaxScore);
+								<span> @userGrade.Grade </span>
+							}
+						</td>
+					}
+					column++;
+				}
+				<td class="text-center">@(Math.Round((totalUserScore), 2))</td>
+				<td class="text-center">
+					@{ var letter = Model.LetterGrades.OrderByDescending(l => l.To).FirstOrDefault(l => l.From <= totalUserScore); }
+					@if (letter != null) {
+						<b>@letter.Name</b>
+					}
+				</td>
+			</tr>
+				row++;
+			}
 		</tbody>
 	</table>
 </div>

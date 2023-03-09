@@ -13,6 +13,7 @@ namespace PLE.Service.Models
 			return new PleDbContext();
 		}
 
+		public DbSet<Answer> Answers { get; set; }
 		public DbSet<Assignment> Assignments { get; set; }
 		public DbSet<Chapter> Chapters { get; set; }
 		public DbSet<Community> Communities { get; set; }
@@ -21,6 +22,7 @@ namespace PLE.Service.Models
 		public DbSet<Document> Documents { get; set; }
 		public DbSet<Friendship> Friendship { get; set; }
 		public DbSet<GradeType> GradeTypes { get; set; }
+		public DbSet<LetterGrade> LetterGrades { get; set; }
 		public DbSet<Material> Materials { get; set; }
 		public DbSet<Message> Messages { get; set; }
 		public DbSet<PrivateMessage> PrivateMessages { get; set; }
@@ -30,5 +32,8 @@ namespace PLE.Service.Models
 		public DbSet<UserCommunity> UserCommunities { get; set; }
 		public DbSet<UserCourse> UserCourses { get; set; }
 		public DbSet<UserGrade> UserGrades { get; set; }
+		public DbSet<UserAnswer> UserAnswers { get; set; }
+		public DbSet<Question> Questions { get; set; }
+		public DbSet<Quiz> Quizzes { get; set; }
 	}
 }

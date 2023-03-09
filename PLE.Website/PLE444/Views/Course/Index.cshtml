@@ -1,5 +1,4 @@
-﻿@using Microsoft.Ajax.Utilities
-@using PLE444.Helpers
+﻿@using PLE444.Helpers
 @model PLE444.ViewModels.CourseViewModel
 @{
 	ViewBag.Title = @Model.Course.Code;
@@ -18,8 +17,7 @@
 				<a class="button-icon ml-sm" title="Dersi Aktif Hale Getir" href="@Url.Action("Active", "Course", new { courseId = Model.Course.Id })">
 					<i class="ti ti-lock"></i>
 				</a>
-			}
-			else {
+			} else {
 				<a class="button-icon ml-sm " title="Dersi Pasif Hale Getir" href="@Url.Action("Active", "Course", new { courseId = Model.Course.Id })">
 					<i class="ti ti-unlock"></i>
 				</a>
@@ -28,72 +26,80 @@
 					<small><i class="ti ti-pencil-alt"></i> Düzenle</small>
 				</a>
 			}
-		}
-
-		else
-		{
-			if (Model.IsMember)
-			{
+		} else {
+			if (Model.IsMember) {
 				<a class="pull-right text-danger" href="@Url.Action("Leave", "Course", new {id = Model.Course.Id})">
 					<small><i class="ti ti-angle-double-left"></i> Dersten Ayrıl</small>
 				</a>
-			}
-			else if (Model.IsWaiting) {
+			} else if (Model.IsWaiting) {
 				<span class="text-info pull-right"><i class="ti ti-time"></i> Onay Bekliyor</span>
-			}
-			else {
+			} else {
 				if (Model.Course.IsCourseActive == true) {
 					<a class="pull-right" href="@Url.Action("Join", "Course", new {id = Model.Course.Id})">
 						<span><i class="ti ti-angle-double-right"></i>  Derse Katıl</span>
 					</a>
-				}
-
-				else {
-					<span class="pull-right text-danger">Bu Ders Pasif</span>
+				} else {
+					<span class="pull-right text-danger">Kapatıldı</span>
 				}
 			}
 		}
 	</div>
+
 	<div class="panel-body">
-		<div class="col-md-9">
-			<dl class="dl-horizontal">
-				<dt>Ders Kodu</dt>
-				<dd>@Model.Course.Code</dd>
-			</dl>
-
-			<dl class="dl-horizontal">
-				<dt>Ders İsmi</dt>
-				<dd>@Model.Course.Name</dd>
-			</dl>
-
-			<dl class="dl-horizontal">
-				<dt>Açıklama</dt>
-				<dd class="text-justify">@(new HtmlString(Model.Course.Description))</dd>
-			</dl>
-
-			<dl class="dl-horizontal">
-				<dt>@Model.MemberCount Katılımcı</dt>
-				<dd></dd>
-			</dl>
-
-			@if (!Model.Course.CanEveryoneJoin && Model.IsCourseCreator) {
+		<div class="row display-flex">
+			<div class="col-md-9">
 				<dl class="dl-horizontal">
-					<dt>Katılım Linki</dt>
-					<dd>
-						<span class="text-info">
-							@*Absolute URL for Course Join(id)*@
-							@Url.Action("Join", "Course", routeValues: new { id = Model.Course.Id }, protocol: Request.Url?.Scheme)
-						</span>
-						<br />
-						<small>Üyelerin katılabilmesi için bu linki onlarla paylaşın.</small>
-					</dd>
+					<dt>Ders Kodu</dt>
+					<dd>@Model.Course.Code</dd>
 				</dl>
-			}
-		</div>
-		<div class="col-md-3">
-			<div class="user pull-right">
-				<img alt="Profil Resmi" src="@Url.Content(Model.Course.Creator.UserPhoto())" />
-				<span>@Model.Course.Creator.FullName()</span>
+
+				<dl class="dl-horizontal">
+					<dt>Ders İsmi</dt>
+					<dd>@Model.Course.Name</dd>
+				</dl>
+
+				<dl class="dl-horizontal">
+					<dt>Açıklama</dt>
+					<dd class="text-justify">@(new HtmlString(Model.Course.Description))</dd>
+				</dl>
+
+				<dl class="dl-horizontal">
+					<dt>@Model.Course.MemberCount Katılımcı</dt>
+					<dd></dd>
+				</dl>
+
+				@if (!Model.Course.CanEveryoneJoin && Model.IsCourseCreator) {
+					<dl class="dl-horizontal">
+						<dt>Katılım Linki</dt>
+						<dd>
+							<span class="text-info">
+								@*Absolute URL for Course Join(id)*@
+								@Url.Action("Join", "Course", routeValues: new { id = Model.Course.Id }, protocol: Request.Url?.Scheme)
+							</span>
+							<br />
+							<small>Üyelerin katılabilmesi için bu linki onlarla paylaşın.</small>
+						</dd>
+					</dl>
+				}
+			</div>
+			<div class="col-md-3">
+				<div>
+					<div class="user">
+						<img alt="Profil Resmi" src="@Url.Content(Model.Course.Creator.UserPhoto())" />
+						<span>@Model.Course.Creator.FullName()</span>
+					</div>
+				</div>
+
+				@if ((Model.IsCourseCreator || Model.IsMember) && (Model.Course.Terms?.Any() ?? false)) {
+					<div class="pull-md-bottom mt-lg">
+						<b class="">Diğer Dönemler</b>
+						<br />
+						@foreach (var term in Model.Course.Terms.OrderBy(t => t.DateCreated)) {
+							<a href="@Url.Action("Index", "Chapter", new {id = term.Id})">@term.Code @term.Name</a>
+							<br />
+						}
+					</div>
+				}
 			</div>
 		</div>
 	</div>
@@ -111,7 +117,7 @@
 							</div>
 							<div class="timeline-body">
 								<div class="timeline-header">
-									<a href="@Url.Action("Profil","User",new { id = timelineEntry.CreatorId })">
+									<a href="@Url.Action("Profil","User",new { id = timelineEntry.Creator.Id })">
 										<img alt="Kullanıcı Resmi" class="img-circle" style="height: 30px;" src="@Url.Content(timelineEntry.Creator.UserPhoto())" />
 										<span class="">@timelineEntry.Creator.FullName()</span>
 									</a>
@@ -119,21 +125,19 @@
 										@h.GetDeltaDate(@timelineEntry.DateCreated)
 									</small>
 
-
 									@if (Model.IsCourseCreator && Model.Course.IsCourseActive == true) {
 										<a href="#" class="js-deleteEntry pull-right-lg pull-right-md" data-entry-id="@timelineEntry.Id">
 											<span class="text-danger">Sil</span>
 										</a>
 									}
-
-
 								</div>
+
 								<div class="timeline-content">
-									@if (!timelineEntry.Heading.IsNullOrWhiteSpace()) {
-										<h4>@timelineEntry.Heading</h4>
+									@if (!string.IsNullOrEmpty(timelineEntry.Heading)) {
+										<h4>@Html.Raw(timelineEntry.Heading)</h4>
 									}
-									@if (!timelineEntry.Content.IsNullOrWhiteSpace()) {
-										<div class="pb-lg"> @(new HtmlString(@timelineEntry.Content))</div>
+									@if (!string.IsNullOrEmpty(timelineEntry.Content)) {
+										<div class="pb-lg"> @Html.Raw(timelineEntry.Content)</div>
 									}
 								</div>
 							</div>

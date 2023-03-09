@@ -5,11 +5,25 @@ using PLE444.Models;
 using System.Web.Mvc;
 using PLE444.ViewModels;
 using System.Data.Entity;
+using PLE.Contract.Enums;
+using PLE.Website.Service;
 
-namespace PLE444.Controllers {
-	public class ChapterController : Controller {
+namespace PLE444.Controllers
+{
+	public class ChapterController : Controller
+	{
+		#region Fields
 		private PleDbContext db = new PleDbContext();
+		private CourseService _courseService;
+		#endregion
 
+		#region Ctor
+		public ChapterController() {
+			_courseService = new CourseService();
+		} 
+
+		#endregion
+	
 		[PleAuthorization]
 		public ActionResult Index(Guid? id) {
 			if (id == null)
@@ -19,15 +33,19 @@ namespace PLE444.Controllers {
 				if (course == null)
 					return HttpNotFound();
 
-				if (!isMember(course) && !isCourseCreator(course))
+				if (!isViewer(course) && !isMember(course) && !isCourseCreator(course))
 					return RedirectToAction("Index", "Course", new { id = course.Id });
-				
+
 				var model = new Chapters {
 					canEdit = isCourseCreator(course),
 					CourseInfo = course,
+					ChapterList = db.Chapters
+						.OrderByDescending(c => c.OrderBy).ThenBy(x => x.DateAdded)
+						.Include("Materials"),
 				};
-
-				model.ChapterList = db.Chapters.Where(i => i.CourseId == id && i.IsActive).OrderByDescending(c => c.OrderBy).Include("Materials").ToList();
+				model.ChapterList = !isCourseCreator(course)
+					? model.ChapterList.Where(i => i.CourseId == id && i.IsActive && !i.IsHidden)
+					: model.ChapterList.Where(i => i.CourseId == id && i.IsActive);
 
 				return View(model);
 			}
@@ -56,7 +74,8 @@ namespace PLE444.Controllers {
 					DateAdded = DateTime.Now,
 					Title = chapter.Title,
 					OrderBy = chapter.OrderBy,
-					Description = chapter.Description
+					Description = chapter.Description,
+					IsHidden = chapter.IsHidden
 				};
 
 				db.Chapters.Add(c);
@@ -100,7 +119,7 @@ namespace PLE444.Controllers {
 				chapterDb.Description = model.Description;
 				chapterDb.Title = model.Title;
 				chapterDb.OrderBy = model.OrderBy;
-
+				chapterDb.IsHidden = model.IsHidden;
 				db.Entry(chapterDb).State = EntityState.Modified;
 				db.SaveChanges();
 
@@ -130,47 +149,64 @@ namespace PLE444.Controllers {
 
 			return Json(new { Success = true, Message = "OK" }, JsonRequestBehavior.AllowGet);
 		}
-
+		
+		#region Private Methods
 		private bool isCourseCreator(Guid? courseId) {
 			if (courseId == null)
 				return false;
-
-			var course = db.Courses.Find(courseId);
-			return isCourseCreator(course);
+			var identity = User.GetPrincipal()?.Identity as PleClaimsIdentity;
+			if (identity == null)
+				return false;
+			return identity.HasClaim(PleClaimType.Creator, courseId.ToString());
 		}
 
 		private bool isCourseCreator(Course course) {
-			if (course == null)
-				return false;
-
-			else if (course.CreatorId != User.GetPrincipal()?.User.Id)
-				return false;
-			return true;
+			return isCourseCreator(course.Id);
 		}
 
 		private bool isMember(Guid? courseId) {
 			if (courseId == null)
 				return false;
-
-			var userId = User.GetPrincipal()?.User.Id;
-			var user = db.UserCourses.Where(c => c.Course.Id == courseId).FirstOrDefault(u => u.UserId == userId);
-
-			if (user == null)
+			if (!(User.GetPrincipal()?.Identity is PleClaimsIdentity identity))
 				return false;
-			else
-				return user.IsActive && user.DateJoin != null;
+			return identity.HasClaim(PleClaimType.Member, courseId.ToString());
 		}
 
 		private bool isMember(Course course) {
 			return isMember(course.Id);
 		}
 
-		private bool isWaiting(Guid? courseId) {
-			var userId = User.GetPrincipal()?.User.Id;
-			var user = db.UserCourses.Where(c => c.Course.Id == courseId && c.IsActive).FirstOrDefault(u => u.UserId == userId);
-			if (user == null)
-				return false;
-			return user.DateJoin == null;
+		private bool isViewer(Course course) {
+			return isViewer(course.Id);
 		}
+
+		private bool isViewer(Guid? courseId) {
+			if (courseId == null)
+				return false;
+			if (!(User.GetPrincipal()?.Identity is PleClaimsIdentity identity))
+				return false;
+			return identity.HasClaim(PleClaimType.Viewer, courseId.ToString());
+		}
+
+		private bool isWaiting(Guid? courseId) {
+			if (courseId == null)
+				return false;
+			if (!(User.GetPrincipal()?.Identity is PleClaimsIdentity identity))
+				return false;
+			var waiting = identity.HasClaim(PleClaimType.Waiting, courseId.ToString());
+			if (!waiting)
+				return waiting;
+			identity.AddClaims(_courseService.GetClaims());
+			waiting = identity.HasClaim(PleClaimType.Waiting, courseId.ToString());
+			return waiting;
+		}
+
+		protected override void Dispose(bool disposing) {
+			if (disposing) {
+				db.Dispose();
+			}
+			base.Dispose(disposing);
+		}
+		#endregion
 	}
 }

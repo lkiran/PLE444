@@ -1,0 +1,98 @@
+﻿@model PLE444.ViewModels.AnswerOptionViewModel
+
+@{
+	ViewBag.Title = "Cevap Seçeneği Ekle";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="panel panel-default">
+	<div class="panel-heading">
+		@if (Model.Id == Guid.Empty) {
+			<h2>Yeni Cevap Seçeneği</h2>
+		} else {
+			<h2>Cevap Seçeneği Düzenle</h2>
+		}
+	</div>
+	@using (Html.BeginForm()) {
+		@Html.AntiForgeryToken()
+		@Html.HiddenFor(model => model.QuestionId)
+
+		<div class="panel-body">
+			<div class="form-horizontal">
+				<div class="form-group">
+					@Html.LabelFor(model => model.Content, new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						@Html.TextAreaFor(model => model.Content, new { htmlAttributes = new { @class = "form-control", @style = "background-color:white;" } })
+					</div>
+					@Html.ValidationMessageFor(model => model.Content, "", new { @class = "text-danger" })
+				</div>
+			</div>
+		</div>
+
+		<div class="panel-footer">
+			<a class="btn btn-default" href="@Url.Action("EditQuestion", "Quiz", new {id = Model.QuestionId})">
+				<i class="ti ti-angle-left"></i> Soruya Git
+			</a>
+			
+			<button type="submit" class="btn btn-success pull-right">
+				<i class="ti ti-save"></i> Kaydet
+			</button>
+
+			@if (Model.Id != Guid.Empty) {
+				<a class="btn-remove btn btn-danger pull-right mr-md" title="Sil" data-quiz-id="@Model.Id">
+					<i class="ti ti-trash"></i> Sil
+				</a>
+			}
+
+		</div>
+	}
+</div>
+
+@section scripts
+{
+	@Scripts.Render("~/bundles/jqueryval")
+	<script>
+		$(document).ready(function() {
+			$('#Content').summernote({
+				focus: true,
+				codemirror: {
+					theme: 'united'
+				},
+				toolbar: [
+					// [groupName, [list of button]]
+					['style', ['bold', 'italic', 'underline', 'clear', 'codeview']],
+					['font', ['strikethrough', 'superscript', 'subscript']],
+					['fontsize', ['fontsize']],
+					['color', ['color']],
+					['para', ['ul', 'ol', 'paragraph']],
+					['height', ['height']],
+				]
+			});
+
+			$(".btn-remove").on("click", function() {
+				var object = $(this);
+				bootbox.confirm({
+					size:"small",
+					title: "Onay",
+					message: "Cevap seçeneğini kaldırmak istediğinize emin misiniz?",
+					buttons: {
+						confirm: {
+							label: 'Evet, Kaldır',
+							className: 'btn-danger-alt'
+						},
+						cancel: {
+							label: 'Hayır',
+							className: 'btn-info-alt'
+						}
+					},
+					callback: function(result) {
+						if (result) {
+							window.location.replace(`@Url.Action("DeleteAnswer", "Quiz")/${object.data('quiz-id')}`);
+						}
+					}
+				});
+			});
+		});
+	</script>
+}

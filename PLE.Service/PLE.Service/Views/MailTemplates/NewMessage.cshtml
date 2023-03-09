@@ -1,0 +1,25 @@
+﻿@model System.Web.Mvc.ViewDataDictionary
+@{ Layout = "~/Views/MailTemplates/_MailLayout.cshtml"; }
+
+@section Content{
+    <tr>
+        <td style="text-align:center;">
+            <h2 style="color: #00acc1; font-weight:lighter;">Yeni Mesaj</h2>
+            <br />
+            <h3 style="font-weight:lighter;">
+                <small style="font-size: 80%; color: #cacaca;">Gönderen </small>
+                @(Model["sender"] as string)
+            </h3>
+        <td>
+    </tr>
+
+    <tr>
+        <td>
+            <div>
+                <p style="text-align: justify;">
+                    @(new HtmlString(Model["content"] as string))
+                </p>
+            </div>
+        </td>
+    </tr>
+}

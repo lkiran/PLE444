@@ -1,0 +1,64 @@
+﻿@model List<PLE444.Models.Community>
+@{
+	ViewBag.Title = "PLE Administration";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles
+{
+	@Styles.Render("~/Content/plugins/datatables/dataTables.bootstrap.css",
+					"~/Content/plugins/datatables/dataTables.themify.css")
+}
+
+<div class="row">
+	<div class="col-md-3">
+		<div class="info-tile tile-info" style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);">
+			<a href="@Url.Action("Groups","Admin")">
+				<div class="tile-icon"><i class="ti ti-comments"></i></div>
+				<div class="tile-heading"><span>Gruplar</span></div>
+				<div class="tile-body"><span>@Model.Count</span> <small>adet</small></div>
+			</a>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+			<table class="table table-hover m-n">
+				<thead>
+					<tr>
+						<th></th>
+						<th class="">Açılış Tarihi</th>
+						<th class="">Durumu</th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var community in Model) {
+						<tr>
+							<td class="">@community.Name</td>
+							<td class="">@community.DateCreated</td>
+							<td class="">@(community.IsActive ? "Aktif" : "Kapalı")</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+@section scripts
+{
+	@Scripts.Render("~/Content/plugins/datatables/jquery.dataTables.js")
+
+	<script>
+		$(document).ready(function () {
+			$('.table ')
+				.dataTable({
+					"aaSorting": [],
+					"paging": false,
+					"dom": '<"panel-heading"f><"panel-body"<"table-responsive"t>>'
+				});
+		});
+	</script>
+}

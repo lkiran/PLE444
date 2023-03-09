@@ -10,12 +10,12 @@ namespace PLE444.ViewModels
 			Gender = GenderType.NotSepecified;
 		}
 
-		[Required]
+		[Required (ErrorMessage = "Email alanı boş bırakılmaz")]
 		[EmailAddress]
 		[Display(Name = "E-Posta")]
 		public string Email { get; set; }
 
-		[Required]
+		[Required (ErrorMessage = "Şifre alanı zorunludur")]
 		[StringLength(100, ErrorMessage = "Şifre en kısa {0} ve en uzun {2} karakter olabilir", MinimumLength = 6)]
 		[DataType(DataType.Password)]
 		[Display(Name = "Şifre")]
@@ -31,9 +31,11 @@ namespace PLE444.ViewModels
 
 		public string photoBase64 { get; set; }
 
+        [Required (ErrorMessage= "İsim alanı gereklidir")]
 		[Display(Name = "İsim")]
 		public string FirstName { get; set; }
 
+        [Required (ErrorMessage = "Soyisim alanı gerklidir")]
 		[Display(Name = "Soyisim")]
 		public string LastName { get; set; }
 

@@ -1,8 +1,5 @@
-﻿@*
-	@Html.ActionLink("Contact", "Contact", "Home")
+﻿<!DOCTYPE html>
 
-*@
-<!DOCTYPE html>
 <html lang="tr">
 <head>
 	<meta charset="utf-8">
@@ -11,9 +8,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 	<meta name="apple-mobile-web-app-capable" content="yes">
 	<meta name="apple-touch-fullscreen" content="yes">
-	<meta name="description" content="Description Here">
-	<meta name="author" content="Author Name Here">
 	<link type='text/css' href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400italic,600' rel='stylesheet'>
+
+	<script type="text/javascript" src="~/Scripts/moment.js"></script>
+	<script src="~/Scripts/moment-with-locales.js"></script>
 	@Styles.Render("~/Content/fonts/font-awesome/css/font-awesome.min.css") <!-- Font Awesome -->
 	@Styles.Render("~/Content/fonts/themify-icons/themify-icons.css") <!-- Themify Icons -->
 	@Styles.Render("~/Content/css/styles.css") <!-- Core CSS with all styles -->
@@ -24,22 +22,13 @@
 	@Styles.Render("~/Content/plugins/summernote/dist/summernote.css")
 	@Styles.Render("~/Content/plugins/switchery/switchery.css")
 	@Styles.Render("~/Content/plugins/jquery-scrollbar/jquery.scrollbar.css")
-
+	@Styles.Render("~/Content/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css")
+	@Styles.Render("~/Content/plugins/toastr/toastr.min.css")
+	<script src="~/Content/plugins/fullcalendar/lib/jquery-ui.custom.min.js"></script>
 	@RenderSection("styles", required: false)
-
-
-
-
-	<!--[if lt IE 10]>
-		<script type="text/javascript" src="assets/js/media.match.min.js"></script>
-		<script type="text/javascript" src="assets/js/respond.min.js"></script>
-		<script type="text/javascript" src="assets/js/placeholder.min.js"></script>
-	<![endif]-->
-	<!-- The following CSS are included as plugins and can be removed if unused-->
-
 </head>
-<body class="animated-content">
 
+<body class="animated-content">
 	<header id="topnav" class="navbar navbar-default navbar-fixed-top navbar-indigo" role="banner">
 		<div class="logo-area">
 			<span id="trigger-sidebar" class="toolbar-trigger toolbar-icon-bg">
@@ -51,26 +40,22 @@
 			</span>
 
 			<a title="Ana Sayfa" class="toolbar-icon-bg" href="@Url.Action("Index","Home")"><h3 style="color: white; line-height: 25px;">PLE</h3></a>
-			@*<div class="toolbar-icon-bg hidden-xs" id="toolbar-search">
-					<div class="input-group">
-						<span class="input-group-btn"><button class="btn" type="button"><i class="ti ti-search"></i></button></span>
-						<input type="text" class="form-control" placeholder="Grup, Soru veya Ders ara...">
-						<span class="input-group-btn"><button class="btn" type="button"><i class="ti ti-close"></i></button></span>
-					</div>
-				</div>*@
-		</div><!-- logo-area -->
+		</div>
+
 		<ul class="nav navbar-nav toolbar pull-right">
-			@*<li class="toolbar-icon-bg visible-xs-block" id="trigger-toolbar-search">
-					<a href="#"><span class="icon-bg"><i class="ti ti-search"></i></span></a>
-				</li>*@
+			<li class="toolbar-icon-bg visible-xs-block" id="trigger-toolbar-search">
+				<a href="#"><span class="icon-bg"><i class="ti ti-search"></i></span></a>
+			</li>
 
 			<li class="toolbar-icon-bg hidden-xs" id="trigger-fullscreen">
-				<a href="#" alt="Tam Ekran" class="toggle-fullscreen"><span class="icon-bg"><i class="ti ti-fullscreen"></i></span></a>
+				<a href="#" title="Tam Ekran" class="toggle-fullscreen"><span class="icon-bg"><i class="ti ti-fullscreen"></i></span></a>
 			</li>
 
 			@{ Html.RenderAction("LogedInUser", "Layout"); }
 		</ul>
 	</header>
+
+
 	<div id="wrapper">
 		<div id="layout-static">
 			<div class="static-sidebar-wrapper sidebar-midnightblue">
@@ -114,17 +99,6 @@
 										@RenderBody()
 									</div>
 								</div>
-								@*<div class="col-md-3">
-										<div class="panel panel-default" data-widget='{"draggable": "false"}'>
-											<div class="panel-heading">
-												<h2>Panel</h2>
-												<div class="panel-ctrls" data-actions-container="" data-action-collapse='{"target": ".panel-body"}'></div>
-											</div>
-											<div class="panel-body">
-												Asperiores porro eveniet debitis quas sed harum nobis libero voluptatibus dolorum odio at veniam aut id corrupti hic amet consectetur adipisicing tenetur ex ea dignissimos volupta elit esse quisquam fugiat.
-											</div>
-										</div>
-									</div>*@
 							</div>
 						</div>
 					</div> <!-- #page-content -->
@@ -140,10 +114,7 @@
 		</div>
 	</div>
 
-
 	<!-- Load site level scripts -->
-	<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.9.2/jquery-ui.min.js"></script> -->
 	@Scripts.Render("~/Content/js/jquery-1.10.2.min.js")<!-- Load jQuery -->
 	@Scripts.Render("~/Content/js/jqueryui-1.10.3.min.js")	<!-- Load jQueryUI -->
 	@Scripts.Render("~/Content/js/bootstrap.min.js")<!-- Load Bootstrap -->
@@ -165,58 +136,77 @@
 	@Scripts.Render("~/Scripts/bootbox.js")
 	@Scripts.Render("~/Content/plugins/jQuery.dotdotdot/jquery.dotdotdot.min.js")
 	@Scripts.Render("~/Content/plugins/jquery-scrollbar/jquery.scrollbar.min.js")
+	@Scripts.Render("~/Content/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js")
+	@Scripts.Render("~/Content/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js")
+	@Scripts.Render("~/Content/plugins/toastr/toastr.min.js")
 
+	@Scripts.Render("~/Content/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.tr.js")
+	@Scripts.Render("~/Content/plugins/fullcalendar/moment.min.js")
 
+	<!-- Load page level scripts-->
+	@RenderSection("scripts", required: false)
+	<!-- End loading page level scripts-->
 
 	<script>
-
 		$(document).ready(function () {
-			jQuery('.scrollbar-outer').scrollbar({
+			$('.scrollbar-outer').scrollbar({
 				"ignoreMobile": true,
-				"scrollx":"element" 
+				"scrollx": "element"
+			});
+
+			$('.text-editor').summernote({
+				focus: true,
+				codemirror: {
+					theme: 'united'
+				},
+				toolbar: [
+					// [groupName, [list of button]]
+					['style', ['bold', 'italic', 'underline', 'clear', 'codeview']],
+					['font', ['strikethrough', 'superscript', 'subscript']],
+					['fontsize', ['fontsize']],
+					['color', ['color']],
+					['para', ['ul', 'ol', 'paragraph']],
+					['height', ['height']],
+				]
 			});
 
 			$(".ellipsis").dotdotdot({
-				/*	The text to add as ellipsis. */
 				ellipsis: '...',
-
-				/*	Wrap-option fallback to 'letter' for long words */
 				fallbackToLetter: true,
-
-				/*	jQuery-selector for the element to keep and put after the ellipsis. */
 				after: null,
-
-				/*	Whether to update the ellipsis: true/'window' */
 				watch: true,
-
-				/*	Optionally set a max-height, can be a number or function.
-					If null, the height will be measured. */
 				height: 48,
-
-				/*	Deviation for the height-option. */
 				tolerance: 0,
-
-				/*	Callback function that is fired after the ellipsis is added,
-					receives two parameters: isTruncated(boolean), orgContent(string). */
 				callback: function (isTruncated, orgContent) { },
-
 				lastCharacter: {
-
-					/*	Remove these characters from the end of the truncated text. */
 					remove: [' ', ',', ';', '.', '!', '?'],
-
-					/*	Don't add an ellipsis if this array contains
-						the last character of the truncated text. */
 					noEllipsis: []
 				}
 			});
+
+			var date = new Date();
+			date.setDate(date.getDate());
+			$('.date-time-picker').datetimepicker({
+				startDate: date,
+				inline: true,
+				format: 'yyyy-mm-dd hh:ii',
+				autoclose: true,
+				sideBySide: true,
+				language: 'tr'
+			});
+
+			$('.date-picker').datetimepicker({
+				startDate: date,
+				inline: true,
+				format: 'yyyy-mm-dd',
+				autoclose: true,
+				sideBySide: true,
+				language: 'tr'
+			});
 		});
 	</script>
-
-
 	<!-- End loading site level scripts -->
-	<!-- Load page level scripts-->
-	<!-- End loading page level scripts-->
-	@RenderSection("scripts", required: false)
+
+
 </body>
 </html>

@@ -33,5 +33,7 @@ namespace PLE444.ViewModels
         [Required]
         [DisplayName("Teslim Tarihi")]
         public DateTime Deadline { get; set; }
+
+        public bool IsHidden { get; set; }
     }
 }

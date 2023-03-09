@@ -1,0 +1,184 @@
+﻿@model PLE444.ViewModels.QuizViewModel
+@{
+	ViewBag.Title = "Testi Düzenle";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="panel panel-default">
+	@using (Html.BeginForm()) {
+		@Html.AntiForgeryToken()
+		@Html.HiddenFor(model => model.CourseId)
+
+		<div class="panel-heading">
+			<h2>@Model.Name</h2>
+		</div>
+
+		<div class="panel-body">
+
+			<div class="form-horizontal">
+				@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+				<div class="form-group">
+					@Html.LabelFor(model => model.Name, new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.LabelFor(model => model.Description, new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						@Html.TextAreaFor(model => model.Description, new { htmlAttributes = new { @class = "form-control", @style = "background-color:white;" } })
+					</div>
+					@Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+				</div>
+				
+				<div class="form-group">
+					@Html.LabelFor(model => model.IsPublished, new { @class = "control-label col-md-2" })
+
+					<div class="col-md-10">
+						<table style="max-width: 100px;">
+							<tr>
+								<td><small class="m-sm">Gizli</small></td>
+								<td class="m-sm">
+									<div class="demo-switches">
+										@Html.CheckBoxFor(model => model.IsPublished, htmlAttributes: new { @class = "bootstrap-switch", data_size = "mini",
+											data_on_color = "success",
+											data_off_color = "warning",
+											data_on_text = "&nbsp;",
+											data_off_text = "&nbsp" })
+									</div>
+								</td>
+								<td><small class="m-sm">Görünür</small></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.LabelFor(model => model.AvailableOn, new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						<div class="input-group date">
+							@Html.EditorFor(model => model.AvailableOn, new { htmlAttributes = new { @class = "form-control date-time-picker" } })
+							<span class="input-group-addon">
+								<span class="fa fa-calendar"></span>
+							</span>
+						</div>
+						@Html.ValidationMessageFor(model => model.AvailableOn, "", new { @class = "text-danger" })
+					</div>
+				</div>
+
+				<div class="form-group">
+					@Html.LabelFor(model => model.AvailableTill, new { @class = "control-label col-md-2" })
+					<div class="col-md-10">
+						<div class="input-group date">
+							@Html.EditorFor(model => model.AvailableTill, new { htmlAttributes = new { @class = "form-control date-time-picker" } })
+							<span class="input-group-addon">
+								<span class="fa fa-calendar"></span>
+							</span>
+						</div>
+						@Html.ValidationMessageFor(model => model.AvailableTill, "", new { @class = "text-danger" })
+					</div>
+				</div>
+			</div>
+
+			@if (Model.Questions.Any()) {
+				<hr />
+				<div class="tab-container tab-left tab-default">
+					<ul class="nav nav-tabs">
+						@foreach (var question in Model.Questions) {
+							var row = Model.Questions.IndexOf(question) + 1;
+							<li class="@(row == 1 ? "active" : string.Empty)">
+								<a href="#question-@row" data-toggle="tab">@row</a>
+							</li>
+						}
+					</ul>
+					<div class="tab-content">
+						@foreach (var question in Model.Questions) {
+							var row = Model.Questions.IndexOf(question) + 1;
+							<div class="tab-pane @(row == 1 ? "active" : string.Empty)" id="question-@row">
+								<h3>@question.Title</h3>
+								<a href="@Url.Action("EditQuestion", "Quiz", new { id = question.Id })" class="pull-right"><i class="ti ti-pencil"></i> Düzenle</a>
+								@Html.Raw(question.Description)
+							</div>
+						}
+					</div>
+				</div>
+			} else {
+				<div class="alert alert-info">
+					<i class="ti ti-info-alt"></i>&nbsp; Bu testin içinde hiç soru yok. <a href="@Url.Action("AddQuestion", "Quiz", new {quizId = Model.Id})">
+						<strong>Soru Ekle</strong>
+					</a>
+				</div>
+			}
+		</div>
+
+		<div class="panel-footer">
+			<a class="btn btn-default" href="@Url.Action("Index", "Course", new {id = Model.CourseId})">
+				<i class="ti ti-angle-left"></i> Derse Git
+			</a>
+
+			<button type="submit" class="btn btn-success pull-right">
+				<i class="ti ti-save"></i> Kaydet
+			</button>
+
+			@if (Model.Id != Guid.Empty) {
+				<a href="@Url.Action("AddQuestion", "Quiz", new {quizId = Model.Id})" class="btn btn-primary pull-right mr-md ml-md" title="Soru Ekle">
+					<i class="ti ti-plus"></i> Soru Ekle
+				</a>
+
+				<a class="btn-remove btn btn-danger pull-right" title="Sil" data-quiz-id="@Model.Id">
+					<i class="ti ti-trash"></i> Sil
+				</a>
+			}
+
+		</div>
+	}
+</div>
+
+@section scripts
+{
+	@Scripts.Render("~/bundles/jqueryval")
+	<script>
+		$(document).ready(function() {
+			$('#Description').summernote({
+				focus: true,
+				codemirror: {
+					theme: 'united'
+				},
+				toolbar: [
+					// [groupName, [list of button]]
+					['style', ['bold', 'italic', 'underline', 'clear', 'codeview']],
+					['font', ['strikethrough', 'superscript', 'subscript']],
+					['fontsize', ['fontsize']],
+					['color', ['color']],
+					['para', ['ul', 'ol', 'paragraph']],
+					['height', ['height']],
+				]
+			});
+
+			$(".btn-remove").on("click", function() {
+				var object = $(this);
+				bootbox.confirm({
+					title: "Onay",
+					message: "Testi kaldırmak istediğinize emin misiniz?",
+					buttons: {
+						confirm: {
+							label: 'Evet, Kaldır',
+							className: 'btn-danger-alt'
+						},
+						cancel: {
+							label: 'Hayır',
+							className: 'btn-info-alt'
+						}
+					},
+					callback: function(result) {
+						if (result) {
+							window.location.replace(`@Url.Action("Delete", "Quiz")/${object.data('quiz-id')}`);
+						}
+					}
+				});
+			});
+		});
+	</script>
+}

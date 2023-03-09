@@ -1,0 +1,74 @@
+﻿@model  List<PLE444.Models.Course>
+@{
+	ViewBag.Title = " Desler";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles
+{
+	@Styles.Render("~/Content/plugins/datatables/dataTables.bootstrap.css",
+					"~/Content/plugins/datatables/dataTables.themify.css")
+}
+
+<div class="row">
+	<div class="col-md-3">
+		<div class="info-tile tile-success" style="visibility: visible; opacity: 1; display: block; transform: translateY(0px);">
+			<a href="@Url.Action("Courses","Admin")">
+				<div class="tile-icon"><i class="ti ti-book"></i></div>
+				<div class="tile-heading"><span>Dersler</span></div>
+				<div class="tile-body"><span>@Model.Count</span> <small>adet</small></div>
+			</a>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col-md-12">
+
+		<div class="panel panel-default" data-widget='{"draggable": "false"}'>
+			<table class="table table-hover m-n">
+				<thead>
+					<tr>
+						<th></th>
+						<th class="">Açılış Tarihi</th>
+						<th class="">Durumu</th>
+						<th class=""></th>
+					</tr>
+				</thead>
+				<tbody>
+					@foreach (var course in Model) {
+						<tr>
+							<td class="">@course.Heading</td>
+							<td class="">@course.DateCreated</td>
+							<td class="">@(course.IsCourseActive ? "Aktif" : "Kapalı")@(course.IsBanned ? ", Kilitli" : string.Empty)</td>
+							<td class="">
+								@if (course.IsBanned) {
+									<a href="@Url.Action("RemoveBanCourse", "Admin", new {id = course.Id})" title="Kilidi kaldır"><i class="ti ti-unlock"></i></a>
+								} else {
+									<a href="@Url.Action("BanCourse", "Admin", new {id = course.Id})" title="Kilitle"><i class="ti ti-lock"></i></a>
+								}
+								<a href="@Url.Action("ViewCourse", "Admin", new {id = course.Id})" title="Derse Git" class="ml-md"><i class="ti ti-eye"></i></a>
+							</td>
+						</tr>
+					}
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+
+@section scripts
+{
+	@Scripts.Render("~/Content/plugins/datatables/jquery.dataTables.js")
+
+	<script>
+		$(document).ready(function () {
+			$('.table ')
+				.dataTable({
+					"aaSorting": [],
+					"paging": false,
+					"dom": '<"panel-heading"f><"panel-body"<"table-responsive"t>>'
+				});
+		});
+	</script>
+}

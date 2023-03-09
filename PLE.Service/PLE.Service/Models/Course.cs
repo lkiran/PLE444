@@ -17,6 +17,8 @@ namespace PLE.Service.Models
 		[Required]
 		public Guid Id { get; set; }
 
+		public Guid? CopiedFromId { get; set; }
+
 		[ForeignKey("Creator")]
 		public string CreatorId { get; set; }
 
@@ -34,15 +36,19 @@ namespace PLE.Service.Models
 		public bool CanEveryoneJoin { get; set; }
 
 		public bool IsCourseActive { get; set; }
+		
+		public bool IsBanned { get; set; }
 
 		public virtual ICollection<Chapter> Chapters { get; set; }
 
 		public virtual ICollection<Assignment> Assignments { get; set; }
 
+		public virtual ICollection<Quiz> Quizes { get; set; }
+
 		public virtual ICollection<Discussion> Discussion { get; set; }
 
 		public virtual ICollection<TimelineEntry> Timeline { get; set; }
 
-		public string Heading => Code + " - " + Name;
+		public string Heading => $"{Code} - {Name}";
 	}
 }

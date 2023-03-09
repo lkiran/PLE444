@@ -13,13 +13,24 @@ using PLE444.Models;
 using PLE444.ViewModels;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using PLE.Contract.Enums;
+using PLE.Website.Service;
 using static PLE444.Helpers.ViewHelper;
 
 namespace PLE444.Controllers {
 	[PleAuthorization]
 	public class AssignmentController : Controller {
+		#region Fields
 		private PleDbContext db = new PleDbContext();
+		private CourseService _courseService;
 		private EmailService ms = new EmailService();
+		#endregion
+
+		#region Ctor
+		public AssignmentController() {
+			_courseService = new CourseService();
+		} 
+		#endregion
 
 		[PleAuthorization]
 		public ActionResult Index(Guid? id) {
@@ -30,7 +41,7 @@ namespace PLE444.Controllers {
 			if (course == null)
 				return HttpNotFound();
 
-			if (!isMember(id) && !isCourseCreator(course))
+			if (!isViewer(id) && !isMember(id) && !isCourseCreator(course))
 				return RedirectToAction("Index", "Course", new { id = id });
 
 			var model = new CourseAssignments {
@@ -39,11 +50,15 @@ namespace PLE444.Controllers {
 				CanUpload = isMember(course.Id),
 				CurrentUserId = User.GetPrincipal()?.User.Id
 			};
-			
-			model.AssignmentList = db.Assignments.Include("Uploads").Include("Uploads.Owner").Where(a => a.Course.Id == id).ToList();
 
-			return View(model);
-		}
+            if (!isCourseCreator(course))
+                model.AssignmentList = db.Assignments.Where(i => i.CourseId == id && i.IsActive && !i.IsHidden).Include("Uploads").ToList();
+            else
+
+                model.AssignmentList = db.Assignments.Where(i => i.CourseId == id && i.IsActive).Include("Uploads").Include("Uploads.Owner").ToList();
+
+            return View(model);
+        }
 
 		public ActionResult Create(Guid id) {
 			if (!isCourseCreator(id))
@@ -73,7 +88,9 @@ namespace PLE444.Controllers {
 					DateAdded = DateTime.Now,
 					Title = model.Title,
 					Description = model.Description,
-					Deadline = model.Deadline
+					Deadline = model.Deadline,
+                    IsHidden=model.IsHidden
+         
 				};
 				db.Assignments.Add(assignment);
 
@@ -82,17 +99,21 @@ namespace PLE444.Controllers {
 
 				db.SaveChanges();
 
-				var emails = db.UserCourses
+				var joinedUsers = db.UserCourses
 					.Where(uc => uc.CourseId == model.CourseId && uc.IsActive && uc.DateJoin != null)
 					.Include(uc => uc.User)
-					.Select(uc => uc.User)
-					.Select(u => u.Email);
+					.Select(uc => uc.User).ToList();
+				List<string> emails = new List<string>();
+				foreach (var item in joinedUsers) {
+					emails.Add(item.Email);
+				}
 
 				//Send email to participants if there any
 				if (emails != null || emails.Any()) {
-					var mail = new MailMessage() {
-						Subject = course.Heading + " dersine " + model.Title + " ödevi eklendi.",
-						Body = ViewRenderer.RenderView("~/Views/Mail/NewAssignment.cshtml", new ViewDataDictionary()
+					try {
+						var mail = new MailMessage() {
+							Subject = course.Heading + " dersine " + model.Title + " ödevi eklendi.",
+							Body = ViewRenderer.RenderView("~/Views/Mail/NewAssignment.cshtml", new ViewDataDictionary()
 						{
 							{"title", model.Title},
 							{"deadline", model.Deadline},
@@ -100,13 +121,18 @@ namespace PLE444.Controllers {
 							{"course", course.Heading},
 							{"courseId", assignment.Id}
 						})
-					};
+						};
 
-					mail.IsBodyHtml = true;
-					foreach (var receiver in emails.ToList())
-						mail.Bcc.Add(receiver);
+						mail.IsBodyHtml = true;
+						foreach (var receiver in emails.ToList())
+							mail.Bcc.Add(receiver);
 
-					await ms.SendAsync(mail);
+						await ms.SendAsync(mail);
+					}
+					catch(Exception ex) {
+						Console.WriteLine(ex.ToString());
+					}
+					
 				}
 
 				return RedirectToAction("Index", "Assignment", new { id = model.CourseId });
@@ -152,7 +178,7 @@ namespace PLE444.Controllers {
 				assignment.Deadline = model.Deadline;
 				assignment.Description = model.Description;
 				assignment.Title = model.Title;
-
+                assignment.IsHidden = model.IsHidden;
 				db.Entry(assignment).State = EntityState.Modified;
 				db.SaveChanges();
 
@@ -187,15 +213,19 @@ namespace PLE444.Controllers {
 		[PleAuthorization]
 		[ValidateAntiForgeryToken]
 		public ActionResult Feedback(int? uploadId, string feedback) {
-			if (uploadId == null || String.IsNullOrEmpty(feedback))
-				return new HttpStatusCodeResult(HttpStatusCode.NotFound);
-			var a = db.Documents.Find(uploadId);
-			a.Feedback = feedback;
+			if (uploadId == null)
+				return Json(new { Success = false, Message = "BadRequest" }, JsonRequestBehavior.AllowGet);
 
+			var document = db.Documents.Find(uploadId);
+			if (document == null)
+				return Json(new { Success = false, Message = "HttpNotFound" }, JsonRequestBehavior.AllowGet);
 
-			db.Entry(a).State = EntityState.Modified;
+			document.Feedback = feedback;
+
+			db.Entry(document).State = EntityState.Modified;
 			db.SaveChanges();
-			return Redirect(HttpContext.Request.UrlReferrer.AbsoluteUri);
+
+			return Json(new { Success = true, Message = "OK" }, JsonRequestBehavior.AllowGet);
 		}
 
 		[PleAuthorization]
@@ -293,46 +323,43 @@ namespace PLE444.Controllers {
 			return File(memoryStream, "application/octet-stream", DateTime.Now + ".zip");
 		}
 
+		#region Private Methods
 		private bool isCourseCreator(Guid? courseId) {
 			if (courseId == null)
 				return false;
-
-			var course = db.Courses.Find(courseId);
-			return isCourseCreator(course);
+			var identity = User.GetPrincipal()?.Identity as PleClaimsIdentity;
+			if (identity == null)
+				return false;
+			return identity.HasClaim(PleClaimType.Creator, courseId.ToString());
 		}
 
 		private bool isCourseCreator(Course course) {
-			if (course == null)
-				return false;
-
-			else if (course.CreatorId != User.GetPrincipal()?.User.Id)
-				return false;
-			return true;
+			return isCourseCreator(course.Id);
 		}
 
 		private bool isMember(Guid? courseId) {
 			if (courseId == null)
 				return false;
-
-			var userId = User.GetPrincipal()?.User.Id;
-			var user = db.UserCourses.Where(c => c.Course.Id == courseId).FirstOrDefault(u => u.UserId == userId);
-
-			if (user == null)
+			if (!(User.GetPrincipal()?.Identity is PleClaimsIdentity identity))
 				return false;
-			else
-				return user.IsActive && user.DateJoin != null;
+			return identity.HasClaim(PleClaimType.Member, courseId.ToString());
 		}
 
 		private bool isMember(Course course) {
 			return isMember(course.Id);
 		}
 
-		private bool isWaiting(Guid? courseId) {
-			var userId = User.GetPrincipal()?.User.Id;
-			var user = db.UserCourses.Where(c => c.Course.Id == courseId && c.IsActive).FirstOrDefault(u => u.UserId == userId);
-			if (user == null)
-				return false;
-			return user.DateJoin == null;
+		private bool isViewer(Course course) {
+			return isViewer(course.Id);
 		}
+
+		private bool isViewer(Guid? courseId) {
+			if (courseId == null)
+				return false;
+			if (!(User.GetPrincipal()?.Identity is PleClaimsIdentity identity))
+				return false;
+			return identity.HasClaim(PleClaimType.Viewer, courseId.ToString());
+		}
+		#endregion
 	}
 }

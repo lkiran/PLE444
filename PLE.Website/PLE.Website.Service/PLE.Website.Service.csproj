@@ -78,8 +78,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthService.cs" />
+    <Compile Include="QuizService.cs" />
     <Compile Include="CommunityService.cs" />
-    <Compile Include="IBaseService.cs" />
+    <Compile Include="BaseService.cs" />
     <Compile Include="Core\PleClient.cs" />
     <Compile Include="CourseService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

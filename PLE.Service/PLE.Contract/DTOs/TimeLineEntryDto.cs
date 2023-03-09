@@ -2,8 +2,18 @@
 
 namespace PLE.Contract.DTOs
 {
-	public class TimeLineEntryDto
+	public class TimelineEntryDto
 	{
+		public static class Icon
+		{
+			public static string Plus = "ti ti-plus";
+		}
+
+		public static class Color
+		{
+			public static string Primary = "timeline-primary";
+		}
+
 		public Guid Id { get; set; }
 
 		public UserDto Creator { get; set; }

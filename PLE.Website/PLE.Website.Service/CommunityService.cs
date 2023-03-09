@@ -5,16 +5,11 @@ using System.Runtime.InteropServices;
 
 namespace PLE.Website.Service
 {
-	public class CommunityService
+	public class CommunityService: BaseService
 	{
-		private readonly PleClient _client;
-
-		public CommunityService() {
-			_client = new PleClient();
-		}
 
 		public List<CommunityDto> GetCommunityListByUser([Optional]string userId) {
-			var result = _client.Get<List<CommunityDto>>($"api/community/ListByUser/{userId}");
+			var result = Client.Get<List<CommunityDto>>($"api/community/ListByUser/{userId}");
 
 			if (result == null)
 				result = new List<CommunityDto>();

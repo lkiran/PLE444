@@ -41,6 +41,8 @@ namespace PLE.Service.Models
 
 		public bool IsActive { get; set; }
 
+		public bool IsHidden { get; set; }
+
 		public virtual ICollection<Material> Materials { get; set; }
 	}
 }

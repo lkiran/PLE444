@@ -229,9 +229,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Admin\AdminController.cs" />
     <Compile Include="Controllers\AssignmentController.cs" />
     <Compile Include="Controllers\ChapterController.cs" />
     <Compile Include="Controllers\CommunityController.cs" />
+    <Compile Include="Controllers\QuizController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\FileController.cs" />
@@ -255,13 +257,21 @@
     <Compile Include="Models\Community.cs" />
     <Compile Include="Models\CommunityMembersViewModel.cs" />
     <Compile Include="Models\Enums.cs" />
+    <Compile Include="Models\LetterGrade.cs" />
     <Compile Include="Models\PleAuthorizationAttribute.cs" />
+    <Compile Include="Models\PleClaimsIdentity.cs" />
+    <Compile Include="ViewModels\AnswerViewModel.cs" />
+    <Compile Include="ViewModels\AnswerOptionViewModel.cs" />
+    <Compile Include="ViewModels\QuestionViewModel.cs" />
+    <Compile Include="ViewModels\QuizDetailViewModel.cs" />
+    <Compile Include="ViewModels\QuizListViewModel.cs" />
     <Compile Include="Models\SendMessageParametersVm.cs" />
     <Compile Include="Models\Interfaces\IUserSession.cs" />
     <Compile Include="Models\Layout\SidebarList.cs" />
     <Compile Include="Models\PLEUserIdentity.cs" />
     <Compile Include="Models\UserPrincipal.cs" />
     <Compile Include="Models\UserSession.cs" />
+    <Compile Include="ViewModels\AdminIndexViewModel.cs" />
     <Compile Include="ViewModels\CommunityViewModel.cs" />
     <Compile Include="ViewModels\CourseViewModel.cs" />
     <Compile Include="Models\Discussion.cs" />
@@ -282,7 +292,6 @@
     <Compile Include="Models\TimelineEntry.cs" />
     <Compile Include="Models\UserCommunity.cs" />
     <Compile Include="Models\UserGrade.cs" />
-    <Compile Include="Models\UserInterest.cs" />
     <Compile Include="Models\UserCourse.cs" />
     <Compile Include="Models\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -292,14 +301,18 @@
     <Compile Include="ViewModels\Chapters.cs" />
     <Compile Include="ViewModels\CourseGrades.cs" />
     <Compile Include="ViewModels\CourseMaterials.cs" />
+    <Compile Include="ViewModels\CreateCourseViewModel.cs" />
     <Compile Include="ViewModels\DiscussionMessages.cs" />
     <Compile Include="ViewModels\DiscussionViewModel.cs" />
     <Compile Include="ViewModels\MailBox.cs" />
     <Compile Include="ViewModels\MainPage.cs" />
     <Compile Include="ViewModels\MaterialForm.cs" />
     <Compile Include="Models\PleWebsiteMappingProfile.cs" />
+    <Compile Include="ViewModels\QuizViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
     <Compile Include="ViewModels\NewMessageViewModel.cs" />
+    <Compile Include="ViewModels\SolveViewModel.cs" />
+    <Compile Include="ViewModels\SolveResultViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -1774,6 +1787,9 @@
     <Content Include="Content\plugins\tables-fixedheader\js\dataTables.fixedHeader.js" />
     <Content Include="Content\plugins\tables-fixedheader\js\dataTables.fixedHeader.min.js" />
     <Content Include="Content\plugins\tables-fixedheader\Readme.txt" />
+    <Content Include="Content\plugins\toastr\toastr.css" />
+    <Content Include="Content\plugins\toastr\toastr.min.css" />
+    <Content Include="Content\plugins\toastr\toastr.min.js" />
     <Content Include="Content\plugins\velocityjs\velocity.min.js" />
     <Content Include="Content\plugins\velocityjs\velocity.ui.min.js" />
     <Content Include="Content\plugins\wijets\wijets.js" />
@@ -2100,6 +2116,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\plugins\toastr\toastr.js.map" />
     <None Include="Properties\PublishProfiles\PLE.pubxml" />
     <None Include="Properties\PublishProfiles\PLE444.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
@@ -2162,7 +2179,6 @@
     <Content Include="Views\Assignment\Index.cshtml" />
     <Content Include="Views\Chapter\Create.cshtml" />
     <Content Include="Views\Chapter\Index.cshtml" />
-    <Content Include="Views\Course\Create.cshtml" />
     <Content Include="Views\Course\CourseDelete.cshtml" />
     <Content Include="Views\Course\Edit.cshtml" />
     <Content Include="Views\Course\GradesForMember.cshtml" />
@@ -2210,6 +2226,20 @@
     <Content Include="Scripts\jquery-3.2.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.2.1.min.map" />
     <Content Include="Views\Community\Read.cshtml" />
+    <Content Include="Views\Admin\Index.cshtml" />
+    <Content Include="Views\Admin\Courses.cshtml" />
+    <Content Include="Views\Admin\Groups.cshtml" />
+    <Content Include="Views\Admin\Users.cshtml" />
+    <Content Include="Views\Mail\NewCourse.cshtml" />
+    <Content Include="Views\Quiz\Index.cshtml" />
+    <Content Include="Views\Quiz\Create.cshtml" />
+    <Content Include="Views\Quiz\Edit.cshtml" />
+    <Content Include="Views\Quiz\Question.cshtml" />
+    <Content Include="Views\Quiz\AnswerOption.cshtml" />
+    <Content Include="Views\Quiz\Solve.cshtml" />
+    <Content Include="Views\Quiz\Detail.cshtml" />
+    <Content Include="Views\Course\LetterGrade.cshtml" />
+    <Content Include="Views\Course\Create.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>

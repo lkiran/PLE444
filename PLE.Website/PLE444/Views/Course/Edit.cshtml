@@ -1,4 +1,4 @@
-﻿@model PLE444.Models.Course
+﻿@model PLE444.ViewModels.CourseCreateViewModel
 
 @{
 	ViewBag.Title = "Düzenle";
@@ -52,7 +52,14 @@
 								<td><small class="m-sm">Gizli</small></td>
 								<td class="m-sm">
 									<div class="demo-switches">
-										@Html.CheckBoxFor(model => model.CanEveryoneJoin, htmlAttributes: new { @class = "bootstrap-switch", data_size = "mini", data_on_color = "warning", data_off_color = "success", data_on_text = "&nbsp;", data_off_text = "&nbsp" })
+										@Html.CheckBoxFor(model => model.CanEveryoneJoin, htmlAttributes: new {
+											@class = "bootstrap-switch",
+											data_size = "mini",
+											data_on_color = "warning",
+											data_off_color = "success",
+											data_on_text = "&nbsp;",
+											data_off_text = "&nbsp"
+										})
 									</div>
 								</td>
 								<td><small class="m-sm">Görünür</small></td>
@@ -71,31 +78,37 @@
 	</div>
 </div>
 
-@*<div class="panel panel-default">
+<div class="panel panel-default">
 	<div class="panel-heading">
 		<h2 class="text-capitalize">Ders Kopyalama</h2>
 	</div>
 
 	<div class="panel-body">
-		@using (Html.BeginForm("CreateDuplicate","Course")) {
+		@using (Html.BeginForm("CreateDuplicate", "Course")) {
 			@Html.AntiForgeryToken()
 			@Html.HiddenFor(model => model.Id)
-			<div class="form-group">
-				<label class="col-md-2 control-label">Kopya Ders İsmi</label>
-				<div class="col-md-8">
-					<div class="input-group">
-						@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
-						<span class="input-group-btn">
-							<button class="btn btn-default" type="submit">Dersi Kopyala</button>
-						</span>
-						@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
-
+			<div class="form-horizontal">
+				<div class="form-group">
+					<label class="col-md-2 control-label">Yeni Ders Kodu</label>
+					<div class="col-md-10">
+						@Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
 					</div>
 				</div>
+
+				<div class="form-group">
+					<label class="col-md-2 control-label">Yeni Ders İsmi</label>
+					<div class="col-md-10">
+						@Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+						@Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+					</div>
+				</div>
+
+				<button class="btn btn-default pull-right" type="submit">Dersi Kopyala</button>
 			</div>
 		}
 	</div>
-</div>*@
+</div>
 
 @section scripts
 {

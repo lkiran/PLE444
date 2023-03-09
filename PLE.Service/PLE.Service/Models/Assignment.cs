@@ -20,6 +20,8 @@ namespace PLE.Service.Models
 		public Guid Id { get; set; }
 
 		public bool IsActive { get; set; }
+		
+		public bool IsHidden { get; set; }
 
 		public Course Course { get; set; }
 

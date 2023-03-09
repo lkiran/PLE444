@@ -18,9 +18,11 @@ using PLE.Website.Service;
 using PLE444.ViewModels;
 using static PLE444.Helpers.ViewHelper;
 
-namespace PLE444.Controllers {
+namespace PLE444.Controllers
+{
 	[PleAuthorization]
-	public class AccountController : Controller {
+	public class AccountController : Controller
+	{
 		#region Fields
 		private ApplicationSignInManager _signInManager;
 		private ApplicationUserManager _userManager;
@@ -49,8 +51,7 @@ namespace PLE444.Controllers {
 			private set { _userManager = value; }
 		}
 		#endregion
-
-
+		
 		// GET: /Account/Login
 		[AllowAnonymous]
 		public ActionResult Login(string returnUrl) {
@@ -73,7 +74,6 @@ namespace PLE444.Controllers {
 				if (isEmailValidated) {
 					Common.Token = user.Token = token;
 					User.GetPrincipal().LoginUser(user);
-
 					result = SignInStatus.Success;
 				} else
 					result = SignInStatus.RequiresVerification;
@@ -200,7 +200,7 @@ namespace PLE444.Controllers {
 			if (result.Status) {
 				return RedirectToAction("ResendConfirmation", new { userId = result.UserId });
 			}
-			
+
 			if (result.Errors.Any(e => e.Contains("already taken.")))
 				ModelState.AddModelError("Email", "Bu e-posta adresi zaten kayıtlı");
 
@@ -332,15 +332,15 @@ namespace PLE444.Controllers {
 		[ValidateAntiForgeryToken]
 		public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model) {
 			if (!ModelState.IsValid) return View(model);
-			
+
 			var user = _authService.GetUser(email: model.Email);
-			if (user == null) 
+			if (user == null)
 				return RedirectToAction("ResetPasswordConfirmation", "Account");
-		
+
 			var result = _authService.ResetPassword(user.Id, model.Password, model.Code);
 			if (result)
 				return RedirectToAction("ResetPasswordConfirmation", "Account");
-			
+
 			return View();
 		}
 
@@ -352,7 +352,7 @@ namespace PLE444.Controllers {
 		}
 
 		#endregion
-		
+
 		//
 		// POST: /Account/ExternalLogin
 		[HttpPost]
@@ -508,7 +508,8 @@ namespace PLE444.Controllers {
 			return RedirectToAction("Index", "Home");
 		}
 
-		internal class ChallengeResult : HttpUnauthorizedResult {
+		internal class ChallengeResult : HttpUnauthorizedResult
+		{
 			public ChallengeResult(string provider, string redirectUri)
 				: this(provider, redirectUri, null) {
 			}

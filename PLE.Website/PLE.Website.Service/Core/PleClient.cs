@@ -33,6 +33,8 @@ namespace PLE.Website.Service.Core
 			_client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 			UpdateToken(authToken);
 		}
+
+		
 		#endregion
 
 		public T Get<T>(string url) {
@@ -57,6 +59,25 @@ namespace PLE.Website.Service.Core
 
 			var result = JsonConvert.DeserializeObject<T>(resultContent);
 			return result;
+		}
+
+		public T Delete<T>(string url) {
+			var response = _client.DeleteAsync(url).Result;
+
+			var resultContent = response.Content.ReadAsStringAsync().Result;
+			if (!response.IsSuccessStatusCode)
+				throw new Exception(resultContent);
+
+			var result = JsonConvert.DeserializeObject<T>(resultContent);
+			return result;
+		}
+
+		public void Delete(string url) {
+			var response = _client.DeleteAsync(url).Result;
+
+			var resultContent = response.Content.ReadAsStringAsync().Result;
+			if (!response.IsSuccessStatusCode)
+				throw new Exception(resultContent);
 		}
 
 		public void UpdateToken(string authToken) {

@@ -17,25 +17,27 @@ namespace PLE444.Models
 		[Required]
 		public Guid Id { get; set; }
 
+		[HiddenInput]
+		public Guid? CopiedFromId { get; set; }
+
 		[ForeignKey("Creator")]
 		public string CreatorId { get; set; }
 
 		public ApplicationUser Creator { get; set; }
 
-		[Display(Name = "Dersin Kodu")]
 		public string Code { get; set; }
 
-		[Display(Name = "Dersin İsmi")]
 		public string Name { get; set; }
 
-		[AllowHtml]
-		[Display(Name = "Açıklama")]
 		public string Description { get; set; }
 
 		public DateTime DateCreated { get; set; }
 
 		public bool CanEveryoneJoin { get; set; }
+
 		public bool IsCourseActive { get; set; }
+
+		public bool IsBanned { get; set; }
 
 		public virtual ICollection<Chapter> Chapters { get; set; }
 

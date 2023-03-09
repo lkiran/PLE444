@@ -6,10 +6,20 @@ namespace PLE.Service.Models
 {
 	public class TimelineEntry
 	{
+		public static class Icon
+		{
+			public static string Plus = "ti ti-plus";
+		}
+
+		public static class Color
+		{
+			public static string Primary = "timeline-primary";
+		}
+
 		public TimelineEntry() {
 			Id = Guid.NewGuid();
-			ColorClass = "timeline-primary";
-			IconClass = "ti ti-plus";
+			ColorClass = Color.Primary;
+			IconClass = Icon.Plus;
 		}
 
 		public Guid Id { get; set; }
