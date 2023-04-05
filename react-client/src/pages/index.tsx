@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
 import {HeaderSimpleProps, NavBar} from "@/navigation/navbar";
 import {HeaderProps} from "@mantine/core";
+import {LoginPage} from "@/AuthenticationModule/View/LoginPage";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -19,7 +20,8 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
-                <NavBar links={navigation.links}/>
+                <LoginPage />
+                {/* <NavBar links={navigation.links}/> */}
             </main>
         </>
     )
