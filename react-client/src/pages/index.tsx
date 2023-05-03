@@ -5,6 +5,7 @@ import styles from '@/styles/Home.module.css'
 import {HeaderSimpleProps, NavBar} from "@/navigation/navbar";
 import {HeaderProps} from "@mantine/core";
 import {LoginPage} from "@/AuthenticationModule/View/LoginPage";
+import {HomePage} from "@/HomeModule/View/HomePage";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,8 +21,9 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
-                <LoginPage />
+                {/* <LoginPage/> */}
                 {/* <NavBar links={navigation.links}/> */}
+                <HomePage />
             </main>
         </>
     )
