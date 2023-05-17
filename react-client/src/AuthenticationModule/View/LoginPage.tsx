@@ -64,7 +64,7 @@ export function LoginPage(props: params) {
 
     function OnButtonClick() {
         const userLoginDto: UserLoginDto = GetLoginDto(form.values);
-        userController.TryLogin(userLoginDto).then(() => console.log("zbam"));
+        userController.TryLogin(userLoginDto);
     }
 
     return (

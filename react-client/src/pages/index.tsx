@@ -2,7 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
-import {HeaderSimpleProps, NavBar} from "@/navigation/navbar";
+import {HeaderSimpleProps, NavBar} from "@/NavigationModule/navbar";
 import {HeaderProps} from "@mantine/core";
 import {LoginPage} from "@/AuthenticationModule/View/LoginPage";
 import {HomePage} from "@/HomeModule/View/HomePage";
@@ -27,7 +27,7 @@ export default function Home() {
             </Head>
             <main>
                 <LoginPage userController={userController} />
-                {/* <NavBar links={navigation.links}/> */}
+                {/* <NavBar links={NavigationModule.links}/> */}
                 {/* <HomePage/> */}
             </main>
         </>
