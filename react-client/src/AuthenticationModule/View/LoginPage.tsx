@@ -12,6 +12,13 @@ import {
 } from '@mantine/core';
 
 import BounBg from '../../../resources/BogaziciUni.jpg';
+import {useForm} from "@mantine/form";
+import {UserController} from "@/UserModule/Controller/UserController";
+import {UserLoginDto} from "@/UserModule/Model/UserLoginDto";
+
+interface params {
+    userController: UserController,
+}
 
 const useStyles = createStyles((theme) => ({
     wrapper: {
@@ -39,8 +46,27 @@ const useStyles = createStyles((theme) => ({
     },
 }));
 
-export function LoginPage() {
+function GetLoginDto(values: { password: string; email: string }): UserLoginDto {
+    return  { email: values.email, password: values.password};
+}
+
+export function LoginPage(props: params) {
     const {classes} = useStyles();
+
+    const userController: UserController = props.userController;
+
+    const form = useForm({
+        initialValues: {
+            email: '',
+            password: ''
+        }
+    })
+
+    function OnButtonClick() {
+        const userLoginDto: UserLoginDto = GetLoginDto(form.values);
+        userController.TryLogin(userLoginDto).then(() => console.log("zbam"));
+    }
+
     return (
         <div className={classes.wrapper}>
             <Paper className={classes.form} radius={0} p={30}>
@@ -48,10 +74,9 @@ export function LoginPage() {
                     Welcome to Ple
                 </Title>
 
-                <TextInput label="Email address" placeholder="hello@gmail.com" size="md"/>
-                <PasswordInput label="Password" placeholder="Your password" mt="md" size="md"/>
-                <Checkbox label="Keep me logged in" mt="xl" size="md"/>
-                <Button fullWidth mt="xl" size="md">
+                <TextInput label="Email address" placeholder="hello@gmail.com" size="md" {...form.getInputProps('email')}/>
+                <PasswordInput label="Password" placeholder="Your password" mt="md" size="md" {...form.getInputProps('password')}/>
+                <Button type="submit" onClick={OnButtonClick} fullWidth mt="xl" size="md">
                     Login
                 </Button>
 

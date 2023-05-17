@@ -6,12 +6,17 @@ import {HeaderSimpleProps, NavBar} from "@/navigation/navbar";
 import {HeaderProps} from "@mantine/core";
 import {LoginPage} from "@/AuthenticationModule/View/LoginPage";
 import {HomePage} from "@/HomeModule/View/HomePage";
+import {UserController} from "@/UserModule/Controller/UserController";
+import {PostRequestService} from "@/Services/PostRequestService";
 
 const inter = Inter({ subsets: ['latin'] })
 
 const navigation: HeaderSimpleProps = {links: [{link :"/home", label: "Ple"}, {link :"/home", label: "Ple"}, {link :"/home", label: "Ple"}]};
 
 export default function Home() {
+    const postRequestService: PostRequestService = new PostRequestService();
+    const userController: UserController = new UserController(postRequestService);
+
     return (
         <>
             <Head>
@@ -21,9 +26,9 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
-                {/* <LoginPage/> */}
+                <LoginPage userController={userController} />
                 {/* <NavBar links={navigation.links}/> */}
-                <HomePage />
+                {/* <HomePage/> */}
             </main>
         </>
     )
