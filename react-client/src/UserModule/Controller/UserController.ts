@@ -11,19 +11,28 @@ export class UserController {
     }
 
     static GetLocalUser = () => {
+
+        if (typeof window == 'undefined')
+        {
+            return {}
+        }
+
         const getLocalSavedUser = window.localStorage.getItem("ple-app-user");
-        if (getLocalSavedUser) {
+        if (getLocalSavedUser)
+        {
             const user = JSON.parse(getLocalSavedUser);
             console.log(user);
             return user;
-        } else {
+        } else
+        {
             return {};
         }
     };
 
-     TryLogin = async (userLoginDto: UserLoginDto) => {
-        let response = await this._postRequestService.Post(UriConfig.UserLoginUrl, userLoginDto);
-        console.log(userLoginDto.email, userLoginDto.password);
-        console.log(response.data)
+     TryLogin = async (userLoginDto: UserLoginDto) : Promise<UserLoginDto> => {
+        let response = await this._postRequestService.Post<UserLoginDto>(UriConfig.UserLoginUrl, userLoginDto);
+        return response.data ;
     };
+
+
 }

@@ -8,6 +8,7 @@ import {LoginPage} from "@/AuthenticationModule/View/LoginPage";
 import {HomePage} from "@/HomeModule/View/HomePage";
 import {UserController} from "@/UserModule/Controller/UserController";
 import {PostRequestService} from "@/Services/PostRequestService";
+import {useUserStore} from "@/UserModule/Store/UserStore";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,6 +17,9 @@ const navigation: HeaderSimpleProps = {links: [{link :"/home", label: "Ple"}, {l
 export default function Home() {
     const postRequestService: PostRequestService = new PostRequestService();
     const userController: UserController = new UserController(postRequestService);
+    const user = useUserStore(state => state.user)
+
+    const isUserLogged: bool = user.token != undefined;
 
     return (
         <>
@@ -26,9 +30,7 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
-                <LoginPage userController={userController} />
-                {/* <NavBar links={NavigationModule.links}/> */}
-                {/* <HomePage/> */}
+                {isUserLogged ? <HomePage/> : <LoginPage userController={userController} /> }
             </main>
         </>
     )

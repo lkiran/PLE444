@@ -15,6 +15,7 @@ import BounBg from '../../../resources/BogaziciUni.jpg';
 import {useForm} from "@mantine/form";
 import {UserController} from "@/UserModule/Controller/UserController";
 import {UserLoginDto} from "@/UserModule/Model/UserLoginDto";
+import {useUserStore} from "@/UserModule/Store/UserStore";
 
 interface params {
     userController: UserController,
@@ -55,6 +56,9 @@ export function LoginPage(props: params) {
 
     const userController: UserController = props.userController;
 
+    const setUser = useUserStore((state) => state.setUser);
+
+
     const form = useForm({
         initialValues: {
             email: '',
@@ -62,9 +66,11 @@ export function LoginPage(props: params) {
         }
     })
 
-    function OnButtonClick() {
+    async function OnButtonClick() {
         const userLoginDto: UserLoginDto = GetLoginDto(form.values);
-        userController.TryLogin(userLoginDto);
+        const result =  await userController.TryLogin(userLoginDto);
+
+        setUser(result)
     }
 
     return (
