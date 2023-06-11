@@ -30,7 +30,14 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
-                {isUserLogged ? <HomePage/> : <LoginPage userController={userController} /> }
+                {
+                    // isUserLogged ? <HomePage/> : <LoginPage userController={userController} />
+                    // <LoginPage userController={userController} />
+
+                }
+
+                <HomePage/>
+
             </main>
         </>
     )

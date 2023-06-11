@@ -70,7 +70,7 @@ export function LoginPage(props: params) {
         const userLoginDto: UserLoginDto = GetLoginDto(form.values);
         const result =  await userController.TryLogin(userLoginDto);
 
-        setUser(result)
+        setUser(result);
     }
 
     return (
