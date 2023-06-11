@@ -33,7 +33,6 @@ export default function Home() {
                 {
                     // isUserLogged ? <HomePage/> : <LoginPage userController={userController} />
                     // <LoginPage userController={userController} />
-
                 }
 
                 <HomePage/>

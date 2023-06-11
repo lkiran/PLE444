@@ -1,5 +1,5 @@
 import {HomePageNavigation} from "@/HomeModule/View/HomePageNavigation";
-import {Container} from "@mantine/core";
+import {Container, Grid} from "@mantine/core";
 import {UserCardItem} from "@/HomeModule/View/UserCardItem";
 import axios from "axios";
 import {UriConfig} from "@/Config/UriConfig";
@@ -14,14 +14,20 @@ export function HomePage() {
             });
         }, []);
 
-
     return (
         <div>
-            <HomePageNavigation name={"Semo"} image={"image"} tabs={["bir", "iki", "üçç"]} />
+            <HomePageNavigation name={"Ple User"} image={"image"} tabs={["Discussion"]} />
 
-            <Container >
-                {post != null ? post.map((post) => (<UserCardItem body={post.content} name={post.title} image={"image"}/>)) : (<div></div>)}
-
+            <Container>
+                <Grid>
+                    {
+                        post != null
+                            ? post.map((post) => (<Grid.Col xs={8} xl={12} >
+                                                <UserCardItem body={post.content} name={post.title} image={"image"}/>
+                                    </Grid.Col>))
+                            : (<div></div>)
+                    }
+                </Grid>
             </Container>
         </div>
     );
