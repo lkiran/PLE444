@@ -27,13 +27,12 @@ const useStyles = createStyles((theme) => ({
 }));
 
 interface CommentHtmlProps {
-    postedAt: string;
     body: string;
     name: string;
     image: string;
 }
 
-export function UserCardItem({ postedAt, body, name, image }: CommentHtmlProps) {
+export function UserCardItem({ body, name, image }: CommentHtmlProps) {
     const { classes } = useStyles();
     return (
         <Paper withBorder radius="md" className={classes.comment}>
@@ -42,7 +41,6 @@ export function UserCardItem({ postedAt, body, name, image }: CommentHtmlProps) 
                 <div>
                     <Text fz="sm">{name}</Text>
                     <Text fz="xs" c="dimmed">
-                        {postedAt}
                     </Text>
                 </div>
             </Group>

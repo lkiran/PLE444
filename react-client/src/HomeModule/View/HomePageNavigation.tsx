@@ -1,81 +1,194 @@
-import { Navbar, Group, Code, ScrollArea, createStyles, rem } from '@mantine/core';
+import { useState } from 'react';
 import {
-    IconNotes,
-    IconCalendarStats,
-    IconGauge,
-    IconPresentationAnalytics,
-    IconFileAnalytics,
-    IconAdjustments,
-    IconLock,
+    createStyles,
+    Container,
+    Avatar,
+    UnstyledButton,
+    Group,
+    Text,
+    Menu,
+    Tabs,
+    Burger,
+    rem,
+} from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import {
+    IconLogout,
+    IconHeart,
+    IconStar,
+    IconMessage,
+    IconSettings,
+    IconPlayerPause,
+    IconTrash,
+    IconSwitchHorizontal,
+    IconChevronDown,
 } from '@tabler/icons-react';
-import { UserButton } from '@/SharedComponents/Views/UserButton';
-import { LinksGroup } from '@/SharedComponents/Views/NavBarLinksGroup';
 import Logo from '../../../resources/S_Boun_Logo.png';
 
-const mockdata = [
-    { label: 'Dashboard', icon: IconGauge },
-];
 
 const useStyles = createStyles((theme) => ({
-    navbar: {
-        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.white,
-        paddingBottom: 0,
-    },
-
     header: {
-        padding: theme.spacing.md,
-        paddingTop: 0,
-        marginLeft: `calc(${theme.spacing.md} * -1)`,
-        marginRight: `calc(${theme.spacing.md} * -1)`,
-        color: theme.colorScheme === 'dark' ? theme.white : theme.black,
+        paddingTop: theme.spacing.sm,
+        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[6] : theme.colors.gray[0],
         borderBottom: `${rem(1)} solid ${
-            theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
+            theme.colorScheme === 'dark' ? 'transparent' : theme.colors.gray[2]
         }`,
+        marginBottom: rem(120),
     },
 
-    links: {
-        marginLeft: `calc(${theme.spacing.md} * -1)`,
-        marginRight: `calc(${theme.spacing.md} * -1)`,
+    mainSection: {
+        paddingBottom: theme.spacing.sm,
     },
 
-    linksInner: {
-        paddingTop: theme.spacing.xl,
-        paddingBottom: theme.spacing.xl,
+    user: {
+        color: theme.colorScheme === 'dark' ? theme.colors.dark[0] : theme.black,
+        padding: `${theme.spacing.xs} ${theme.spacing.sm}`,
+        borderRadius: theme.radius.sm,
+        transition: 'background-color 100ms ease',
+
+        '&:hover': {
+            backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
+        },
+
+        [theme.fn.smallerThan('xs')]: {
+            display: 'none',
+        },
     },
 
-    footer: {
-        marginLeft: `calc(${theme.spacing.md} * -1)`,
-        marginRight: `calc(${theme.spacing.md} * -1)`,
-        borderTop: `${rem(1)} solid ${
-            theme.colorScheme === 'dark' ? theme.colors.dark[4] : theme.colors.gray[3]
-        }`,
+    burger: {
+        [theme.fn.largerThan('xs')]: {
+            display: 'none',
+        },
+    },
+
+    userActive: {
+        backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[8] : theme.white,
+    },
+
+    tabs: {
+        [theme.fn.smallerThan('sm')]: {
+            display: 'none',
+        },
+    },
+
+    tabsList: {
+        borderBottom: '0 !important',
+    },
+
+    tab: {
+        fontWeight: 500,
+        height: rem(38),
+        backgroundColor: 'transparent',
+
+        '&:hover': {
+            backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[5] : theme.colors.gray[1],
+        },
+
+        '&[data-active]': {
+            backgroundColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.white,
+            borderColor: theme.colorScheme === 'dark' ? theme.colors.dark[7] : theme.colors.gray[2],
+        },
     },
 }));
 
-export function HomePageNavigation() {
-    const { classes } = useStyles();
-    const links = mockdata.map((item) => <LinksGroup {...item} key={item.label} />);
+interface HeaderTabsProps {
+    name: string;
+    image: string;
+    tabs: string[];
+}
+
+export function HomePageNavigation({ name, image, tabs }: HeaderTabsProps) {
+    const { classes, theme, cx } = useStyles();
+    const [opened, { toggle }] = useDisclosure(false);
+    const [userMenuOpened, setUserMenuOpened] = useState(false);
+
+    const items = tabs.map((tab) => (
+        <Tabs.Tab value={tab} key={tab}>
+            {tab}
+        </Tabs.Tab>
+    ));
 
     return (
-        <Navbar height={800} width={{ sm: 300 }} p="md" className={classes.navbar}>
-            <Navbar.Section className={classes.header}>
+        <div className={classes.header}>
+            <Container className={classes.mainSection}>
                 <Group position="apart">
-                    <img src={Logo.src} width={rem(120)} alt={"Logo"}/>
-                    <Code sx={{ fontWeight: 700 }}>v3.1.2</Code>
+                    <img src={Logo.src} width={rem(800)} alt={"Logo"}/>
+
+                    <Burger opened={opened} onClick={toggle} className={classes.burger} size="sm" />
+
+                    <Menu
+                        width={260}
+                        position="bottom-end"
+                        transitionProps={{ transition: 'pop-top-right' }}
+                        onClose={() => setUserMenuOpened(false)}
+                        onOpen={() => setUserMenuOpened(true)}
+                        withinPortal
+                    >
+                        <Menu.Target>
+                            <UnstyledButton
+                                className={cx(classes.user, { [classes.userActive]: userMenuOpened })}
+                            >
+                                <Group spacing={7}>
+                                    <Avatar src={image} alt={name} radius="xl" size={20} />
+                                    <Text weight={500} size="sm" sx={{ lineHeight: 1 }} mr={3}>
+                                        {name}
+                                    </Text>
+                                    <IconChevronDown size={rem(12)} stroke={1.5} />
+                                </Group>
+                            </UnstyledButton>
+                        </Menu.Target>
+                        <Menu.Dropdown>
+                            <Menu.Item
+                                icon={<IconHeart size="0.9rem" color={theme.colors.red[6]} stroke={1.5} />}
+                            >
+                                Liked posts
+                            </Menu.Item>
+                            <Menu.Item
+                                icon={<IconStar size="0.9rem" color={theme.colors.yellow[6]} stroke={1.5} />}
+                            >
+                                Saved posts
+                            </Menu.Item>
+                            <Menu.Item
+                                icon={<IconMessage size="0.9rem" color={theme.colors.blue[6]} stroke={1.5} />}
+                            >
+                                Your comments
+                            </Menu.Item>
+
+                            <Menu.Label>Settings</Menu.Label>
+                            <Menu.Item icon={<IconSettings size="0.9rem" stroke={1.5} />}>
+                                Account settings
+                            </Menu.Item>
+                            <Menu.Item icon={<IconSwitchHorizontal size="0.9rem" stroke={1.5} />}>
+                                Change account
+                            </Menu.Item>
+                            <Menu.Item icon={<IconLogout size="0.9rem" stroke={1.5} />}>Logout</Menu.Item>
+
+                            <Menu.Divider />
+
+                            <Menu.Label>Danger zone</Menu.Label>
+                            <Menu.Item icon={<IconPlayerPause size="0.9rem" stroke={1.5} />}>
+                                Pause subscription
+                            </Menu.Item>
+                            <Menu.Item color="red" icon={<IconTrash size="0.9rem" stroke={1.5} />}>
+                                Delete account
+                            </Menu.Item>
+                        </Menu.Dropdown>
+                    </Menu>
                 </Group>
-            </Navbar.Section>
-
-            <Navbar.Section grow className={classes.links} component={ScrollArea}>
-                <div className={classes.linksInner}>{links}</div>
-            </Navbar.Section>
-
-            <Navbar.Section className={classes.footer}>
-                <UserButton
-                    image="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=255&q=80"
-                    name="Ple User"
-                    email="pleUser@yahoo.com"
-                />
-            </Navbar.Section>
-        </Navbar>
+            </Container>
+            <Container>
+                <Tabs
+                    defaultValue="Home"
+                    variant="outline"
+                    classNames={{
+                        root: classes.tabs,
+                        tabsList: classes.tabsList,
+                        tab: classes.tab,
+                    }}
+                >
+                    <Tabs.List>{items}</Tabs.List>
+                </Tabs>
+            </Container>
+        </div>
     );
 }
